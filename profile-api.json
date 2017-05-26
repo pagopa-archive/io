@@ -1,0 +1,231 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "citizen-profile",
+        "description": "Profile and preferences management"
+    },
+    "host": "localhost:3000",
+    "basePath": "/v1",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Authorization": {
+            "name": "Authorization",
+            "type": "apiKey",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/profile/{fiscalCode}": {
+            "parameters": [
+                {
+                    "name": "fiscalCode",
+                    "in": "path",
+                    "required": true,
+                    "type": "string",
+                    "pattern": "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
+                }
+            ],
+            "put": {
+                "operationId": "PUT_profile-fiscalCode",
+                "summary": "UpdateProfile",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "sms": {
+                                    "type": "string",
+                                    "pattern": "^\\+[1-9]\\d+$"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "",
+                        "schema": {}
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "x-stoplight": {
+                    "id": "PUT_profile-fiscalCode",
+                    "beforeScript": null,
+                    "afterScript": null,
+                    "public": true,
+                    "mock": {
+                        "enabled": false,
+                        "dynamic": false,
+                        "statusCode": 200
+                    }
+                }
+            },
+            "get": {
+                "operationId": "GET_profile-fiscalCode",
+                "summary": "GetProfile",
+                "description": "Returns the attributes associated to the provided fiscalCode",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "x-stoplight": {
+                    "id": "GET_profile-fiscalCode",
+                    "beforeScript": null,
+                    "afterScript": null,
+                    "public": true,
+                    "mock": {
+                        "enabled": false,
+                        "dynamic": false,
+                        "statusCode": 200
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "profile": {
+            "title": "Profile",
+            "type": "object",
+            "properties": {
+                "fiscal_code": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
+                },
+                "email": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "format": "email"
+                },
+                "mobile": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "pattern": "^\\+[1-9]\\d+$"
+                },
+                "locale": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2}(_[A-Z]{2})?$"
+                }
+            },
+            "required": [
+                "fiscal_code"
+            ],
+            "x-stoplight": {
+                "id": "profile",
+                "name": "Profile",
+                "public": true
+            }
+        },
+        "profileaddress": {
+            "title": "ProfileAddress",
+            "oneOf": [
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "email"
+                            ]
+                        },
+                        "value": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "value"
+                    ]
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "sms"
+                            ]
+                        },
+                        "value": {
+                            "type": "string",
+                            "pattern": "^\\+[1-9]\\d+$"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "value"
+                    ]
+                }
+            ],
+            "type": "object",
+            "x-stoplight": {
+                "id": "profileaddress",
+                "name": "ProfileAddress",
+                "public": true
+            }
+        },
+        "error": {
+            "title": "Error",
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            },
+            "x-stoplight": {
+                "id": "error",
+                "name": "Error",
+                "public": true
+            }
+        }
+    },
+    "x-stoplight": {
+        "version": {
+            "groups": {
+                "docs": [],
+                "traits": [],
+                "tests": [],
+                "savedEntries": []
+            }
+        },
+        "functions": {},
+        "textSections": {},
+        "mock": {
+            "enabled": true,
+            "dynamic": false
+        }
+    },
+    "x-tests": {}
+}

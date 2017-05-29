@@ -1,0 +1,333 @@
+---
+swagger: "2.0"
+info:
+  description: "Profile and preferences management Profile and preferences management"
+  version: "1.0"
+  title: "profile-api"
+host: "localhost:3000"
+basePath: "/v1"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /profile/{fiscal_code}:
+    get:
+      tags:
+      - "User Operations"
+      summary: "GetProfileLatest"
+      description: "Returns the attributes for latest version of the profile identified\
+        \ by the provided `fiscal_code`."
+      operationId: "GetProfileLatestVersionForFiscalCode"
+      parameters:
+      - name: "fiscal_code"
+        in: "path"
+        required: true
+        type: "string"
+        pattern: "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        404:
+          description: ""
+          schema:
+            $ref: "#/definitions/error"
+      security:
+      - Authorization: []
+      x-stoplight:
+        id: "GetProfileLatestVersionForFiscalCode"
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          statusCode: 200
+          dynamic: false
+          enabled: true
+      x-swagger-router-controller: "UserOperations"
+    post:
+      tags:
+      - "User Operations"
+      summary: "CreateProfile"
+      description: "Creates a new profile associated to the provided `fiscal_code`.\n\
+        \nThe new profile will have an initial version of `1`."
+      operationId: "CreateProfile"
+      parameters:
+      - name: "fiscal_code"
+        in: "path"
+        required: true
+        type: "string"
+        pattern: "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
+      responses:
+        201:
+          description: ""
+          schema:
+            $ref: "#/definitions/profile"
+        409:
+          description: ""
+          schema:
+            $ref: "#/definitions/error"
+        422:
+          description: ""
+          schema:
+            $ref: "#/definitions/inline_response_422"
+      security:
+      - Authorization: []
+      x-stoplight:
+        id: "CreateProfile"
+        beforeScript: "function (ctx, request) {\n  \n}"
+        afterScript: "function (ctx, request, response) {\n\n}"
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+      x-swagger-router-controller: "UserOperations"
+  /profile/{fiscal_code}/{version}:
+    get:
+      tags:
+      - "User Operations"
+      summary: "GetProfileVersion"
+      description: "Returns the attributes for the profile identified by the provided\
+        \ `fiscal_code` and `version` number.\n\nThe first `version` of a profile\
+        \ is `1`"
+      operationId: "GetProfileVersionForFiscalCode"
+      parameters:
+      - name: "fiscal_code"
+        in: "path"
+        required: true
+        type: "string"
+        pattern: "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
+      - name: "version"
+        in: "path"
+        required: true
+        type: "number"
+        minimum: 1
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        404:
+          description: ""
+          schema:
+            $ref: "#/definitions/error"
+      security:
+      - Authorization: []
+      x-stoplight:
+        id: "GetProfileVersionForFiscalCode"
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          statusCode: 200
+          dynamic: false
+          enabled: true
+      x-swagger-router-controller: "UserOperations"
+    put:
+      tags:
+      - "User Operations"
+      summary: "UpdateProfile"
+      description: "Updates one or more attributes of a profile identified by `fiscalCode`\
+        \ and `version`.\n\nOn successful update, a new profile version gets created\
+        \ (by incrementing the version number from the previous one).\n\nIf the provided\
+        \ `version` is not the latest available version for that profile, the request\
+        \ will fail with a [409 - Conflict](https://httpstatuses.com/409) error, meaning\
+        \ that the profile was concurrently updated (and a new version created) by\
+        \ another client."
+      operationId: "UpdateProfileForFiscalCode"
+      parameters:
+      - name: "fiscal_code"
+        in: "path"
+        required: true
+        type: "string"
+        pattern: "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
+      - name: "version"
+        in: "path"
+        required: true
+        type: "number"
+        minimum: 1
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/attributes"
+      responses:
+        201:
+          description: ""
+          schema:
+            $ref: "#/definitions/profile"
+        404:
+          description: ""
+          schema:
+            $ref: "#/definitions/error"
+        409:
+          description: ""
+          schema:
+            $ref: "#/definitions/error"
+        422:
+          description: ""
+          schema:
+            $ref: "#/definitions/inline_response_422"
+      security:
+      - Authorization: []
+      x-stoplight:
+        id: "UpdateProfileForFiscalCode"
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          statusCode: 200
+          dynamic: false
+          enabled: false
+      x-swagger-router-controller: "UserOperations"
+securityDefinitions:
+  Authorization:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  attributes:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        format: "email"
+        maxLength: 256
+      mobile:
+        type: "string"
+        maxLength: 64
+        pattern: "^\\+[1-9]\\d+$"
+      locale:
+        type: "string"
+        pattern: "^[a-z]{2}(_[A-Z]{2})?$"
+    title: "Attributes"
+    x-stoplight:
+      id: "attributes"
+      name: "Attributes"
+      public: true
+  error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    title: "Error"
+    x-stoplight:
+      id: "error"
+      name: "Error"
+      public: true
+  profile:
+    type: "object"
+    required:
+    - "created_at"
+    - "version"
+    properties:
+      version:
+        type: "number"
+      created_at:
+        type: "number"
+        minimum: 0
+      attributes:
+        $ref: "#/definitions/attributes"
+    title: "Profile"
+    x-stoplight:
+      id: "profile"
+      name: "Profile"
+      public: true
+  inline_response_200:
+    required:
+    - "created_at"
+    - "version"
+    properties:
+      version:
+        type: "number"
+        minimum: 1
+        exclusiveMinimum: false
+      created_at:
+        type: "number"
+        minimum: 0
+      attributes:
+        $ref: "#/definitions/attributes"
+  inline_response_422_validation_errors:
+    properties:
+      field:
+        type: "string"
+      error:
+        type: "string"
+  inline_response_422:
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+      validation_errors:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_422_validation_errors"
+responses:
+  trait:errorConflict:409:
+    description: ""
+    schema:
+      $ref: "#/definitions/error"
+  trait:errorNotFound:404:
+    description: ""
+    schema:
+      $ref: "#/definitions/error"
+  trait:errorUnprocessableEntity:422:
+    description: ""
+    schema:
+      $ref: "#/definitions/inline_response_422"
+  trait:successProfileVersionCreated:201:
+    description: ""
+    schema:
+      $ref: "#/definitions/profile"
+x-stoplight:
+  version:
+    groups:
+      utilFuncs: []
+      savedEntries: []
+      tests: []
+      traits: []
+      docs:
+      - divider: false
+        items:
+        - _id: "errorNotFound"
+          type: "traits"
+        - _id: "errorConflict"
+          type: "traits"
+        - _id: "successProfileVersionCreated"
+          type: "traits"
+        - _id: "errorUnprocessableEntity"
+          type: "traits"
+        name: "Responses"
+        description: "Commond error responses"
+      - items:
+        - _id: "GetProfileLatestVersionForFiscalCode"
+          type: "endpoints"
+        - type: "endpoints"
+          _id: "GetProfileVersionForFiscalCode"
+        - _id: "CreateProfile"
+          type: "endpoints"
+        - type: "endpoints"
+          _id: "UpdateProfileForFiscalCode"
+        name: "User Operations"
+        divider: false
+      - items:
+        - type: "schemas"
+          _id: "attributes"
+        - type: "schemas"
+          _id: "error"
+        - _id: "profile"
+          type: "schemas"
+        description: "Models make up the core input and ouput structures in this API.\
+          \ They are used in endpoint request and response bodies."
+        name: "Models"
+  functions: {}
+  textSections: {}
+  mock:
+    dynamic: false
+    enabled: true
+x-tests: {}

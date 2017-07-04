@@ -30,7 +30,12 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/message-output"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/message-output"
+                                }
+                            ],
+                            "description": "Success: message exists."
                         }
                     },
                     "400": {
@@ -80,6 +85,7 @@
                         "description": "",
                         "schema": {
                             "type": "array",
+                            "description": "Success.",
                             "items": {
                                 "$ref": "#/definitions/message-output"
                             }
@@ -131,6 +137,7 @@
                         "description": "",
                         "schema": {
                             "type": "array",
+                            "description": "Success.",
                             "items": {
                                 "$ref": "#/definitions/message-output"
                             }

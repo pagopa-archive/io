@@ -596,10 +596,6 @@
                     "description": "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 4 weeks, and the default value is 4 weeks.",
                     "minimum": 0
                 },
-                "expires_at": {
-                    "type": "string",
-                    "format": "date-time"
-                },
                 "tags": {
                     "type": "array",
                     "items": {

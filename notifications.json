@@ -49,76 +49,6 @@
                         "$ref": "#/responses/trait:apiErrors:429"
                     }
                 }
-            },
-            "patch": {
-                "operationId": "updateMessage",
-                "summary": "Update Message",
-                "tags": [
-                    "Messages"
-                ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "channel": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mail": {
-                                            "type": "object",
-                                            "properties": {
-                                                "status": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "mobile": {
-                                            "type": "object",
-                                            "properties": {
-                                                "status": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "web": {
-                                            "type": "object",
-                                            "properties": {
-                                                "status": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/message-output"
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/responses/trait:apiErrors:400"
-                    },
-                    "401": {
-                        "$ref": "#/responses/trait:apiErrors:401"
-                    },
-                    "403": {
-                        "$ref": "#/responses/trait:apiErrors:403"
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:apiErrors:404"
-                    },
-                    "429": {
-                        "$ref": "#/responses/trait:apiErrors:429"
-                    }
-                }
             }
         },
         "/Users/{id}/messages": {
@@ -136,48 +66,13 @@
                 "tags": [
                     "Messages"
                 ],
+                "description": "Messages will be returned in inverse delivery order (from last to first)",
                 "parameters": [
                     {
                         "$ref": "#/parameters/trait:pagination:page"
                     },
                     {
                         "$ref": "#/parameters/trait:pagination:page_size"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:title"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:to"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:from"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:in"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:unread"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:starred"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:received_before"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:received_after"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:with_snippet"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:with_body"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:thread_id"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:reference_id"
                     }
                 ],
                 "responses": {
@@ -229,42 +124,6 @@
                     },
                     {
                         "$ref": "#/parameters/trait:pagination:page_size"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:title"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:to"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:from"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:in"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:unread"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:starred"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:received_before"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:received_after"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:with_snippet"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:with_body"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:thread_id"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:messageSearchQueryString:reference_id"
                     }
                 ],
                 "responses": {
@@ -332,6 +191,7 @@
                                     ]
                                 }
                             ],
+                            "description": "Message queued.",
                             "type": "object"
                         }
                     },
@@ -355,69 +215,6 @@
         }
     },
     "parameters": {
-        "trait:messageSearchQueryString:title": {
-            "name": "title",
-            "in": "query",
-            "type": "string"
-        },
-        "trait:messageSearchQueryString:to": {
-            "name": "to",
-            "in": "query",
-            "type": "string"
-        },
-        "trait:messageSearchQueryString:from": {
-            "name": "from",
-            "in": "query",
-            "type": "string"
-        },
-        "trait:messageSearchQueryString:in": {
-            "name": "in",
-            "in": "query",
-            "description": "Return messagesin a given folder, or with a given label.",
-            "type": "string"
-        },
-        "trait:messageSearchQueryString:unread": {
-            "name": "unread",
-            "in": "query",
-            "type": "boolean"
-        },
-        "trait:messageSearchQueryString:starred": {
-            "name": "starred",
-            "in": "query",
-            "type": "boolean"
-        },
-        "trait:messageSearchQueryString:received_before": {
-            "name": "received_before",
-            "in": "query",
-            "type": "string",
-            "format": "date-time"
-        },
-        "trait:messageSearchQueryString:received_after": {
-            "name": "received_after",
-            "in": "query",
-            "type": "string",
-            "format": "date-time"
-        },
-        "trait:messageSearchQueryString:with_snippet": {
-            "name": "with_snippet",
-            "in": "query",
-            "type": "boolean"
-        },
-        "trait:messageSearchQueryString:with_body": {
-            "name": "with_body",
-            "in": "query",
-            "type": "boolean"
-        },
-        "trait:messageSearchQueryString:thread_id": {
-            "name": "thread_id",
-            "in": "query",
-            "type": "string"
-        },
-        "trait:messageSearchQueryString:reference_id": {
-            "name": "reference_id",
-            "in": "query",
-            "type": "string"
-        },
         "trait:pagination:page": {
             "name": "page",
             "in": "query",
@@ -498,7 +295,7 @@
             "description": "",
             "schema": {
                 "type": "object",
-                "description": "Not Found.",
+                "description": "Object Not Found.",
                 "properties": {
                     "error": {
                         "type": "string"

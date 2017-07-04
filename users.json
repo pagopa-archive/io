@@ -1,0 +1,1423 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "N/A",
+        "title": "SCIM",
+        "description": "The SCIM API lets you manage users in your organization. You can then automate the provisioning of product licenses for these users, and they can use your company's Single Sign-On solution through an Identity Provider. The SCIM API lets you manage users in your organization. You can then automate the provisioning of product licenses for these users, and they can use your company's Single Sign-On solution through an Identity Provider."
+    },
+    "host": "pldgicrgsdfkmt6iq-mock.stoplight-proxy.io",
+    "basePath": "/v1",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/Groups": {
+            "get": {
+                "operationId": "getGroups",
+                "summary": "Get Groups",
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Queries multiple group identities in the organization domain. Filtering, sorting and pagination are available. This call requires the role ROLE_ORG_READ.",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": " Without a filter, all groups are returned. The filter parameter must be a properly formed SCIM filter using the operator \"eq\" (equals), \"sw\" (starts with), or \"co\" (contains). The filter works for the displayName attribute. Sorting and pagination are supported. For example, GET /Groups?filter=displayName%20eq%20%22Engineering%22&sortBy=displayName&sortOrder=ascending&count=50&startIndex=51",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded",
+                        "schema": {
+                            "$ref": "#/definitions/GroupCollection"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid filter syntax"
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "createGroup",
+                "summary": "Create Group",
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Creates a new organization group and adds it to the user domain. Member groups and member users must be in the organization. This call requires the role ROLE_ORG_WRITE.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/GroupDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The group has been created",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "400": {
+                        "description": "Possible reasons are:<br />The displayName field is not set<br />The displayName field is malformed<br />The displayName field exceeds 128 characters<br />The members array exceeds 100 elements<br />"
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "409": {
+                        "description": "The displayName is already in use within the organization"
+                    },
+                    "502": {
+                        "description": "An authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "An authentication or account, or gateway timeout occurred."
+                    }
+                }
+            }
+        },
+        "/Groups/{groupKey}": {
+            "parameters": [
+                {
+                    "name": "groupKey",
+                    "in": "path",
+                    "description": "The key of the group to query. The group must be in the organization domain",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }
+            ],
+            "delete": {
+                "operationId": "deleteGroup",
+                "summary": "Delete Group",
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Deletes a group from the organization (but not from the account). The group must be in the organization. This call requires the role ROLE_ORG_WRITE.",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded"
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized or group does not exist in organization"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "get": {
+                "operationId": "getGroup",
+                "summary": "Get Group",
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Queries group details in the organization domain. This call requires the role ROLE_ORG_READ.",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized or group does not exist in organization"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "updateGroup",
+                "summary": "Update Group",
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Updates one or more values of an existing group without sending the full definition. Member groups and member users must be in the organization. This call requires the role ROLE_ORG_WRITE.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/GroupDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The group has been updated",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "400": {
+                        "description": "Possible reasons are:<br />The displayName field is not set<br />The displayName field is malformed<br />The displayName field exceeds 128 characters<br />The members array exceeds 100 elements<br />"
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized or group does not exist in organization"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "409": {
+                        "description": "The displayName is already in use within the organization"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "replaceGroup",
+                "summary": "Replace Group",
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Updates an existing group. The request must include the full group definition. To modify one or more values without sending the full definition, see \"Update Group\". Member groups and member users must be in the organization. This call requires the role ROLE_ORG_WRITE.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/GroupDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The group has been replaced.",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "400": {
+                        "description": "Possible reasons are:<br />The displayName field is not set<br />The displayName field is malformed<br />The displayName field exceeds 128 characters<br />The members array exceeds 100 elements<br />"
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized or group does not exist in organization"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "409": {
+                        "description": "The displayName is already in use within the organization"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            }
+        },
+        "/Schemas/Users": {
+            "get": {
+                "operationId": "getUserSchema",
+                "summary": "Get User Schema",
+                "tags": [
+                    "Schemas"
+                ],
+                "description": "Queries the user schema. The user schema is defined in SCIM Core Schema (http://www.simplecloud.info/specs/draft-scim-core-schema-01.html#resource-schema).",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded.",
+                        "schema": {
+                            "$ref": "#/definitions/ResourceSchema"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            }
+        },
+        "/ServiceProviderConfigs": {
+            "get": {
+                "operationId": "getServiceProviderConfigs",
+                "summary": "Get Service Provider Configurations",
+                "tags": [
+                    "Schemas",
+                    "Serviceproviderconfigs"
+                ],
+                "description": "Queries service provider configurations. The service provider configurations are defined in SCIM Core Schema (http://www.simplecloud.info/specs/draft-scim-core-schema-01.html#anchor6). This call returns a description, a documentationURL, name, and specURL.",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded.",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceProviderConfigs"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            }
+        },
+        "/Users/me": {
+            "put": {
+                "operationId": "replaceMe",
+                "summary": "Replace Current User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Changes the current authenticated user's displayName, locale, timezone, username and password. The request must include the full user definition (to modify one or more values without sending the full definition, see Update User). The replaced user email domain must be an existing organization email domain.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/UserDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The current user has been replaced.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "409": {
+                        "description": "Email address conflict"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "updateMe",
+                "summary": "Update Current User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Changes a limited set (or all if you choose) of the current authenticated user's data. The updated user email domain must be an existing organization email domain.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/UserDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The current user has been updated.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "409": {
+                        "description": "Email address conflict"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "get": {
+                "operationId": "getMe",
+                "summary": "Get Current User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Queries the identity of the current authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            }
+        },
+        "/Users/{userKey}": {
+            "parameters": [
+                {
+                    "name": "userKey",
+                    "in": "path",
+                    "description": "The key of the user to query. The user must be in the organization domain",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }
+            ],
+            "get": {
+                "operationId": "getUser",
+                "summary": "Get User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Queries user identity in the organization domain.",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "updateUser",
+                "summary": "Update User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Changes a limited set (or all if you choose) of the user's data. The updated user email domain must be an existing organization email domain.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/UserDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The user has been updated.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "409": {
+                        "description": "Email address conflict"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "deleteUser",
+                "summary": "Delete User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Deletes a user from the organization (but not from the account).",
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded."
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "replaceUser",
+                "summary": "Replace User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Changes an existing user's displayName, locale, timezone, username and password. The request must include the full user definition (to modify one or more values without sending the full definition, see Update User). The replaced user email domain must be an existing organization email domain.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/UserDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The user has been replaced.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "409": {
+                        "description": "Email address conflict"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            }
+        },
+        "/Users": {
+            "get": {
+                "operationId": "getUsers",
+                "summary": "Get Users",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Queries multiple user identities in the organization domain. Filtering is available.",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": " Without a filter, all users in a user domain are returned. The filter parameter must be a properly formed SCIM filter using either the operator eq (equals) or the operator sw (starts with). The filter works for userName, displayName, name.givenName, and name.familyName attributes. For example, /Users?filter=name.familyName%20eq%20%%22Smith%22",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request has succeeded.",
+                        "schema": {
+                            "$ref": "#/definitions/UserCollection"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid filter syntax"
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized"
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "502": {
+                        "description": "Authentication or account gateway error occurred"
+                    },
+                    "504": {
+                        "description": "Authentication or account gateway timeout occurred"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "createUsers",
+                "summary": "Create User",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Creates a new organization user and adds them to the user domain. The user email domain must match an existing organization email domain.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/UserDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The user has been created.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
+                    },
+                    "401": {
+                        "description": "Client is not sufficiently authorized."
+                    },
+                    "403": {
+                        "description": "Invalid token passed"
+                    },
+                    "409": {
+                        "description": "Username is already in use."
+                    },
+                    "502": {
+                        "description": "Authentication, account, or email verification gateway error occurred."
+                    },
+                    "504": {
+                        "description": "Authentication, account, or email verification gateway timeout occurred."
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "trait:authorization:Authorization": {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Access token prefixed with 'Bearer ', e.g. 'Bearer 123456abcdef'",
+            "required": true,
+            "type": "string"
+        }
+    },
+    "responses": {
+        "trait:apiErrors:400": {
+            "description": "",
+            "schema": {
+                "description": "Indicates that the request could not be parsed as JSON, or it contained invalid fields.",
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "BadRequestError"
+                    },
+                    "message": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:401": {
+            "description": "",
+            "schema": {
+                "description": "There was an error authenticating the sender account.",
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "Authorisation header is missing"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:403": {
+            "description": "",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "Forbidden"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:404": {
+            "description": "",
+            "schema": {
+                "type": "object",
+                "description": "Not Found.",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:429": {
+            "description": "",
+            "schema": {
+                "type": "object",
+                "description": "Quota excedeed.",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "API Error"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": 429,
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "UserDefinition": {
+            "title": "UserDefinition",
+            "description": "Describes a new user",
+            "type": "object",
+            "properties": {
+                "displayName": {
+                    "type": "string",
+                    "description": "The user's display name",
+                    "faker": "internet.userName"
+                },
+                "locale": {
+                    "description": "The user's language settings",
+                    "type": "string"
+                },
+                "name": {
+                    "$ref": "#/definitions/UserFullName"
+                },
+                "timezone": {
+                    "description": "The user's time zone",
+                    "type": "string"
+                },
+                "userName": {
+                    "description": "The user's username, usually their email address",
+                    "type": "string",
+                    "faker": "internet.userName"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Email"
+                    }
+                },
+                "phoneNumbers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PhoneNumber"
+                    }
+                },
+                "schemas": {
+                    "type": "array",
+                    "default": [],
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "urn:scim:schemas:core:1.0",
+                            "urn:scim:schemas:extension:italia:1.0"
+                        ]
+                    }
+                },
+                "urn:scim:schemas:extension:italia:1.0": {
+                    "type": "object",
+                    "required": [
+                        "fiscalNumber"
+                    ],
+                    "properties": {
+                        "fiscalNumber": {
+                            "type": "string"
+                        },
+                        "optOut": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "displayName",
+                "name",
+                "emails",
+                "schemas",
+                "urn:scim:schemas:extension:italia:1.0"
+            ]
+        },
+        "AuthenticationSchemes": {
+            "title": "AuthenticationSchemes",
+            "description": "Specifies supported Authentication Scheme properties",
+            "properties": {
+                "description": {
+                    "description": "The description of the Authentication Scheme",
+                    "type": "string"
+                },
+                "documentationUrl": {
+                    "description": "A HTTP addressable URL pointing to the Authentication Scheme's usage documentation",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "The common authentication scheme name, e.g. HTTP Basic",
+                    "type": "string"
+                },
+                "specUrl": {
+                    "description": "A HTTP addressable URL pointing to the Authentication Scheme's specification",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "specUrl",
+                "documentationUrl"
+            ]
+        },
+        "ChangePassword": {
+            "title": "ChangePassword",
+            "description": "Specifies Change Password configuration options",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "SchemaSubAttribute": {
+            "title": "SchemaSubAttribute",
+            "description": "Describes the sub-attribute of a resource attribute",
+            "properties": {
+                "caseExact": {
+                    "description": "Indicates whether the attribute is case sensitive",
+                    "type": "boolean"
+                },
+                "description": {
+                    "description": "The attribute's description",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "The attribute's name",
+                    "type": "string"
+                },
+                "readOnly": {
+                    "description": "Indicates whether the attribute is mutable",
+                    "type": "boolean"
+                },
+                "required": {
+                    "description": "Indicates whether the attribute is required",
+                    "type": "boolean"
+                },
+                "type": {
+                    "description": "The attribute's data type, e.g. String",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "description",
+                "readOnly",
+                "required",
+                "caseExact"
+            ]
+        },
+        "GroupCollection": {
+            "title": "GroupCollection",
+            "description": "Class describing a collection of groups",
+            "properties": {
+                "resources": {
+                    "description": "An array of groups",
+                    "items": {
+                        "$ref": "#/definitions/Group"
+                    },
+                    "type": "array"
+                },
+                "totalResults": {
+                    "description": "The number of groups in the collection",
+                    "format": "int64",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "resources",
+                "totalResults"
+            ]
+        },
+        "Filter": {
+            "title": "Filter",
+            "description": "Specifies FILTER options",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "XmlDataFormat": {
+            "title": "XmlDataFormat",
+            "description": "Specifies whether the XML data format is supported",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "UserCollection": {
+            "title": "UserCollection",
+            "description": "Class describing a collection of users",
+            "properties": {
+                "resources": {
+                    "description": "The list of users",
+                    "items": {
+                        "$ref": "#/definitions/User"
+                    },
+                    "type": "array"
+                },
+                "totalResults": {
+                    "description": "The number of users in the collection",
+                    "format": "int64",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "resources",
+                "totalResults"
+            ]
+        },
+        "Patch": {
+            "title": "Patch",
+            "description": "Specifies PATCH configuration options",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "ServiceProviderConfigs": {
+            "title": "ServiceProviderConfigs",
+            "description": "Represents the Service Provider's configuration",
+            "properties": {
+                "authenticationSchemes": {
+                    "$ref": "#/definitions/AuthenticationSchemes",
+                    "description": "Specifies whether the XML data format is supported"
+                },
+                "bulk": {
+                    "$ref": "#/definitions/Bulk",
+                    "description": "Specifies BULK configuration options"
+                },
+                "changePassword": {
+                    "$ref": "#/definitions/ChangePassword",
+                    "description": "Specifies Change Password configuration options"
+                },
+                "documentationUrl": {
+                    "description": "An HTTP addressable URL pointing to the Service Provider's help documentation",
+                    "type": "string"
+                },
+                "etag": {
+                    "$ref": "#/definitions/Etag",
+                    "description": "Specifies Etag configuration options"
+                },
+                "filter": {
+                    "$ref": "#/definitions/Filter",
+                    "description": "Specifies FILTER options"
+                },
+                "patch": {
+                    "$ref": "#/definitions/Patch",
+                    "description": "Specifies PATCH configuration options"
+                },
+                "sort": {
+                    "$ref": "#/definitions/Sort",
+                    "description": "Specifies Sort configuration options"
+                },
+                "xmlDataFormat": {
+                    "$ref": "#/definitions/XmlDataFormat",
+                    "description": "Specifies supported Authentication Scheme properties"
+                }
+            },
+            "required": [
+                "documentationUrl",
+                "patch",
+                "bulk",
+                "filter",
+                "changePassword",
+                "sort",
+                "etag",
+                "authenticationSchemes",
+                "xmlDataFormat"
+            ]
+        },
+        "Bulk": {
+            "title": "Bulk",
+            "description": "Specifies BULK configuration options",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "GroupMetadata": {
+            "title": "GroupMetadata",
+            "description": "Group metadata",
+            "properties": {
+                "created": {
+                    "description": "The date and time the group was created",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "The URL where the group can be accessed",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "created",
+                "location"
+            ]
+        },
+        "SchemaAttribute": {
+            "title": "SchemaAttribute",
+            "description": "Describes a resource attribute",
+            "properties": {
+                "caseExact": {
+                    "description": "Indicates whether the attribute is case sensitive",
+                    "type": "boolean"
+                },
+                "description": {
+                    "description": "The attribute's description",
+                    "type": "string"
+                },
+                "multiValued": {
+                    "description": "Indicates whether the attribute can have multiple values",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "The attribute's name",
+                    "type": "string"
+                },
+                "readOnly": {
+                    "description": "Indicates whether the attribute is mutable",
+                    "type": "boolean"
+                },
+                "required": {
+                    "description": "Indicates whether the attribute is required",
+                    "type": "boolean"
+                },
+                "schema": {
+                    "description": "The attribute's associated scheme, e.g. urn:scim:schemas:core:1.0",
+                    "type": "string"
+                },
+                "subAttributes": {
+                    "description": "The attribute's potential sub-attributes",
+                    "items": {
+                        "$ref": "#/definitions/SchemaSubAttribute"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "The attribute's data type, e.g. String",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "multiValued",
+                "description",
+                "schema",
+                "readOnly",
+                "required",
+                "caseExact"
+            ]
+        },
+        "Group": {
+            "title": "Group",
+            "description": "Describes a group belonging to an organization",
+            "type": "object",
+            "properties": {
+                "displayName": {
+                    "description": "The group's display name",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "The group's unique key",
+                    "format": "uuid"
+                },
+                "members": {
+                    "description": "An array of members",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Member"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/GroupMetadata"
+                }
+            },
+            "required": [
+                "displayName",
+                "id",
+                "meta"
+            ]
+        },
+        "Member": {
+            "title": "Member",
+            "description": "A member of a group. This can be a group or an user",
+            "properties": {
+                "type": {
+                    "description": "The type of member",
+                    "enum": [
+                        "group",
+                        "user"
+                    ],
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Depending on the member type this is a groupKey or an userKey",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "value"
+            ]
+        },
+        "GroupDefinition": {
+            "title": "GroupDefinition",
+            "description": "Describes the group to create",
+            "properties": {
+                "displayName": {
+                    "description": "The group's display name",
+                    "type": "string"
+                },
+                "members": {
+                    "description": "An array of members",
+                    "items": {
+                        "$ref": "#/definitions/Member"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "displayName"
+            ]
+        },
+        "ResourceSchema": {
+            "title": "ResourceSchema",
+            "description": "Describes the attributes and metadata constituting a resource such as a user.",
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "description": "The resource's attributes",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SchemaAttribute"
+                    }
+                },
+                "description": {
+                    "description": "The resource's description",
+                    "type": "string"
+                },
+                "endpoint": {
+                    "description": "The resource's HTTP addressable endpoint relative to the base URL, e.g. /Users.",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "The resource's id, e.g. urn:scim:schemas:core:1.0:User",
+                    "format": "uuid"
+                },
+                "name": {
+                    "description": "The resource's name, e.g. \"User\"",
+                    "type": "string"
+                },
+                "schema": {
+                    "description": "The resource's associated schema, e.g. urn:scim:schemas:core:1.0",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attributes",
+                "description",
+                "endpoint",
+                "id",
+                "name",
+                "schema"
+            ]
+        },
+        "Etag": {
+            "title": "Etag",
+            "description": "Specifies Etag configuration options",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "UserMetadata": {
+            "title": "UserMetadata",
+            "description": "User metadata",
+            "properties": {
+                "created": {
+                    "description": "The date and time the user was created",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "The URL where the user can be accessed",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "created",
+                "location"
+            ]
+        },
+        "UserFullName": {
+            "title": "UserFullName",
+            "description": "The full name of the user",
+            "properties": {
+                "familyName": {
+                    "description": "The user's surname",
+                    "type": "string",
+                    "faker": "name.lastName"
+                },
+                "givenName": {
+                    "description": "The user's first name",
+                    "type": "string",
+                    "faker": "name.firstName"
+                }
+            },
+            "required": [
+                "familyName",
+                "givenName"
+            ]
+        },
+        "User": {
+            "title": "User",
+            "description": "Describes a user belonging to an organization",
+            "allOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "The user's unique key",
+                            "format": "uuid"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/UserMetadata"
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/UserDefinition"
+                }
+            ]
+        },
+        "Sort": {
+            "title": "Sort",
+            "description": "Specifies Sort configuration options",
+            "properties": {
+                "supported": {
+                    "description": "Specifies whether the operation is supported",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "supported"
+            ]
+        },
+        "Email": {
+            "title": "Email",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "faker": "lorem.word"
+                },
+                "primary": {
+                    "type": "boolean"
+                },
+                "value": {
+                    "type": "string",
+                    "format": "email",
+                    "faker": "internet.email"
+                }
+            },
+            "required": [
+                "value"
+            ]
+        },
+        "PhoneNumber": {
+            "title": "PhoneNumber",
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string",
+                    "faker": "phone.phoneNumber"
+                },
+                "type": {
+                    "type": "string",
+                    "faker": "lorem.word"
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "example": {
+                "value": "1-047-149-5200 x41058",
+                "type": "ut"
+            }
+        }
+    }
+}

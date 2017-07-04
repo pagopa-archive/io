@@ -1,0 +1,861 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "Notification API",
+        "description": "Notification API"
+    },
+    "host": "e2effzjxvtgbmuilw-mock.stoplight-proxy.io",
+    "basePath": "/v1",
+    "schemes": [
+        "https"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/Messages/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "getMessage",
+                "summary": "Get Message",
+                "tags": [
+                    "Messages"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/message-output"
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "updateMessage",
+                "summary": "Update Message",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "channel": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mail": {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "mobile": {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "web": {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/message-output"
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "deleteMessage",
+                "summary": "Delete Message",
+                "tags": [
+                    "Messages"
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            }
+        },
+        "/Messages": {
+            "get": {
+                "operationId": "listMessages",
+                "summary": "List Messages",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/trait:pagination:page"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:pagination:page_size"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:title"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:to"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:from"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:in"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:unread"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:starred"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:received_before"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:received_after"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:with_snippet"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:with_body"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:thread_id"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:reference_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/message-output"
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "sendMessage",
+                "summary": "Send Message",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/message-input"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "status": {
+                                            "$ref": "#/definitions/message-status"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "status"
+                                    ]
+                                }
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            }
+        },
+        "/Users/{id}/messages": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "listMessagesByUser",
+                "summary": "List Messages (by user)",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/trait:pagination:page"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:pagination:page_size"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:title"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:to"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:from"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:in"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:unread"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:starred"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:received_before"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:received_after"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:with_snippet"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:with_body"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:thread_id"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:reference_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/message-output"
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            }
+        },
+        "/Client/{id}/messages": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "listMessagesByClient",
+                "summary": "List Messages (by client)",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/trait:pagination:page"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:pagination:page_size"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:title"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:to"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:from"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:in"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:unread"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:starred"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:received_before"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:received_after"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:with_snippet"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:with_body"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:thread_id"
+                    },
+                    {
+                        "$ref": "#/parameters/trait:messageSearchQueryString:reference_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/message-output"
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/responses/trait:apiErrors:400"
+                    },
+                    "401": {
+                        "$ref": "#/responses/trait:apiErrors:401"
+                    },
+                    "403": {
+                        "$ref": "#/responses/trait:apiErrors:403"
+                    },
+                    "404": {
+                        "$ref": "#/responses/trait:apiErrors:404"
+                    },
+                    "429": {
+                        "$ref": "#/responses/trait:apiErrors:429"
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "trait:messageSearchQueryString:title": {
+            "name": "title",
+            "in": "query",
+            "type": "string"
+        },
+        "trait:messageSearchQueryString:to": {
+            "name": "to",
+            "in": "query",
+            "type": "string"
+        },
+        "trait:messageSearchQueryString:from": {
+            "name": "from",
+            "in": "query",
+            "type": "string"
+        },
+        "trait:messageSearchQueryString:in": {
+            "name": "in",
+            "in": "query",
+            "description": "Return messagesin a given folder, or with a given label.",
+            "type": "string"
+        },
+        "trait:messageSearchQueryString:unread": {
+            "name": "unread",
+            "in": "query",
+            "type": "boolean"
+        },
+        "trait:messageSearchQueryString:starred": {
+            "name": "starred",
+            "in": "query",
+            "type": "boolean"
+        },
+        "trait:messageSearchQueryString:received_before": {
+            "name": "received_before",
+            "in": "query",
+            "type": "string",
+            "format": "date-time"
+        },
+        "trait:messageSearchQueryString:received_after": {
+            "name": "received_after",
+            "in": "query",
+            "type": "string",
+            "format": "date-time"
+        },
+        "trait:messageSearchQueryString:with_snippet": {
+            "name": "with_snippet",
+            "in": "query",
+            "type": "boolean"
+        },
+        "trait:messageSearchQueryString:with_body": {
+            "name": "with_body",
+            "in": "query",
+            "type": "boolean"
+        },
+        "trait:messageSearchQueryString:thread_id": {
+            "name": "thread_id",
+            "in": "query",
+            "type": "string"
+        },
+        "trait:messageSearchQueryString:reference_id": {
+            "name": "reference_id",
+            "in": "query",
+            "type": "string"
+        },
+        "trait:pagination:page": {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "minimum": 0,
+            "default": 1
+        },
+        "trait:pagination:page_size": {
+            "name": "page_size",
+            "in": "query",
+            "type": "integer",
+            "minimum": 0,
+            "default": 50
+        }
+    },
+    "responses": {
+        "trait:apiErrors:400": {
+            "description": "",
+            "schema": {
+                "description": "Indicates that the request could not be parsed as JSON, or it contained invalid fields.",
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "BadRequestError"
+                    },
+                    "message": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:401": {
+            "description": "",
+            "schema": {
+                "description": "There was an error authenticating the sender account.",
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "Authorisation header is missing"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:403": {
+            "description": "",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "Forbidden"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:404": {
+            "description": "",
+            "schema": {
+                "type": "object",
+                "description": "Not Found.",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "trait:apiErrors:429": {
+            "description": "",
+            "schema": {
+                "type": "object",
+                "description": "Quota excedeed.",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "default": "API Error"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": 429,
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "content": {
+            "title": "Content",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "body_text": {
+                    "type": "string",
+                    "faker": "lorem.paragraph"
+                },
+                "body_html": {
+                    "type": "string",
+                    "faker": "lorem.paragraph"
+                },
+                "language": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2
+                },
+                "data": {
+                    "type": "object",
+                    "description": "This parameter specifies the custom key-value pairs of the message's payload.\n\nFor example, with data:{\"score\":\"3x1\"}:\n\nOn iOS, if the message is sent via APNS, it represents the custom data fields. It would be represented as key value dictionary in AppDelegate application:didReceiveRemoteNotification:.\n\nOn Android, this would result in an intent extra named score with the string value 3x1.\n\nThe key should not be a reserved word (\"from\" or any word starting with \"google\" or \"gcm\"). Do not use any of the words defined in this object.\n\nValues in string types are recommended. You have to convert values in objects or other non-string data types (e.g., integers or booleans) to string.",
+                    "properties": {
+                        "icon": {
+                            "type": "string"
+                        },
+                        "sound": {
+                            "type": "string"
+                        },
+                        "color": {
+                            "type": "string"
+                        },
+                        "badge": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "title"
+            ]
+        },
+        "message-input": {
+            "title": "Message Input",
+            "type": "object",
+            "properties": {
+                "to": {
+                    "description": "One fiscal code (CF).\n",
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "client_id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "reference_id": {
+                    "type": "string",
+                    "description": "An optional identifier you generate if you don’t want to use notify’s id. It can be used to identify a single notification or a batch of notifications."
+                },
+                "reply_to_message_id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "thread_id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "priority": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "dry_run": {
+                    "type": "boolean",
+                    "description": "This parameter, when set to true, allows developers to test a request without actually sending a message.\n\nThe default value is false."
+                },
+                "time_to_live": {
+                    "type": "integer",
+                    "description": "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 4 weeks, and the default value is 4 weeks.",
+                    "minimum": 0
+                },
+                "expires_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "tracking": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "store_content": {
+                    "type": "boolean"
+                },
+                "content": {
+                    "$ref": "#/definitions/content"
+                },
+                "channel_opts": {
+                    "type": "object",
+                    "properties": {
+                        "mail": {
+                            "type": "object",
+                            "properties": {
+                                "reply_to": {
+                                    "type": "string"
+                                },
+                                "cc": {
+                                    "type": "string"
+                                },
+                                "bcc": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "to",
+                "from",
+                "content"
+            ]
+        },
+        "message-status": {
+            "title": "Message Status",
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "PENDING",
+                        "SENDING",
+                        "SENT",
+                        "DELIVERED",
+                        "READ",
+                        "FAILED"
+                    ]
+                },
+                "error_message": {
+                    "type": "string"
+                },
+                "error_code": {
+                    "type": "string",
+                    "enum": [
+                        "PERMANENT_FAILURE",
+                        "TEMPORARY_FAILURE"
+                    ]
+                },
+                "service_id": {
+                    "minimum": 0,
+                    "type": "string"
+                },
+                "sent_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "delivered_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "read_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "message-output": {
+            "title": "Message Output",
+            "allOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "updated_at": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "status": {
+                            "type": "object",
+                            "properties": {
+                                "mail": {
+                                    "$ref": "#/definitions/message-status"
+                                },
+                                "mobile": {
+                                    "$ref": "#/definitions/message-status"
+                                },
+                                "web": {
+                                    "$ref": "#/definitions/message-status"
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/message-input"
+                }
+            ]
+        }
+    }
+}

@@ -28,7 +28,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success: message exists.",
                         "schema": {
                             "allOf": [
                                 {
@@ -82,7 +82,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success.",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
@@ -134,7 +134,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success.",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
@@ -179,7 +179,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success.",
                         "schema": {
                             "allOf": [
                                 {

@@ -28,11 +28,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success: message exists.",
+                        "description": "",
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/message-output"
+                                    "$ref": "#/definitions/message-accepted"
                                 }
                             ],
                             "description": "Success: message exists."
@@ -82,12 +82,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success.",
+                        "description": "",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
                             "items": {
-                                "$ref": "#/definitions/message-output"
+                                "$ref": "#/definitions/message-accepted"
                             }
                         }
                     },
@@ -134,12 +134,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success.",
+                        "description": "",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
                             "items": {
-                                "$ref": "#/definitions/message-output"
+                                "$ref": "#/definitions/message-accepted"
                             }
                         }
                     },
@@ -179,7 +179,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success.",
+                        "description": "",
                         "schema": {
                             "allOf": [
                                 {
@@ -226,15 +226,15 @@
             "name": "page",
             "in": "query",
             "type": "integer",
-            "minimum": 0,
-            "default": 1
+            "default": 1,
+            "minimum": 1
         },
         "trait:pagination:page_size": {
             "name": "page_size",
             "in": "query",
             "type": "integer",
-            "minimum": 0,
-            "default": 50
+            "default": 50,
+            "minimum": 1
         }
     },
     "responses": {
@@ -354,29 +354,6 @@
                 "body_html": {
                     "type": "string",
                     "faker": "lorem.paragraph"
-                },
-                "language": {
-                    "type": "string",
-                    "minLength": 2,
-                    "maxLength": 2
-                },
-                "data": {
-                    "type": "object",
-                    "description": "This parameter specifies the custom key-value pairs of the message's payload.\n\nFor example, with data:{\"score\":\"3x1\"}:\n\nOn iOS, if the message is sent via APNS, it represents the custom data fields. It would be represented as key value dictionary in AppDelegate application:didReceiveRemoteNotification:.\n\nOn Android, this would result in an intent extra named score with the string value 3x1.\n\nThe key should not be a reserved word (\"from\" or any word starting with \"google\" or \"gcm\"). Do not use any of the words defined in this object.\n\nValues in string types are recommended. You have to convert values in objects or other non-string data types (e.g., integers or booleans) to string.",
-                    "properties": {
-                        "icon": {
-                            "type": "string"
-                        },
-                        "sound": {
-                            "type": "string"
-                        },
-                        "color": {
-                            "type": "string"
-                        },
-                        "badge": {
-                            "type": "string"
-                        }
-                    }
                 }
             },
             "required": [
@@ -422,7 +399,7 @@
                 "status": {
                     "type": "string",
                     "enum": [
-                        "PENDING",
+                        "QUEUED",
                         "SENDING",
                         "SENT",
                         "DELIVERED",
@@ -440,10 +417,6 @@
                         "TEMPORARY_FAILURE"
                     ]
                 },
-                "service_id": {
-                    "minimum": 0,
-                    "type": "string"
-                },
                 "sent_at": {
                     "type": "string",
                     "format": "date-time"
@@ -458,8 +431,8 @@
                 }
             }
         },
-        "message-output": {
-            "title": "Message Output",
+        "message-accepted": {
+            "title": "Message Accepted",
             "allOf": [
                 {
                     "type": "object",

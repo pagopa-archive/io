@@ -28,14 +28,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success: message exists.",
                         "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/Message"
                                 }
                             ],
-                            "description": "Success: message exists."
+                            "description": ""
                         }
                     },
                     "400": {
@@ -82,7 +82,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success.",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
@@ -134,7 +134,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success.",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
@@ -179,7 +179,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Success: message queued.",
                         "schema": {
                             "allOf": [
                                 {

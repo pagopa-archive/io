@@ -405,7 +405,8 @@
                         "DELIVERED",
                         "READ",
                         "FAILED"
-                    ]
+                    ],
+                    "description": "QUEUED: the message has been accepeted for delivery\n\nSENDING: the message is in charge of the delivery service (ie. sms gatewy or mail server)\n\nSENT: the message was sent by the delivery service\n\nDELIVERED: the message reached the user inbox (ie. mail server or phone)\n\nREAD: the user read the message\n\nFAILED: something wong happened, check the error code and message\n\n"
                 },
                 "error_message": {
                     "type": "string"

@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "version": "v1 - demo",
-        "title": "SCIM",
+        "title": "Preferences",
         "description": "The SCIM API lets you manage users in your organization. You can then automate the provisioning of product licenses for these users, and they can use your company's Single Sign-On solution through an Identity Provider. The SCIM API lets you manage users in your organization. You can then automate the provisioning of product licenses for these users, and they can use your company's Single Sign-On solution through an Identity Provider."
     },
     "host": "pldgicrgsdfkmt6iq-mock.stoplight-proxy.io",
@@ -11,10 +11,10 @@
         "https"
     ],
     "paths": {
-        "/Users/{userKey}": {
+        "/Users/{id}": {
             "parameters": [
                 {
-                    "name": "userKey",
+                    "name": "id",
                     "in": "path",
                     "description": "The key of the user to query. The user must be in the organization domain",
                     "required": true,
@@ -44,98 +44,6 @@
                     },
                     "404": {
                         "description": "User not found"
-                    },
-                    "502": {
-                        "description": "Authentication or account gateway error occurred"
-                    },
-                    "504": {
-                        "description": "Authentication or account gateway timeout occurred"
-                    }
-                }
-            },
-            "patch": {
-                "operationId": "updateUser",
-                "summary": "Update User",
-                "tags": [
-                    "Users"
-                ],
-                "description": "Changes a limited set (or all if you choose) of the user's data. The updated user email domain must be an existing organization email domain.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/UserDefinition"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "The user has been updated.",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    },
-                    "400": {
-                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
-                    },
-                    "401": {
-                        "description": "Client is not sufficiently authorized"
-                    },
-                    "403": {
-                        "description": "Invalid token passed"
-                    },
-                    "404": {
-                        "description": "User not found"
-                    },
-                    "409": {
-                        "description": "Email address conflict"
-                    },
-                    "502": {
-                        "description": "Authentication or account gateway error occurred"
-                    },
-                    "504": {
-                        "description": "Authentication or account gateway timeout occurred"
-                    }
-                }
-            },
-            "put": {
-                "operationId": "replaceUser",
-                "summary": "Replace User",
-                "tags": [
-                    "Users"
-                ],
-                "description": "Changes an existing user's displayName, locale, timezone, username and password. The request must include the full user definition (to modify one or more values without sending the full definition, see Update User). The replaced user email domain must be an existing organization email domain.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/UserDefinition"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "The user has been replaced.",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    },
-                    "400": {
-                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
-                    },
-                    "401": {
-                        "description": "Client is not sufficiently authorized"
-                    },
-                    "403": {
-                        "description": "Invalid token passed"
-                    },
-                    "404": {
-                        "description": "User not found"
-                    },
-                    "409": {
-                        "description": "Email address conflict"
                     },
                     "502": {
                         "description": "Authentication or account gateway error occurred"
@@ -186,49 +94,6 @@
                         "description": "Authentication or account gateway timeout occurred"
                     }
                 }
-            },
-            "post": {
-                "operationId": "createUsers",
-                "summary": "Create User",
-                "tags": [
-                    "Users"
-                ],
-                "description": "Creates a new organization user and adds them to the user domain. The user email domain must match an existing organization email domain.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/UserDefinition"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "The user has been created.",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    },
-                    "400": {
-                        "description": "One of the following requirements is not met:<br />The userName field is required.<br />The userName field must be non-empty.<br />The userName field cannot exceed 128 characters.<br />The locale field must be composed of 1 or 2 parts.<br />The locale language sub-field must be ISO-639.<br />The locale country sub-field must be ISO-3166.<br />The timezone field must be a valid timezone.<br />The givenName field must not exceed 60 characters.<br />The familyName field must not exceed 60 characters."
-                    },
-                    "401": {
-                        "description": "Client is not sufficiently authorized."
-                    },
-                    "403": {
-                        "description": "Invalid token passed"
-                    },
-                    "409": {
-                        "description": "Username is already in use."
-                    },
-                    "502": {
-                        "description": "Authentication, account, or email verification gateway error occurred."
-                    },
-                    "504": {
-                        "description": "Authentication, account, or email verification gateway timeout occurred."
-                    }
-                }
             }
         }
     },
@@ -236,12 +101,12 @@
         "trait:apiErrors:400": {
             "description": "",
             "schema": {
-                "description": "Indicates that the request could not be parsed as JSON, or it contained invalid fields.",
+                "description": "",
                 "type": "object",
                 "properties": {
                     "error": {
                         "type": "string",
-                        "default": "BadRequestError"
+                        "default": ""
                     },
                     "message": {
                         "type": "string",
@@ -257,12 +122,12 @@
         "trait:apiErrors:401": {
             "description": "",
             "schema": {
-                "description": "There was an error authenticating the sender account.",
+                "description": "",
                 "type": "object",
                 "properties": {
                     "error": {
                         "type": "string",
-                        "default": "Authorisation header is missing"
+                        "default": ""
                     },
                     "message": {
                         "type": "string"
@@ -274,59 +139,21 @@
                 }
             }
         },
-        "trait:apiErrors:403": {
+        "trait:apiErrors:404": {
             "description": "",
             "schema": {
                 "type": "object",
+                "description": "",
                 "properties": {
                     "error": {
-                        "type": "string",
-                        "default": "Forbidden"
+                        "type": "string"
                     },
                     "message": {
                         "type": "string"
                     },
                     "status": {
                         "type": "integer",
-                        "default": 403
-                    }
-                }
-            }
-        },
-        "trait:apiErrors:404": {
-            "description": "",
-            "schema": {
-                "type": "object",
-                "description": "Not Found.",
-                "properties": {
-                    "error": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "trait:apiErrors:429": {
-            "description": "",
-            "schema": {
-                "type": "object",
-                "description": "Quota excedeed.",
-                "properties": {
-                    "error": {
-                        "type": "string",
-                        "default": "API Error"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "default": 429,
-                        "type": "integer"
+                        "default": 404
                     }
                 }
             }
@@ -338,13 +165,10 @@
             "description": "Describes a new user",
             "type": "object",
             "properties": {
-                "displayName": {
+                "userName": {
                     "type": "string",
-                    "description": "The user's display name",
+                    "description": "The user's fiscalNumber.",
                     "faker": "internet.userName"
-                },
-                "name": {
-                    "$ref": "#/definitions/UserFullName"
                 },
                 "emails": {
                     "type": "array",
@@ -352,51 +176,12 @@
                         "$ref": "#/definitions/Email"
                     }
                 },
-                "phoneNumbers": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/PhoneNumber"
-                    }
-                },
-                "ims": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Im"
-                    }
-                },
-                "externalId": {
-                    "type": "string"
-                },
                 "preferredLanguage": {
                     "type": "string"
-                },
-                "urn:scim:schemas:extension:italia:1.0": {
-                    "type": "object",
-                    "required": [
-                        "fiscalNumber"
-                    ],
-                    "properties": {
-                        "fiscalNumber": {
-                            "type": "string"
-                        },
-                        "optOut": {
-                            "type": "array",
-                            "uniqueItems": true,
-                            "items": {
-                                "$ref": "#/definitions/OptOut"
-                            }
-                        }
-                    }
-                },
-                "version": {
-                    "type": "integer"
                 }
             },
             "required": [
-                "displayName",
-                "name",
-                "emails",
-                "urn:scim:schemas:extension:italia:1.0"
+                "userName"
             ]
         },
         "UserCollection": {
@@ -419,26 +204,6 @@
             "required": [
                 "resources",
                 "totalResults"
-            ]
-        },
-        "UserFullName": {
-            "title": "UserFullName",
-            "description": "The full name of the user",
-            "properties": {
-                "familyName": {
-                    "description": "The user's surname",
-                    "type": "string",
-                    "faker": "name.lastName"
-                },
-                "givenName": {
-                    "description": "The user's first name",
-                    "type": "string",
-                    "faker": "name.firstName"
-                }
-            },
-            "required": [
-                "familyName",
-                "givenName"
             ]
         },
         "User": {
@@ -483,51 +248,6 @@
             "required": [
                 "value"
             ]
-        },
-        "PhoneNumber": {
-            "title": "PhoneNumber",
-            "type": "object",
-            "properties": {
-                "value": {
-                    "type": "string",
-                    "faker": "phone.phoneNumber"
-                },
-                "type": {
-                    "type": "string",
-                    "faker": "lorem.word"
-                }
-            },
-            "required": [
-                "value"
-            ],
-            "example": {
-                "value": "1-047-149-5200 x41058",
-                "type": "ut"
-            }
-        },
-        "Im": {
-            "title": "Im",
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "value"
-            ]
-        },
-        "OptOut": {
-            "title": "OptOut",
-            "type": "object",
-            "properties": {
-                "client_id": {
-                    "type": "string"
-                }
-            }
         }
     }
 }

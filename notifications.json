@@ -17,7 +17,8 @@
                     "name": "id",
                     "in": "path",
                     "required": true,
-                    "type": "string"
+                    "type": "string",
+                    "format": "uuid"
                 }
             ],
             "get": {
@@ -28,14 +29,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success: message exists.",
+                        "description": "",
                         "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/Message"
                                 }
                             ],
-                            "description": ""
+                            "description": "Success: message exists."
                         }
                     },
                     "400": {
@@ -44,14 +45,8 @@
                     "401": {
                         "$ref": "#/responses/trait:apiErrors:401"
                     },
-                    "403": {
-                        "$ref": "#/responses/trait:apiErrors:403"
-                    },
                     "404": {
                         "$ref": "#/responses/trait:apiErrors:404"
-                    },
-                    "429": {
-                        "$ref": "#/responses/trait:apiErrors:429"
                     }
                 }
             }
@@ -82,7 +77,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success.",
+                        "description": "",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
@@ -97,14 +92,8 @@
                     "401": {
                         "$ref": "#/responses/trait:apiErrors:401"
                     },
-                    "403": {
-                        "$ref": "#/responses/trait:apiErrors:403"
-                    },
                     "404": {
                         "$ref": "#/responses/trait:apiErrors:404"
-                    },
-                    "429": {
-                        "$ref": "#/responses/trait:apiErrors:429"
                     }
                 }
             }
@@ -134,7 +123,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success.",
+                        "description": "",
                         "schema": {
                             "type": "array",
                             "description": "Success.",
@@ -149,14 +138,8 @@
                     "401": {
                         "$ref": "#/responses/trait:apiErrors:401"
                     },
-                    "403": {
-                        "$ref": "#/responses/trait:apiErrors:403"
-                    },
                     "404": {
                         "$ref": "#/responses/trait:apiErrors:404"
-                    },
-                    "429": {
-                        "$ref": "#/responses/trait:apiErrors:429"
                     }
                 }
             }
@@ -168,18 +151,9 @@
                 "tags": [
                     "Messages"
                 ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/MessageDefinition"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "Success: message queued.",
+                        "description": "",
                         "schema": {
                             "allOf": [
                                 {
@@ -198,7 +172,7 @@
                                     ]
                                 }
                             ],
-                            "description": "Message queued.",
+                            "description": "",
                             "type": "object"
                         }
                     },
@@ -208,14 +182,8 @@
                     "401": {
                         "$ref": "#/responses/trait:apiErrors:401"
                     },
-                    "403": {
-                        "$ref": "#/responses/trait:apiErrors:403"
-                    },
                     "404": {
                         "$ref": "#/responses/trait:apiErrors:404"
-                    },
-                    "429": {
-                        "$ref": "#/responses/trait:apiErrors:429"
                     }
                 }
             }
@@ -241,12 +209,12 @@
         "trait:apiErrors:400": {
             "description": "",
             "schema": {
-                "description": "Indicates that the request could not be parsed as JSON, or it contained invalid fields.",
+                "description": "",
                 "type": "object",
                 "properties": {
                     "error": {
                         "type": "string",
-                        "default": "BadRequestError"
+                        "default": ""
                     },
                     "message": {
                         "type": "string",
@@ -262,12 +230,12 @@
         "trait:apiErrors:401": {
             "description": "",
             "schema": {
-                "description": "There was an error authenticating the sender account.",
+                "description": "",
                 "type": "object",
                 "properties": {
                     "error": {
                         "type": "string",
-                        "default": "Authorisation header is missing"
+                        "default": ""
                     },
                     "message": {
                         "type": "string"
@@ -279,59 +247,21 @@
                 }
             }
         },
-        "trait:apiErrors:403": {
+        "trait:apiErrors:404": {
             "description": "",
             "schema": {
                 "type": "object",
+                "description": "",
                 "properties": {
                     "error": {
-                        "type": "string",
-                        "default": "Forbidden"
+                        "type": "string"
                     },
                     "message": {
                         "type": "string"
                     },
                     "status": {
                         "type": "integer",
-                        "default": 403
-                    }
-                }
-            }
-        },
-        "trait:apiErrors:404": {
-            "description": "",
-            "schema": {
-                "type": "object",
-                "description": "Object Not Found.",
-                "properties": {
-                    "error": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "trait:apiErrors:429": {
-            "description": "",
-            "schema": {
-                "type": "object",
-                "description": "Quota excedeed.",
-                "properties": {
-                    "error": {
-                        "type": "string",
-                        "default": "API Error"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "default": 429,
-                        "type": "integer"
+                        "default": 404
                     }
                 }
             }
@@ -374,8 +304,9 @@
                 },
                 "time_to_live": {
                     "type": "integer",
-                    "description": "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 4 weeks, and the default value is 4 weeks.",
-                    "minimum": 0
+                    "description": "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 1 year, and the default value is 1 hour.",
+                    "minimum": 3600,
+                    "maximum": 31536000
                 },
                 "tags": {
                     "type": "array",
@@ -398,15 +329,13 @@
             "properties": {
                 "status": {
                     "type": "string",
+                    "description": "QUEUED: the message has been accepted for delivery\n\nDELIVERED: the message was delivered to the channel\n\nFAILED: something wong happened, check the error code and message\n\nTIMED_OUT:  in case a TTL was set\n",
                     "enum": [
                         "QUEUED",
-                        "SENDING",
-                        "SENT",
                         "DELIVERED",
-                        "READ",
+                        "TIMED_OUT",
                         "FAILED"
-                    ],
-                    "description": "QUEUED: the message has been accepeted for delivery\n\nSENDING: the message is in charge of the delivery service (ie. sms gatewy or mail server)\n\nSENT: the message was sent by the delivery service\n\nDELIVERED: the message reached the user inbox (ie. mail server or phone)\n\nREAD: the user read the message\n\nFAILED: something wong happened, check the error code and message\n\n"
+                    ]
                 },
                 "error_message": {
                     "type": "string"
@@ -418,7 +347,7 @@
                         "TEMPORARY_FAILURE"
                     ]
                 },
-                "sent_at": {
+                "failed_at": {
                     "type": "string",
                     "format": "date-time"
                 },
@@ -426,7 +355,7 @@
                     "type": "string",
                     "format": "date-time"
                 },
-                "read_at": {
+                "queued_at": {
                     "type": "string",
                     "format": "date-time"
                 }

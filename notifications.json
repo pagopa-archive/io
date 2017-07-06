@@ -32,7 +32,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/message-accepted"
+                                    "$ref": "#/definitions/Message"
                                 }
                             ],
                             "description": "Success: message exists."
@@ -87,7 +87,7 @@
                             "type": "array",
                             "description": "Success.",
                             "items": {
-                                "$ref": "#/definitions/message-accepted"
+                                "$ref": "#/definitions/Message"
                             }
                         }
                     },
@@ -139,7 +139,7 @@
                             "type": "array",
                             "description": "Success.",
                             "items": {
-                                "$ref": "#/definitions/message-accepted"
+                                "$ref": "#/definitions/Message"
                             }
                         }
                     },
@@ -173,7 +173,7 @@
                         "name": "body",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/message-input"
+                            "$ref": "#/definitions/MessageDefinition"
                         }
                     }
                 ],
@@ -189,7 +189,7 @@
                                             "format": "uuid"
                                         },
                                         "status": {
-                                            "$ref": "#/definitions/message-status"
+                                            "$ref": "#/definitions/MessageStatus"
                                         }
                                     },
                                     "required": [
@@ -338,7 +338,7 @@
         }
     },
     "definitions": {
-        "content": {
+        "Content": {
             "title": "Content",
             "type": "object",
             "properties": {
@@ -360,8 +360,8 @@
                 "title"
             ]
         },
-        "message-input": {
-            "title": "Message Input",
+        "MessageDefinition": {
+            "title": "MessageDefinition",
             "type": "object",
             "properties": {
                 "to": {
@@ -384,7 +384,7 @@
                     }
                 },
                 "content": {
-                    "$ref": "#/definitions/content"
+                    "$ref": "#/definitions/Content"
                 }
             },
             "required": [
@@ -392,8 +392,8 @@
                 "content"
             ]
         },
-        "message-status": {
-            "title": "Message Status",
+        "MessageStatus": {
+            "title": "MessageStatus",
             "type": "object",
             "properties": {
                 "status": {
@@ -431,8 +431,8 @@
                 }
             }
         },
-        "message-accepted": {
-            "title": "Message Accepted",
+        "Message": {
+            "title": "Message",
             "allOf": [
                 {
                     "type": "object",
@@ -453,13 +453,13 @@
                             "type": "object",
                             "properties": {
                                 "mail": {
-                                    "$ref": "#/definitions/message-status"
+                                    "$ref": "#/definitions/MessageStatus"
                                 },
                                 "mobile": {
-                                    "$ref": "#/definitions/message-status"
+                                    "$ref": "#/definitions/MessageStatus"
                                 },
                                 "web": {
-                                    "$ref": "#/definitions/message-status"
+                                    "$ref": "#/definitions/MessageStatus"
                                 }
                             }
                         }
@@ -469,7 +469,7 @@
                     ]
                 },
                 {
-                    "$ref": "#/definitions/message-input"
+                    "$ref": "#/definitions/MessageDefinition"
                 }
             ]
         }

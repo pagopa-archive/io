@@ -53,48 +53,6 @@
                     }
                 }
             }
-        },
-        "/Users": {
-            "get": {
-                "operationId": "getUsers",
-                "summary": "Get Users",
-                "tags": [
-                    "Users"
-                ],
-                "description": "Queries multiple user identities in the organization domain. Filtering is available.",
-                "parameters": [
-                    {
-                        "name": "filter",
-                        "in": "query",
-                        "description": " Without a filter, all users in a user domain are returned. The filter parameter must be a properly formed SCIM filter using either the operator eq (equals) or the operator sw (starts with). The filter works for userName, displayName, name.givenName, and name.familyName attributes. For example, /Users?filter=name.familyName%20eq%20%%22Smith%22",
-                        "required": false,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "The request has succeeded.",
-                        "schema": {
-                            "$ref": "#/definitions/UserCollection"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid filter syntax"
-                    },
-                    "401": {
-                        "description": "Client is not sufficiently authorized"
-                    },
-                    "403": {
-                        "description": "Invalid token passed"
-                    },
-                    "502": {
-                        "description": "Authentication or account gateway error occurred"
-                    },
-                    "504": {
-                        "description": "Authentication or account gateway timeout occurred"
-                    }
-                }
-            }
         }
     },
     "responses": {

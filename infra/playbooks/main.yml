@@ -1,0 +1,77 @@
+---
+
+#
+# Tasks for initializing /etc/hosts on all nodes
+#
+
+- hosts: all
+
+  tasks:
+    # Idempotent way to build a /etc/hosts file with Ansible using your Ansible hosts inventory for a source.
+    # Will include all hosts the playbook is run on.
+    # Inspired from http://xmeblog.blogspot.com/2013/06/ansible-dynamicaly-update-etchosts.html
+
+    - name: "Build hosts file"
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item.key }}$'
+        line: '{{ item.key }} {{ item.value }}'
+        state: present
+      with_dict:
+        "192.168.1.28": "notify-1.spc-1"
+        "192.168.1.30": "notify-2.spc-1"
+        "192.168.1.20": "notify-3.spc-1"
+        "192.168.1.29": "notify-4.spc-1"
+        "192.168.1.23": "notify-5.spc-1"
+        "192.168.1.24": "notify-6.spc-1"
+        "192.168.1.31": "notify-7.spc-1"
+        "192.168.1.27": "notify-8.spc-1"
+      become: yes
+      become_method: sudo
+      tags:
+        - hosts
+
+#
+# Tasks for initializing secondary disk on nodes
+#
+
+- hosts: nodes
+
+  vars:
+    secondary_device: "/dev/vdb"
+    secondary_device_fstype: ext4
+    secondary_device_partition: "{{ secondary_device }}1"
+    secondary_device_mount: "/mnt/disk1"
+
+  tasks:
+
+    - name: Primary partition on secondary device should exist
+      parted:
+        device: "{{ secondary_device }}"
+        number: 1
+        state: present
+      become: yes
+      become_method: sudo
+      tags:
+        - filesystem
+
+    - name: Filesystem on primary partition of secondary device should be initialized
+      filesystem:
+        fstype: "{{ secondary_device_fstype }}"
+        dev: "{{ secondary_device_partition }}"
+      become: yes
+      become_method: sudo
+      tags:
+        - filesystem
+
+    - name: Primary partition on secondary device should be mounted
+      mount:
+        path: "{{ secondary_device_mount }}"
+        src: "{{ secondary_device_partition }}"
+        fstype: "{{ secondary_device_fstype }}"
+        opts: rw
+        state: mounted
+      become: yes
+      become_method: sudo
+      tags:
+        - filesystem

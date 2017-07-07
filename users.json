@@ -120,7 +120,7 @@
     "definitions": {
         "UserDefinition": {
             "title": "UserDefinition",
-            "description": "Describes a new user",
+            "description": "Describes a user",
             "type": "object",
             "properties": {
                 "userName": {

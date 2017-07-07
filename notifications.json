@@ -67,60 +67,6 @@
                     "Messages"
                 ],
                 "description": "Messages will be returned in inverse delivery order (from last to first)",
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/trait:pagination:page"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:pagination:page_size"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "description": "Success.",
-                            "items": {
-                                "$ref": "#/definitions/Message"
-                            }
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/responses/trait:apiErrors:400"
-                    },
-                    "401": {
-                        "$ref": "#/responses/trait:apiErrors:401"
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:apiErrors:404"
-                    }
-                }
-            }
-        },
-        "/Client/{id}/messages": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "operationId": "listMessagesByClient",
-                "summary": "List Messages (by client)",
-                "tags": [
-                    "Messages"
-                ],
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/trait:pagination:page"
-                    },
-                    {
-                        "$ref": "#/parameters/trait:pagination:page_size"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -187,22 +133,6 @@
                     }
                 }
             }
-        }
-    },
-    "parameters": {
-        "trait:pagination:page": {
-            "name": "page",
-            "in": "query",
-            "type": "integer",
-            "default": 1,
-            "minimum": 1
-        },
-        "trait:pagination:page_size": {
-            "name": "page_size",
-            "in": "query",
-            "type": "integer",
-            "default": 50,
-            "minimum": 1
         }
     },
     "responses": {
@@ -372,10 +302,6 @@
                             "format": "uuid"
                         },
                         "created_at": {
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "updated_at": {
                             "type": "string",
                             "format": "date-time"
                         },

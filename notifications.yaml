@@ -126,7 +126,7 @@ definitions:
     type: "object"
     properties: 
       to: 
-        description: "One fiscal code (CF).\n"
+        description: "The fiscal code of the destination user."
         type: "string"
       dry_run: 
         type: "boolean"

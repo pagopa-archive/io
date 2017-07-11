@@ -39,17 +39,6 @@
               "$ref": "#/definitions/User"
             }
           }
-        },
-        "x-stoplight": {
-          "id": "getUser",
-          "beforeScript": null,
-          "afterScript": null,
-          "public": true,
-          "mock": {
-            "statusCode": 200,
-            "dynamic": false,
-            "enabled": false
-          }
         }
       }
     }
@@ -79,12 +68,7 @@
       },
       "required": [
         "userName"
-      ],
-      "x-stoplight": {
-        "id": "UserDefinition",
-        "name": "UserDefinition",
-        "public": true
-      }
+      ]
     },
     "User": {
       "title": "User",
@@ -106,12 +90,7 @@
         {
           "$ref": "#/definitions/UserDefinition"
         }
-      ],
-      "x-stoplight": {
-        "id": "User",
-        "name": "User",
-        "public": true
-      }
+      ]
     },
     "Email": {
       "title": "Email",
@@ -136,93 +115,7 @@
       },
       "required": [
         "value"
-      ],
-      "x-stoplight": {
-        "id": "Email",
-        "name": "Email",
-        "public": true
-      }
+      ]
     }
-  },
-  "x-stoplight": {
-    "beforeScript": "",
-    "afterScript": "",
-    "version": {
-      "groups": {
-        "utilFuncs": [],
-        "savedEntries": [],
-        "tests": [],
-        "traits": [],
-        "docs": [
-          {
-            "name": "Users",
-            "description": null,
-            "divider": null,
-            "items": [
-              {
-                "_id": "getUser",
-                "type": "endpoints"
-              },
-              {
-                "_id": "woazyCxwjhiEEH343",
-                "type": "endpoints"
-              }
-            ]
-          },
-          {
-            "name": "Models",
-            "description": "Models make up the core input and ouput structures in this API. They are used in endpoint request and response bodies.",
-            "divider": null,
-            "items": [
-              {
-                "_id": "UserDefinition",
-                "type": "schemas"
-              },
-              {
-                "_id": "TZ4JkFptD4WtAFSbr",
-                "type": "schemas"
-              },
-              {
-                "_id": "hYqQyvRs8ruiXLobq",
-                "type": "schemas"
-              },
-              {
-                "_id": "UserCollection",
-                "type": "schemas"
-              },
-              {
-                "_id": "w7wL4JCqFPBYXqpjd",
-                "type": "schemas"
-              },
-              {
-                "_id": "QNYGbPukNvurz76my",
-                "type": "schemas"
-              },
-              {
-                "_id": "User",
-                "type": "schemas"
-              },
-              {
-                "_id": "Email",
-                "type": "schemas"
-              }
-            ]
-          },
-          {
-            "name": "Traits",
-            "description": "Traits describe common behaviors or structures in this API.",
-            "divider": null,
-            "items": []
-          }
-        ]
-      }
-    },
-    "functions": {},
-    "textSections": {},
-    "mock": {
-      "enabled": false,
-      "dynamic": false
-    }
-  },
-  "x-tests": {}
+  }
 }

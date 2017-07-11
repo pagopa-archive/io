@@ -19,9 +19,7 @@ paths:
     get: 
       operationId: "getMessage"
       summary: "Get Message"
-      tags: 
-        - "Messages"
-      description: "Retrieve a message already submitted for delivery."
+      description: "Returns a previously submitted message."
       responses: 
         200: 
           description: "Message found."
@@ -36,11 +34,9 @@ paths:
         type: "string"
         format: "uuid"
     get: 
-      operationId: "listMessagesByUser"
-      summary: "List Messages by user"
-      tags: 
-        - "Messages"
-      description: "Retrive all messages for this user. \n\nMessages will be returned in inverse delivery order (from last to first)"
+      operationId: "getMessagesByUser"
+      summary: "Get messages by user"
+      description: "Returns all the submitted messages the have the user as destination.\n\nMessages will be returned in inverse delivery order (from last to first)"
       responses: 
         200: 
           description: "Found."
@@ -48,11 +44,9 @@ paths:
             $ref: "#/definitions/MessageCollection"
   /Messages: 
     post: 
-      operationId: "sendMessage"
-      summary: "Send Message"
-      tags: 
-        - "Messages"
-      description: "Submit a message for delivery."
+      operationId: "submitMessage"
+      summary: "Submit Message"
+      description: "Submits a message for delivery to a user."
       parameters: 
         - 
           name: "message"
@@ -60,7 +54,7 @@ paths:
           schema: 
             $ref: "#/definitions/MessageDefinition"
       responses: 
-        202: 
+        201:
           description: "Message accepted for delivery."
           schema: 
             allOf: 
@@ -142,11 +136,6 @@ definitions:
         description: "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 1 year, and the default value is 1 hour."
         minimum: 3600
         maximum: 31536000
-      tags: 
-        type: "array"
-        default: []
-        items: 
-          type: "string"
       content: 
         $ref: "#/definitions/MessageContent"
     required: 
@@ -158,10 +147,10 @@ definitions:
     properties: 
       status: 
         type: "string"
-        description: "ACCEPTED: the message has been accepted for delivery\n\nDELIVERED: the message was delivered to the channel\n\nFAILED: something wong happened, check the error code and message\n\nTIMED_OUT:  in case a TTL was set\n"
+        description: "ACCEPTED: the message has been accepted for delivery\n\nSENT: the message was delivered to the channel\n\nFAILED: something wong happened, check the error code and message\n\nTIMED_OUT:  in case a TTL was set\n"
         enum: 
           - "ACCEPTED"
-          - "DELIVERED"
+          - "SENT"
           - "TIMED_OUT"
           - "FAILED"
       failed_at: 

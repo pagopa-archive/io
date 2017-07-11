@@ -2,7 +2,7 @@ swagger: "2.0"
 info: 
   version: "0.0.1"
   title: "Preferences"
-  description: "The API lets you manage attributes associated with users (user preferences).\nYou can get any attribute for any user (read only) according to the rights you owe on the user resource. \nThere rights are set up at moment you've subscribed the service exposed by this API."
+  description: "This API provides access to user preferences."
   license: 
     name: "MIT"
 host: "localhost"
@@ -22,12 +22,10 @@ paths:
     get: 
       operationId: "getUser"
       summary: "Get User"
-      tags: 
-        - "Users"
-      description: "Retrieve one user's preferences (ie. email and/or preferred language)."
+      description: "Returns a user's preferences."
       responses: 
         200: 
-          description: "The request has succeeded."
+          description: "The user was found."
           schema: 
             $ref: "#/definitions/User"
 definitions: 

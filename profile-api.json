@@ -1,441 +1,228 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0",
-        "title": "profile-api",
-        "description": "Profile and preferences management Profile and preferences management"
-    },
-    "host": "localhost:3000",
-    "basePath": "/v1",
-    "schemes": [
-        "https"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "securityDefinitions": {
-        "Authorization": {
-            "name": "Authorization",
-            "type": "apiKey",
-            "in": "header"
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Preferences",
+    "description": "The API lets you manage attributes associated with users (user preferences).\nYou can get any attribute for any user (read only) according to the rights you owe on the user resource. \nThere rights are set up at moment you've subscribed the service exposed by this API.",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "localhost",
+  "basePath": "/api/v1",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/Users/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "The key of the user to query. The user must be in the organization domain",
+          "required": true,
+          "type": "string",
+          "format": "uuid"
         }
-    },
-    "paths": {
-        "/profile/{fiscal_code}": {
-            "parameters": [
-                {
-                    "name": "fiscal_code",
-                    "in": "path",
-                    "required": true,
-                    "type": "string",
-                    "pattern": "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
-                }
-            ],
-            "get": {
-                "operationId": "GetProfileLatestVersionForFiscalCode",
-                "summary": "GetProfileLatest",
-                "tags": [
-                    "User Operations"
-                ],
-                "description": "Returns the attributes for latest version of the profile identified by the provided `fiscal_code`.",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "version": {
-                                    "type": "number",
-                                    "minimum": 1,
-                                    "exclusiveMinimum": false
-                                },
-                                "created_at": {
-                                    "type": "number",
-                                    "minimum": 0
-                                },
-                                "attributes": {
-                                    "$ref": "#/definitions/attributes"
-                                }
-                            },
-                            "required": [
-                                "version",
-                                "created_at"
-                            ]
-                        }
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:errorNotFound:404"
-                    }
-                },
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
-                "x-stoplight": {
-                    "id": "GetProfileLatestVersionForFiscalCode",
-                    "beforeScript": null,
-                    "afterScript": null,
-                    "public": true,
-                    "mock": {
-                        "statusCode": 200,
-                        "dynamic": false,
-                        "enabled": true
-                    }
-                }
-            },
-            "post": {
-                "operationId": "CreateProfile",
-                "summary": "CreateProfile",
-                "tags": [
-                    "User Operations"
-                ],
-                "description": "Creates a new profile associated to the provided `fiscal_code`.\n\nThe new profile will have an initial version of `1`.",
-                "responses": {
-                    "201": {
-                        "$ref": "#/responses/trait:successProfileVersionCreated:201"
-                    },
-                    "409": {
-                        "$ref": "#/responses/trait:errorConflict:409"
-                    },
-                    "422": {
-                        "$ref": "#/responses/trait:errorUnprocessableEntity:422"
-                    }
-                },
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
-                "x-stoplight": {
-                    "id": "CreateProfile",
-                    "beforeScript": "function (ctx, request) {\n  \n}",
-                    "afterScript": "function (ctx, request, response) {\n\n}",
-                    "public": true,
-                    "mock": {
-                        "enabled": false,
-                        "dynamic": false,
-                        "statusCode": 200
-                    }
-                }
-            }
-        },
-        "/profile/{fiscal_code}/{version}": {
-            "parameters": [
-                {
-                    "name": "fiscal_code",
-                    "in": "path",
-                    "required": true,
-                    "type": "string",
-                    "pattern": "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$"
-                },
-                {
-                    "name": "version",
-                    "in": "path",
-                    "required": true,
-                    "type": "number",
-                    "minimum": 1
-                }
-            ],
-            "get": {
-                "operationId": "GetProfileVersionForFiscalCode",
-                "summary": "GetProfileVersion",
-                "tags": [
-                    "User Operations"
-                ],
-                "description": "Returns the attributes for the profile identified by the provided `fiscal_code` and `version` number.\n\nThe first `version` of a profile is `1`",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "version": {
-                                    "type": "number",
-                                    "minimum": 1,
-                                    "exclusiveMinimum": false
-                                },
-                                "created_at": {
-                                    "type": "number",
-                                    "minimum": 0
-                                },
-                                "attributes": {
-                                    "$ref": "#/definitions/attributes"
-                                }
-                            },
-                            "required": [
-                                "version",
-                                "created_at"
-                            ]
-                        }
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:errorNotFound:404"
-                    }
-                },
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
-                "x-stoplight": {
-                    "id": "GetProfileVersionForFiscalCode",
-                    "beforeScript": null,
-                    "afterScript": null,
-                    "public": true,
-                    "mock": {
-                        "statusCode": 200,
-                        "dynamic": false,
-                        "enabled": true
-                    }
-                }
-            },
-            "put": {
-                "operationId": "UpdateProfileForFiscalCode",
-                "summary": "UpdateProfile",
-                "tags": [
-                    "User Operations"
-                ],
-                "description": "Updates one or more attributes of a profile identified by `fiscal_code` and `version`.\n\nOn successful update, a new profile version gets created (by incrementing the version number from the previous one).\n\nIf the provided `version` is not the latest available version for that profile, the request will fail with a [409 - Conflict](https://httpstatuses.com/409) error, meaning that the profile was concurrently updated (and a new version created) by another client.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/attributes"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "$ref": "#/responses/trait:successProfileVersionCreated:201"
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:errorNotFound:404"
-                    },
-                    "409": {
-                        "$ref": "#/responses/trait:errorConflict:409"
-                    },
-                    "422": {
-                        "$ref": "#/responses/trait:errorUnprocessableEntity:422"
-                    }
-                },
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
-                "x-stoplight": {
-                    "id": "UpdateProfileForFiscalCode",
-                    "beforeScript": null,
-                    "afterScript": null,
-                    "public": true,
-                    "mock": {
-                        "statusCode": 200,
-                        "dynamic": false,
-                        "enabled": false
-                    }
-                }
-            }
-        }
-    },
-    "responses": {
-        "trait:errorNotFound:404": {
-            "description": "",
+      ],
+      "get": {
+        "operationId": "getUser",
+        "summary": "Get User",
+        "tags": [
+          "Users"
+        ],
+        "description": "Retrieve one user's preferences (ie. email and/or preferred language).",
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
             "schema": {
-                "$ref": "#/definitions/error"
+              "$ref": "#/definitions/User"
             }
+          }
         },
-        "trait:errorConflict:409": {
-            "description": "",
-            "schema": {
-                "$ref": "#/definitions/error"
-            }
-        },
-        "trait:successProfileVersionCreated:201": {
-            "description": "",
-            "schema": {
-                "$ref": "#/definitions/profile"
-            }
-        },
-        "trait:errorUnprocessableEntity:422": {
-            "description": "",
-            "schema": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "validation_errors": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "field": {
-                                    "type": "string"
-                                },
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },
-                "required": [
-                    "message"
-                ]
-            }
-        }
-    },
-    "definitions": {
-        "attributes": {
-            "title": "Attributes",
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "maxLength": 256,
-                    "format": "email"
-                },
-                "mobile": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "pattern": "^\\+[1-9]\\d+$"
-                },
-                "locale": {
-                    "type": "string",
-                    "pattern": "^[a-z]{2}(_[A-Z]{2})?$"
-                }
-            },
-            "x-stoplight": {
-                "id": "attributes",
-                "name": "Attributes",
-                "public": true
-            }
-        },
-        "error": {
-            "title": "Error",
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            },
-            "x-stoplight": {
-                "id": "error",
-                "name": "Error",
-                "public": true
-            }
-        },
-        "profile": {
-            "title": "Profile",
-            "type": "object",
-            "properties": {
-                "version": {
-                    "type": "number"
-                },
-                "created_at": {
-                    "type": "number",
-                    "minimum": 0
-                },
-                "attributes": {
-                    "$ref": "#/definitions/attributes"
-                }
-            },
-            "required": [
-                "version",
-                "created_at"
-            ],
-            "x-stoplight": {
-                "id": "profile",
-                "name": "Profile",
-                "public": true
-            }
-        }
-    },
-    "x-stoplight": {
-        "version": {
-            "groups": {
-                "utilFuncs": [],
-                "savedEntries": [],
-                "tests": [],
-                "traits": [],
-                "docs": [
-                    {
-                        "divider": false,
-                        "items": [
-                            {
-                                "_id": "errorNotFound",
-                                "type": "traits"
-                            },
-                            {
-                                "_id": "errorConflict",
-                                "type": "traits"
-                            },
-                            {
-                                "_id": "successProfileVersionCreated",
-                                "type": "traits"
-                            },
-                            {
-                                "_id": "errorUnprocessableEntity",
-                                "type": "traits"
-                            }
-                        ],
-                        "name": "Responses",
-                        "description": "Commond error responses"
-                    },
-                    {
-                        "items": [
-                            {
-                                "_id": "GetProfileLatestVersionForFiscalCode",
-                                "type": "endpoints"
-                            },
-                            {
-                                "type": "endpoints",
-                                "_id": "GetProfileVersionForFiscalCode"
-                            },
-                            {
-                                "_id": "CreateProfile",
-                                "type": "endpoints"
-                            },
-                            {
-                                "type": "endpoints",
-                                "_id": "UpdateProfileForFiscalCode"
-                            }
-                        ],
-                        "name": "User Operations",
-                        "divider": false
-                    },
-                    {
-                        "items": [
-                            {
-                                "type": "schemas",
-                                "_id": "attributes"
-                            },
-                            {
-                                "type": "schemas",
-                                "_id": "error"
-                            },
-                            {
-                                "_id": "profile",
-                                "type": "schemas"
-                            }
-                        ],
-                        "description": "Models make up the core input and ouput structures in this API. They are used in endpoint request and response bodies.",
-                        "name": "Models"
-                    }
-                ]
-            }
-        },
-        "functions": {},
-        "textSections": {},
-        "mock": {
+        "x-stoplight": {
+          "id": "getUser",
+          "beforeScript": null,
+          "afterScript": null,
+          "public": true,
+          "mock": {
+            "statusCode": 200,
             "dynamic": false,
-            "enabled": true
+            "enabled": false
+          }
         }
+      }
+    }
+  },
+  "definitions": {
+    "UserDefinition": {
+      "title": "UserDefinition",
+      "description": "Describes a user",
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "The user's fiscal number.",
+          "x-faker": "internet.userName"
+        },
+        "emails": {
+          "type": "array",
+          "description": "An email collection associated with a user. \n\nThere MUST be only one item marked primary.",
+          "items": {
+            "$ref": "#/definitions/Email"
+          }
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "Indicates the User's preferred written or spoken language. Generally used for selecting a localized User interface. Valid values are concatenation of the ISO 639-1 two letter language code, an underscore, and the ISO 3166-1 2 letter country code; e.g., 'en_US' specifies the language English and country US."
+        }
+      },
+      "required": [
+        "userName"
+      ],
+      "x-stoplight": {
+        "id": "UserDefinition",
+        "name": "UserDefinition",
+        "public": true
+      }
     },
-    "x-tests": {}
+    "User": {
+      "title": "User",
+      "description": "Describes a user belonging to an organization",
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The user's unique key",
+              "format": "uuid"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        {
+          "$ref": "#/definitions/UserDefinition"
+        }
+      ],
+      "x-stoplight": {
+        "id": "User",
+        "name": "User",
+        "public": true
+      }
+    },
+    "Email": {
+      "title": "Email",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "x-faker": "lorem.word",
+          "description": "A label indicating the attribute's function; e.g., \"work\" or \"home\"."
+        },
+        "primary": {
+          "type": "boolean",
+          "default": false,
+          "description": "A Boolean value indicating the 'primary' or preferred attribute value for this attribute, e.g. the preferred mailing address or primary e-mail address. The primary attribute value 'true' MUST appear no more than once."
+        },
+        "value": {
+          "type": "string",
+          "format": "email",
+          "x-faker": "internet.email",
+          "description": "The attribute's significant value; e.g., the e-mail address."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "x-stoplight": {
+        "id": "Email",
+        "name": "Email",
+        "public": true
+      }
+    }
+  },
+  "x-stoplight": {
+    "beforeScript": "",
+    "afterScript": "",
+    "version": {
+      "groups": {
+        "utilFuncs": [],
+        "savedEntries": [],
+        "tests": [],
+        "traits": [],
+        "docs": [
+          {
+            "name": "Users",
+            "description": null,
+            "divider": null,
+            "items": [
+              {
+                "_id": "getUser",
+                "type": "endpoints"
+              },
+              {
+                "_id": "woazyCxwjhiEEH343",
+                "type": "endpoints"
+              }
+            ]
+          },
+          {
+            "name": "Models",
+            "description": "Models make up the core input and ouput structures in this API. They are used in endpoint request and response bodies.",
+            "divider": null,
+            "items": [
+              {
+                "_id": "UserDefinition",
+                "type": "schemas"
+              },
+              {
+                "_id": "TZ4JkFptD4WtAFSbr",
+                "type": "schemas"
+              },
+              {
+                "_id": "hYqQyvRs8ruiXLobq",
+                "type": "schemas"
+              },
+              {
+                "_id": "UserCollection",
+                "type": "schemas"
+              },
+              {
+                "_id": "w7wL4JCqFPBYXqpjd",
+                "type": "schemas"
+              },
+              {
+                "_id": "QNYGbPukNvurz76my",
+                "type": "schemas"
+              },
+              {
+                "_id": "User",
+                "type": "schemas"
+              },
+              {
+                "_id": "Email",
+                "type": "schemas"
+              }
+            ]
+          },
+          {
+            "name": "Traits",
+            "description": "Traits describe common behaviors or structures in this API.",
+            "divider": null,
+            "items": []
+          }
+        ]
+      }
+    },
+    "functions": {},
+    "textSections": {},
+    "mock": {
+      "enabled": false,
+      "dynamic": false
+    }
+  },
+  "x-tests": {}
 }

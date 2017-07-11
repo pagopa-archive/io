@@ -1,333 +1,465 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0",
-        "title": "Notification API",
-        "description": "Notification API"
-    },
-    "host": "e2effzjxvtgbmuilw-mock.stoplight-proxy.io",
-    "basePath": "/v1",
-    "schemes": [
-        "https"
-    ],
-    "paths": {
-        "/Messages/{id}": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string",
-                    "format": "uuid"
-                }
-            ],
-            "get": {
-                "operationId": "getMessage",
-                "summary": "Get Message",
-                "tags": [
-                    "Messages"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/Message"
-                                }
-                            ],
-                            "description": "Success: message exists."
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/responses/trait:apiErrors:400"
-                    },
-                    "401": {
-                        "$ref": "#/responses/trait:apiErrors:401"
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:apiErrors:404"
-                    }
-                }
-            }
-        },
-        "/Users/{id}/messages": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "operationId": "listMessagesByUser",
-                "summary": "List Messages (by user)",
-                "tags": [
-                    "Messages"
-                ],
-                "description": "Messages will be returned in inverse delivery order (from last to first)",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "description": "Success.",
-                            "items": {
-                                "$ref": "#/definitions/Message"
-                            }
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/responses/trait:apiErrors:400"
-                    },
-                    "401": {
-                        "$ref": "#/responses/trait:apiErrors:401"
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:apiErrors:404"
-                    }
-                }
-            }
-        },
-        "/Messages": {
-            "post": {
-                "operationId": "sendMessage",
-                "summary": "Send Message",
-                "tags": [
-                    "Messages"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "properties": {
-                                        "id": {
-                                            "type": "string",
-                                            "format": "uuid"
-                                        },
-                                        "status": {
-                                            "$ref": "#/definitions/MessageStatus"
-                                        }
-                                    },
-                                    "required": [
-                                        "id",
-                                        "status"
-                                    ]
-                                }
-                            ],
-                            "description": "",
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/responses/trait:apiErrors:400"
-                    },
-                    "401": {
-                        "$ref": "#/responses/trait:apiErrors:401"
-                    },
-                    "404": {
-                        "$ref": "#/responses/trait:apiErrors:404"
-                    }
-                }
-            }
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Notification API",
+    "description": "Notification API."
+  },
+  "host": "localhost",
+  "basePath": "/api/v1",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/Messages/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "format": "uuid"
         }
-    },
-    "responses": {
-        "trait:apiErrors:400": {
-            "description": "",
+      ],
+      "get": {
+        "operationId": "getMessage",
+        "summary": "Get Message",
+        "tags": [
+          "Messages"
+        ],
+        "description": "Retrieve a message already submitted for delivery.",
+        "responses": {
+          "200": {
+            "description": "Message found.",
             "schema": {
-                "description": "",
-                "type": "object",
-                "properties": {
-                    "error": {
-                        "type": "string",
-                        "default": ""
-                    },
-                    "message": {
-                        "type": "string",
-                        "default": ""
-                    },
-                    "status": {
-                        "type": "integer",
-                        "default": 400
-                    }
-                }
+              "$ref": "#/definitions/Message"
             }
+          }
         },
-        "trait:apiErrors:401": {
-            "description": "",
-            "schema": {
-                "description": "",
-                "type": "object",
-                "properties": {
-                    "error": {
-                        "type": "string",
-                        "default": ""
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "integer",
-                        "default": 401
-                    }
-                }
-            }
-        },
-        "trait:apiErrors:404": {
-            "description": "",
-            "schema": {
-                "type": "object",
-                "description": "",
-                "properties": {
-                    "error": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "integer",
-                        "default": 404
-                    }
-                }
-            }
+        "x-stoplight": {
+          "id": "getMessage",
+          "beforeScript": null,
+          "afterScript": null,
+          "public": true,
+          "mock": {
+            "enabled": false,
+            "dynamic": false,
+            "statusCode": 200
+          }
         }
+      }
     },
-    "definitions": {
-        "Content": {
-            "title": "Content",
-            "type": "object",
-            "properties": {
-                "title": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 255
-                },
-                "body_text": {
-                    "type": "string",
-                    "faker": "lorem.paragraph"
-                },
-                "body_html": {
-                    "type": "string",
-                    "faker": "lorem.paragraph"
+    "/Users/{id}/Messages": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "format": "uuid"
+        }
+      ],
+      "get": {
+        "operationId": "listMessagesByUser",
+        "summary": "List Messages by user",
+        "tags": [
+          "Messages"
+        ],
+        "description": "Retrive all messages for this user. \n\nMessages will be returned in inverse delivery order (from last to first)",
+        "responses": {
+          "200": {
+            "description": "Found.",
+            "schema": {
+              "$ref": "#/definitions/MessageCollection"
+            }
+          }
+        },
+        "x-stoplight": {
+          "id": "listMessagesByUser",
+          "beforeScript": null,
+          "afterScript": null,
+          "public": true,
+          "mock": {
+            "enabled": false,
+            "dynamic": false,
+            "statusCode": 200
+          }
+        }
+      }
+    },
+    "/Messages": {
+      "post": {
+        "operationId": "sendMessage",
+        "summary": "Send Message",
+        "tags": [
+          "Messages"
+        ],
+        "description": "Submit a message for delivery.",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/MessageDefinition"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Message accepted for delivery.",
+            "schema": {
+              "allOf": [
+                {
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "$ref": "#/definitions/MessageStatus"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "status"
+                  ]
                 }
+              ],
+              "description": "",
+              "type": "object"
             },
-            "required": [
-                "title"
-            ]
-        },
-        "MessageDefinition": {
-            "title": "MessageDefinition",
-            "type": "object",
-            "properties": {
-                "to": {
-                    "description": "One fiscal code (CF).\n",
-                    "type": "string"
-                },
-                "dry_run": {
-                    "type": "boolean",
-                    "description": "This parameter, when set to true, allows developers to test a request without actually sending a message.\n\nThe default value is false."
-                },
-                "time_to_live": {
-                    "type": "integer",
-                    "description": "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 1 year, and the default value is 1 hour.",
-                    "minimum": 3600,
-                    "maximum": 31536000
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "content": {
-                    "$ref": "#/definitions/Content"
-                }
-            },
-            "required": [
-                "to",
-                "content"
-            ]
-        },
-        "MessageStatus": {
-            "title": "MessageStatus",
-            "type": "object",
-            "properties": {
-                "status": {
-                    "type": "string",
-                    "description": "QUEUED: the message has been accepted for delivery\n\nDELIVERED: the message was delivered to the channel\n\nFAILED: something wong happened, check the error code and message\n\nTIMED_OUT:  in case a TTL was set\n",
-                    "enum": [
-                        "QUEUED",
-                        "DELIVERED",
-                        "TIMED_OUT",
-                        "FAILED"
-                    ]
-                },
-                "error_message": {
-                    "type": "string"
-                },
-                "error_code": {
-                    "type": "string",
-                    "enum": [
-                        "PERMANENT_FAILURE",
-                        "TEMPORARY_FAILURE"
-                    ]
-                },
-                "failed_at": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "delivered_at": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "queued_at": {
-                    "type": "string",
-                    "format": "date-time"
-                }
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "Location (URL) of accepted message resource.\nSend a GET request to this URL to retrieve the message status and details."
+              }
             }
+          }
         },
-        "Message": {
-            "title": "Message",
-            "allOf": [
-                {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "created_at": {
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "status": {
-                            "type": "object",
-                            "properties": {
-                                "mail": {
-                                    "$ref": "#/definitions/MessageStatus"
-                                },
-                                "mobile": {
-                                    "$ref": "#/definitions/MessageStatus"
-                                },
-                                "web": {
-                                    "$ref": "#/definitions/MessageStatus"
-                                }
-                            }
-                        }
-                    },
-                    "required": [
-                        "id"
-                    ]
-                },
-                {
-                    "$ref": "#/definitions/MessageDefinition"
-                }
-            ]
+        "x-stoplight": {
+          "id": "sendMessage",
+          "beforeScript": null,
+          "afterScript": null,
+          "public": true,
+          "mock": {
+            "enabled": false,
+            "dynamic": false,
+            "statusCode": 200
+          }
         }
+      }
     }
+  },
+  "definitions": {
+    "ProblemJson": {
+      "title": "Problem Type",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "format": "uri",
+          "description": "An absolute URI that identifies the problem type.  When dereferenced,\nit SHOULD provide human-readable documentation for the problem type\n(e.g., using HTML).\n",
+          "default": "about:blank",
+          "example": "https://example.com/problem/constraint-violation"
+        },
+        "title": {
+          "type": "string",
+          "description": "A short, summary of the problem type. Written in english and readable\nfor engineers (usually not suited for non technical stakeholders and\nnot localized); example: Service Unavailable\n"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HTTP status code generated by the origin server for this occurrence\nof the problem.\n",
+          "minimum": 100,
+          "maximum": 600,
+          "exclusiveMaximum": true,
+          "example": 503
+        },
+        "detail": {
+          "type": "string",
+          "description": "A human readable explanation specific to this occurrence of the\nproblem.\n",
+          "example": "Connection to database timed out"
+        },
+        "instance": {
+          "type": "string",
+          "format": "uri",
+          "description": "An absolute URI that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced."
+        }
+      },
+      "x-stoplight": {
+        "id": "problem-json",
+        "name": "Problem Type",
+        "public": true
+      }
+    },
+    "MessageContent": {
+      "title": "MessageContent",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "description": "The title of the message. At most 255 characters."
+        },
+        "body_text": {
+          "type": "string",
+          "x-faker": "lorem.paragraph"
+        },
+        "body_html": {
+          "type": "string",
+          "x-faker": "lorem.paragraph"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "x-stoplight": {
+        "id": "MessageContent",
+        "name": "MessageContent",
+        "public": true
+      }
+    },
+    "MessageDefinition": {
+      "title": "MessageDefinition",
+      "type": "object",
+      "properties": {
+        "to": {
+          "description": "One fiscal code (CF).\n",
+          "type": "string"
+        },
+        "dry_run": {
+          "type": "boolean",
+          "description": "This parameter, when set to true, allows developers to test a request without actually sending a message.\n\nThe default value is false."
+        },
+        "time_to_live": {
+          "type": "integer",
+          "description": "This parameter specifies how long (in seconds) the message should be kept in storage if the device is offline. The maximum time to live supported is 1 year, and the default value is 1 hour.",
+          "minimum": 3600,
+          "maximum": 31536000
+        },
+        "tags": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "content": {
+          "$ref": "#/definitions/MessageContent"
+        }
+      },
+      "required": [
+        "to",
+        "content"
+      ],
+      "x-stoplight": {
+        "id": "MessageDefinition",
+        "name": "MessageDefinition",
+        "public": true
+      }
+    },
+    "MessageStatus": {
+      "title": "MessageStatus",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "ACCEPTED: the message has been accepted for delivery\n\nDELIVERED: the message was delivered to the channel\n\nFAILED: something wong happened, check the error code and message\n\nTIMED_OUT:  in case a TTL was set\n",
+          "enum": [
+            "ACCEPTED",
+            "DELIVERED",
+            "TIMED_OUT",
+            "FAILED"
+          ]
+        },
+        "failed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "delivered_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accepted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "timed_out_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "problem": {
+          "$ref": "#/definitions/ProblemJson"
+        }
+      },
+      "x-stoplight": {
+        "id": "MessageStatus",
+        "name": "MessageStatus",
+        "public": true
+      }
+    },
+    "Message": {
+      "title": "Message",
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "status": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "mail": {
+                  "$ref": "#/definitions/MessageStatus"
+                },
+                "mobile": {
+                  "$ref": "#/definitions/MessageStatus"
+                },
+                "web": {
+                  "$ref": "#/definitions/MessageStatus"
+                }
+              }
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        {
+          "$ref": "#/definitions/MessageDefinition"
+        }
+      ],
+      "x-stoplight": {
+        "id": "Message",
+        "name": "Message",
+        "public": true
+      }
+    },
+    "MessageCollection": {
+      "title": "MessageCollection",
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/definitions/Message"
+          }
+        },
+        "totalResults": {
+          "type": "integer",
+          "default": 0,
+          "description": "The number of messages in the collection."
+        }
+      },
+      "x-stoplight": {
+        "id": "MessageCollection",
+        "name": "MessageCollection",
+        "public": true
+      }
+    }
+  },
+  "x-stoplight": {
+    "version": {
+      "groups": {
+        "docs": [
+          {
+            "name": "Level 2",
+            "description": null,
+            "divider": true,
+            "items": []
+          },
+          {
+            "name": "Messages",
+            "description": null,
+            "divider": false,
+            "items": [
+              {
+                "_id": "getMessage",
+                "type": "endpoints"
+              },
+              {
+                "_id": "listMessagesByUser",
+                "type": "endpoints"
+              },
+              {
+                "_id": "sendMessage",
+                "type": "endpoints"
+              }
+            ]
+          },
+          {
+            "name": "Models",
+            "description": "Models make up the core input and ouput structures in this API. They are used in endpoint request and response bodies.",
+            "divider": false,
+            "items": [
+              {
+                "_id": "MessageContent",
+                "type": "schemas"
+              },
+              {
+                "_id": "MessageStatus",
+                "type": "schemas"
+              },
+              {
+                "_id": "MessageDefinition",
+                "type": "schemas"
+              },
+              {
+                "_id": "MessageCollection",
+                "type": "schemas"
+              },
+              {
+                "_id": "Message",
+                "type": "schemas"
+              }
+            ]
+          },
+          {
+            "name": "Traits",
+            "description": "Traits describe common behaviors or structures in this API.",
+            "divider": null,
+            "items": [
+              {
+                "_id": "7inMfa7yNtcuZpGr8",
+                "type": "traits"
+              },
+              {
+                "_id": "NoEjZinF2ajPcqfw8",
+                "type": "traits"
+              },
+              {
+                "_id": "7inMfa7yNtcuZpGr8",
+                "type": "traits"
+              },
+              {
+                "_id": "NoEjZinF2ajPcqfw8",
+                "type": "traits"
+              }
+            ]
+          }
+        ],
+        "traits": [],
+        "tests": [],
+        "savedEntries": []
+      }
+    },
+    "functions": {},
+    "textSections": {},
+    "mock": {
+      "enabled": false,
+      "dynamic": false
+    }
+  },
+  "x-tests": {},
+  "responses": {},
+  "parameters": {}
 }

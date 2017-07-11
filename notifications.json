@@ -35,17 +35,6 @@
               "$ref": "#/definitions/Message"
             }
           }
-        },
-        "x-stoplight": {
-          "id": "getMessage",
-          "beforeScript": null,
-          "afterScript": null,
-          "public": true,
-          "mock": {
-            "enabled": false,
-            "dynamic": false,
-            "statusCode": 200
-          }
         }
       }
     },
@@ -72,17 +61,6 @@
             "schema": {
               "$ref": "#/definitions/MessageCollection"
             }
-          }
-        },
-        "x-stoplight": {
-          "id": "listMessagesByUser",
-          "beforeScript": null,
-          "afterScript": null,
-          "public": true,
-          "mock": {
-            "enabled": false,
-            "dynamic": false,
-            "statusCode": 200
           }
         }
       }
@@ -135,17 +113,6 @@
               }
             }
           }
-        },
-        "x-stoplight": {
-          "id": "sendMessage",
-          "beforeScript": null,
-          "afterScript": null,
-          "public": true,
-          "mock": {
-            "enabled": false,
-            "dynamic": false,
-            "statusCode": 200
-          }
         }
       }
     }
@@ -185,11 +152,6 @@
           "format": "uri",
           "description": "An absolute URI that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced."
         }
-      },
-      "x-stoplight": {
-        "id": "problem-json",
-        "name": "Problem Type",
-        "public": true
       }
     },
     "MessageContent": {
@@ -213,12 +175,7 @@
       },
       "required": [
         "title"
-      ],
-      "x-stoplight": {
-        "id": "MessageContent",
-        "name": "MessageContent",
-        "public": true
-      }
+      ]
     },
     "MessageDefinition": {
       "title": "MessageDefinition",
@@ -252,12 +209,7 @@
       "required": [
         "to",
         "content"
-      ],
-      "x-stoplight": {
-        "id": "MessageDefinition",
-        "name": "MessageDefinition",
-        "public": true
-      }
+      ]
     },
     "MessageStatus": {
       "title": "MessageStatus",
@@ -292,11 +244,6 @@
         "problem": {
           "$ref": "#/definitions/ProblemJson"
         }
-      },
-      "x-stoplight": {
-        "id": "MessageStatus",
-        "name": "MessageStatus",
-        "public": true
       }
     },
     "Message": {
@@ -336,12 +283,7 @@
         {
           "$ref": "#/definitions/MessageDefinition"
         }
-      ],
-      "x-stoplight": {
-        "id": "Message",
-        "name": "Message",
-        "public": true
-      }
+      ]
     },
     "MessageCollection": {
       "title": "MessageCollection",
@@ -359,107 +301,7 @@
           "default": 0,
           "description": "The number of messages in the collection."
         }
-      },
-      "x-stoplight": {
-        "id": "MessageCollection",
-        "name": "MessageCollection",
-        "public": true
       }
     }
-  },
-  "x-stoplight": {
-    "version": {
-      "groups": {
-        "docs": [
-          {
-            "name": "Level 2",
-            "description": null,
-            "divider": true,
-            "items": []
-          },
-          {
-            "name": "Messages",
-            "description": null,
-            "divider": false,
-            "items": [
-              {
-                "_id": "getMessage",
-                "type": "endpoints"
-              },
-              {
-                "_id": "listMessagesByUser",
-                "type": "endpoints"
-              },
-              {
-                "_id": "sendMessage",
-                "type": "endpoints"
-              }
-            ]
-          },
-          {
-            "name": "Models",
-            "description": "Models make up the core input and ouput structures in this API. They are used in endpoint request and response bodies.",
-            "divider": false,
-            "items": [
-              {
-                "_id": "MessageContent",
-                "type": "schemas"
-              },
-              {
-                "_id": "MessageStatus",
-                "type": "schemas"
-              },
-              {
-                "_id": "MessageDefinition",
-                "type": "schemas"
-              },
-              {
-                "_id": "MessageCollection",
-                "type": "schemas"
-              },
-              {
-                "_id": "Message",
-                "type": "schemas"
-              }
-            ]
-          },
-          {
-            "name": "Traits",
-            "description": "Traits describe common behaviors or structures in this API.",
-            "divider": null,
-            "items": [
-              {
-                "_id": "7inMfa7yNtcuZpGr8",
-                "type": "traits"
-              },
-              {
-                "_id": "NoEjZinF2ajPcqfw8",
-                "type": "traits"
-              },
-              {
-                "_id": "7inMfa7yNtcuZpGr8",
-                "type": "traits"
-              },
-              {
-                "_id": "NoEjZinF2ajPcqfw8",
-                "type": "traits"
-              }
-            ]
-          }
-        ],
-        "traits": [],
-        "tests": [],
-        "savedEntries": []
-      }
-    },
-    "functions": {},
-    "textSections": {},
-    "mock": {
-      "enabled": false,
-      "dynamic": false
-    }
-  },
-  "x-tests": {},
-  "responses": {},
-  "parameters": {}
+  }
 }

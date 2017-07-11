@@ -1,0 +1,87 @@
+swagger: "2.0"
+info: 
+  version: "0.0.1"
+  title: "Preferences"
+  description: "The API lets you manage attributes associated with users (user preferences).\nYou can get any attribute for any user (read only) according to the rights you owe on the user resource. \nThere rights are set up at moment you've subscribed the service exposed by this API."
+  license: 
+    name: "MIT"
+host: "localhost"
+basePath: "/api/v1"
+schemes: 
+  - "https"
+paths: 
+  /Users/{id}: 
+    parameters: 
+      - 
+        name: "id"
+        in: "path"
+        description: "The key of the user to query. The user must be in the organization domain"
+        required: true
+        type: "string"
+        format: "uuid"
+    get: 
+      operationId: "getUser"
+      summary: "Get User"
+      tags: 
+        - "Users"
+      description: "Retrieve one user's preferences (ie. email and/or preferred language)."
+      responses: 
+        200: 
+          description: "The request has succeeded."
+          schema: 
+            $ref: "#/definitions/User"
+definitions: 
+  UserDefinition: 
+    title: "UserDefinition"
+    description: "Describes a user"
+    type: "object"
+    properties: 
+      userName: 
+        type: "string"
+        description: "The user's fiscal number."
+        x-faker: "internet.userName"
+      emails: 
+        type: "array"
+        description: "An email collection associated with a user. \n\nThere MUST be only one item marked primary."
+        items: 
+          $ref: "#/definitions/Email"
+      preferredLanguage: 
+        type: "string"
+        description: "Indicates the User's preferred written or spoken language. Generally used for selecting a localized User interface. Valid values are concatenation of the ISO 639-1 two letter language code, an underscore, and the ISO 3166-1 2 letter country code; e.g., 'en_US' specifies the language English and country US."
+    required: 
+      - "userName"
+  User: 
+    title: "User"
+    description: "Describes a user belonging to an organization"
+    allOf: 
+      - 
+        type: "object"
+        properties: 
+          id: 
+            type: "string"
+            description: "The user's unique key"
+            format: "uuid"
+        required: 
+          - "id"
+      - 
+        $ref: "#/definitions/UserDefinition"
+  Email: 
+    title: "Email"
+    type: "object"
+    properties: 
+      type: 
+        type: "string"
+        x-faker: "lorem.word"
+        description: "A label indicating the attribute's function; e.g., \"work\" or \"home\"."
+      primary: 
+        type: "boolean"
+        default: false
+        description: "A Boolean value indicating the 'primary' or preferred attribute value for this attribute, e.g. the preferred mailing address or primary e-mail address. The primary attribute value 'true' MUST appear no more than once."
+      value: 
+        type: "string"
+        format: "email"
+        x-faker: "internet.email"
+        description: "The attribute's significant value; e.g., the e-mail address."
+    required: 
+      - "value"
+

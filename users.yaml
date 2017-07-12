@@ -19,8 +19,8 @@ schemes:
 paths:
   '/users/{fiscal_number}/preferences':
     get:
-      operationId: getUser
-      summary: Get User
+      operationId: getUserPreferences
+      summary: Get User's Preferences
       description: Retrieve one user's preferences (ie. email and/or preferred language).
       responses:
         '200':

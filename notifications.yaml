@@ -14,6 +14,7 @@ paths:
         in: path
         type: string
         required: true
+        format: uuid
     get:
       operationId: getMessage
       summary: Get Message

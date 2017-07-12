@@ -50,7 +50,7 @@ definitions:
     properties:
       fiscal_number:
         type: string
-        description: The user's fiscal number.1
+        description: The user's fiscal number.
         minLength: 1
         maxLength: 16
         pattern: >-

@@ -14,7 +14,6 @@ paths:
         in: path
         type: string
         required: true
-        format: uuid
     get:
       operationId: getMessage
       summary: Get Message
@@ -23,7 +22,9 @@ paths:
         '200':
           description: Message found.
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/AcceptedMessage'
+        '404':
+          description: No message found.
   '/users/{fiscal_number}/messages':
     parameters:
       - name: fiscal_number
@@ -52,9 +53,11 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: '#/definitions/Message'
+                      $ref: '#/definitions/AcceptedMessage'
               - $ref: '#/definitions/PaginationResponse'
           examples: {}
+        '404':
+          description: No user found.
       parameters: []
   /messages:
     post:
@@ -206,8 +209,8 @@ definitions:
         format: date-time
       problem:
         $ref: '#/definitions/ProblemJson'
-  Message:
-    title: Message
+  AcceptedMessage:
+    title: AcceptedMessage
     allOf:
       - type: object
         properties:

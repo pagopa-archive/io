@@ -2,14 +2,10 @@ swagger: '2.0'
 info:
   version: 0.0.1
   title: Preferences API
-  description: >-
-    The API lets you manage attributes associated with users (user preferences).
-
-    You can get any attribute for any user (read only) according to the rights
-    you owe on the user resource. 
-
-    There rights are set up at moment you've subscribed the service exposed by
-    this API.
+  description: |-
+    The API lets you manage attributes associated with users (user's preferences).
+    You can get any attribute for any user (read only) according to the rights you owe on the user resource. 
+    There rights are set up at moment you've subscribed the service exposed by this API.
   license:
     name: MIT
 host: localhost
@@ -22,17 +18,13 @@ paths:
     get:
       operationId: getUserPreferences
       summary: Get User's Preferences
-      description: Retrieve one user's preferences (ie. email and/or preferred language).
+      description: Returns the preferences for the user identified by the provided fiscal number.
       responses:
         '200':
           description: Found.
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Preferences'
           examples: {}
-          headers:
-            ETag:
-              type: string
-              description: An opaque identifier of this resource revision.
         '404':
           description: User not found.
     parameters:
@@ -40,15 +32,10 @@ paths:
         in: path
         type: string
         required: true
-        description: 'The user''s fiscal number, all upper case.'
-        pattern: >-
-          [A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]
-        maxLength: 16
-        minLength: 1
 definitions:
-  User:
-    title: User
-    description: Describes a user
+  Preferences:
+    title: Preferences
+    description: Describes the user's preferences .
     type: object
     properties:
       fiscal_number:
@@ -56,20 +43,20 @@ definitions:
         minLength: 1
         maxLength: 16
         description: 'The user''s fiscal number, all upper case.'
-        pattern: >-
-          [A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]
+        pattern: '[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]'
       email:
         type: string
         description: |
           The user's preferred email address.
       preferred_languages:
         type: array
-        description: >-
-          Indicates the User's preferred written or spoken language. Generally
-          used for selecting a localized User interface. Valid values are
-          concatenation of the ISO 639-1 two letter language code, an
-          underscore, and the ISO 3166-1 2 letter country code; e.g., 'en_US'
-          specifies the language English and country US.
+        description: 'Indicates the User''s preferred written or spoken language. Generally used for selecting a localized User interface. Valid values are concatenation of the ISO 639-1 two letter language code, an underscore, and the ISO 3166-1 2 letter country code; e.g., ''en_US'' specifies the language English and country US.'
+        x-extensible-enum:
+          - it_IT
+          - en_GB
+          - es_ES
+          - de_DE
+          - fr_FR
         items:
           type: string
     required:

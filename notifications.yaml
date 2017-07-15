@@ -28,15 +28,15 @@ paths:
           examples: {}
         '404':
           description: No message found for the provided ID.
-  '/users/{fiscal_number}/messages':
+  '/users/{fiscal_code}/messages':
     x-swagger-router-controller: Messages
     parameters:
       - $ref: '#/parameters/PaginationRequest'
-      - name: fiscal_number
+      - name: fiscal_code
         in: path
         type: string
         required: true
-        description: 'The fiscal number of the user, all upper case.'
+        description: 'The fiscal code of the user, all upper case.'
         maxLength: 16
         minLength: 16
         pattern: '[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]'
@@ -192,9 +192,9 @@ definitions:
       id:
         type: string
         format: uuid
-      fiscal_number:
+      fiscal_code:
         type: string
-        description: User's fiscal number.
+        description: User's fiscal code.
         pattern: '[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]'
       time_to_live:
         $ref: '#/definitions/TimeToLive'
@@ -204,7 +204,7 @@ definitions:
         $ref: '#/definitions/MessageStatus'
     required:
       - id
-      - fiscal_number
+      - fiscal_code
     type: object
   PaginationResponse:
     type: object

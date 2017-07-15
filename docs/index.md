@@ -74,7 +74,7 @@ Through this information, SGP provides the consulting authorities with the oppor
 
 ### For administrations
 
-- Send electronic communications even without knowing the contact addresses of citizens, using only their fiscal number
+- Send electronic communications even without knowing the contact addresses of citizens, using only their fiscal code
 - Delegate the management and updating of citizens' electronic delivery contacts
 - Give more visibility to your notifications, where they come together in a wider / national context
 - Soliciting deadlines and facilitating payments in a simple and safe way

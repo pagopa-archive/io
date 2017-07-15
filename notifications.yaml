@@ -100,7 +100,7 @@ paths:
           schema:
             $ref: '#/definitions/ProblemJson'
           examples: {}
-        '422':
+        '500':
           description: The message cannot be delivered.
           schema:
             $ref: '#/definitions/ProblemJson'
@@ -189,6 +189,7 @@ definitions:
         description: 'The date-time the message has been read by the user. The format is defined by RFC 3339, for example 2015-05-28T14:07:17Z.'
   CreatedMessage:
     title: CreatedMessage
+    type: object
     properties:
       id:
         type: string
@@ -206,7 +207,9 @@ definitions:
     required:
       - id
       - fiscal_code
-    type: object
+      - time_to_live
+      - content
+      - status
   PaginationResponse:
     type: object
     title: pagination
@@ -233,3 +236,7 @@ parameters:
     type: string
     minimum: 1
     description: An opaque identifier that points to the next item in the collection.
+consumes:
+  - application/json
+produces:
+  - application/json

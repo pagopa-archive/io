@@ -3,7 +3,7 @@
 ## Introduction
 
 Digital Citizenship aims to facilitate the relationship between citizen and Public Administration through the creation of a platform that can make digital services more effective and facilitate communication between
-Public Administration and citizens.
+Public Administration (PA) and citizens.
 
 Digital services are designed based on core components that ensure a consistent  
 *user experience* for the citizens and a shared facility for the Administrations.
@@ -34,15 +34,15 @@ Digital services are designed based on core components that ensure a consistent
 </tbody>
 </table>
 
-The integration of the various components in the digital services provided by the Public Administration will enable the citizen to experience the Digital Citizenship experience, bringing his identity and information transversely to the various performances.
+The integration of the various components in the digital services provided by the Public Administration will enable the citizen to live the Digital Citizenship experience, bringing his identity and information transversely to the various performances.
 
-In addition to existing components (pagoPA, SPID), AgID intends to provide a service to Public Administrations by realizing the components of Digital Citizenship in relation to the 'Preferences' of the citizens and the 'Communications' with the PA.
+In addition to existing components (pagoPA, SPID), AgID intends to provide other services to Public Administrations by realizing the components of Digital Citizenship in relation to the 'Preferences' of the citizens and the 'Communications' with the PA.
 
 ## Communications
 
 Administrations will be able to submit multichannel notifications (SMS, E-mail, PUSH Notification, etc.) to citizens who have subscribed to a special topic of interest (opt-in) on PA portals, and/or have indicated one or more delivery contacts to receive alerts from the Public Administration (eg deadlines, payments, status changes of a forwarded practice, etc.).
 
-The citizen interacts with a single preference management service (SGP) that will be interrogated by the SdA at the time of forwarding a notice so as to find the preferred forwarding channels and the recipient's contact addresses.
+The citizen interacts with a single preference management service (SGP) that will be queried by the SdA at the time of forwarding a notice to find the preferred forwarding channels and the recipient's contact addresses.
 The citizen therefore has no direct access to the system: the information systems of the parties involved in the service will be able to send alerts to the citizens through the provided API.
 
 ### Related APIs
@@ -69,12 +69,12 @@ Through this information, SGP provides the consulting authorities with the oppor
 
 - Manage delivery contacts from a central access point (APP mobile and italia.it website)
 - Manage subscriptions (opt-in and opt-out) from a central access point
-- Consult the communications history from a central access point
-- Make simple transactional transactions by means of notifications received (ie. payments)
+- Access the communications history from a central access point
+- Make simple transactional operations by means of notifications received (ie. payments)
 
 ### For administrations
 
-- Send electronic communications even without knowing the contact addresses of citizens, using only their tax code
+- Send electronic communications even without knowing the contact addresses of citizens, using only their fiscal number
 - Delegate the management and updating of citizens' electronic delivery contacts
 - Give more visibility to your notifications, where they come together in a wider / national context
 - Soliciting deadlines and facilitating payments in a simple and safe way

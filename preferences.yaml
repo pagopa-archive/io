@@ -13,7 +13,7 @@ basePath: /api/v1
 schemes:
   - https
 paths:
-  '/users/{fiscal_code}/preferences':
+  '/preferences/{fiscal_code}':
     x-swagger-router-controller: Preferences
     get:
       operationId: getUserPreferences

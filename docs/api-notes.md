@@ -177,6 +177,12 @@ need to compile the java version of swagger-codegen: see
 
 You'd better start with swagger-tools or swagger-node directly.
 
+### loopback-swagger-generator
+
+https://loopback.io/doc/en/lb3/Swagger-generator.html
+
+Generates routes and models (for persistence) from swagger specs.
+
 ### Prism
 
 [*http://stoplight.io/platform/prism/*](http://stoplight.io/platform/prism/)

@@ -2,16 +2,14 @@
 
 ## Introduction
 
-Digital Citizenship aims to facilitate the relationship between citizen and Public Administration through the creation of a platform that can make digital services more effective and facilitate communication between
-Public Administration (PA) and citizens.
+The Digital Citizenship initiative aims to facilitate the relationship between citizens and the Public Administration through the creation of a platform of reusable components that can make digital services more effective and improve communication.
 
-Digital services are designed based on core components that ensure a consistent  
-*user experience* for the citizens and a shared facility for the Administrations.
+Digital services get build from core components that ensure a consistent user experience for the citizens and provide reusable building blocks for the public services.
 
 <table>
 <caption>
   Services and Digital Applications<br>
-  Portals and applications of regional and national administrations and bodies<br>
+  Digital services of regional and national administrations and bodies<br>
   Vertical Application of Digital Citizenship<br>
 </caption>
 <thead>

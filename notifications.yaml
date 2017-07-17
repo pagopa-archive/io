@@ -152,7 +152,9 @@ definitions:
     properties:
       body_short:
         type: string
-        description: 'An abstract of the message, in plain text. The content of this field will be delivered to channels that support a limited amount of characters (e.g. SMS, mobile notifications, etc...).'
+        description: |-
+          An abstract of the message, in plain text. The content of this field will be delivered to channels that support a limited amount of characters (e.g. SMS, mobile notifications, etc...).
+          The caller should assume that only the content in "body_short" may be delivered so the value of this field MUST contain *all* the required information.
         minLength: 3
         maxLength: 100
       body_long:
@@ -193,7 +195,6 @@ definitions:
     properties:
       id:
         type: string
-        format: uuid
       fiscal_code:
         type: string
         description: User's fiscal code.

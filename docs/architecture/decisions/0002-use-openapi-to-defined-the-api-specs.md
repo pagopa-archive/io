@@ -16,4 +16,8 @@ We use the [OpenAPI 2.0](https://swagger.io/specification/) specification (aka S
 
 ## Consequences
 
+<<<<<<< HEAD
 We have to provide the API definition in YAML format (instead of JSON) for the OpenAPI API definition files due to its improved readability.
+=======
+You have to provide the API definition in YAML format (instead of JSON) for the OpenAPI API definition files due to its improved readability.
+>>>>>>> Adds OpenAPI ADR

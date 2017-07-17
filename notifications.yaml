@@ -60,7 +60,7 @@ paths:
                       $ref: '#/definitions/CreatedMessage'
               - $ref: '#/definitions/PaginationResponse'
         '404':
-          description: No user found.
+          description: No message found.
       parameters: []
     post:
       operationId: submitMessageforUser

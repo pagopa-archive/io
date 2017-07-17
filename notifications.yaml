@@ -15,7 +15,7 @@ paths:
         in: path
         type: string
         required: true
-        description: 'The message ID, as returned from the POST operation (submitMessageFromUser).'
+        description: The ID of the message.
     get:
       operationId: getMessage
       summary: Get Message
@@ -45,8 +45,8 @@ paths:
       summary: Get messages by user
       description: |-
         Returns the messages for the user identified by the provided fiscal code.
-        Messages will be returned in inverse submission order (from last to first).
-        The "next" field, when present, contains an URL pointing to the next page with the other results in the collection.
+        Messages will be returned in inverse acceptance order (from last to first).
+        The "next" field, when present, contains an URL pointing to the next page of results.
       responses:
         '200':
           description: Found.

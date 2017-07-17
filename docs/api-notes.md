@@ -177,6 +177,30 @@ need to compile the java version of swagger-codegen: see
 
 You'd better start with swagger-tools or swagger-node directly.
 
+### swagger-tools
+
+swagger-node uses swagger-tools to set up its server.
+Anyway, swagger-tools can be used standalone (without the bagpipes boilerplate):
+
+https://github.com/apigee-127/swagger-tools/blob/master/docs/QuickStart.md
+
+### swagger-express-middleware
+
+https://github.com/BigstickCarpet/swagger-express-middleware
+
+Is a modern (unofficial) version of swagger-tools for express
+(while swagger-tools are targeted as a connect middleware).
+
+The project seems better maintained and popular than swagger-tools (~300k downloads on npm).
+It lacks the routing middleware (so you have to use it with something like [swagger-routes](https://www.npmjs.com/package/swagger-routes)).
+
+It has an in-memory database to test mocked resources.
+
+### swagger-server
+
+Uses swagger-express-middleware to implement a server (like swagger-node does with swagger-tools).
+It provides the express routing middleware that swagger-express-middleware lacks.
+
 ### loopback-swagger-generator
 
 https://loopback.io/doc/en/lb3/Swagger-generator.html

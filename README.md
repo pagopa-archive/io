@@ -1,3 +1,17 @@
-# The Digital Citizenship Initiative
+# Cittadinanza Digitale
 
-This is a work in progress, nothing to see here yet.
+This is work in progress.
+
+## Usage
+
+`mkdocs serve` to run documentation site locally
+
+`mkdocs gh-deploy` to deploy docs to gh-pages
+
+## Contributing
+
+### API definitions
+
+API definitions are in OAS (Swagger 2.0).
+
+# The Digital Citizenship Initiative

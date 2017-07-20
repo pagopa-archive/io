@@ -19,10 +19,8 @@ const APIs = [
   }
 ]
 
-const promises = []
-
-for (let api of APIs) {
-  promises.push(
+const promises = APIs.map(
+  api =>
     new Promise(function(resolve, reject) {
       JsonRefs.resolveRefsAt(api.yaml, {
         // Resolve all remote references
@@ -43,6 +41,8 @@ for (let api of APIs) {
               reject(err)
             }
 
+            // If you want to use swaggerUI uncomment these lines
+            //
             // Sway.create({ definition: './api/swagger/swagger.yaml' }).then(
             //   function(swaggerApi) {
             //     app.use(new SwaggerUi(swaggerApi.resolved))
@@ -76,7 +76,6 @@ for (let api of APIs) {
           process.exit(1)
         })
     })
-  )
-}
+)
 
 module.exports = Promise.all(promises)

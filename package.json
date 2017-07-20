@@ -1,0 +1,43 @@
+{
+  "name": "cittadinanza-digitale",
+  "version": "0.0.1",
+  "description": "This is work in progress.",
+  "main": "mock/server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "cross-env": "^5.0.1",
+    "express": "^4.15.3",
+    "http-server": "^0.10.0",
+    "js-yaml": "^3.9.0",
+    "json-refs": "^3.0.0",
+    "npm-run-all": "^4.0.2",
+    "swagger": "^0.7.5",
+    "swagger-express-mw": "^0.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "verify:notifications-public": "cd docs/api && cross-env swagger_swagger_fileName=docs/api/notifications-public.yaml swagger project verify",
+    "verify:notifications-private": "cd docs/api && cross-env swagger_swagger_fileName=docs/api/notifications-private.yaml swagger project verify",
+    "verify:preferences": "cd docs/api && cross-env swagger_swagger_fileName=docs/api/preferences.yaml swagger project verify",
+    "verify": "npm-run-all --parallel verify:*",
+    "serve-specs": "http-server docs/api --cors -p 8081",
+    "start-editor:notifications-public": "cross-env swagger_swagger_editorConfig_pointerResolutionBasePath=http://localhost:8081 swagger_swagger_fileName=docs/api/notifications-public.yaml swagger project edit",
+    "edit:notifications-public": "npm-run-all --parallel serve-specs start-editor:preferences",
+    "start-editor:preferences": "cross-env swagger_swagger_editorConfig_pointerResolutionBasePath=http://localhost:8081 swagger_swagger_fileName=docs/api/preferences.yaml swagger project edit",
+    "edit": "npm-run-all --parallel serve-specs start-editor:preferences start-editor:notifications-public",
+    "mock": "cd mock && cross-env swagger_mockMode=true node server",
+    "serve": "cd mock && cross-env swagger_mockMode=false node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teamdigitale/cittadinanza-digitale.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/teamdigitale/cittadinanza-digitale/issues"
+  },
+  "homepage": "https://github.com/teamdigitale/cittadinanza-digitale#readme"
+}

@@ -8,3 +8,6 @@ strict: true
 extra_templates:
     - api/notifications.html
     - api/preferences.html
+    - api/notifications-common.yaml
+    - api/notifications-public.yaml
+    - api/preferences.yaml

@@ -56,6 +56,15 @@ for (let api of APIs) {
             // install middleware
             swaggerExpress.register(app)
 
+            // @see https://github.com/theganyo/swagger-node-runner/releases/tag/v0.6.4
+            swaggerExpress.runner.on(
+              'responseValidationError',
+              (validationResponse, req, res) => {
+                console.dir(validationResponse.errors, { depth: 4 })
+                res.status(500).json(validationResponse)
+              }
+            )
+
             app.listen(api.port, function() {
               console.log('Serving %s API on port %d', api.yaml, api.port)
               resolve(app)

@@ -5,6 +5,9 @@ const YAML = require('js-yaml')
 const SwaggerExpress = require('swagger-express-mw')
 const app = require('express')()
 
+const fixtures = require('./fixtures')
+fixtures.insert()
+
 const APIs = [
   {
     yaml: '../docs/api/notifications-public.yaml',

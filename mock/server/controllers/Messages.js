@@ -2,6 +2,6 @@
 
 module.exports = {
   getMessage(req, res) {
-    res.json('ok')
+    res.json(req.swagger.params.id.value)
   }
 }

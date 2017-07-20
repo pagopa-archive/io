@@ -3,11 +3,15 @@
 const JsonRefs = require('json-refs')
 const YAML = require('js-yaml')
 const SwaggerExpress = require('swagger-express-mw')
-const app = require('express')()
+const swaggerUiAssetPath = require('swagger-ui-dist').getAbsoluteFSPath()
+
+const express = require('express')
+const app = express()
 
 const fixtures = require('./fixtures')
 fixtures.insert()
 
+const SWAGGER_UI_PATH = '/swagger-ui'
 const DEFAULT_API_PORT = 8081
 
 const APIs = [
@@ -44,6 +48,8 @@ const promises = APIs.map(
               reject(err)
             }
 
+            app.use(SWAGGER_UI_PATH, express.static(swaggerUiAssetPath))
+
             // install middleware
             swaggerExpress.register(app)
 
@@ -58,6 +64,11 @@ const promises = APIs.map(
 
             app.listen(port, function() {
               console.log('Serving %s API on http://localhost:%d', api, port)
+              console.log(
+                'Swagger UI runs at http://localhost:%d%s',
+                port,
+                SWAGGER_UI_PATH
+              )
               resolve(app)
             })
           })

@@ -6,7 +6,7 @@ const data = require('../../fixtures')
 const getMessage = (req, res) => {
   const record = data.messagesCollection.get(req.swagger.params.id.value)
   if (!record) {
-    res.status(404).json({})
+    res.status(404).end()
   } else {
     res.json(db.strip(record))
   }

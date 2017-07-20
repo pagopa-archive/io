@@ -8,7 +8,8 @@ const app = require('express')()
 const fixtures = require('./fixtures')
 fixtures.insert()
 
-// @todo get port from specs
+const DEFAULT_API_PORT = 8081
+
 const APIs = [
   '../docs/api/notifications-public.yaml',
   '../docs/api/preferences.yaml'
@@ -36,7 +37,7 @@ const promises = APIs.map(
           const port =
             host && host.indexOf(':')
               ? parseInt(results.resolved.host.split(':')[1])
-              : null
+              : DEFAULT_API_PORT
 
           SwaggerExpress.create(config, function(err, swaggerExpress) {
             if (err) {
@@ -55,7 +56,7 @@ const promises = APIs.map(
               }
             )
 
-            app.listen(port || 80, function() {
+            app.listen(port, function() {
               console.log('Serving %s API on http://localhost:%d', api, port)
               resolve(app)
             })

@@ -32,6 +32,7 @@ swagger:
 
     # pipe to serve swagger (endpoint is in swagger.yaml)
     swagger_raw:
-      name: swagger_raw
+      - cors
+      - swagger_raw
 
 # any other values in this file are just loaded into the config for application access...

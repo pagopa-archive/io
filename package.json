@@ -9,6 +9,7 @@
   "dependencies": {
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
+    "faker": "^4.1.0",
     "http-server": "^0.10.0",
     "js-yaml": "^3.9.0",
     "json-refs": "^3.0.0",

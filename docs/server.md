@@ -18,7 +18,9 @@ npm install
 
 Type
 
-`npm run serve`
+```
+npm run serve
+```
 
 to run the test environment with preloaded fixtures (ie. sample fake user data)
 and a in-memory database that lets you play with the APIs.
@@ -48,5 +50,7 @@ Swagger UI runs at http://localhost:10010/swagger-ui
 
 To run the documentation hub locally:
 
-`mkdocs serve` to run documentation site locally
-`mkdocs gh-deploy` to deploy docs to gh-pages
+```
+mkdocs serve to run documentation site locally
+mkdocs gh-deploy to deploy docs to gh-pages
+```

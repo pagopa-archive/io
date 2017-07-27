@@ -1,3 +1,8 @@
+/**
+ * Example client for Notifications API.
+ * 
+ * Submits a message for delivery.
+ */
 'use strict'
 
 const config = require('./config')
@@ -5,6 +10,7 @@ const request = require('request')
 const faker = require('faker/locale/it')
 const data = require('../fixtures.js')
 
+// inserts fake user data
 data.insert()
 
 const sendMessage = (fiscal_code, message) => {
@@ -18,6 +24,7 @@ const sendMessage = (fiscal_code, message) => {
   })
 }
 
+// get one fiscal code from fake user data
 const fiscal_code = data.preferencesCollection.findOne({}).fiscal_code
 
 sendMessage(fiscal_code, {

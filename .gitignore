@@ -2,3 +2,4 @@ gh-pages
 site
 **/node_modules
 npm-debug.log
+.vscode/settings.json

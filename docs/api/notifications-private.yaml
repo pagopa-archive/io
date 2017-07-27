@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: "Notification API - private"
-  description: "Notification API for the service owner."
+  title: "Notifications API - private"
+  description: "Notifications API for the service owner."
   x-stoplight:
     id: "gunzip/specs/notifications-api-private"
 host: "localhost"

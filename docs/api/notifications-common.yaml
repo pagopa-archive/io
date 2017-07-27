@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: "Notification API - common"
-  description: "Notification API shared models."
+  title: "Notifications API - common"
+  description: "Notifications API shared models."
 paths: {}
 definitions:
   ProblemJson:

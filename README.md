@@ -1,19 +1,42 @@
 # Digital Citizenship Initiative
 
-This is work in progress.
+## Documentation
 
-## Usage
-
-`mkdocs serve` to run documentation site locally
-`mkdocs gh-deploy` to deploy docs to gh-pages
-
-`npm run verify` to lint specs with swagger-node
-`npm run edit` to edit specs with swagger-editor
-`npm run mock` to run the mock server(s)
-`npm run serve` to run the real server(s)
-
-## Contributing
+https://teamdigitale.github.io/cittadinanza-digitale/
 
 ### API definitions
 
-API definitions are in OAS (Swagger 2.0).
+- [Notifications API](https://teamdigitale.github.io/cittadinanza-digitale/api/notifications.html)
+- [Preferences API](https://teamdigitale.github.io/cittadinanza-digitale/api/preferences.html)
+
+## Usage
+
+To lint specs with swagger-node: 
+```
+npm run verify
+```
+
+To edit specs with swagger-editor:
+```
+npm run edit
+``` 
+
+To run the mock server(s) in mock mode:
+```
+npm run mock
+```
+
+To run the API server(s):
+```
+npm run serve
+```
+
+To run documentation site locally:
+```
+mkdocs serve
+```
+
+To deploy docs to gh-pages:
+```
+mkdocs gh-deploy
+```

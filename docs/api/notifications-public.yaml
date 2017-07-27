@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: "Notification API - public"
-  description: "Notification API for service providers."
+  title: "Notifications API - public"
+  description: "Notifications API for service providers."
 host: "localhost:10010"
 basePath: "/api/v1"
 schemes:

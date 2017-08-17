@@ -144,7 +144,11 @@ without using swaggerize.
 
 ### swagger-node
 
-Based on “swagger tools”.
+Based on [sway](https://github.com/apigee-127/sway) AND [swagger-tools](https://github.com/apigee-127/swagger-tools).
+
+Sway (aside sway-connect middleware) was supposed to supersede swagger-tools,
+but has it lacks feature parity (and a good documentation), swagger-node falls back
+to swagger-tools for some tasks (mostly, validation).
 
 If you want to use it in mock mode you MUST add for every path the directive:
 
@@ -155,15 +159,36 @@ If you want to use it in mock mode you MUST add for every path the directive:
 see
 [*https://github.com/swagger-api/swagger-node/issues/342*](https://github.com/swagger-api/swagger-node/issues/342)
 
-Does not emit fake data, but you can write custom controllers to mock it.
+swagger-node can emit some fake data (simple strings), but you can write custom controllers to mock it.
 This activity is **mandatory** whenever there is a validation on the field format (ie. an email field)
-otherwise the response object will fail validation.
+otherwise the response object will fail validation (when responses validation is on).
 
-swagger-node makes heavy use of [bagpipes](https://github.com/apigee-127/bagpipes), a weird
+swagger-node (swagger-tools) makes use of [bagpipes](https://github.com/apigee-127/bagpipes), a weird
 framework to code in YAML things you'd better write in Javascript.
 
+There are a lot of gotchas using swagger-node and the documentation is poor.
+
 As [swagger-tools](https://github.com/apigee-127/swagger-tools) swagger-node seems **deprecated / unmantained**:  
-https://github.com/apigee-127/swagger-tools/issues/335
+https://github.com/apigee-127/swagger-tools/issues/335.
+
+It does not support [$ref to relative path](https://github.com/apigee-127/swagger-tools/issues/227),
+so you MUST use [json-refs](https://github.com/whitlockjc/json-refs) to resolve them
+before plugging the express middleware.
+
+If you have multiple spec files, you MUST start one HTTP (API) server for each one
+or using different mount points, see https://github.com/apigee-127/swagger-tools/issues/126.
+
+To change default location of spec files (```api/swagger/swagger.yaml```) you MUST set an
+environment variable before running the swagger cli, see https://github.com/swagger-api/swagger-node/issues/373.
+
+Swagger Editor 3.x (the tool that starts executing `swagger project edit`) does not support
+$references to local files (see https://github.com/swagger-api/swagger-editor/issues/1409). The older 2.x
+release supports them, but you MUST set the configuration option `pointerResolutionBasePath` eventually through
+the environment variable `swagger_swagger_editorConfig_pointerResolutionBasePath`.
+
+To handle validation of responses you MUST set a NodeJS listener on the swagger-node-runner
+before starting the server, see https://github.com/theganyo/swagger-node-runner/releases/tag/v0.6.4
+for a working example.
 
 ### swagger-codegen
 

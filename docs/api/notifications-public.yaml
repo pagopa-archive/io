@@ -1,0 +1,89 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Notifications API - public"
+  description: "Notifications API for service providers."
+host: "localhost:10010"
+basePath: "/api/v1"
+schemes:
+  - "https"
+paths:
+  /specs/notifications-public:
+    x-swagger-pipe: swagger_raw
+  /messages/{id}:
+    x-swagger-router-controller: "Messages"
+    parameters:
+      -
+        name: "id"
+        in: "path"
+        type: "string"
+        required: true
+        description: "The ID of the message."
+    get:
+      operationId: "getMessage"
+      summary: "Get Message"
+      description: "The previously created message with the provided message ID is returned."
+      responses:
+        200:
+          description: "Message found."
+          schema:
+            $ref: "notifications-common.yaml#/definitions/CreatedMessage"
+          examples: {}
+        404:
+          description: "No message found for the provided ID."
+  /users/{fiscal_code}/messages:
+    x-swagger-router-controller: "Messages"
+    parameters:
+      -
+        name: "fiscal_code"
+        in: "path"
+        type: "string"
+        required: true
+        description: "The fiscal code of the user, all upper case."
+        maxLength: 16
+        minLength: 16
+        pattern: "[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]"
+    post:
+      operationId: "submitMessageforUser"
+      summary: "Submit a message"
+      description: "Submits a message to a user.\nOn error, the reason is returned in the response payload. This is useful with the 'dry_run' option to check for the validity a the messages before sending it."
+      parameters:
+        -
+          name: "message"
+          in: "body"
+          schema:
+            $ref: "notifications-common.yaml#/definitions/NewMessage"
+      responses:
+        201:
+          description: "Message created."
+          schema:
+            allOf:
+              -
+                properties:
+                  id:
+                    type: "string"
+                    format: "uuid"
+                  status:
+                    $ref: "notifications-common.yaml#/definitions/MessageStatus"
+                required:
+                  - "id"
+                  - "status"
+            description: ""
+            type: "object"
+          headers:
+            Location:
+              type: "string"
+              description: "Location (URL) of created message resource.\nA GET request to this URL returns the message status and details."
+        400:
+          description: "Invalid payload."
+          schema:
+            $ref: "notifications-common.yaml#/definitions/ProblemJson"
+          examples: {}
+        500:
+          description: "The message cannot be delivered."
+          schema:
+            $ref: "notifications-common.yaml#/definitions/ProblemJson"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"

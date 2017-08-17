@@ -2,9 +2,14 @@ site_name: Digital Citizenship
 repo_url: https://github.com/teamdigitale/cittadinanza-digitale
 pages:
     - Home: index.md
-    - API notes: api-notes.md
+    - Home (ita): index.it.md
+    - API playground: server.md
+    - Notes: api-notes.md
 theme: readthedocs
 strict: true
 extra_templates:
     - api/notifications.html
     - api/preferences.html
+    - api/notifications-common.yaml
+    - api/notifications-public.yaml
+    - api/preferences.yaml

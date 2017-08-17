@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Notifications API - private"
+  description: "Notifications API for the service owner."
+  x-stoplight:
+    id: "gunzip/specs/notifications-api-private"
+host: "localhost"
+basePath: "/api/v1"
+schemes:
+  - "https"
+paths:
+  /messages/{id}:
+    x-swagger-router-controller: "Messages"
+    parameters:
+      -
+        name: "id"
+        in: "path"
+        type: "string"
+        required: true
+        description: "The ID of the message."
+    get:
+      operationId: "getMessage"
+      summary: "Get Message"
+      description: "The previously created message with the provided message ID is returned."
+      responses:
+        200:
+          description: "Message found."
+          schema:
+            $ref: "notifications-common.yaml#/definitions/CreatedMessage"
+          examples: {}
+        404:
+          description: "No message found for the provided ID."
+  /users/{fiscal_code}/messages:
+    x-swagger-router-controller: "Messages"
+    parameters:
+      -
+        $ref: "notifications-common.yaml#/parameters/PaginationRequest"
+      -
+        name: "fiscal_code"
+        in: "path"
+        type: "string"
+        required: true
+        description: "The fiscal code of the user, all upper case."
+        maxLength: 16
+        minLength: 16
+        pattern: "[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]"
+    get:
+      operationId: "getMessagesByUser"
+      summary: "Get messages by user"
+      description: "Returns the messages for the user identified by the provided fiscal code.\nMessages will be returned in inverse acceptance order (from last to first).\nThe \"next\" field, when present, contains an URL pointing to the next page of results.."
+      responses:
+        200:
+          description: "Found."
+          schema:
+            allOf:
+              -
+                type: "object"
+                properties:
+                  items:
+                    type: "array"
+                    items:
+                      $ref: "notifications-common.yaml#/definitions/CreatedMessage"
+              -
+                $ref: "notifications-common.yaml#/definitions/PaginationResponse"
+        404:
+          description: "No message found."
+      parameters: []
+definitions: {}
+responses: {}
+consumes:
+  - "application/json"
+produces:
+  - "application/json"

@@ -1,14 +1,8 @@
-# Cittadinanza Digitale
+# Digital Citizenship Initiative
 
-This is work in progress.
+## Documentation
 
-## Usage
-
-`mkdocs serve` to run documentation site locally
-
-`mkdocs gh-deploy` to deploy docs to gh-pages
-
-## Contributing
+https://teamdigitale.github.io/cittadinanza-digitale/
 
 ### Architecture decisions
 
@@ -18,6 +12,37 @@ This repository is configured for Nat Pryce's [_adr-tools_](https://github.com/n
 
 ### API definitions
 
-API definitions are in OAS (Swagger 2.0).
+- [Notifications API](https://teamdigitale.github.io/cittadinanza-digitale/api/notifications.html)
+- [Preferences API](https://teamdigitale.github.io/cittadinanza-digitale/api/preferences.html)
 
-# The Digital Citizenship Initiative
+## Usage
+
+To lint specs with swagger-node: 
+```
+npm run verify
+```
+
+To edit specs with swagger-editor:
+```
+npm run edit
+``` 
+
+To run the mock server(s) in mock mode:
+```
+npm run mock
+```
+
+To run the API server(s):
+```
+npm run serve
+```
+
+To run documentation site locally:
+```
+mkdocs serve
+```
+
+To deploy docs to gh-pages:
+```
+mkdocs gh-deploy
+```

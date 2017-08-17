@@ -1,0 +1,65 @@
+---
+  swagger: "2.0"
+  info:
+    version: "0.0.1"
+    title: "Preferences API"
+    description: "The API lets you manage attributes associated with users (user's preferences).\nYou can get any attribute for any user (read only) according to the rights you owe on the user resource. \nThere rights are set up at moment you've subscribed the service exposed by this API."
+    license:
+      name: "MIT"
+  host: "localhost:10011"
+  basePath: "/api/v1"
+  schemes:
+    - "https"
+  paths:
+    /preferences/{fiscal_code}:
+      x-swagger-router-controller: "Preferences"
+      get:
+        operationId: "getUserPreferences"
+        summary: "Get User's Preferences"
+        description: "Returns the preferences for the user identified by the provided fiscal code."
+        responses:
+          200:
+            description: "Found."
+            schema:
+              $ref: "#/definitions/Preferences"
+            examples: {}
+          404:
+            description: "No user found for the provided fiscal code."
+      parameters:
+        -
+          name: "fiscal_code"
+          in: "path"
+          type: "string"
+          required: true
+  definitions:
+    Preferences:
+      title: "Preferences"
+      description: "Describes the user's preferences ."
+      type: "object"
+      properties:
+        fiscal_code:
+          type: "string"
+          description: "The user's fiscal code, all upper case."
+          minLength: 16
+          maxLength: 16
+          pattern: "[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]"
+        email:
+          type: "string"
+          description: "The user's preferred email address.\n"
+        preferred_languages:
+          type: "array"
+          description: "Indicates the User's preferred written or spoken language. Generally used for selecting a localized User interface. Valid values are concatenation of the ISO 639-1 two letter language code, an underscore, and the ISO 3166-1 2 letter country code; e.g., 'en_US' specifies the language English and country US."
+          x-extensible-enum:
+            - "it_IT"
+            - "en_GB"
+            - "es_ES"
+            - "de_DE"
+            - "fr_FR"
+          items:
+            type: "string"
+      required:
+        - "fiscal_code"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"

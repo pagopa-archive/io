@@ -67,7 +67,7 @@ Attraverso queste informazioni, SGP fornisce alle amministrazioni che lo consult
 - gestire i contatti di consegna da un punto di accesso centrale (sito APP mobile e italia.it)
 - gestire le sottoscrizioni (opt-in e opt-out) da un punto di accesso centrale
 - accedere alla cronologia delle comunicazioni da un punto di accesso centrale
-- effettuare semplici operazioni transazionali mediante notifiche ricevute (cioè pagamenti)
+- effettuare semplici operazioni transazionali mediante notifiche ricevute (es. pagamenti)
 
 ### Per le amministrazioni
 
@@ -75,7 +75,7 @@ Attraverso queste informazioni, SGP fornisce alle amministrazioni che lo consult
 - delegare la gestione e l'aggiornamento dei contatti di consegna elettronica dei cittadini
 - dare maggiore visibilità alle proprie notifiche, laddove confluiscono in un contesto più ampio / nazionale
 - richiamare le scadenze e facilitare i pagamenti in modo semplice e sicuro
-- trasmetta gratuitamente comunicazioni multicanale (email, push notification)
+- trasmettere gratuitamente comunicazioni multicanale (email, push notification)
 - assegnare uno stato alle comunicazioni (per esempio per monitorare lo stato di una pratica)
 - ottenere lo stato di consegna (inviato, ricevuto) della comunicazione e possibilmente la lettura del messaggio laddove il canale lo consente
 

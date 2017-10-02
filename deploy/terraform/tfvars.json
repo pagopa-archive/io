@@ -1,0 +1,15 @@
+{
+  "location": "West Europe",
+  "cosmosdb_failover_location": "North Europe",
+  "azurerm_resource_group_00": "00dcrg",
+  "azurerm_storage_account_00": "00dcsa",
+  "azurerm_storage_container_00": "00dcsc",
+  "azurerm_storage_queues": ["emailnotifications", "createdmessages"],
+  "azurerm_cosmosdb_00": "00dccdb",
+  "azurerm_cosmosdb_documentdb_00": "00dccdbddb",
+  "azurerm_cosmosdb_collections_00": ["messages", "profiles"],  
+  "azurerm_app_service_plan_00": "00dcasp",
+  "azurerm_functionapp_00": "00dcf",
+  "azurerm_application_insights_00": "00dcai",
+  "message_blob_container_00": "message-content"
+}

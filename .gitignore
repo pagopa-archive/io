@@ -1,3 +1,7 @@
 gh-pages
 site
 **/node_modules
+.terraform
+*tfstate*
+*.exe
+local.*

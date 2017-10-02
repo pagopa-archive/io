@@ -1,0 +1,43 @@
+{
+  "name": "digital-citizenship",
+  "version": "0.1.0",
+  "description": "Digital Citizenship platform",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:teamdigitale/digital-citizenship.git"
+  },
+  "author": "Team per la Trasformazione Digitale, AgID",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build-noemit": "tsc --noEmit",
+    "lint": "tslint -p . -c tslint.json",
+    "prettify": "prettier --write './**/*.ts'",
+    "pretest": "npm run lint",
+    "test": "jest --coverage",
+    "generate-models": "ts-node ./api/generate_models.ts"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/documentdb": "^1.10.2",
+    "@types/node": "^6.0.0",
+    "azure-storage": "^2.5.0",
+    "documentdb": "^1.12.2",
+    "dotenv": "^4.0.0",
+    "ts-option": "^1.1.4",
+    "typescript": "^2.5.2",
+    "azure-arm-apimanagement": "^1.0.0-preview",
+    "azure-arm-cosmosdb": "^1.0.0-preview",
+    "azure-arm-storage": "^3.1.0",
+    "azure-arm-website": "^2.0.0-preview",
+    "azure-cli": "^0.10.16",
+    "prettier": "^1.7.0",
+    "shelljs": "^0.7.8",
+    "tslint": "^5.7.0",
+    "tslint-config-prettier": "^1.5.0",
+    "tslint-immutable": "^4.1.0",
+    "tslint-plugin-prettier": "^1.2.0"
+  }
+}

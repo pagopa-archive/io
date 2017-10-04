@@ -90,10 +90,10 @@ const setupConfiguration = async (
   console.log(gitCreds);
   shelljs.pushd(configurationDirectoryPath);
   shelljs.exec(`git init .`);
-  shelljs.exec(`git remote add origin ${scmUrl}`);
+  shelljs.exec(`git remote add apim ${scmUrl}`);
   shelljs.exec(`git add -A`);
   shelljs.exec(`git commit -a -m "configuration update"`);
-  shelljs.exec(`git push origin master"`);
+  shelljs.exec(`git push apim master"`);
   shelljs.popd();
   //   //  -> distribute from master (flag: remove deleted products and subscriptions)
   return gitCreds;

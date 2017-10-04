@@ -1,6 +1,10 @@
 /**
  * Run this task to deploy CosmoDB database and collections:
  * ts-node cosmosdb.ts
+ * 
+ * This task assumes that the following resources are already created:
+ *  - Resource group
+ *  - CosmoDB database account
  */
 // tslint:disable:no-console
 // tslint:disable:no-any
@@ -133,6 +137,6 @@ export const run = async () => {
 
 run()
   .then(() =>
-    console.log("successfully deployed cosmodb database and collections")
+    console.log("successfully deployed cosmsodb database and collections")
   )
   .catch(console.error);

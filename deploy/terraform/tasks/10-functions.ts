@@ -1,6 +1,14 @@
 /**
  * Run this task to deploy Azure Functions:
  * ts-node functions.ts
+ * 
+ * This task assumes that the following resources are already created:
+ *  - Resource group
+ *  - CosmoDB database
+ *  - App service plan
+ *  - Storage account
+ *  - Storage Blob container
+ * 
  */
 // tslint:disable:no-console
 // tslint:disable:no-any

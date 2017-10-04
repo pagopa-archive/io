@@ -8,7 +8,7 @@ const subscriptionId = process.env.ARM_SUBSCRIPTION_ID;
 
 process.on("unhandledRejection", console.error);
 
-interface ICreds {
+export interface ICreds {
   readonly creds: msRest.ServiceClientCredentials;
   readonly subscriptionId: string;
 }

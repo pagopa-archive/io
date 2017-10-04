@@ -77,13 +77,21 @@ const setApimProperties = async (
 /**
  * Set up configuration, products, groups, policies, api, email templates, developer portal templates
  */
-// const setupConfiguration = (apiClient: apiManagementClient) => {
-//   //  -> get repository url
-//   // apiClient.apiManagementService.get()
-//   //  -> get repository creds (username and password)
-//   //  -> push files to repo
-//   //  -> distribute from master (flag: remove deleted products and subscriptions)
-// };
+const setupConfiguration = async (
+  apiClient: apiManagementClient,
+  scmUrl: string,
+  configurationDirectoryPath: string
+) => {
+  console.log(configurationDirectoryPath, scmUrl);
+  //   //  -> get repository creds (username and password)
+  const gitCreds = await apiClient.tenantAccessGit.get(
+    (config as any).azurerm_resource_group_00,
+    (config as any).azurerm_functionapp_00
+  );
+  console.log(gitCreds);
+  //   //  -> push files to repo
+  //   //  -> distribute from master (flag: remove deleted products and subscriptions)
+};
 
 export const run = async () => {
   const loginCreds = await login();
@@ -106,7 +114,6 @@ export const run = async () => {
       sku: { name: (config as any).azurerm_apim_sku_00, capacity: 1 }
     }
   );
-  console.log(apiManagementService.scmUrl);
 
   // Get functions (backend) info
   const webSiteClient = new webSiteManagementClient(
@@ -116,12 +123,20 @@ export const run = async () => {
   const { masterKey, backendUrl } = await getFunctionsInfo(webSiteClient);
 
   // Set backend url and code (master key) to access functions
-  return await setApimProperties(apiClient, {
+  await setApimProperties(apiClient, {
     backendUrl: { secret: false, value: backendUrl },
     code: { secret: true, value: masterKey }
   });
 
-  // await setupConfiguration(apiClient, CONFIGURATION_DIRECTORY_PATH);
+  if (!apiManagementService.scmUrl) {
+    throw new Error("Cannot get apiManagementService.scmUrl");
+  }
+
+  await setupConfiguration(
+    apiClient,
+    apiManagementService.scmUrl,
+    CONFIGURATION_DIRECTORY_PATH
+  );
 };
 
 // configure logger + event hub:

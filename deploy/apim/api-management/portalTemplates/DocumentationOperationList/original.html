@@ -1,0 +1,20 @@
+<ul class="nav nav-pills nav-stacked" role="navigation" data-offset-top="0">
+  {% for operation in menuItems %}
+  <li {% if operation.id == currentOperationId %}class="active"{% endif %}>
+    <a href="/docs/services/{{apiId}}/operations/{{operation.id}}">
+      {% case operation.HttpMethod %}
+      {% when 'GET' %}
+      <span class="badge badge-success">{{operation.HttpMethod}}</span> {{operation.Title}}
+      {% when 'POST' %}
+      <span class="badge badge-warning">{{operation.HttpMethod}}</span> {{operation.Title}}
+      {% when 'PUT' %}
+      <span class="badge badge-info">{{operation.HttpMethod}}</span> {{operation.Title}}
+      {% when 'DELETE' %}
+      <span class="badge badge-danger">{{operation.HttpMethod}}</span> {{operation.Title}}
+      {% else %}
+      <span class="badge badge-default">{{operation.HttpMethod}}</span> {{operation.Title}}
+      {% endcase %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

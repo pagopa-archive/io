@@ -1,0 +1,64 @@
+<h2>{{Product.Title}}</h2>
+<p>{{Product.Description}}</p>
+
+{% assign replaceString0 = '{0}' %}
+
+{% if Limits and Limits.size > 0 %}
+<h3>{% localized "ProductDetailsStrings|WebProductsUsageLimitsHeader"%}</h3>
+<ul>
+  {% for limit in Limits %}
+  <li>{{limit.DisplayName}}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if apis.size > 0 %}
+<p>
+  <b>
+    {% if apis.size == 1 %}
+    {% capture apisCountText %}{% localized "ProductDetailsStrings|TextblockSingleApisCount" %}{% endcapture %}
+    {% else %}
+    {% capture apisCountText %}{% localized "ProductDetailsStrings|TextblockMultipleApisCount" %}{% endcapture %}
+    {% endif %}
+
+    {% capture apisCount %}{{apis.size}}{% endcapture %}
+    {{ apisCountText | split : replaceString0 | join : apisCount }}
+  </b>
+</p>
+
+<ul>
+  {% for api in Apis %}
+  <li>
+    <a href="/docs/services/{{api.Id}}">{{api.Name}}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if subscriptions.size > 0 %}
+<p>
+  <b>
+    {% if subscriptions.size == 1 %}
+    {% capture subscriptionsCountText %}{% localized "ProductDetailsStrings|TextblockSingleSubscriptionsCount" %}{% endcapture %}
+    {% else %}
+    {% capture subscriptionsCountText %}{% localized "ProductDetailsStrings|TextblockMultipleSubscriptionsCount" %}{% endcapture %}
+    {% endif %}
+
+    {% capture subscriptionsCount %}{{subscriptions.size}}{% endcapture %}
+    {{ subscriptionsCountText | split : replaceString0 | join : subscriptionsCount }}
+  </b>
+</p>
+
+<ul>
+  {% for subscription in subscriptions %}
+  <li>
+    <a href="/developer#{{subscription.Id}}">{{subscription.DisplayName}}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% if CannotAddBecauseSubscriptionNumberLimitReached %}
+<b>{% localized "ProductDetailsStrings|TextblockSubscriptionLimitReached" %}</b>
+{% elsif CannotAddBecauseMultipleSubscriptionsNotAllowed == false %}
+<subscribe-button></subscribe-button>
+{% endif %}

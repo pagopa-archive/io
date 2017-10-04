@@ -1,0 +1,41 @@
+<!DOCTYPE html >
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Letter</title>
+  </head>
+  <body>
+    <h1 style="color:#000505;font-size:18pt;font-family:'Segoe UI'">
+          Welcome to <span style="color:#003363">$OrganizationName API!</span></h1>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Dear $DevFirstName $DevLastName,</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Your $OrganizationName API program registration is completed and we are thrilled to have you as a customer. Here are a few important bits of information for your reference:</p>
+    <table width="100%" style="margin:20px 0">
+      <tr>
+            #if ($IdentityProvider == "Basic")
+            <td width="50%" style="height:40px;vertical-align:top;font-family:'Segoe UI';font-size:12pt">
+              Please use the following <strong>username</strong> when signing into any of the ${OrganizationName}-hosted developer portals:
+            </td><td style="vertical-align:top;font-family:'Segoe UI';font-size:12pt"><strong>$DevUsername</strong></td>
+            #else
+            <td width="50%" style="height:40px;vertical-align:top;font-family:'Segoe UI';font-size:12pt">
+              Please use the following <strong>$IdentityProvider account</strong> when signing into any of the ${OrganizationName}-hosted developer portals:
+            </td><td style="vertical-align:top;font-family:'Segoe UI';font-size:12pt"><strong>$DevUsername</strong></td>            
+            #end
+          </tr>
+      <tr>
+        <td style="height:40px;vertical-align:top;font-family:'Segoe UI';font-size:12pt">
+              We will direct all communications to the following <strong>email address</strong>:
+            </td>
+        <td style="vertical-align:top;font-family:'Segoe UI';font-size:12pt">
+          <a href="mailto:$DevEmail" style="text-decoration:none">
+            <strong>$DevEmail</strong>
+          </a>
+        </td>
+      </tr>
+    </table>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Best of luck in your API pursuits!</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">$OrganizationName API Team</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+      <a href="$DevPortalUrl">$DevPortalUrl</a>
+    </p>
+  </body>
+</html>

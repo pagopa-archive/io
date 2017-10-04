@@ -1,0 +1,269 @@
+<div class="dropdown pull-right">
+  <button class="btn btn-default dropdown-toggle" type="button" id="apiMenu" data-toggle="dropdown">
+    <span class="glyphicon glyphicon-download-alt"></span>
+    <span class="glyphicon-text">API definition</span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="apiMenu">
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href="{{api.export.openApi}}">
+        <span class="glyphicon glyphicon-openapi"></span>
+        <span class="glyphicon-text">Open API</span>
+      </a>
+    </li>
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href="{{api.export.wadl}}">
+        <span class="glyphicon glyphicon-wadl"></span>
+        <span class="glyphicon-text">WADL</span>
+      </a>
+    </li>
+    {% if api.IsSoap %}
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href="{{api.export.wsdl}}">
+        <span class="glyphicon glyphicon-wsdl"></span>
+        <span class="glyphicon-text">WSDL</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+
+<h2>
+  {{api.name}}
+  {% if api.IsSoap %}
+  <span class="badge badge-soap"> </span>
+  {% endif %}
+</h2>
+{% if operation.displayApiChangeHistory %}
+<a href="/docs/services/{{api.id}}/releaseChanges">API change history</a>
+{% endif %}
+
+<p>{{api.description }}</p>
+
+<div class="panel">
+  <h3>{{operation.name}}</h3>
+  <p>{{operation.description }}</p>
+  <a class="btn btn-primary" href="{{consoleUrl}}" id="btnOpenConsole" role="button">
+    Try it
+  </a>
+</div>
+
+<h4>{% localized "Documentation|SectionHeadingRequestUrl" %}</h4>
+<div class="panel">
+  <div class="panel-body">
+    <label>{{ sampleUrl | escape }}</label>
+  </div>
+</div>
+
+{% if operation.request %}
+{% if operation.request.parameters.size > 0 %}
+<h4>{% localized "Documentation|SectionHeadingRequestParameters" %}</h4>
+
+<div class="panel">
+  {% for parameter in operation.request.parameters %}
+  <div class="row panel-body">
+    <div class="col-md-3">
+      <label>{{parameter.name}}</label>
+      {% unless parameter.required %}
+      <span class="text-muted">({% localized "Documentation|FormLabelSubtextOptional" %})</span>
+      {% endunless %}
+    </div>
+    <div class="col-md-1">
+      {{parameter.typeName}}
+    </div>
+    <div class="col-md-8">
+      {{parameter.description}}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if operation.request.headers.size > 0 %}
+<h4>{% localized "Documentation|SectionHeadingRequestHeaders" %}</h4>
+<div class="panel">
+  {% for header in operation.request.headers %}
+  <div class="row panel-body">
+    <div class="col-md-3">
+      <label>{{header.name}}</label>
+      {%unless header.required %}
+      <span class="text-muted">({% localized "Documentation|FormLabelSubtextOptional" %})</span>
+      {% endunless %}
+    </div>
+    <div class="col-md-1">
+      {{header.typeName}}
+    </div>
+    <div class="col-md-8">
+      {{header.description}}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if operation.request.description or operation.request.representations.size > 0 %}
+<h4>{% localized "Documentation|SectionHeadingRequestBody" %}</h4>
+<div class="panel">
+  {% if operation.request.description %}
+  <p>{{operation.request.description }}</p>
+  {% endif %}
+
+  {% if operation.request.representations.size > 0 %}
+  <div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+      {% for representation in operation.request.representations %}
+      <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+        <a href="#requesttab{{forloop.index}}" role="tab" data-toggle="tab">
+          {{representation.contentType}}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="tab-content tab-content-boxed">
+      {% for representation in operation.request.representations %}
+      <div id="requesttab{{forloop.index}}" role="tabpanel" class="tab-pane snippet{% if forloop.first %} active{% endif %}">
+
+        {% if representation.sample or representation.schema %}
+        <div role="tabpanel">
+          {% if representation.sample and representation.schema %}
+          <ul class="nav nav-tabs-borderless" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#requesttab{{forloop.index}}sample" role="tab" data-toggle="tab">Sample</a>
+            </li>
+            <li role="presentation">
+              <a href="#requesttab{{forloop.index}}schema" role="tab" data-toggle="tab">Schema</a>
+            </li>
+          </ul>
+          {% endif %}
+
+          <div class="tab-content">
+            {% if representation.sample %}
+            <div id="requesttab{{forloop.index}}sample" role="tabpanel" class="tab-pane snippet active">
+              <pre><code class="{{representation.Brush}}">{{ representation.sample | escape }}</code></pre>
+            </div>
+            {% endif %}
+
+            {% if representation.schema %}
+            <div id="requesttab{{forloop.index}}schema" role="tabpanel" class="tab-pane snippet">
+              <pre><code class="{{representation.Brush}}">{{ representation.schema | escape }}</code></pre>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="clearfix"></div>
+</div>
+{% endif %}
+{% endif %}
+
+{% if operation.mockResponse %}
+<div class="well">
+  <p>
+    <b>{% localized "Documentation|NotificationHeadingMockingEnabled" %}</b>
+  </p>
+  <p>
+    {% localized "Documentation|NotificationTextMockingEnabled" %}<br/>
+    &emsp;<b>{{operation.mockResponse.statusCode}} {{operation.mockResponse.statusDescription}}</b>
+    {{operation.mockResponse.description | strip_html }}
+  </p>
+</div>
+{% endif %}
+
+{% if operation.responses.size > 0 %}
+{% for response in operation.responses %}
+{% if response.description or response.representations.size > 0 %}
+<h4>{% localized "Documentation|SectionHeadingResponse" %} {{response.statusCode}}</h4>
+
+<div class="panel">
+  {% if response.description %}
+  <p>{{ response.description }}</p>
+  {% endif %}
+
+  {% if response.representations.size > 0 %}
+  <div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+      {% for representation in response.representations %}
+      <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+        <a href="#response{{response.statusCode}}tab{{forloop.index}}" role="tab" data-toggle="tab">
+          {{representation.contentType}}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="tab-content tab-content-boxed">
+      {% for representation in response.representations %}
+      <div id="response{{response.statusCode}}tab{{forloop.index}}" role="tabpanel" class="tab-pane snippet{% if forloop.first %} active{% endif %}">
+
+        {% if representation.sample or representation.schema %}
+        <div role="tabpanel">
+
+          {% if representation.sample and representation.schema %}
+          <ul class="nav nav-tabs-borderless" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#response{{response.statusCode}}tab{{forloop.index}}sample" role="tab" data-toggle="tab">
+                Sample
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#response{{response.statusCode}}tab{{forloop.index}}schema" role="tab" data-toggle="tab">
+                Schema
+              </a>
+            </li>
+          </ul>
+          {% endif %}
+
+          <div class="tab-content">
+            {% if representation.sample %}
+            <div id="response{{response.statusCode}}tab{{forloop.index}}sample" role="tabpanel" class="tab-pane snippet active">
+              <pre><code class="{{representation.Brush}}">{{ representation.sample | escape }}</code></pre>
+            </div>
+            {% endif %}
+
+            {% if representation.schema %}
+            <div id="response{{response.statusCode}}tab{{forloop.index}}schema" role="tabpanel" class="tab-pane snippet">
+              <pre><code class="{{representation.Brush}}">{{ representation.schema | escape }}</code></pre>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="clearfix"></div>
+</div>
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if api.IsSoap == false %}
+<h4>{% localized "Documentation|SectionHeadingCodeSamples" %}</h4>
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+    {% for sample in samples %}
+    <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+      <a href="#{{sample.brush}}" aria-controls="{{sample.brush}}" role="tab" data-toggle="tab">
+        {{sample.title}}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="tab-content tab-content-boxed" title="{% localized "Documentation|TooltipTextDoubleClickToSelectAll" %}">
+    {% for sample in samples %}
+    <div role="tabpanel" class="tab-pane tab-content-boxed {% if forloop.first %} active{% endif %} snippet snippet-resizable" id="{{sample.brush}}" >
+      <pre><code class="{{sample.brush}}">{% partial sample.template for sample in samples %}</code></pre>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="clearfix"></div>
+</div>
+{% endif %}

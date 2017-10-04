@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-9">
+        <h2>{% localized "AppStrings|WebApplicationsHeader" %}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+	{% if applications.size > 0 %}
+		<ul class="list-unstyled">
+		{% for app in applications %}
+			<li>
+			{% if app.application.icon.url != "" %}
+				<aside>
+					<a href="/applications/details/{{app.application.id}}"><img src="{{app.application.icon.url}}" alt="App Icon" /></a>
+				</aside>
+			{% endif %}
+				<h3><a href="/applications/details/{{app.application.id}}">{{app.application.title}}</a></h3>
+				{{app.application.description}}
+			</li>	
+		{% endfor %}
+		</ul>
+		<paging-control></paging-control>
+	{% else %}
+	{% localized "CommonResources|NoItemsToDisplay" %}
+	{% endif %}
+	</div>
+</div>

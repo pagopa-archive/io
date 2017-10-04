@@ -1,0 +1,9 @@
+@ECHO OFF
+
+curl -v -X {{method}} "{{scheme}}://{{host}}{{path}}{{query | escape }}"
+{% for header in headers -%}
+-H "{{ header.name }}: {{ header.value }}"
+{% endfor -%}
+{% if body -%} 
+--data-ascii "{{ body | replace:'"','^"' }}" 
+{% endif -%}

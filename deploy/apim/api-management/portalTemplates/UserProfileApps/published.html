@@ -1,0 +1,65 @@
+<!--
+<div class="ap-account-applications">
+  <a id="RegisterApplication" href="/Developer/Applications/Register" class="btn btn-success pull-right">
+    <span class="glyphicon glyphicon-plus"></span>
+    <span>{% localized "ApplicationListStrings|WebDevelopersRegisterAppLink" %}</span>
+  </a>
+  <h2>{% localized "ApplicationListStrings|WebDevelopersYourApplicationsHeader" %}</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="col-md-8">{% localized "ApplicationListStrings|WebDevelopersAppTableNameHeader" %}</th>
+        <th class="col-md-2">{% localized "ApplicationListStrings|WebDevelopersAppTableCategoryHeader" %}</th>
+        <th class="col-md-2" colspan="2">{% localized "ApplicationListStrings|WebDevelopersAppTableStateHeader" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      {% if applications.size == 0 %}
+
+      <tr>
+        <td class="col-md-12 text-center" colspan="4">
+          {% localized "CommonResources|NoItemsToDisplay" %}
+        </td>
+      </tr>
+
+      {% else %}
+
+      {% for app in applications %}
+      <tr>
+        <td class="col-md-8">
+          {{app.title}}
+        </td>
+        <td class="col-md-2">
+          {{app.categoryName}}
+        </td>
+        <td class="col-md-2">
+          <strong>
+            {% case app.state %}
+            {% when ApplicationStateModel.Registered %}
+            {% localized "ApplicationListStrings|WebDevelopersAppNotSubminted" %}
+
+            {% when ApplicationStateModel.Unpublished %}
+            {% localized "ApplicationListStrings|WebDevelopersAppNotPublished" %}
+
+            {% else %}
+            {{ app.state }}
+            {% endcase %}
+          </strong>
+        </td>
+        <td class="col-md-1">
+          <div class="nowrap">
+            {% if app.state != ApplicationStateModel.Submitted and app.state != ApplicationStateModel.Published %}
+            <app-actions params="{ appId: '{{app.id}}' }"></app-actions>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+-->

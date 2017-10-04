@@ -1,0 +1,47 @@
+&lt;?php
+// This sample uses the Apache HTTP client from HTTP Components (http://hc.apache.org/httpcomponents-client-ga/)
+require_once &#39;HTTP/Request2.php&#39;;
+
+$request = new Http_Request2(&#39;{{scheme}}://{{host}}{{path}}&#39;);
+$url = $request-&gt;getUrl();
+
+{% if headers.size &gt; 0 -%}
+$headers = array(
+    // Request headers
+{% for header in headers -%}
+    &#39;{{header.name}}&#39; =&gt; &#39;{{header.value}}&#39;,
+{% endfor -%}
+);
+
+$request-&gt;setHeader($headers);
+{% endif -%}
+
+{% if parameters.size &gt; 0 -%}
+$parameters = array(
+    // Request parameters
+{% for parameter in parameters -%}
+    &#39;{{parameter.name}}&#39; =&gt; &#39;{{parameter.value}}&#39;,
+{% endfor -%}
+);
+
+$url-&gt;setQueryVariables($parameters);
+{% endif -%}
+
+$request-&gt;setMethod(HTTP_Request2::METHOD_{{method}});
+
+{% if body -%}
+// Request body
+$request-&gt;setBody(&quot;{{ body | replace:&#39;&quot;&#39;,&#39;\&quot;&#39; }}&quot;);
+{% endif -%}
+
+try
+{
+    $response = $request-&gt;send();
+    echo $response-&gt;getBody();
+}
+catch (HttpException $ex)
+{
+    echo $ex;
+}
+
+?&gt;

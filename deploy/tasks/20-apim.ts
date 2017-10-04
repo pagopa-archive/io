@@ -18,7 +18,14 @@ import * as tmp from "tmp";
 import * as config from "./../tfvars.json";
 import { login } from "./login";
 
-const CONFIGURATION_DIRECTORY_PATH = path.resolve(__dirname, "../apim");
+// tslint:disable-next-line:no-object-mutation
+shelljs.config.fatal = true;
+
+const CONFIGURATION_DIRECTORY_NAME = "apim";
+const CONFIGURATION_DIRECTORY_PATH = path.resolve(
+  __dirname,
+  `../${CONFIGURATION_DIRECTORY_NAME}`
+);
 
 /**
  * Get Functions (app service) backend URL and master key
@@ -85,21 +92,45 @@ const setupConfiguration = async (
     (config as any).azurerm_resource_group_00,
     (config as any).azurerm_apim_00
   );
+
+  // Save old configuration to snapshot branch
+
   // apiClient.tenantAccessGit.regeneratePrimaryKey
   // console.log(gitCreds);
+
+  // TODO: use retrieved Git credentials
+
+  // Push master branch
   const tmpDir = tmp.dirSync();
   if (!tmpDir) {
     throw new Error("Cannot create temporary directory");
   }
   shelljs.cp("-R", configurationDirectoryPath, tmpDir.name);
-  shelljs.pushd(tmpDir.name);
+  shelljs.pushd(path.join(tmpDir.name, CONFIGURATION_DIRECTORY_NAME));
   shelljs.exec(`git init .`);
-  shelljs.exec(`git remote add apim ${scmUrl}`);
+  shelljs.exec(`git remote add origin ${scmUrl}`);
   shelljs.exec(`git add -A`);
   shelljs.exec(`git commit -a -m "configuration update"`);
-  shelljs.exec(`git push apim master --force`);
+  shelljs.exec(`git push origin master --force`);
   shelljs.popd();
-  //   //  -> distribute from master (flag: remove deleted products and subscriptions)
+
+  // TODO: validate configuration
+  // https://docs.microsoft.com/it-it/rest/api/apimanagement/tenantconfiguration/validate
+
+  // Deploy configuration from master branch
+  const deploy = await apiClient.tenantConfiguration.deploy(
+    (config as any).azurerm_resource_group_00,
+    (config as any).azurerm_apim_00,
+    {
+      branch: "master",
+      // deletes subscriptions to products that are deleted in this update
+      force: true
+    }
+  );
+  if (deploy.error) {
+    throw new Error(JSON.stringify(deploy));
+  }
+
   return gitCreds;
 };
 

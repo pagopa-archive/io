@@ -1,0 +1,77 @@
+<search-control></search-control>
+<div class="row">
+  <div class="col-md-9">
+    <h2>
+{% localized "ApisStrings|PageTitleApis" %}
+    </h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+{% if apis.size > 0 %}
+    <ul class="list-unstyled">
+  {% assign previous = "" %}
+
+  {% for api in apis %}
+    {% if api.apiVersionSet %}
+      {% if api.apiVersionSet.id != previous  %}
+        {% if previous == "" %}
+      <li>
+        <h3>{{api.apiVersionSet.name}}</h3>
+        <ul>
+          <li>
+            <a href="/docs/services/{{api.id}}">{{api.apiVersion | default: "Original" }}</a>
+          {% if api.IsSoap %}
+            <span class="badge badge-soap"> </span>
+          {% endif %}
+          {{api.description}}
+          </li>
+        {% else %}
+        </ul>
+      </li>
+      <li>
+        <h3>{{api.apiVersionSet.name}}</h3>
+        <ul>
+           <li>
+             <a href="/docs/services/{{api.id}}">{{api.apiVersion | default: "Original" }}</a>
+          {% if api.IsSoap %}
+            <span class="badge badge-soap"> </span>
+          {% endif %}
+          {{api.description}}
+           </li>
+        {% endif %}
+      {% else %}
+          <li>
+            <a href="/docs/services/{{api.id}}">{{api.apiVersion | default: "Original" }}</a>
+        {% if api.IsSoap %}
+            <span class="badge badge-soap"> </span>
+        {% endif %}
+        {{api.description}}
+          </li>
+      {% endif %}
+
+      {% assign previous = api.apiVersionSet.id  %}
+    {% else %}
+      {% if previous != "" %}
+        </ul>
+      </li>
+      {% endif %}
+      <li>
+        <h3>
+          <a href="/docs/services/{{api.id}}">{{api.name}}</a>
+      {% if api.IsSoap %}
+          <span class="badge badge-soap"> </span>
+      {% endif %}
+        </h3>
+      {{api.description}}
+      </li>
+      {% assign previous = ""  %}
+    {% endif %}
+  {% endfor %}
+    </ul>
+    <paging-control></paging-control>
+  {% else %}
+  {% localized "CommonResources|NoItemsToDisplay" %}
+{% endif %}
+  </div>
+</div>

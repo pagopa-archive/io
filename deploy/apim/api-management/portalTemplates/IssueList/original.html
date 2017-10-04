@@ -1,0 +1,48 @@
+<search-control></search-control>
+<div class="row">
+  <div class="col-md-9">
+    <h2>{% localized "IssuesStrings|WebIssuesIndexTitle" %}</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    {% if issues.size > 0 %}
+    <ul class="list-unstyled">
+      {% capture reportedBy %}{% localized "IssuesStrings|WebIssuesStatusReportedBy" %}{% endcapture %}
+      {% assign replaceString0 = '{0}' %}
+      {% assign replaceString1 = '{1}' %}
+      {% for issue in issues %}
+      <li>
+        <h3>
+          <a href="/issues/{{issue.id}}">{{issue.title}}</a>
+        </h3>
+        <p>{{issue.description}}</p>
+        <em>
+          {% capture state %}{{issue.issueState}}{% endcapture %}
+          {% capture devName %}{{issue.subscriptionDeveloperName}}{% endcapture %}
+          {% capture str1 %}{{ reportedBy | split : replaceString0 | join : state }}{% endcapture %}
+          {{ str1 | append : " " | split : replaceString1 | join : devName }}
+          <span class="UtcDateElement">{{ issue.reportedOn | date: "r" }}</span>
+        </em>
+      </li>
+      {% endfor %}
+    </ul>
+    <paging-control></paging-control>
+    {% else %}
+    {% localized "CommonResources|NoItemsToDisplay" %}
+    {% endif %}
+    {% if canReportIssue %}
+    <a class="btn btn-primary" id="createIssue" href="/Issues/Create">{% localized "IssuesStrings|WebIssuesReportIssueButton" %}</a>
+    {% elsif isAuthenticated %}
+    <hr />
+    <p>{% localized "IssuesStrings|WebIssuesNoActiveSubscriptions" %}</p>
+    {% else %}
+    <hr />
+    <p>
+      {% capture signIntext %}{% localized "IssuesStrings|WebIssuesNotSignin" %}{% endcapture %}
+      {% capture link %}<a href="/signin">{% localized "IssuesStrings|WebIssuesSignIn" %}</a>{% endcapture %}
+      {{ signIntext | append : " " | split : replaceString0 | join : link }}
+    </p>
+    {% endif %}
+  </div>
+</div>

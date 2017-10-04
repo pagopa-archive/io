@@ -1,0 +1,49 @@
+<div class="pull-right">
+  {% if canChangePassword == true %}
+  <a class="btn btn-default" id="ChangePassword" role="button" href="{{changePasswordUrl}}">{% localized "UserProfile|ButtonLabelChangePassword" %}</a>
+  {% endif %}
+  {% if canChangeUserInfo == true %}
+  <a id="changeAccountInfo" href="{{changeNameOrEmailUrl}}" class="btn btn-default">
+    <span class="glyphicon glyphicon-user"></span>
+    <span>{% localized "UserProfile|ButtonLabelChangeAccountInfo" %}</span>
+  </a>
+  {% endif %}
+</div>
+<h2>{% localized "SubscriptionStrings|PageTitleDeveloperProfile" %}</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+      <label for="Email">{% localized "UserProfile|TextboxLabelEmail" %}</label>
+    </div>
+    <div class="col-sm-9" id="Email">{{email}}</div>
+  </div>
+
+  {% if isSystemUser != true %}
+  <div class="row">
+    <div class="col-sm-3">
+      <label for="FirstName">{% localized "UserProfile|TextboxLabelEmailFirstName" %}</label>
+    </div>
+    <div class="col-sm-9" id="FirstName">{{FirstName}}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <label for="LastName">{% localized "UserProfile|TextboxLabelEmailLastName" %}</label>
+    </div>
+    <div class="col-sm-9" id="LastName">{{LastName}}</div>
+  </div>
+  {% else %}
+  <div class="row">
+    <div class="col-sm-3">
+      <label for="CompanyName">{% localized "UserProfile|TextboxLabelOrganizationName" %}</label>
+    </div>
+    <div class="col-sm-9" id="CompanyName">{{CompanyName}}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <label for="AddresserEmail">{% localized "UserProfile|TextboxLabelNotificationsSenderEmail" %}</label>
+    </div>
+    <div class="col-sm-9" id="AddresserEmail">{{AddresserEmail}}</div>
+  </div>
+  {% endif %}
+
+</div>

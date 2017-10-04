@@ -1,0 +1,6 @@
+{
+  "Name": "SignInTemplate",
+  "$ref-Published": "api-management/portalTemplates/SignInTemplate/published.html",
+  "$ref-Draft": null,
+  "$ref-Original": "api-management/portalTemplates/SignInTemplate/original.html"
+}

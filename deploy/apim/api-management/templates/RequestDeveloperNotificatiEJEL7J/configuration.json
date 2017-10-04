@@ -1,0 +1,40 @@
+{
+  "subject": "Your subscription request for the $ProdName",
+  "$ref-body": "api-management/templates/RequestDeveloperNotificatiEJEL7J/body.html",
+  "title": "Subscription request received",
+  "description": "This email is sent to developers to acknowledge receipt of their subscription requests for products requiring publisher approval.",
+  "isDefault": false,
+  "parameters": [
+    {
+      "name": "DevFirstName",
+      "title": "Developer first name",
+      "description": null
+    },
+    {
+      "name": "DevLastName",
+      "title": "Developer last name",
+      "description": null
+    },
+    {
+      "name": "DevEmail",
+      "title": "Developer email",
+      "description": null
+    },
+    {
+      "name": "ProdName",
+      "title": "Product name",
+      "description": null
+    },
+    {
+      "name": "OrganizationName",
+      "title": "Organization name",
+      "description": null
+    },
+    {
+      "name": "DevPortalUrl",
+      "title": "Developer portal URL",
+      "description": null
+    }
+  ],
+  "name": "/templates/RequestDeveloperNotificationMessage"
+}

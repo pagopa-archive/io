@@ -1,0 +1,35 @@
+{
+  "subject": "Your password change request",
+  "$ref-body": "api-management/templates/PasswordResetIdentityDefault/body.html",
+  "title": "Password change confirmation",
+  "description": "Developers receive this email when they request a password change of their account. The purpose of the email is to verify that the account owner made the request and to provide a one-time perishable URL for changing the password.",
+  "isDefault": false,
+  "parameters": [
+    {
+      "name": "DevFirstName",
+      "title": "Developer first name",
+      "description": null
+    },
+    {
+      "name": "DevLastName",
+      "title": "Developer last name",
+      "description": null
+    },
+    {
+      "name": "OrganizationName",
+      "title": "Organization name",
+      "description": null
+    },
+    {
+      "name": "DevPortalUrl",
+      "title": "Developer portal URL",
+      "description": null
+    },
+    {
+      "name": "ConfirmUrl",
+      "title": "Developer new password instruction URL",
+      "description": null
+    }
+  ],
+  "name": "/templates/PasswordResetIdentityDefault"
+}

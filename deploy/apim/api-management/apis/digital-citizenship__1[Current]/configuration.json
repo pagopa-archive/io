@@ -1,0 +1,62 @@
+{
+  "id": "/apis/digital-citizenship",
+  "name": "digital-citizenship",
+  "apiRevision": "1",
+  "$ref-description": null,
+  "serviceUrl": "",
+  "path": "",
+  "protocols": [
+    "https"
+  ],
+  "authenticationSettings": {
+    "oAuth2": null,
+    "openid": null
+  },
+  "subscriptionKeyParameterNames": {
+    "header": "Ocp-Apim-Subscription-Key",
+    "query": "subscription-key"
+  },
+  "isCurrent": true,
+  "operations": [
+    {
+      "id": "/apis/digital-citizenship/operations/59bfe5b736929ec24671a2d4",
+      "name": "GET - Catch All",
+      "method": "GET",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": null,
+      "request": {
+        "$ref-description": null,
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/digital-citizenship/operations/59bfe62321a82f5fa4a2add3",
+      "name": "POST - Catch all",
+      "method": "POST",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": null,
+      "request": {
+        "$ref-description": null,
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    }
+  ],
+  "apiSchemas": [
+    {
+      "id": "/apis/digital-citizenship/schemas/5996eba2db80560de0935e2d",
+      "contentType": "application/vnd.ms-azure-apim.swagger.definitions+json",
+      "$ref-documentValue": "api-management/apis/digital-citizenship__1[Current]/apiSchemas/5996eba2db80560de0935e2d.document"
+    }
+  ],
+  "$ref-policy": "api-management/policies/apis/digital-citizenship__1[Current].xml"
+}

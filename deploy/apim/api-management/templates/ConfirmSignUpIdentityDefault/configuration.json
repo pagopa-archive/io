@@ -1,0 +1,35 @@
+{
+  "subject": "Please confirm your new $OrganizationName API account",
+  "$ref-body": "api-management/templates/ConfirmSignUpIdentityDefault/body.html",
+  "title": "New developer account confirmation",
+  "description": "Developers receive this email to confirm their e-mail address after they sign up for a new account.",
+  "isDefault": false,
+  "parameters": [
+    {
+      "name": "DevFirstName",
+      "title": "Developer first name",
+      "description": null
+    },
+    {
+      "name": "DevLastName",
+      "title": "Developer last name",
+      "description": null
+    },
+    {
+      "name": "OrganizationName",
+      "title": "Organization name",
+      "description": null
+    },
+    {
+      "name": "DevPortalUrl",
+      "title": "Developer portal URL",
+      "description": null
+    },
+    {
+      "name": "ConfirmUrl",
+      "title": "Developer activation URL",
+      "description": null
+    }
+  ],
+  "name": "/templates/ConfirmSignUpIdentityDefault"
+}

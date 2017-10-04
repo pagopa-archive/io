@@ -1,0 +1,93 @@
+<!DOCTYPE html >
+<html>
+  <head>
+    <style>
+          body {font-size:12pt; font-family:"Segoe UI","Segoe WP","Tahoma","Arial","sans-serif";}
+          .alert { color: red; }
+          .child1 { padding-left: 20px; }
+          .child2 { padding-left: 40px; }
+          .number { text-align: right; }
+          .text { text-align: left; }
+          th, td { padding: 4px 10px; min-width: 100px; }
+          th { background-color: #DDDDDD;}
+        </style>
+  </head>
+  <body>
+    <p>Greetings $DevFirstName $DevLastName!</p>
+    <p>
+          You are approaching the quota limit on you subscription to the <strong>$ProdName</strong> product (primary key $SubPrimaryKey).
+          #if ($QuotaResetDate != "")
+          This quota will be renewed on $QuotaResetDate.
+          #else
+          This quota will not be renewed.
+          #end
+        </p>
+    <p>Below are details on quota usage for the subscription:</p>
+    <p>
+      <table>
+        <thead>
+          <th class="text">Quota Scope</th>
+          <th class="number">Calls</th>
+          <th class="number">Call Quota</th>
+          <th class="number">Bandwidth</th>
+          <th class="number">Bandwidth Quota</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text">Subscription</td>
+            <td class="number">
+                  #if ($CallsAlert == true)
+                  <span class="alert">$Calls</span>
+                  #else
+                  $Calls
+                  #end
+                </td>
+            <td class="number">$CallQuota</td>
+            <td class="number">
+                  #if ($BandwidthAlert == true)
+                  <span class="alert">$Bandwidth</span>
+                  #else
+                  $Bandwidth
+                  #end
+                </td>
+            <td class="number">$BandwidthQuota</td>
+          </tr>
+              #foreach ($api in $Apis)
+              <tr><td class="child1 text">API: $api.Name</td><td class="number">
+                  #if ($api.CallsAlert == true)
+                  <span class="alert">$api.Calls</span>
+                  #else
+                  $api.Calls
+                  #end
+                </td><td class="number">$api.CallQuota</td><td class="number">
+                  #if ($api.BandwidthAlert == true)
+                  <span class="alert">$api.Bandwidth</span>
+                  #else
+                  $api.Bandwidth
+                  #end
+                </td><td class="number">$api.BandwidthQuota</td></tr>
+              #foreach ($operation in $api.Operations)
+              <tr><td class="child2 text">Operation: $operation.Name</td><td class="number">
+                  #if ($operation.CallsAlert == true)
+                  <span class="alert">$operation.Calls</span>
+                  #else
+                  $operation.Calls
+                  #end
+                </td><td class="number">$operation.CallQuota</td><td class="number">
+                  #if ($operation.BandwidthAlert == true)
+                  <span class="alert">$operation.Bandwidth</span>
+                  #else
+                  $operation.Bandwidth
+                  #end
+                </td><td class="number">$operation.BandwidthQuota</td></tr>
+              #end
+              #end
+            </tbody>
+      </table>
+    </p>
+    <p>Thank you,</p>
+    <p>$OrganizationName API Team</p>
+    <a href="$DevPortalUrl">$DevPortalUrl</a>
+    <p />
+  </body>
+</html>

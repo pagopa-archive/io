@@ -1,0 +1,35 @@
+{
+  "subject": "Your password was reset",
+  "$ref-body": "api-management/templates/PasswordResetByAdminNotifiFRG29K/body.html",
+  "title": "Password reset by publisher notification (Password reset by admin)",
+  "description": "Developers receive this email when the publisher resets their password.",
+  "isDefault": false,
+  "parameters": [
+    {
+      "name": "DevFirstName",
+      "title": "Developer first name",
+      "description": null
+    },
+    {
+      "name": "DevLastName",
+      "title": "Developer last name",
+      "description": null
+    },
+    {
+      "name": "DevPassword",
+      "title": "New Developer password",
+      "description": null
+    },
+    {
+      "name": "OrganizationName",
+      "title": "Organization name",
+      "description": null
+    },
+    {
+      "name": "DevPortalUrl",
+      "title": "Developer portal URL",
+      "description": null
+    }
+  ],
+  "name": "/templates/PasswordResetByAdminNotificationMessage"
+}

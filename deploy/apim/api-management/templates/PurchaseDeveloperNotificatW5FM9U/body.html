@@ -1,0 +1,49 @@
+<!DOCTYPE html >
+<html>
+  <head />
+  <body>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Greetings $DevFirstName $DevLastName!</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+          Thank you for subscribing to the <strong>$ProdName</strong> and welcome to the $OrganizationName developer community. We are delighted to have you as part of the team and are looking forward to the amazing applications you will build using our API!
+        </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Below are a few subscription details for your reference:</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+      <ul>
+            #if ($SubStartDate != "")
+            <li style="font-size:12pt;font-family:'Segoe UI'">Start date: $SubStartDate</li>
+            #end
+            
+            #if ($SubTerm != "")
+            <li style="font-size:12pt;font-family:'Segoe UI'">Subscription term: $SubTerm</li>
+            #end
+          </ul>
+    </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+            Visit the developer <a href="http://$DevPortalUrl/developer">profile area</a> to manage your subscription and subscription keys
+        </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">A couple of pointers to help get you started:</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+      <strong>
+        <a href="http://$DevPortalUrl/docs/services">Learn about the API</a>
+      </strong>
+    </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">The API documentation provides all information necessary to make a request and to process a response. Code samples are provided per API operation in a variety of languages. Moreover, an interactive console allows making API calls directly from the developer portal without writing any code.</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+      <strong>
+        <a href="http://$DevPortalUrl/applications">Feature your app in the app gallery</a>
+      </strong>
+    </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">You can publish your application on our gallery for increased visibility to potential new users.</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+      <strong>
+        <a href="http://$DevPortalUrl/issues">Stay in touch</a>
+      </strong>
+    </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+          If you have an issue, a question, a suggestion, a request, or if you just want to tell us something, go to the <a href="http://$DevPortalUrl/issues">Issues</a> page on the developer portal and create a new topic.
+        </p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Happy hacking,</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">The $OrganizationName API Team</p>
+    <a style="font-size:12pt;font-family:'Segoe UI'" href="http://$DevPortalUrl">$DevPortalUrl</a>
+  </body>
+</html>

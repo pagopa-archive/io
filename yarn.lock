@@ -14,6 +14,17 @@
   dependencies:
     "@types/node" "*"
 
+"@types/glob@*":
+  version "5.0.33"
+  resolved "https://registry.yarnpkg.com/@types/glob/-/glob-5.0.33.tgz#3dff7c6ce09d65abe919c7961dc3dee016f36ad7"
+  dependencies:
+    "@types/minimatch" "*"
+    "@types/node" "*"
+
+"@types/minimatch@*":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.1.tgz#b683eb60be358304ef146f5775db4c0e3696a550"
+
 "@types/node@*", "@types/node@^8.0.25":
   version "8.0.31"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.31.tgz#d9af61093cf4bfc9f066ca34de0175012cfb0ce9"
@@ -27,6 +38,13 @@
   resolved "https://registry.yarnpkg.com/@types/request/-/request-2.0.3.tgz#bdf0fba9488c822f77e97de3dd8fe357b2fb8c06"
   dependencies:
     "@types/form-data" "*"
+    "@types/node" "*"
+
+"@types/shelljs@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.7.4.tgz#137b5f31306eaff4de120ffe5b9d74b297809cfc"
+  dependencies:
+    "@types/glob" "*"
     "@types/node" "*"
 
 "@types/uuid@^3.4.1", "@types/uuid@^3.4.2":

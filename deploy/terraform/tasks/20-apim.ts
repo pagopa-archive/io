@@ -13,13 +13,11 @@ import apiManagementClient = require("azure-arm-apimanagement");
 import webSiteManagementClient = require("azure-arm-website");
 import * as path from "path";
 import * as request from "request";
+import * as shelljs from "shelljs";
 import * as config from "./../tfvars.json";
 import { login } from "./login";
 
-const CONFIGURATION_DIRECTORY_PATH = path.resolve(
-  __dirname,
-  "apim/api-management"
-);
+const CONFIGURATION_DIRECTORY_PATH = path.resolve(__dirname, "apim");
 console.log(CONFIGURATION_DIRECTORY_PATH);
 
 /**
@@ -83,14 +81,22 @@ const setupConfiguration = async (
   configurationDirectoryPath: string
 ) => {
   console.log(configurationDirectoryPath, scmUrl);
-  //   //  -> get repository creds (username and password)
+  // Get APi manager configuration repository credentials
   const gitCreds = await apiClient.tenantAccessGit.get(
     (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_functionapp_00
+    (config as any).azurerm_apim_00
   );
+  // apiClient.tenantAccessGit.regeneratePrimaryKey
   console.log(gitCreds);
-  //   //  -> push files to repo
+  shelljs.pushd(configurationDirectoryPath);
+  shelljs.exec(`git init .`);
+  shelljs.exec(`git remote add origin ${scmUrl}`);
+  shelljs.exec(`git add -A`);
+  shelljs.exec(`git commit -a -m "configuration update"`);
+  shelljs.exec(`git push origin master"`);
+  shelljs.popd();
   //   //  -> distribute from master (flag: remove deleted products and subscriptions)
+  return gitCreds;
 };
 
 export const run = async () => {
@@ -102,7 +108,7 @@ export const run = async () => {
     loginCreds.subscriptionId
   );
 
-  // Create
+  // Create API manager PaaS
   const apiManagementService = await apiClient.apiManagementService.createOrUpdate(
     (config as any).azurerm_resource_group_00,
     (config as any).azurerm_apim_00,
@@ -115,14 +121,14 @@ export const run = async () => {
     }
   );
 
-  // Get functions (backend) info
+  // Get Functions (backend) info
   const webSiteClient = new webSiteManagementClient(
     loginCreds.creds as any,
     loginCreds.subscriptionId
   );
   const { masterKey, backendUrl } = await getFunctionsInfo(webSiteClient);
 
-  // Set backend url and code (master key) to access functions
+  // Set up backend url and code (master key) to access Functions
   await setApimProperties(apiClient, {
     backendUrl: { secret: false, value: backendUrl },
     code: { secret: true, value: masterKey }

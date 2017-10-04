@@ -14,11 +14,11 @@ import webSiteManagementClient = require("azure-arm-website");
 import * as path from "path";
 import * as request from "request";
 import * as shelljs from "shelljs";
+import * as tmp from "tmp";
 import * as config from "./../tfvars.json";
 import { login } from "./login";
 
-const CONFIGURATION_DIRECTORY_PATH = path.resolve(__dirname, "apim");
-console.log(CONFIGURATION_DIRECTORY_PATH);
+const CONFIGURATION_DIRECTORY_PATH = path.resolve(__dirname, "../apim");
 
 /**
  * Get Functions (app service) backend URL and master key
@@ -80,20 +80,24 @@ const setupConfiguration = async (
   scmUrl: string,
   configurationDirectoryPath: string
 ) => {
-  console.log(configurationDirectoryPath, scmUrl);
   // Get APi manager configuration repository credentials
   const gitCreds = await apiClient.tenantAccessGit.get(
     (config as any).azurerm_resource_group_00,
     (config as any).azurerm_apim_00
   );
   // apiClient.tenantAccessGit.regeneratePrimaryKey
-  console.log(gitCreds);
-  shelljs.pushd(configurationDirectoryPath);
+  // console.log(gitCreds);
+  const tmpDir = tmp.dirSync();
+  if (!tmpDir) {
+    throw new Error("Cannot create temporary directory");
+  }
+  shelljs.cp("-R", configurationDirectoryPath, tmpDir.name);
+  shelljs.pushd(tmpDir.name);
   shelljs.exec(`git init .`);
   shelljs.exec(`git remote add apim ${scmUrl}`);
   shelljs.exec(`git add -A`);
   shelljs.exec(`git commit -a -m "configuration update"`);
-  shelljs.exec(`git push apim master"`);
+  shelljs.exec(`git push apim master --force`);
   shelljs.popd();
   //   //  -> distribute from master (flag: remove deleted products and subscriptions)
   return gitCreds;

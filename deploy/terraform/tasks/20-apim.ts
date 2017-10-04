@@ -9,12 +9,18 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import apiManagementClient = require("azure-arm-apimanagement");
+import webSiteManagementClient = require("azure-arm-website");
+import * as path from "path";
+import * as request from "request";
 import * as config from "./../tfvars.json";
 import { login } from "./login";
 
-import apiManagementClient = require("azure-arm-apimanagement");
-import webSiteManagementClient = require("azure-arm-website");
-import * as request from "request";
+const CONFIGURATION_DIRECTORY_PATH = path.resolve(
+  __dirname,
+  "apim/api-management"
+);
+console.log(CONFIGURATION_DIRECTORY_PATH);
 
 /**
  * Get Functions (app service) backend URL and master key
@@ -31,10 +37,9 @@ const getFunctionsInfo = async (webClient: webSiteManagementClient) => {
   );
   const backendUrl = `https://${functions.defaultHostName}`;
 
-  // @FIXME: unfortunately it looks there is no API to get a Functions App master key
+  // @FIXME: unfortunately there are no API to get a Functions App master key
   const secretUrl = `https://${creds.publishingUserName}:${creds.publishingPassword}@${(config as any)
     .azurerm_functionapp_00}.scm.azurewebsites.net/api/functions/admin/masterkey`;
-
   const masterKey = await new Promise<string>((resolve, reject) =>
     request.get(secretUrl, (err, __, body) => {
       if (err) {
@@ -48,7 +53,9 @@ const getFunctionsInfo = async (webClient: webSiteManagementClient) => {
 
 const setApimProperties = async (
   apiClient: apiManagementClient,
-  properties: { readonly [s: string]: string }
+  properties: {
+    readonly [s: string]: { readonly secret: boolean; readonly value: string };
+  }
 ) => {
   return await Promise.all(
     Object.keys(properties).map(async prop => {
@@ -59,13 +66,24 @@ const setApimProperties = async (
         {
           displayName: prop,
           name: prop,
-          secret: true,
-          value: properties[prop]
+          secret: properties[prop].secret,
+          value: properties[prop].value
         }
       );
     })
   );
 };
+
+/**
+ * Set up configuration, products, groups, policies, api, email templates, developer portal templates
+ */
+// const setupConfiguration = (apiClient: apiManagementClient) => {
+//   //  -> get repository url
+//   // apiClient.apiManagementService.get()
+//   //  -> get repository creds (username and password)
+//   //  -> push files to repo
+//   //  -> distribute from master (flag: remove deleted products and subscriptions)
+// };
 
 export const run = async () => {
   const loginCreds = await login();
@@ -77,7 +95,7 @@ export const run = async () => {
   );
 
   // Create
-  await apiClient.apiManagementService.createOrUpdate(
+  const apiManagementService = await apiClient.apiManagementService.createOrUpdate(
     (config as any).azurerm_resource_group_00,
     (config as any).azurerm_apim_00,
     {
@@ -88,33 +106,23 @@ export const run = async () => {
       sku: { name: (config as any).azurerm_apim_sku_00, capacity: 1 }
     }
   );
+  console.log(apiManagementService.scmUrl);
 
   // Get functions (backend) info
   const webSiteClient = new webSiteManagementClient(
     loginCreds.creds as any,
     loginCreds.subscriptionId
   );
-
   const { masterKey, backendUrl } = await getFunctionsInfo(webSiteClient);
 
-  // console.log(masterKey);
-
   // Set backend url and code (master key) to access functions
-  await setApimProperties(apiClient, {
-    backendUrl,
-    code: masterKey
+  return await setApimProperties(apiClient, {
+    backendUrl: { secret: false, value: backendUrl },
+    code: { secret: true, value: masterKey }
   });
+
+  // await setupConfiguration(apiClient, CONFIGURATION_DIRECTORY_PATH);
 };
-
-// Set up configuration, products, groups, policies, api, email templates, developer portal templates
-
-//  -> get functions backend url and code
-//  -> set properties (code + backendUrl)
-
-//  -> get repository url
-//  -> get repository creds (username and password)
-//  -> push files to repo
-//  -> distribute from master (flag: remove deleted products and subscriptions)
 
 // configure logger + event hub:
 //  https://docs.microsoft.com/it-it/azure/api-management/api-management-howto-log-event-hubs#create-an-api-management-logger

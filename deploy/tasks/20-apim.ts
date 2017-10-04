@@ -82,7 +82,7 @@ const setApimProperties = async (
 /**
  * Set up configuration, products, groups, policies, api, email templates, developer portal templates
  */
-const setupConfiguration = async (
+const setupConfigurationFromGit = async (
   apiClient: apiManagementClient,
   scmUrl: string,
   configurationDirectoryPath: string
@@ -173,14 +173,14 @@ export const run = async () => {
     throw new Error("Cannot get apiManagementService.scmUrl");
   }
 
-  await setupConfiguration(
+  await setupConfigurationFromGit(
     apiClient,
     apiManagementService.scmUrl,
     CONFIGURATION_DIRECTORY_PATH
   );
 };
 
-// configure logger + event hub:
+// TODO: configure logger + event hub:
 //  https://docs.microsoft.com/it-it/azure/api-management/api-management-howto-log-event-hubs#create-an-api-management-logger
 //  https://docs.microsoft.com/it-it/rest/api/apimanagement/Logger/CreateOrUpdate
 //  or log analytics (or storage)

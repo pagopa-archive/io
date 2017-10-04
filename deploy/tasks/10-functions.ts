@@ -67,7 +67,7 @@ export const run = async () => {
   );
   const servicePlan = await getAppServicePlan(webSiteClient);
 
-  return webSiteClient.webApps.createOrUpdate(
+  await webSiteClient.webApps.createOrUpdate(
     (config as any).azurerm_resource_group_00,
     (config as any).azurerm_functionapp_00,
     {
@@ -78,7 +78,6 @@ export const run = async () => {
         alwaysOn: false,
         // nodeVersion:
         // apiDefinition.url
-        // scmType:
         appSettings: [
           // mandatory params
           { name: "AzureWebJobsStorage", value: storageConnectionString },
@@ -115,6 +114,23 @@ export const run = async () => {
       }
     }
   );
+
+  if ((config as any).functionapp_git_repo_00) {
+    await webSiteClient.webApps.createOrUpdateSourceControl(
+      (config as any).azurerm_resource_group_00,
+      (config as any).azurerm_functionapp_00,
+      {
+        branch: (config as any).functionapp_git_branch_00,
+        deploymentRollbackEnabled: true,
+        // FIXME: `isManualIntegration: false` will fail trying to send an email
+        // to the service principal user. I guess this is a bug in the Azure APIs
+        isManualIntegration: true,
+        isMercurial: false,
+        repoUrl: (config as any).functionapp_git_repo_00,
+        type: (config as any).functionapp_scm_type_00
+      }
+    );
+  }
 };
 
 run()

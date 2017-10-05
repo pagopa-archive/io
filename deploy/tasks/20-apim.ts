@@ -21,7 +21,7 @@ import { login } from "./login";
 
 // tslint:disable-next-line:no-object-mutation
 shelljs.config.fatal = true;
-shelljs.config.verbose = true;
+// shelljs.config.verbose = true;
 
 const CONFIGURATION_DIRECTORY_NAME = "apim";
 const CONFIGURATION_DIRECTORY_PATH = path.resolve(

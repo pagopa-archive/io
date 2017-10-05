@@ -5,6 +5,9 @@
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - Functions (app service)
+ *
+ * Unfortunately you cannot migrate Widgets and Media Libray:
+ * https://{publisherPortalName}.portal.azure-api.net/Admin/Widgets
  */
 // tslint:disable:no-console
 // tslint:disable:no-any
@@ -131,7 +134,7 @@ const setupConfigurationFromGit = async (
   shelljs.exec(`git remote add origin ${scmUrlWithCreds}`);
   shelljs.exec(`git add -A`);
   shelljs.exec(`git commit -a -m "configuration update"`);
-  shelljs.exec(`git push origin master`);
+  shelljs.exec(`git push origin master --force`);
   shelljs.popd();
 
   // TODO: validate configuration

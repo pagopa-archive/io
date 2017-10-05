@@ -15,17 +15,25 @@ import * as path from "path";
 import * as request from "request";
 import * as shelljs from "shelljs";
 import * as tmp from "tmp";
+import * as url from "url";
 import * as config from "./../tfvars.json";
 import { login } from "./login";
 
 // tslint:disable-next-line:no-object-mutation
 shelljs.config.fatal = true;
+shelljs.config.verbose = true;
 
 const CONFIGURATION_DIRECTORY_NAME = "apim";
 const CONFIGURATION_DIRECTORY_PATH = path.resolve(
   __dirname,
   `../${CONFIGURATION_DIRECTORY_NAME}`
 );
+
+const addDays = (date: Date, days: number) => {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
 
 /**
  * Get Functions (app service) backend URL and master key
@@ -43,8 +51,13 @@ const getFunctionsInfo = async (webClient: webSiteManagementClient) => {
   const backendUrl = `https://${functions.defaultHostName}`;
 
   // @FIXME: unfortunately there are no API to get a Functions App master key
-  const secretUrl = `https://${creds.publishingUserName}:${creds.publishingPassword}@${(config as any)
-    .azurerm_functionapp_00}.scm.azurewebsites.net/api/functions/admin/masterkey`;
+  const secretUrl = url.format({
+    auth: `${creds.publishingUserName}:${creds.publishingPassword}`,
+    host: `${(config as any).azurerm_functionapp_00}.scm.azurewebsites.net`,
+    pathname: "/api/functions/admin/masterkey",
+    protocol: "https"
+  });
+
   const masterKey = await new Promise<string>((resolve, reject) =>
     request.get(secretUrl, (err, __, body) => {
       if (err) {
@@ -87,18 +100,25 @@ const setupConfigurationFromGit = async (
   scmUrl: string,
   configurationDirectoryPath: string
 ) => {
-  // Get APi manager configuration repository credentials
-  const gitCreds = await apiClient.tenantAccessGit.get(
+  // TODO: Save old configuration to snapshot branch
+
+  // Get APi manager configuration repository (git) credentials
+  const gitKey = await apiClient.user.getSharedAccessToken(
     (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_apim_00
+    (config as any).azurerm_apim_00,
+    (config as any).apim_scm_cred_username_00,
+    {
+      // Access token can have maximum expiry time of 30 days
+      expiry: addDays(new Date(), 10),
+      keyType: "primary"
+    }
   );
 
-  // Save old configuration to snapshot branch
-
-  // apiClient.tenantAccessGit.regeneratePrimaryKey
-  // console.log(gitCreds);
-
-  // TODO: use retrieved Git credentials
+  const { hostname, protocol } = url.parse(scmUrl);
+  const scmUrlWithCreds = url.format({
+    ...{ hostname, protocol },
+    auth: `${(config as any).apim_scm_username_00}:${gitKey.value}`
+  });
 
   // Push master branch
   const tmpDir = tmp.dirSync();
@@ -108,10 +128,10 @@ const setupConfigurationFromGit = async (
   shelljs.cp("-R", configurationDirectoryPath, tmpDir.name);
   shelljs.pushd(path.join(tmpDir.name, CONFIGURATION_DIRECTORY_NAME));
   shelljs.exec(`git init .`);
-  shelljs.exec(`git remote add origin ${scmUrl}`);
+  shelljs.exec(`git remote add origin ${scmUrlWithCreds}`);
   shelljs.exec(`git add -A`);
   shelljs.exec(`git commit -a -m "configuration update"`);
-  shelljs.exec(`git push origin master --force`);
+  shelljs.exec(`git push origin master`);
   shelljs.popd();
 
   // TODO: validate configuration
@@ -131,7 +151,7 @@ const setupConfigurationFromGit = async (
     throw new Error(JSON.stringify(deploy));
   }
 
-  return gitCreds;
+  return gitKey;
 };
 
 export const run = async () => {
@@ -149,10 +169,10 @@ export const run = async () => {
     (config as any).azurerm_apim_00,
     {
       location: (config as any).location,
-      notificationSenderEmail: (config as any).azurerm_apim_email_00,
-      publisherEmail: (config as any).azurerm_apim_email_00,
-      publisherName: (config as any).azurerm_apim_publisher_00,
-      sku: { name: (config as any).azurerm_apim_sku_00, capacity: 1 }
+      notificationSenderEmail: (config as any).apim_email_00,
+      publisherEmail: (config as any).apim_email_00,
+      publisherName: (config as any).apim_publisher_00,
+      sku: { name: (config as any).apim_sku_00, capacity: 1 }
     }
   );
 
@@ -173,7 +193,7 @@ export const run = async () => {
     throw new Error("Cannot get apiManagementService.scmUrl");
   }
 
-  await setupConfigurationFromGit(
+  return setupConfigurationFromGit(
     apiClient,
     apiManagementService.scmUrl,
     CONFIGURATION_DIRECTORY_PATH
@@ -185,6 +205,7 @@ export const run = async () => {
 //  https://docs.microsoft.com/it-it/rest/api/apimanagement/Logger/CreateOrUpdate
 //  or log analytics (or storage)
 
+// TODO: create task for adding users and subscriptions to products
 // users (user-groups) and subscriptions (user-products) must be migrated manually
 
 run()

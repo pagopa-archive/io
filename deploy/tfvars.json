@@ -16,8 +16,10 @@
   "azurerm_application_insights_00": "dc00ai",
   "azurerm_log_analytics_00": "dc00la",
   "azurerm_apim_00": "dc00apim",
-  "azurerm_apim_email_00": "apim@agid.gov.it",
-  "azurerm_apim_publisher_00": "Digital Citizenship",
-  "azurerm_apim_sku_00": "Developer",
+  "apim_email_00": "apim@agid.gov.it",
+  "apim_publisher_00": "Digital Citizenship",
+  "apim_sku_00": "Developer",
+  "apim_scm_username_00": "apim",
+  "apim_scm_cred_username_00": "git",
   "message_blob_container_00": "message-content"
 }

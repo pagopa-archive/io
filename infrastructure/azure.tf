@@ -1,60 +1,75 @@
-# Terraform configuration file to deploy resouces to Azure.
+# Terraform configuration file to create Azure resources.
+# Set up environment variables before running this script (see README.md)
 
-# Set up this variables in your environment before running Terraform:
+# Uncomment the following lines if you prefer to use an Azure backend to store Terraform state.
+# You *must* create the storage account and the container before running this script
 #
-#   export ARM_SUBSCRIPTION_ID=<YOUR SUBSCRIPTION ID>
-#   export ARM_CLIENT_ID=<SERVICE PRINCIPAL ID>
-#   export ARM_CLIENT_SECRET=<SERVICE PRINCIPAL SECRET>
-#   export ARM_TENANT_ID=<ACTIVE DIRECTORY DOMAIN ID>
-#
-# or set up them here in this configuration file:
-#
-#   provider "azurerm" {
-#     subscription_id = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-#     client_id       = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-#     client_secret   = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-#     tenant_id       = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-#   }
-#
-# Then run this script with
-# ./terraform.exe plan -var-file=tfvars.json
+# variable "terraform_state_storage_account" {
+#     type = "string"
+# }
+# variable "terraform_state_storage_container" {
+#     type = "string"
+# }
+# terraform {
+#  backend "azurerm" {
+#    storage_account_name = "${var.terraform_state_storage_account}"
+#    container_name       = "${var.terraform_state_storage_container}"
+#    key                  = "production.terraform.tfstate"
+#  }
+# }
 
+# Location of the Azure resource group and services (ie. West Europe)
 variable location {
     type = "string"
 }
 
+# Location for CosmosDB failover (ie. North Europe)
+# Must differ from "location" value
 variable "cosmosdb_failover_location" {
     type = "string"
 }
 
+# Name of the resource group
 variable "azurerm_resource_group_00" {
     type = "string"
 }
 
+# Name of the storage account
 variable "azurerm_storage_account_00" {
     type = "string"
 } 
 
+# Name of the storage container resource
 variable "azurerm_storage_container_00" {
     type = "string"
 }
 
-variable "azurerm_storage_queues" {
-    type    = "list"
+# Name of the storage queue for email notifications
+variable "azurerm_storage_queue_emailnotifications_00" {
+    type = "string"
 }
 
+# Name of the storage queue for created messages
+variable "azurerm_storage_queue_createdmessages_00" {
+    type = "string"
+}
+
+# Name of the CosmosDB account
 variable "azurerm_cosmosdb_00" {
     type = "string"
 }
 
+# Name of the App Service Plan resource
 variable "azurerm_app_service_plan_00" {
     type = "string"
 }
 
+# Name of Application Insights resource
 variable "azurerm_application_insights_00" {
     type = "string"
 }
 
+# Name of Log Analytics resource
 variable "azurerm_log_analytics_00" {
     type = "string"    
 }
@@ -104,14 +119,14 @@ resource "azurerm_storage_container" "azurerm_storage_container_00" {
 
 ## QUEUES
 
-resource "azurerm_storage_queue" "azurerm_storage_queue_00" {
-    name                 = "${var.azurerm_storage_queues[0]}"
+resource "azurerm_storage_queue" "azurerm_storage_queue_emailnotifications_00" {
+    name                 = "${var.azurerm_storage_queue_emailnotifications_00}"
     resource_group_name  = "${azurerm_resource_group.azurerm_resource_group_00.name}"
     storage_account_name = "${azurerm_storage_account.azurerm_storage_account_00.name}"
 }
 
-resource "azurerm_storage_queue" "azurerm_storage_queue_01" {
-    name                 = "${var.azurerm_storage_queues[1]}"
+resource "azurerm_storage_queue" "azurerm_storage_queue_createdmessages_00" {
+    name                 = "${var.azurerm_storage_queue_createdmessages_00}"
     resource_group_name  = "${azurerm_resource_group.azurerm_resource_group_00.name}"
     storage_account_name = "${azurerm_storage_account.azurerm_storage_account_00.name}"
 }

@@ -11,13 +11,13 @@
   "license": "MIT",
   "scripts": {
     "lint": "tslint -p . -c tslint.json",
-    "terraform:init": "terraform init -var-file=deploy/tfvars.json deploy",
-    "terraform:plan": "terraform plan -var-file=deploy/tfvars.json deploy",
-    "deploy:apply": "terraform apply -var-file=deploy/tfvars.json deploy",
-    "deploy:api": "ts-node deploy/tasks/20-apim.ts",
-    "deploy:functions": "ts-node deploy/tasks/10-functions.ts",
-    "deploy:cosmosdb": "ts-node deploy/tasks/00-cosmosdb.ts",
-    "deploy": "npm-run-all terraform:init deploy:apply deploy:cosmosdb deploy:functions deploy:api"
+    "resources:tf-init": "terraform init -var-file=infrastructure/tfvars.json infrastructure",
+    "resources:tf-plan": "terraform plan -var-file=infrastructure/tfvars.json infrastructure",
+    "resources:tf-apply": "terraform apply -var-file=infrastructure/tfvars.json infrastructure",
+    "resources:api": "ts-node infrastructure/tasks/20-apim.ts",
+    "resources:functions": "ts-node infrastructure/tasks/10-functions.ts",
+    "resources:cosmosdb": "ts-node infrastructure/tasks/00-cosmosdb.ts",
+    "resources:deploy": "npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api"
   },
   "dependencies": {
     "@types/request": "^2.0.3",

@@ -9,8 +9,8 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
-import * as config from "./../tfvars.json";
-import { login } from "./login";
+import { login } from "../../lib/login";
+import * as config from "../tfvars.json";
 
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 import * as documentdb from "documentdb";

@@ -20,22 +20,24 @@ This repository is configured for Nat Pryce's [_adr-tools_](https://github.com/n
 
 API definitions are in OAS (Swagger 2.0).
 
-## Deploy Azure PaaS
+## Configuring the Azure infrastructure
 
 This repository contains scripts to deploy needed PaaS on Azure cloud.
 
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
-- [NodeJS](https://nodejs.org/it/)
-- [Terraform](https://terraform.io) 
+- [NodeJS](https://nodejs.org/it/) >= 0.6.x
+- [Terraform](https://terraform.io) >= 0.10.x
 
 All binaries must be in the system path.
 
 ### Deploy instructions
 
 - Get an [Azure account](https://azure.microsoft.com/en-us/free)
+
 - Set up an [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
+
 - Set up environment variables:
 
 ```
@@ -48,4 +50,5 @@ export ARM_TENANT_ID=<Active Directory domain Id>
 - Run the following commands:
 
 `npm install`
-`npm run deploy`
+`npm run resources:deploy`
+

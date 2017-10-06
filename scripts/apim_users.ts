@@ -17,8 +17,8 @@ import {
   UserContract,
   UserCreateParameters
 } from "azure-arm-apimanagement/lib/models";
-import * as config from "./../tfvars.json";
-import { login } from "./login";
+import * as config from "../infrastructure/tfvars.json";
+import { login } from "../lib/login";
 import * as users from "./users.json";
 
 const addUserToProduct = async (

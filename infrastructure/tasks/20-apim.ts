@@ -12,6 +12,9 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import { login } from "../../lib/login";
+import * as config from "../tfvars.json";
+
 import apiManagementClient = require("azure-arm-apimanagement");
 import webSiteManagementClient = require("azure-arm-website");
 import * as path from "path";
@@ -19,8 +22,6 @@ import * as request from "request";
 import * as shelljs from "shelljs";
 import * as tmp from "tmp";
 import * as url from "url";
-import * as config from "./../tfvars.json";
-import { login } from "./login";
 
 // tslint:disable-next-line:no-object-mutation
 shelljs.config.fatal = true;
@@ -207,9 +208,6 @@ export const run = async () => {
 //  https://docs.microsoft.com/it-it/azure/api-management/api-management-howto-log-event-hubs#create-an-api-management-logger
 //  https://docs.microsoft.com/it-it/rest/api/apimanagement/Logger/CreateOrUpdate
 //  or log analytics (or storage)
-
-// TODO: create task for adding users and subscriptions to products
-// users (user-groups) and subscriptions (user-products) must be migrated manually
 
 run()
   .then(() => console.log("successfully deployed api manager"))

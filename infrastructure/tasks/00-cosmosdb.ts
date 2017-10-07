@@ -101,8 +101,8 @@ export const run = async () => {
   );
 
   const databaseAccount = await client.databaseAccounts.get(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_cosmosdb_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_cosmosdb
   );
 
   if (databaseAccount.documentEndpoint === undefined) {
@@ -110,8 +110,8 @@ export const run = async () => {
   }
 
   const keys = await client.databaseAccounts.listKeys(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_cosmosdb_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_cosmosdb
   );
 
   const dbClient = new DocumentClient(databaseAccount.documentEndpoint, {
@@ -120,15 +120,15 @@ export const run = async () => {
 
   await createDatabaseIfNotExists(
     dbClient,
-    (config as any).azurerm_cosmosdb_documentdb_00
+    (config as any).azurerm_cosmosdb_documentdb
   );
 
   return Promise.all(
-    (config as any).azurerm_cosmosdb_collections_00.map(
+    (config as any).azurerm_cosmosdb_collections.map(
       async (collection: string) =>
         await createCollectionIfNotExists(
           dbClient,
-          (config as any).azurerm_cosmosdb_documentdb_00,
+          (config as any).azurerm_cosmosdb_documentdb,
           collection
         )
     )

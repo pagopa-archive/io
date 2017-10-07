@@ -30,47 +30,47 @@ variable "cosmosdb_failover_location" {
 }
 
 # Name of the resource group
-variable "azurerm_resource_group_00" {
+variable "azurerm_resource_group" {
     type = "string"
 }
 
 # Name of the storage account
-variable "azurerm_storage_account_00" {
+variable "azurerm_storage_account" {
     type = "string"
 } 
 
 # Name of the storage container resource
-variable "azurerm_storage_container_00" {
+variable "azurerm_storage_container" {
     type = "string"
 }
 
 # Name of the storage queue for email notifications
-variable "azurerm_storage_queue_emailnotifications_00" {
+variable "azurerm_storage_queue_emailnotifications" {
     type = "string"
 }
 
 # Name of the storage queue for created messages
-variable "azurerm_storage_queue_createdmessages_00" {
+variable "azurerm_storage_queue_createdmessages" {
     type = "string"
 }
 
 # Name of the CosmosDB account
-variable "azurerm_cosmosdb_00" {
+variable "azurerm_cosmosdb" {
     type = "string"
 }
 
 # Name of the App Service Plan resource
-variable "azurerm_app_service_plan_00" {
+variable "azurerm_app_service_plan" {
     type = "string"
 }
 
 # Name of Application Insights resource
-variable "azurerm_application_insights_00" {
+variable "azurerm_application_insights" {
     type = "string"
 }
 
 # Name of Log Analytics resource
-variable "azurerm_log_analytics_00" {
+variable "azurerm_log_analytics" {
     type = "string"    
 }
 
@@ -81,8 +81,8 @@ variable "azurerm_log_analytics_00" {
 ## RESOURCE GROUP
 
 # Create a resource group if it doesn’t exist
-resource "azurerm_resource_group" "azurerm_resource_group_00" {
-    name     = "${var.azurerm_resource_group_00}"
+resource "azurerm_resource_group" "azurerm_resource_group" {
+    name     = "${var.azurerm_resource_group}"
     location = "${var.location}"
     tags {
         environment = "production"
@@ -91,10 +91,10 @@ resource "azurerm_resource_group" "azurerm_resource_group_00" {
 
 ## STORAGE
 
-resource "azurerm_storage_account" "azurerm_storage_account_00" {
-    name                = "${var.azurerm_storage_account_00}"
-    resource_group_name = "${azurerm_resource_group.azurerm_resource_group_00.name}"
-    location            = "${azurerm_resource_group.azurerm_resource_group_00.location}"
+resource "azurerm_storage_account" "azurerm_storage_account" {
+    name                = "${var.azurerm_storage_account}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
 
     # can be one between Premium_LRS, Standard_GRS, Standard_LRS, Standard_RAGRS, Standard_ZRS
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy
@@ -108,10 +108,10 @@ resource "azurerm_storage_account" "azurerm_storage_account_00" {
     }
 }
 
-resource "azurerm_storage_container" "azurerm_storage_container_00" {
-    name                    = "${var.azurerm_storage_container_00}"
-    resource_group_name     = "${azurerm_resource_group.azurerm_resource_group_00.name}"
-    storage_account_name    = "${azurerm_storage_account.azurerm_storage_account_00.name}"
+resource "azurerm_storage_container" "azurerm_storage_container" {
+    name                    = "${var.azurerm_storage_container}"
+    resource_group_name     = "${azurerm_resource_group.azurerm_resource_group.name}"
+    storage_account_name    = "${azurerm_storage_account.azurerm_storage_account.name}"
 
     # Can be either blob (to publish blob on internet),container (to publish everything) or private
     container_access_type   = "private"
@@ -119,24 +119,24 @@ resource "azurerm_storage_container" "azurerm_storage_container_00" {
 
 ## QUEUES
 
-resource "azurerm_storage_queue" "azurerm_storage_queue_emailnotifications_00" {
-    name                 = "${var.azurerm_storage_queue_emailnotifications_00}"
-    resource_group_name  = "${azurerm_resource_group.azurerm_resource_group_00.name}"
-    storage_account_name = "${azurerm_storage_account.azurerm_storage_account_00.name}"
+resource "azurerm_storage_queue" "azurerm_storage_queue_emailnotifications" {
+    name                 = "${var.azurerm_storage_queue_emailnotifications}"
+    resource_group_name  = "${azurerm_resource_group.azurerm_resource_group.name}"
+    storage_account_name = "${azurerm_storage_account.azurerm_storage_account.name}"
 }
 
-resource "azurerm_storage_queue" "azurerm_storage_queue_createdmessages_00" {
-    name                 = "${var.azurerm_storage_queue_createdmessages_00}"
-    resource_group_name  = "${azurerm_resource_group.azurerm_resource_group_00.name}"
-    storage_account_name = "${azurerm_storage_account.azurerm_storage_account_00.name}"
+resource "azurerm_storage_queue" "azurerm_storage_queue_createdmessages" {
+    name                 = "${var.azurerm_storage_queue_createdmessages}"
+    resource_group_name  = "${azurerm_resource_group.azurerm_resource_group.name}"
+    storage_account_name = "${azurerm_storage_account.azurerm_storage_account.name}"
 }
 
 ## DATABASE
 
-resource "azurerm_cosmosdb_account" "azurerm_cosmosdb_00" {
-    name                = "${var.azurerm_cosmosdb_00}"
-    location            = "${azurerm_resource_group.azurerm_resource_group_00.location}"
-    resource_group_name = "${azurerm_resource_group.azurerm_resource_group_00.name}"
+resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
+    name                = "${var.azurerm_cosmosdb}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   
     # Possible values are GlobalDocumentDB and MongoDB
     kind = "GlobalDocumentDB"
@@ -167,20 +167,20 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb_00" {
 
 ## APPLICATION INSIGHTS
 
-resource "azurerm_application_insights" "azurerm_application_insights_00" {
-    name                = "${var.azurerm_application_insights_00}"
-    location            = "${azurerm_resource_group.azurerm_resource_group_00.location}"
-    resource_group_name = "${azurerm_resource_group.azurerm_resource_group_00.name}"
+resource "azurerm_application_insights" "azurerm_application_insights" {
+    name                = "${var.azurerm_application_insights}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
     # Web or Other
     application_type    = "Web"
 }
 
 ## APP SERVICE PLAN
 
-resource "azurerm_app_service_plan" "azurerm_app_service_plan_00" {
-    name                = "${var.azurerm_app_service_plan_00}"
-    location            = "${azurerm_resource_group.azurerm_resource_group_00.location}"
-    resource_group_name = "${azurerm_resource_group.azurerm_resource_group_00.name}"
+resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
+    name                = "${var.azurerm_app_service_plan}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 
     sku {
         tier = "Standard"
@@ -198,10 +198,10 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan_00" {
 
 # Logging (OSM)
 
-resource "azurerm_log_analytics_workspace" "azurerm_log_analytics_00" {
-    name                = "${var.azurerm_log_analytics_00}"
-    location            = "${azurerm_resource_group.azurerm_resource_group_00.location}"
-    resource_group_name = "${azurerm_resource_group.azurerm_resource_group_00.name}"
+resource "azurerm_log_analytics_workspace" "azurerm_log_analytics" {
+    name                = "${var.azurerm_log_analytics}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
     sku                 = "Standard"
     retention_in_days   = 30
 }

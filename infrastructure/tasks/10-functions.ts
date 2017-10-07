@@ -23,8 +23,8 @@ import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 
 const getAppServicePlan = async (client: any) => {
   return await client.appServicePlans.get(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_app_service_plan_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_app_service_plan
   );
 };
 
@@ -37,15 +37,14 @@ export const run = async () => {
     loginCreds.subscriptionId
   );
   const storageAccountKeys = await storageClient.storageAccounts.listKeys(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_storage_account_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_storage_account
   );
   if (!storageAccountKeys || !storageAccountKeys.keys) {
     throw new Error("storageAccountKeys not found");
   }
   const storageConnectionString = `DefaultEndpointsProtocol=https;AccountName=${(config as any)
-    .azurerm_storage_account_00};AccountKey=${storageAccountKeys.keys[0]
-    .value}`;
+    .azurerm_storage_account};AccountKey=${storageAccountKeys.keys[0].value}`;
 
   // Get CosmosDB key and url
   const cosmosClient = new CosmosDBManagementClient(
@@ -53,12 +52,12 @@ export const run = async () => {
     loginCreds.subscriptionId
   );
   const keys = await cosmosClient.databaseAccounts.listKeys(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_cosmosdb_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_cosmosdb
   );
   const cosmosdbKey = keys.primaryMasterKey;
   const cosmosdbLink = `https://${(config as any)
-    .azurerm_cosmosdb_00}.documents.azure.com:443/`;
+    .azurerm_cosmosdb}.documents.azure.com:443/`;
 
   // Create web app (functions)
   const webSiteClient = new webSiteManagementClient(
@@ -68,8 +67,8 @@ export const run = async () => {
   const servicePlan = await getAppServicePlan(webSiteClient);
 
   await webSiteClient.webApps.createOrUpdate(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_functionapp_00,
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_functionapp,
     {
       kind: "functionapp",
       location: (config as any).location,
@@ -87,7 +86,7 @@ export const run = async () => {
           // optional params
           {
             name: "COSMODB_NAME",
-            value: (config as any).azurerm_cosmosdb_documentdb_00
+            value: (config as any).azurerm_cosmosdb_documentdb
           },
           { name: "QueueStorageConnection", value: storageConnectionString },
           { name: "APPINSIGHTS_INSTRUMENTATIONKEY", value: "" },
@@ -96,7 +95,7 @@ export const run = async () => {
           { name: "WEBSITE_HTTPLOGGING_RETENTION_DAYS", value: "3" },
           {
             name: "MESSAGE_CONTAINER_NAME",
-            value: (config as any).message_blob_container_00
+            value: (config as any).message_blob_container
           }
         ],
         connectionStrings: [
@@ -115,19 +114,19 @@ export const run = async () => {
     }
   );
 
-  if ((config as any).functionapp_git_repo_00) {
+  if ((config as any).functionapp_git_repo) {
     await webSiteClient.webApps.createOrUpdateSourceControl(
-      (config as any).azurerm_resource_group_00,
-      (config as any).azurerm_functionapp_00,
+      (config as any).azurerm_resource_group,
+      (config as any).azurerm_functionapp,
       {
-        branch: (config as any).functionapp_git_branch_00,
+        branch: (config as any).functionapp_git_branch,
         deploymentRollbackEnabled: true,
         // FIXME: `isManualIntegration: false` will fail trying to send an email
         // to the service principal user. I guess this is a bug in the Azure APIs
         isManualIntegration: true,
         isMercurial: false,
-        repoUrl: (config as any).functionapp_git_repo_00,
-        type: (config as any).functionapp_scm_type_00
+        repoUrl: (config as any).functionapp_git_repo,
+        type: (config as any).functionapp_scm_type
       }
     );
   }

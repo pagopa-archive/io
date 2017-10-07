@@ -45,19 +45,19 @@ const addDays = (date: Date, days: number) => {
  */
 const getFunctionsInfo = async (webClient: webSiteManagementClient) => {
   const functions = await webClient.webApps.get(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_functionapp_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_functionapp
   );
   const creds = await webClient.webApps.listPublishingCredentials(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_functionapp_00
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_functionapp
   );
   const backendUrl = `https://${functions.defaultHostName}`;
 
   // @FIXME: unfortunately there are no API to get a Functions App master key
   const secretUrl = url.format({
     auth: `${creds.publishingUserName}:${creds.publishingPassword}`,
-    host: `${(config as any).azurerm_functionapp_00}.scm.azurewebsites.net`,
+    host: `${(config as any).azurerm_functionapp}.scm.azurewebsites.net`,
     pathname: "/api/functions/admin/masterkey",
     protocol: "https"
   });
@@ -82,8 +82,8 @@ const setApimProperties = async (
   return await Promise.all(
     Object.keys(properties).map(async prop => {
       return await apiClient.property.createOrUpdate(
-        (config as any).azurerm_resource_group_00,
-        (config as any).azurerm_apim_00,
+        (config as any).azurerm_resource_group,
+        (config as any).azurerm_apim,
         prop,
         {
           displayName: prop,
@@ -108,9 +108,9 @@ const setupConfigurationFromGit = async (
 
   // Get APi manager configuration repository (git) credentials
   const gitKey = await apiClient.user.getSharedAccessToken(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_apim_00,
-    (config as any).apim_scm_cred_username_00,
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_apim,
+    (config as any).apim_scm_cred_username,
     {
       // Access token can have maximum expiry time of 30 days
       expiry: addDays(new Date(), 10),
@@ -121,7 +121,7 @@ const setupConfigurationFromGit = async (
   const { hostname, protocol } = url.parse(scmUrl);
   const scmUrlWithCreds = url.format({
     ...{ hostname, protocol },
-    auth: `${(config as any).apim_scm_username_00}:${gitKey.value}`
+    auth: `${(config as any).apim_scm_username}:${gitKey.value}`
   });
 
   // Push master branch
@@ -143,8 +143,8 @@ const setupConfigurationFromGit = async (
 
   // Deploy configuration from master branch
   const deploy = await apiClient.tenantConfiguration.deploy(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_apim_00,
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_apim,
     {
       branch: "master",
       // deletes subscriptions to products that are deleted in this update
@@ -169,14 +169,14 @@ export const run = async () => {
 
   // Create API manager PaaS
   const apiManagementService = await apiClient.apiManagementService.createOrUpdate(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_apim_00,
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_apim,
     {
       location: (config as any).location,
-      notificationSenderEmail: (config as any).apim_email_00,
-      publisherEmail: (config as any).apim_email_00,
-      publisherName: (config as any).apim_publisher_00,
-      sku: { name: (config as any).apim_sku_00, capacity: 1 }
+      notificationSenderEmail: (config as any).apim_email,
+      publisherEmail: (config as any).apim_email,
+      publisherName: (config as any).apim_publisher,
+      sku: { name: (config as any).apim_sku, capacity: 1 }
     }
   );
 

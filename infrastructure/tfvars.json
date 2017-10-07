@@ -13,7 +13,7 @@
   "azurerm_cosmosdb_collections_00": ["messages", "profiles"],
   "azurerm_app_service_plan_00": "dc00asp",
   "azurerm_functionapp_00": "dc00f",
-  "functionapp_git_repo_00": "https://github.com/gunzip/digital-citizenship-functions",
+  "functionapp_git_repo_00": "",
   "functionapp_git_branch_00": "master",  
   "functionapp_scm_type_00": "GitHub",  
   "azurerm_application_insights_00": "dc00ai",

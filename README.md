@@ -47,8 +47,67 @@ export ARM_CLIENT_SECRET=<service principal client secret (key)>
 export ARM_TENANT_ID=<Active Directory domain Id>
 ```
 
+- Optional: edit configuration file `infrastructure/tfvars.json`
+
+- Optional: edit Terraform configuration file `infrastructure/azure.cf`
+
 - Run the following commands:
 
 `npm install`
 `npm run resources:deploy`
 
+This task will deploy the following services to an Azure resource group:
+
+- [App service plan](https://azure.microsoft.com/en-us/pricing/details/app-service/plans/)
+- [Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview) app (configured)
+- [CosmosDB database](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) (and collections)
+- [Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction)
+- [Storage queues](https://azure.microsoft.com/en-us/services/storage/queues/) (for emails and messages)
+- [Blob storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
+- [API management](https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts) (with configuration)
+- [Application insights](https://azure.microsoft.com/it-it/services/application-insights/)
+- [Log analytics](https://azure.microsoft.com/en-au/services/log-analytics/)
+
+Most of the services are created running Terraform (see `infrastructure/azure.tf`).
+
+Some services are actually unsupported by Terraform (CosmosDB database and collections, Functions, API manager);
+these ones are created by NodeJS scripts (`infrastructure/tasks`) that call the
+[Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node).
+
+#### Example output
+
+```
+$ npm run resources:deploy
+
+> digital-citizenship@0.1.0 resources:deploy ...digital-citizenship
+> npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api
+
+> digital-citizenship@0.1.0 resources:tf-init ...digital-citizenship
+> terraform init -var-file=infrastructure/tfvars.json infrastructure
+
+Initializing provider plugins...
+
+...
+
+Terraform has been successfully initialized!
+
+...
+
+> digital-citizenship@0.1.0 resources:tf-apply C:\Users\danilo.spinelli\Projects\digital-citizenship
+> terraform apply -var-file=infrastructure/tfvars.json infrastructure
+
+...
+
+Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
+
+> digital-citizenship@0.1.0 resources:cosmosdb C:\Users\danilo.spinelli\Projects\digital-citizenship
+> ts-node infrastructure/tasks/00-cosmosdb.ts
+
+successfully deployed cosmsodb database and collections
+
+> digital-citizenship@0.1.0 resources:functions C:\Users\danilo.spinelli\Projects\digital-citizenship
+> ts-node infrastructure/tasks/10-functions.ts
+
+...
+
+```

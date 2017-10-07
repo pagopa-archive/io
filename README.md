@@ -93,19 +93,19 @@ Terraform has been successfully initialized!
 
 ...
 
-> digital-citizenship@0.1.0 resources:tf-apply C:\Users\danilo.spinelli\Projects\digital-citizenship
+> digital-citizenship@0.1.0 resources:tf-apply ...digital-citizenship
 > terraform apply -var-file=infrastructure/tfvars.json infrastructure
 
 ...
 
 Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
 
-> digital-citizenship@0.1.0 resources:cosmosdb C:\Users\danilo.spinelli\Projects\digital-citizenship
+> digital-citizenship@0.1.0 resources:cosmosdb ...digital-citizenship
 > ts-node infrastructure/tasks/00-cosmosdb.ts
 
 successfully deployed cosmsodb database and collections
 
-> digital-citizenship@0.1.0 resources:functions C:\Users\danilo.spinelli\Projects\digital-citizenship
+> digital-citizenship@0.1.0 resources:functions ...digital-citizenship
 > ts-node infrastructure/tasks/10-functions.ts
 
 ...

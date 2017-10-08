@@ -8,6 +8,7 @@
  *  - App service plan
  *  - Storage account
  *  - Storage Blob container
+ *  - AppInsights instance
  * 
  */
 // tslint:disable:no-console
@@ -19,6 +20,7 @@ import * as config from "../tfvars.json";
 import storageManagementClient = require("azure-arm-storage");
 import webSiteManagementClient = require("azure-arm-website");
 
+import AppInsights = require("azure-arm-appinsights");
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 
 const getAppServicePlan = async (client: any) => {
@@ -28,8 +30,23 @@ const getAppServicePlan = async (client: any) => {
   );
 };
 
+const getAppInsightsKey = async (appInsightsClient: AppInsights) => {
+  const appInsightsInstance = await appInsightsClient.components.get(
+    (config as any).azurerm_resource_group,
+    (config as any).azurerm_application_insights
+  );
+  return appInsightsInstance.instrumentationKey;
+};
+
 export const run = async () => {
   const loginCreds = await login();
+
+  // Get AppInsights instrumentation key
+  const appInsightsClient = new AppInsights(
+    loginCreds.creds as any,
+    loginCreds.subscriptionId
+  );
+  const appInsightsKey = await getAppInsightsKey(appInsightsClient);
 
   // Needed to get storage connection string
   const storageClient = new storageManagementClient(
@@ -89,7 +106,7 @@ export const run = async () => {
             value: (config as any).azurerm_cosmosdb_documentdb
           },
           { name: "QueueStorageConnection", value: storageConnectionString },
-          { name: "APPINSIGHTS_INSTRUMENTATIONKEY", value: "" },
+          { name: "APPINSIGHTS_INSTRUMENTATIONKEY", value: appInsightsKey },
           { name: "FUNCTION_APP_EDIT_MODE", value: "readonly" },
           { name: "AzureWebJobsSecretStorageType", value: "disabled" },
           { name: "WEBSITE_HTTPLOGGING_RETENTION_DAYS", value: "3" },

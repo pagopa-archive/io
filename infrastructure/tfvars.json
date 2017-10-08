@@ -10,7 +10,7 @@
   "azurerm_storage_queue_createdmessages": "createdmessages",
   "azurerm_cosmosdb": "dc00cdb",
   "azurerm_cosmosdb_documentdb": "dc00cdbddb",
-  "azurerm_cosmosdb_collections": ["messages", "profiles"],
+  "azurerm_cosmosdb_collections": ["messages", "profiles", "notifications", "organizations"],
   "azurerm_app_service_plan": "dc00asp",
   "azurerm_functionapp": "dc00f",
   "functionapp_git_repo": "",

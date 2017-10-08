@@ -5,3 +5,4 @@ site
 *tfstate*
 *.exe
 local.*
+npm-debug.log

@@ -147,9 +147,9 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
     # Can be either BoundedStaleness, Eventual, Session or Strong
     # see https://docs.microsoft.com/en-us/azure/cosmos-db/consistency-levels
     # Note: with the default BoundedStaleness settings CosmosDB cannot perform failover / replication:
-    #   Operations: for a single region the maximum operations lag must be between 10 and 1 000 000
+    #   Operations (max_staleness): for a single region the maximum operations lag must be between 10 and 1 000 000
     #               for the multi region, it will be between 100 000 and 1 000 000
-    #   Time: the maximum lag must be between 5 seconds and 1 day for either single or multi-regions
+    #   Time (max_interval_in_seconds): the maximum lag must be between 5 seconds and 1 day for either single or multi-regions
     consistency_policy {
         consistency_level = "Session"
     }

@@ -83,69 +83,83 @@ export const run = async () => {
   );
   const servicePlan = await getAppServicePlan(webSiteClient);
 
-  await webSiteClient.webApps.createOrUpdate(
+  const appConfig = {
+    kind: "functionapp",
+    location: (config as any).location,
+    serverFarmId: servicePlan.id,
+    siteConfig: {
+      alwaysOn: true,
+      // nodeVersion:
+      // apiDefinition.url
+      appSettings: [
+        // mandatory params
+        { name: "AzureWebJobsStorage", value: storageConnectionString },
+        { name: "AzureWebJobsDashboard", value: storageConnectionString },
+        { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "6.5.0" },
+        { name: "FUNCTIONS_EXTENSION_VERSION", value: "~1" },
+        // optional params
+        {
+          name: "COSMODB_NAME",
+          value: (config as any).azurerm_cosmosdb_documentdb
+        },
+        { name: "QueueStorageConnection", value: storageConnectionString },
+        { name: "APPINSIGHTS_INSTRUMENTATIONKEY", value: appInsightsKey },
+        { name: "FUNCTION_APP_EDIT_MODE", value: "readonly" },
+        { name: "AzureWebJobsSecretStorageType", value: "disabled" },
+        { name: "WEBSITE_HTTPLOGGING_RETENTION_DAYS", value: "3" },
+        {
+          name: "MESSAGE_CONTAINER_NAME",
+          value: (config as any).message_blob_container
+        }
+      ],
+      connectionStrings: [
+        {
+          connectionString: cosmosdbLink,
+          name: "COSMOSDB_URI",
+          type: "Custom"
+        },
+        {
+          connectionString: cosmosdbKey,
+          name: "COSMOSDB_KEY",
+          type: "Custom"
+        }
+      ]
+    }
+  };
+
+  const createdFunction = await webSiteClient.webApps.createOrUpdate(
     (config as any).azurerm_resource_group,
     (config as any).azurerm_functionapp,
-    {
-      kind: "functionapp",
-      location: (config as any).location,
-      serverFarmId: servicePlan.id,
-      siteConfig: {
-        alwaysOn: false,
-        // nodeVersion:
-        // apiDefinition.url
-        appSettings: [
-          // mandatory params
-          { name: "AzureWebJobsStorage", value: storageConnectionString },
-          { name: "AzureWebJobsDashboard", value: storageConnectionString },
-          { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "6.5.0" },
-          { name: "FUNCTIONS_EXTENSION_VERSION", value: "~1" },
-          // optional params
-          {
-            name: "COSMODB_NAME",
-            value: (config as any).azurerm_cosmosdb_documentdb
-          },
-          { name: "QueueStorageConnection", value: storageConnectionString },
-          { name: "APPINSIGHTS_INSTRUMENTATIONKEY", value: appInsightsKey },
-          { name: "FUNCTION_APP_EDIT_MODE", value: "readonly" },
-          { name: "AzureWebJobsSecretStorageType", value: "disabled" },
-          { name: "WEBSITE_HTTPLOGGING_RETENTION_DAYS", value: "3" },
-          {
-            name: "MESSAGE_CONTAINER_NAME",
-            value: (config as any).message_blob_container
-          }
-        ],
-        connectionStrings: [
-          {
-            connectionString: cosmosdbLink,
-            name: "COSMOSDB_URI",
-            type: "Custom"
-          },
-          {
-            connectionString: cosmosdbKey,
-            name: "COSMOSDB_KEY",
-            type: "Custom"
-          }
-        ]
-      }
-    }
+    appConfig
   );
 
-  if ((config as any).functionapp_git_repo) {
-    await webSiteClient.webApps.createOrUpdateSourceControl(
+  if ((config as any).azurerm_functionapp_slot && createdFunction.id) {
+    // Create slot for staging
+    await webSiteClient.webApps.createOrUpdateSlot(
       (config as any).azurerm_resource_group,
       (config as any).azurerm_functionapp,
-      {
-        branch: (config as any).functionapp_git_branch,
-        deploymentRollbackEnabled: true,
-        // FIXME: `isManualIntegration: false` will fail trying to send an email
-        // to the service principal user. I guess this is a bug in the Azure APIs
-        isManualIntegration: true,
-        isMercurial: false,
-        repoUrl: (config as any).functionapp_git_repo,
-        type: (config as any).functionapp_scm_type
-      }
+      appConfig,
+      (config as any).azurerm_functionapp_slot
     );
+
+    // Create git integration for the staging slot
+    if ((config as any).functionapp_git_repo) {
+      await webSiteClient.webApps.createOrUpdateSourceControlSlot(
+        (config as any).azurerm_resource_group,
+        (config as any).azurerm_functionapp,
+        {
+          branch: (config as any).functionapp_git_branch,
+          deploymentRollbackEnabled: true,
+          // FIXME: `isManualIntegration: false` will fail trying to send an email
+          // to the service principal user. I guess this is a bug in the Azure APIs
+          isManualIntegration: true,
+          isMercurial: false,
+          repoUrl: (config as any).functionapp_git_repo,
+          type: (config as any).functionapp_scm_type
+        },
+        (config as any).azurerm_functionapp_slot
+      );
+    }
   }
 };
 

@@ -74,18 +74,13 @@ Some services aren't yet supported by Terraform (CosmosDB database and collectio
 these ones are created by NodeJS scripts (`infrastructure/tasks`) that provision the services through the
 [Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node).
 
-#### Storing Terraform state remotely
+#### Shared Terraform state
 
-By default, Terraform stores state locally in a file named `terraform.tfstate`. 
-To [store Terraform state remotely](https://www.terraform.io/docs/state/remote.html)
-we use an Azure storage container.
+The Terraform state is shared through an Azure
+[storage container](https://www.terraform.io/docs/state/remote.html).
 
-Before running any command involving Terraform:
-
-- edit `infrastructure/azure.tf`and set up resource group name and storage container name
-
-- go to the [Azure portal](https://portal.azure.com) and create the relative resources
-(resource group, storage account, storage container)
+Before running any command involving Terraform you must request access
+to the Azure container to the project administrators.
 
 #### Example output
 

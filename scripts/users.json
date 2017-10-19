@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "email": "",
+      "firstName": "",
+      "lastName": "",
+      "note": "",
+      "password": "",
+      "productName": "",
+      "groups": ["ApiMessageWrite", "ApiInfoRead"]
+    }
+  ]
+}

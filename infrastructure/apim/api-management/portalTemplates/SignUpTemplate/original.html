@@ -1,0 +1,27 @@
+<h2 class="text-center">{% localized "SignupStrings|PageTitleSignup" %}</h2>
+<p class="text-center">
+  {% localized "SignupStrings|WebAuthenticationAlreadyAMember" %} <a href="/signin">{% localized "SignupStrings|WebAuthenticationSigninNow" %}</a>
+</p>
+
+<div class="row center-block ap-idp-container">
+  <div class="col-md-6">
+    <p>{% localized "SignupStrings|WebAuthenticationCreateNewAccount" %}</p>
+    <sign-up></sign-up>
+  </div>
+  
+    {% if providers.size > 0 %}
+	  <div class="col-md-6">
+			<div class="providers-list">	
+        <p class="text-left">
+				{% if registrationEnabled == true %}
+					{% localized "ProviderInfoStrings|TextboxExternalIdentitiesSignupInvitation" %}
+				{% else %}
+					{% localized "ProviderInfoStrings|TextboxExternalIdentitiesSignupInvitationPrimary" %}
+				{% endif %}
+				</p>
+        <providers></providers>
+			</div>
+    </div>
+		{% endif %}
+    
+</div>

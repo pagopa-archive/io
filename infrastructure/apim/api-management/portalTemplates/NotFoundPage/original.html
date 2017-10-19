@@ -1,0 +1,27 @@
+<h2>{% localized "NotFoundStrings|PageTitleNotFound" %}</h2>
+
+<h3>{% localized "NotFoundStrings|TitlePotentialCause" %}</h3>
+<ul>
+  <li>{% localized "NotFoundStrings|TextblockPotentialCauseOldLink" %}</li>
+  <li>{% localized "NotFoundStrings|TextblockPotentialCauseMisspelledUrl" %}</li>
+</ul>
+
+<h3>{% localized "NotFoundStrings|TitlePotentialSolution" %}</h3>
+<ul>
+  <li>{% localized "NotFoundStrings|TextblockPotentialSolutionRetype" %}</li>
+  <li>
+    {% capture textPotentialSolutionStartOver %}{% localized "NotFoundStrings|TextblockPotentialSolutionStartOver" %}{% endcapture %}
+    {% capture homeLink %}<a href="/">{% localized "NotFoundStrings|LinkLabelHomePage" %}</a>{% endcapture %}
+    {% assign replaceString = '{0}' %}
+
+    {{ textPotentialSolutionStartOver | append : " " | split : replaceString | join : homeLink }}
+  </li>
+</ul>
+
+<p>
+  {% capture textReportProblem %}{% localized "NotFoundStrings|TextReportProblem" %}{% endcapture %}
+  {% capture emailLink %}<a href="{{emailBody}}" target="_self" title="API Management Support">{% localized "NotFoundStrings|LinkLabelSendUsEmail" %}</a>{% endcapture %}
+  {% assign replaceString = '{0}' %}
+
+  {{ textReportProblem | append : " " | split : replaceString | join : emailLink }}
+</p>

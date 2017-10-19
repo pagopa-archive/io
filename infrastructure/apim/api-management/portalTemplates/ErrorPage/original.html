@@ -1,0 +1,36 @@
+<h2>{% localized "ErrorPageStrings|PageTitleError" %}</h2>
+
+<h3>{% localized "ErrorPageStrings|TitlePotentialSolution" %}</h3>
+<br />
+
+<ul>
+  <li>{% localized "ErrorPageStrings|TextblockPotentialSolutionRefresh" %}</li>
+  <li>
+    {% capture textPotentialSolutionTryAgain %}{% localized "ErrorPageStrings|TextblockPotentialSolutionTryAgain" %}{% endcapture %}
+    {% capture backLink %}<a href="#">{% localized "ErrorPageStrings|LinkLabelBack" %}</a>{% endcapture %}
+    {% assign replaceString = '{0}' %}
+
+    {{ textPotentialSolutionTryAgain | append : " " | split : replaceString | join : backLink }}
+  </li>
+  <li>
+    {% capture textPotentialSolutionStartOver %}{% localized "ErrorPageStrings|TextblockPotentialSolutionStartOver" %}{% endcapture %}
+    {% capture homeLink %}<a href="/">{% localized "ErrorPageStrings|LinkLabelHomePage" %}</a>{% endcapture %}
+    {% assign replaceString = '{0}' %}
+
+    {{ textPotentialSolutionStartOver | append : " " | split : replaceString | join : homeLink }}
+  </li>
+  <li>
+    {% capture textReportProblem %}{% localized "ErrorPageStrings|TextReportProblem" %}{% endcapture %}
+    {% capture emailLink %}<a href="{{emailBody}}" target="_self" title="API Management Support">{% localized "ErrorPageStrings|LinkLabelSendUsEmail" %}</a>{% endcapture %}
+    {% assign replaceString = '{0}' %}
+
+    {{ textReportProblem | append : " " | split : replaceString | join : emailLink }}
+  </li>
+</ul>
+<p>
+  <br />
+  Error Code: {{errorCode}}
+  <br />
+  <br />
+  Reference ID: {{referenceCode}}
+</p>

@@ -1,0 +1,17 @@
+<!DOCTYPE html >
+<html>
+  <head />
+  <body>
+    <p style="font-size:12pt;font-family:'Segoe UI'">Dear $DevFirstName $DevLastName,</p>
+    <p style="font-size:12pt;font-family:'Segoe UI'">
+          We would like to inform you that we reviewed your subscription request for the <strong>$ProdName</strong>.
+        </p>
+        #if ($SubDeclineReason == "")
+        <p style="font-size:12pt;font-family:'Segoe UI'">Regretfully, we were unable to approve it, as subscriptions are temporarily suspended at this time.</p>
+        #else
+        <p style="font-size:12pt;font-family:'Segoe UI'">
+          Regretfully, we were unable to approve it at this time for the following reason:
+          <div style="margin-left: 1.5em;"> $SubDeclineReason </div></p>
+        #end
+        <p style="font-size:12pt;font-family:'Segoe UI'"> We truly appreciate your interest. </p><p style="font-size:12pt;font-family:'Segoe UI'">All the best,</p><p style="font-size:12pt;font-family:'Segoe UI'">The $OrganizationName API Team</p><a style="font-size:12pt;font-family:'Segoe UI'" href="http://$DevPortalUrl">$DevPortalUrl</a></body>
+</html>

@@ -1,0 +1,68 @@
+#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, const char * argv[])
+{
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    
+    NSString* path = @&quot;{{scheme}}://{{host}}{{path}}&quot;;
+    NSArray* array = @[
+                         // Request parameters
+                         @&quot;entities=true&quot;,
+{% if parameters.size &gt; 0 -%}
+{% for parameter in parameters -%}
+                         @&quot;{{parameter.name}}={{parameter.value}}&quot;,
+{% endfor -%}
+{% endif -%}
+                      ];
+    
+    NSString* string = [array componentsJoinedByString:@&quot;&amp;&quot;];
+    path = [path stringByAppendingFormat:@&quot;?%@&quot;, string];
+
+    NSLog(@&quot;%@&quot;, path);
+
+    NSMutableURLRequest* _request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
+    [_request setHTTPMethod:@&quot;{{method}}&quot;];
+{% if headers.size &gt; 0 -%}
+    // Request headers
+{% for header in headers -%}
+    [_request setValue:@&quot;{{header.value}}&quot; forHTTPHeaderField:@&quot;{{header.name}}&quot;];
+{% endfor -%}
+{% endif -%}
+{% if body -%}
+    // Request body
+    [_request setHTTPBody:[@&quot;{{ body | replace:&#39;&quot;&#39;,&#39;\&quot;&#39; }}&quot; dataUsingEncoding:NSUTF8StringEncoding]];
+{% endif -%}
+    
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData* _connectionData = [NSURLConnection sendSynchronousRequest:_request returningResponse:&amp;response error:&amp;error];
+
+    if (nil != error)
+    {
+        NSLog(@&quot;Error: %@&quot;, error);
+    }
+    else
+    {
+        NSError* error = nil;
+        NSMutableDictionary* json = nil;
+        NSString* dataString = [[NSString alloc] initWithData:_connectionData encoding:NSUTF8StringEncoding];
+        NSLog(@&quot;%@&quot;, dataString);
+        
+        if (nil != _connectionData)
+        {
+            json = [NSJSONSerialization JSONObjectWithData:_connectionData options:NSJSONReadingMutableContainers error:&amp;error];
+        }
+        
+        if (error || !json)
+        {
+            NSLog(@&quot;Could not parse loaded json with error:%@&quot;, error);
+        }
+        
+        NSLog(@&quot;%@&quot;, json);
+        _connectionData = nil;
+    }
+    
+    [pool drain];
+
+    return 0;
+}

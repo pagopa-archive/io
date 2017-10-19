@@ -1,0 +1,7 @@
+{
+  "name": "ApiMessageWriteDryRun",
+  "$ref-description": "api-management/groups/ApiMessageWriteDryRun/description.html",
+  "builtIn": false,
+  "type": "custom",
+  "externalId": null
+}

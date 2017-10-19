@@ -1,0 +1,121 @@
+<div class="ap-account-subscriptions">
+  <a href="{{developersUsageStatisticsLink}}" id="UsageStatistics" class="btn btn-default pull-right">
+    <span class="glyphicon glyphicon-stats"></span>
+    <span>{% localized "SubscriptionListStrings|WebDevelopersUsageStatisticsLink" %}</span>
+  </a>
+
+  <h2>{% localized "SubscriptionListStrings|WebDevelopersYourSubscriptions" %}</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Subscription details</th>
+        <th>Product</th>
+        <th>{% localized "SubscriptionListStrings|WebDevelopersSubscriptionTableStateHeader" %}</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if subscriptions.size == 0 %}
+      <tr>
+        <td class="text-center" colspan="4">
+          {% localized "CommonResources|NoItemsToDisplay" %}
+        </td>
+      </tr>
+      {% else %}
+      {% for subscription in subscriptions %}
+      <tr id="{{subscription.id}}" {% if subscription.hasExpired %} class="expired" {% endif %}>
+        <td>
+          <div class="row">
+            <label class="col-lg-3">{% localized "SubscriptionListStrings|SubscriptionPropertyLabelName" %}</label>
+            <div class="col-lg-6">
+              {{ subscription.displayName }}
+            </div>
+            <div class="col-lg-2">
+              <a class="btn-link" href="/Subscriptions/{{subscription.id}}/Rename">Rename</a>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          {% if subscription.isAwaitingApproval %}
+          <div class="row">
+            <label class="col-lg-3">{% localized "SubscriptionListStrings|SubscriptionPropertyLabelRequestedDate" %}</label>
+            <div class="col-lg-6">
+              {{ subscription.createdDate | date:"MM/dd/yyyy" }}
+            </div>
+          </div>
+          {% else %}
+          {% if subscription.isRejected == false %}
+          {% if subscription.startDate %}
+          <div class="row">
+            <label class="col-lg-3">{% localized "SubscriptionListStrings|SubscriptionPropertyLabelStartedDate" %}</label>
+            <div class="col-lg-6">
+              {{ subscription.startDate | date:"MM/dd/yyyy" }}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- ko with: Developers.Account.Root.account.key('{{subscription.primaryKey}}', '{{subscription.id}}', true) -->
+          <div class="row">
+            <label class="col-lg-3">{% localized "SubscriptionListStrings|WebDevelopersPrimaryKey" %}</label>
+            <div class="col-lg-6">
+              <code data-bind="text: $data.displayKey()" id="primary_{{subscription.id}}"></code>
+            </div>
+            <div class="col-lg-2">
+              <!-- ko if: !requestInProgress() -->
+              <div class="nowrap">
+                <a href="#" class="btn-link" id="togglePrimary_{{subscription.id}}" data-bind="click: toggleKeyDisplay, text: toggleKeyLabel"></a>
+                |
+                <a href="#" class="btn-link" id="regeneratePrimary_{{subscription.id}}" data-bind="click: regenerateKey, text: regenerateKeyLabel"></a>
+              </div>
+              <!-- /ko -->
+              <!-- ko if: requestInProgress() -->
+              <div class="progress progress-striped active">
+                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  <span class="sr-only"></span>
+                </div>
+              </div>
+              <!-- /ko -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <!-- /ko -->
+          <!-- ko with: Developers.Account.Root.account.key('{{subscription.secondaryKey}}', '{{subscription.id}}', false) -->
+          <div class="row">
+            <label class="col-lg-3">{% localized "SubscriptionListStrings|WebDevelopersSecondaryKey" %}</label>
+            <div class="col-lg-6">
+              <code data-bind="text: $data.displayKey()" id="secondary_{{subscription.id}}"></code>
+            </div>
+            <div class="col-lg-2">
+              <div class="nowrap">
+                <a href="#" class="btn-link" id="toggleSecondary_{{subscription.id}}" data-bind="click: toggleKeyDisplay, text: toggleKeyLabel">{% localized "SubscriptionListStrings|ButtonLabelShowKey" %}</a>
+                |
+                <a href="#" class="btn-link" id="regenerateSecondary_{{subscription.id}}" data-bind="click: regenerateKey, text: regenerateKeyLabel">{% localized "SubscriptionListStrings|WebDevelopersRegenerateLink" %}</a>
+              </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+          </div>
+          <!-- /ko -->
+          {% endif %}
+          {% endif %}
+        </td>
+        <td>
+          <a href="{{subscription.productDetailsUrl}}">{{subscription.productTitle}}</a>
+        </td>
+        <td>
+          <strong>
+            {{subscription.state}}
+          </strong>
+        </td>
+        <td>
+          <div class="nowrap">
+            {% if subscription.canBeCancelled %}
+            <subscription-cancel params="{ subscriptionId: '{{subscription.id}}', cancelUrl: '{{subscription.cancelUrl}}' }"></subscription-cancel>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+</div>

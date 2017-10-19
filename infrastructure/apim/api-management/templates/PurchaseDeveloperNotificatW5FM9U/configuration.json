@@ -1,0 +1,45 @@
+{
+  "subject": "Your subscription to the $ProdName",
+  "$ref-body": "api-management/templates/PurchaseDeveloperNotificatW5FM9U/body.html",
+  "title": "New subscription activated",
+  "description": "Developers receive this acknowledgement email after subscribing to a product.",
+  "isDefault": false,
+  "parameters": [
+    {
+      "name": "DevFirstName",
+      "title": "Developer first name",
+      "description": null
+    },
+    {
+      "name": "DevLastName",
+      "title": "Developer last name",
+      "description": null
+    },
+    {
+      "name": "ProdName",
+      "title": "Product name",
+      "description": null
+    },
+    {
+      "name": "OrganizationName",
+      "title": "Organization name",
+      "description": null
+    },
+    {
+      "name": "SubStartDate",
+      "title": "Subscription start date",
+      "description": null
+    },
+    {
+      "name": "SubTerm",
+      "title": "Subscription term",
+      "description": null
+    },
+    {
+      "name": "DevPortalUrl",
+      "title": "Developer portal URL",
+      "description": null
+    }
+  ],
+  "name": "/templates/PurchaseDeveloperNotificationMessage"
+}

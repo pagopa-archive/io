@@ -1,0 +1,7 @@
+{
+  "name": "ApiDebugRead",
+  "$ref-description": "api-management/groups/ApiDebugRead/description.html",
+  "builtIn": false,
+  "type": "custom",
+  "externalId": null
+}

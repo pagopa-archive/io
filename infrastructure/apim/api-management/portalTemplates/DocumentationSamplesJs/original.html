@@ -1,0 +1,45 @@
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;JSSample&lt;/title&gt;
+    &lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() {
+        var params = {
+{% if parameters.size &gt; 0 -%}
+            // Request parameters
+{% for parameter in parameters -%}
+            &quot;{{parameter.name}}&quot;: &quot;{{parameter.value}}&quot;,
+{% endfor -%}
+{% endif -%}
+        };
+      
+        $.ajax({
+            url: &quot;{{scheme}}://{{host}}{{path}}{% if path contains '?' %}&{% else %}?{% endif %}&quot; + $.param(params),
+{% if headers.size &gt; 0 -%}
+            beforeSend: function(xhrObj){
+                // Request headers
+{% for header in headers -%}
+                xhrObj.setRequestHeader(&quot;{{header.name}}&quot;,&quot;{{header.value}}&quot;);
+{% endfor -%}
+            },
+{% endif -%}
+            type: &quot;{{method}}&quot;,
+{% if body -%}
+            // Request body
+            data: &quot;{{ body | replace:&#39;&quot;&#39;,&#39;\&quot;&#39; }}&quot;,
+{% endif -%}
+        })
+        .done(function(data) {
+            alert(&quot;success&quot;);
+        })
+        .fail(function() {
+            alert(&quot;error&quot;);
+        });
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;

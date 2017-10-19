@@ -1,0 +1,45 @@
+{
+  "subject": "Welcome to the $OrganizationName API!",
+  "$ref-body": "api-management/templates/NewDeveloperNotificationMessage/body.html",
+  "title": "Developer welcome letter",
+  "description": "Developers receive this “welcome” email after they confirm their new account.",
+  "isDefault": false,
+  "parameters": [
+    {
+      "name": "DevFirstName",
+      "title": "Developer first name",
+      "description": null
+    },
+    {
+      "name": "DevLastName",
+      "title": "Developer last name",
+      "description": null
+    },
+    {
+      "name": "DevUsername",
+      "title": "Developer user name",
+      "description": null
+    },
+    {
+      "name": "DevEmail",
+      "title": "Developer email",
+      "description": null
+    },
+    {
+      "name": "OrganizationName",
+      "title": "Organization name",
+      "description": null
+    },
+    {
+      "name": "DevPortalUrl",
+      "title": "Developer portal URL",
+      "description": null
+    },
+    {
+      "name": "IdentityProvider",
+      "title": "Identity Provider selected by Organization",
+      "description": null
+    }
+  ],
+  "name": "/templates/NewDeveloperNotificationMessage"
+}

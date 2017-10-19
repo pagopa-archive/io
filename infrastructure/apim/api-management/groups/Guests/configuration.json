@@ -1,0 +1,7 @@
+{
+  "name": "Guests",
+  "$ref-description": "api-management/groups/Guests/description.html",
+  "builtIn": true,
+  "type": "system",
+  "externalId": null
+}

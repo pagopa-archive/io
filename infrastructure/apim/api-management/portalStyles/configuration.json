@@ -1,0 +1,5 @@
+{
+  "$ref-Production": "api-management/portalStyles/Production.css",
+  "$ref-Template": null,
+  "$ref-Preview": "api-management/portalStyles/Preview.css"
+}

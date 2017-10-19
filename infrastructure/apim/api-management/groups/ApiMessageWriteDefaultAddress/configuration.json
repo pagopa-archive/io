@@ -1,0 +1,7 @@
+{
+  "name": "ApiMessageWriteDefaultAddress",
+  "$ref-description": "api-management/groups/ApiMessageWriteDefaultAddress/description.html",
+  "builtIn": false,
+  "type": "custom",
+  "externalId": null
+}

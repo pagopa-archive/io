@@ -4,16 +4,11 @@
 # Uncomment the following lines if you prefer to use an Azure backend to store Terraform state.
 # You *must* create the storage account and the container before running this script
 #
-# variable "terraform_state_storage_account" {
-#     type = "string"
-# }
-# variable "terraform_state_storage_container" {
-#     type = "string"
-# }
 # terraform {
 #  backend "azurerm" {
-#    storage_account_name = "${var.terraform_state_storage_account}"
-#    container_name       = "${var.terraform_state_storage_container}"
+#    resource_group_name  = "terraform-resource-group"
+#    storage_account_name = "terraformstorageaccount"
+#    container_name       = "terraform_storage_container"
 #    key                  = "production.terraform.tfstate"
 #  }
 # }

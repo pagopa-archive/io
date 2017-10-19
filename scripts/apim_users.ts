@@ -17,9 +17,18 @@ import {
   UserContract,
   UserCreateParameters
 } from "azure-arm-apimanagement/lib/models";
-import * as config from "../infrastructure/tfvars.json";
+
+import readConfig from "../lib/config";
+const config = readConfig(__dirname + "/../tfvars.json");
+
 import { login } from "../lib/login";
-import * as users from "./users.json";
+
+import * as fs from "fs";
+import * as path from "path";
+
+const users = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "users.json"), "utf8")
+);
 
 const addUserToProduct = async (
   apiClient: apiManagementClient,
@@ -27,14 +36,14 @@ const addUserToProduct = async (
   productName: string
 ) => {
   const product = await apiClient.product.get(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_apim_00,
+    config.azurerm_resource_group,
+    config.azurerm_apim,
     productName
   );
   if (user && user.id && product && product.id) {
     apiClient.subscription.createOrUpdate(
-      (config as any).azurerm_resource_group_00,
-      (config as any).azurerm_apim_00,
+      config.azurerm_resource_group,
+      config.azurerm_apim,
       `sid-${user.email}-${productName}`,
       {
         displayName: `sid-${user.email}-${productName}`,
@@ -51,8 +60,8 @@ const createOrUpdateUser = (
   user: UserCreateParameters
 ) =>
   apiClient.user.createOrUpdate(
-    (config as any).azurerm_resource_group_00,
-    (config as any).azurerm_apim_00,
+    config.azurerm_resource_group,
+    config.azurerm_apim,
     user.email,
     user
   );
@@ -66,8 +75,8 @@ const addUserToGroups = (
     groups.map(async group => {
       if (user && user.email) {
         return await apiClient.groupUser.create(
-          (config as any).azurerm_resource_group_00,
-          (config as any).azurerm_apim_00,
+          config.azurerm_resource_group,
+          config.azurerm_apim,
           group,
           user.email
         );

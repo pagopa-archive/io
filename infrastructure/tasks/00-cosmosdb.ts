@@ -10,7 +10,9 @@
 // tslint:disable:no-any
 
 import { login } from "../../lib/login";
-import * as config from "../tfvars.json";
+
+import readConfig from "../../lib/config";
+const config = readConfig(__dirname + "/../tfvars.json");
 
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 import * as documentdb from "documentdb";
@@ -101,8 +103,8 @@ export const run = async () => {
   );
 
   const databaseAccount = await client.databaseAccounts.get(
-    (config as any).azurerm_resource_group,
-    (config as any).azurerm_cosmosdb
+    config.azurerm_resource_group,
+    config.azurerm_cosmosdb
   );
 
   if (databaseAccount.documentEndpoint === undefined) {
@@ -110,25 +112,22 @@ export const run = async () => {
   }
 
   const keys = await client.databaseAccounts.listKeys(
-    (config as any).azurerm_resource_group,
-    (config as any).azurerm_cosmosdb
+    config.azurerm_resource_group,
+    config.azurerm_cosmosdb
   );
 
   const dbClient = new DocumentClient(databaseAccount.documentEndpoint, {
     masterKey: keys.primaryMasterKey
   });
 
-  await createDatabaseIfNotExists(
-    dbClient,
-    (config as any).azurerm_cosmosdb_documentdb
-  );
+  await createDatabaseIfNotExists(dbClient, config.azurerm_cosmosdb_documentdb);
 
   return Promise.all(
-    (config as any).azurerm_cosmosdb_collections.map(
+    config.azurerm_cosmosdb_collections.map(
       async (collection: string) =>
         await createCollectionIfNotExists(
           dbClient,
-          (config as any).azurerm_cosmosdb_documentdb,
+          config.azurerm_cosmosdb_documentdb,
           collection
         )
     )

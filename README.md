@@ -47,9 +47,9 @@ export ARM_CLIENT_SECRET=<service principal client secret (key)>
 export ARM_TENANT_ID=<Active Directory domain Id>
 ```
 
-- Optional: edit configuration file `infrastructure/tfvars.json`
+- edit configuration file `infrastructure/tfvars.json`
 
-- Optional: edit Terraform configuration file `infrastructure/azure.cf`
+- edit Terraform configuration file `infrastructure/azure.cf`
 
 - Run the following commands:
 
@@ -68,11 +68,25 @@ This task will deploy the following services to an Azure resource group:
 - [Application insights](https://azure.microsoft.com/it-it/services/application-insights/)
 - [Log analytics](https://azure.microsoft.com/en-au/services/log-analytics/)
 
-Most of the services are created running Terraform (see `infrastructure/azure.tf`).
+Most services get provisioned by Terraform (see `infrastructure/azure.tf`).
 
-Some services are actually unsupported by Terraform (CosmosDB database and collections, Functions, API manager);
-these ones are created by NodeJS scripts (`infrastructure/tasks`) that call the
+Some services aren't yet supported by Terraform (CosmosDB database and collections, [Functions](https://github.com/terraform-providers/terraform-provider-azurerm/issues/131), API manager);
+these ones are created by NodeJS scripts (`infrastructure/tasks`) that provision the services through the
 [Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node).
+
+#### Storing Terraform state remotely
+
+By default, Terraform stores state locally in a file named `terraform.tfstate`. 
+If you want to [store Terraform state remotely](https://www.terraform.io/docs/state/remote.html)
+you can use an Azure storage container. 
+
+Before running any command involving Terraform:
+
+- edit `infrastructure/azure.tf`, uncomment the lines with the Terraform backend settings
+(read the comments inside the file) and set up resource group name and storage container name
+
+- go to the [Azure portal](https://portal.azure.com) and create the relative resources
+(resource group, storage account, storage container)
 
 #### Example output
 

@@ -77,13 +77,12 @@ these ones are created by NodeJS scripts (`infrastructure/tasks`) that provision
 #### Storing Terraform state remotely
 
 By default, Terraform stores state locally in a file named `terraform.tfstate`. 
-If you want to [store Terraform state remotely](https://www.terraform.io/docs/state/remote.html)
-you can use an Azure storage container. 
+To [store Terraform state remotely](https://www.terraform.io/docs/state/remote.html)
+we use an Azure storage container.
 
 Before running any command involving Terraform:
 
-- edit `infrastructure/azure.tf`, uncomment the lines with the Terraform backend settings
-(read the comments inside the file) and set up resource group name and storage container name
+- edit `infrastructure/azure.tf`and set up resource group name and storage container name
 
 - go to the [Azure portal](https://portal.azure.com) and create the relative resources
 (resource group, storage account, storage container)

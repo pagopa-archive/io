@@ -56,7 +56,7 @@ const getFunctionsInfo = async (webClient: webSiteManagementClient) => {
   );
   const backendUrl = `https://${functions.defaultHostName}`;
 
-  // @FIXME: unfortunately there are no API to get a Functions App master key
+  // @FIXME: unfortunately there is no API to get a Functions App master key
   const secretUrl = url.format({
     auth: `${creds.publishingUserName}:${creds.publishingPassword}`,
     host: `${config.azurerm_functionapp}.scm.azurewebsites.net`,

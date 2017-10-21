@@ -57,15 +57,17 @@ export const run = async () => {
   );
   const storageAccountKeys = await storageClient.storageAccounts.listKeys(
     config.azurerm_resource_group,
-    config.azurerm_storage_account
+    config.azurerm_functionapp_storage_account
   );
   if (!storageAccountKeys || !storageAccountKeys.keys) {
-    throw new Error("storageAccountKeys not found");
+    throw new Error("Functions storage account keys not found");
   }
   // We finally got the storage account keys so we can build the connection string
   // @see StorageAccountListKeysResult
-  const storageConnectionString = `DefaultEndpointsProtocol=https;AccountName=${config.azurerm_storage_account};AccountKey=${storageAccountKeys
-    .keys[0].value}`;
+  const storageConnectionString =
+    `DefaultEndpointsProtocol=https;AccountName=` +
+    `${config.azurerm_functionapp_storage_account};AccountKey=${storageAccountKeys
+      .keys[0].value}`;
 
   // Get CosmosDB key and url
   const cosmosClient = new CosmosDBManagementClient(
@@ -101,7 +103,10 @@ export const run = async () => {
         { name: "AzureWebJobsStorage", value: storageConnectionString },
         { name: "AzureWebJobsDashboard", value: storageConnectionString },
         // The following two have fixed values
-        { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "6.5.0" },
+        {
+          name: "WEBSITE_NODE_DEFAULT_VERSION",
+          value: config.functionapp_nodejs_version
+        },
         { name: "FUNCTIONS_EXTENSION_VERSION", value: "~1" },
         // optional parameters
         {
@@ -113,7 +118,7 @@ export const run = async () => {
         // Avoid edit functions code from the Azure portal
         { name: "FUNCTION_APP_EDIT_MODE", value: "readonly" },
         // AzureWebJobsSecretStorageType may be `disabled` or `Blob`
-        { name: "AzureWebJobsSecretStorageType", value: "disabled" },
+        { name: "AzureWebJobsSecretStorageType", value: "Blob" },
         { name: "WEBSITE_HTTPLOGGING_RETENTION_DAYS", value: "3" },
         {
           name: "MESSAGE_CONTAINER_NAME",

@@ -7,7 +7,7 @@
 
 import * as fs from "fs";
 
-function failIfempty(
+function failIfEmpty(
   what: string | ReadonlyArray<string>
 ): string | ReadonlyArray<string> {
   if (!what) {
@@ -54,31 +54,32 @@ export default (filePath: string): IResourcesConfiguration => {
   const config = JSON.parse(
     fs.readFileSync(filePath, "utf8")
   ) as IResourcesConfiguration;
-
-  failIfempty(config.location);
-  failIfempty(config.cosmosdb_failover_location);
-  failIfempty(config.azurerm_resource_group);
-  failIfempty(config.azurerm_storage_account);
-  failIfempty(config.azurerm_storage_container);
-  failIfempty(config.azurerm_storage_queue_emailnotifications);
-  failIfempty(config.azurerm_storage_queue_createdmessages);
-  failIfempty(config.azurerm_cosmosdb);
-  failIfempty(config.azurerm_cosmosdb_documentdb);
-  failIfempty(config.azurerm_cosmosdb_collections);
-  failIfempty(config.azurerm_app_service_plan);
-  failIfempty(config.azurerm_functionapp);
-  failIfempty(config.azurerm_functionapp_slot);
-  failIfempty(config.functionapp_nodejs_version);
-  failIfempty(config.azurerm_functionapp_storage_account);
-  failIfempty(config.azurerm_application_insights);
-  failIfempty(config.azurerm_log_analytics);
-  failIfempty(config.azurerm_apim);
-  failIfempty(config.apim_email);
-  failIfempty(config.apim_publisher);
-  failIfempty(config.apim_sku);
-  failIfempty(config.apim_scm_username);
-  failIfempty(config.apim_scm_cred_username);
-  failIfempty(config.message_blob_container);
+  [
+    config.location,
+    config.cosmosdb_failover_location,
+    config.azurerm_resource_group,
+    config.azurerm_storage_account,
+    config.azurerm_storage_container,
+    config.azurerm_storage_queue_emailnotifications,
+    config.azurerm_storage_queue_createdmessages,
+    config.azurerm_cosmosdb,
+    config.azurerm_cosmosdb_documentdb,
+    config.azurerm_cosmosdb_collections,
+    config.azurerm_app_service_plan,
+    config.azurerm_functionapp,
+    config.azurerm_functionapp_slot,
+    config.functionapp_nodejs_version,
+    config.azurerm_functionapp_storage_account,
+    config.azurerm_application_insights,
+    config.azurerm_log_analytics,
+    config.azurerm_apim,
+    config.apim_email,
+    config.apim_publisher,
+    config.apim_sku,
+    config.apim_scm_username,
+    config.apim_scm_cred_username,
+    config.message_blob_container
+  ].forEach(failIfEmpty);
 
   return config;
 };

@@ -12,6 +12,11 @@ terraform {
  }
 }
 
+# Environment: production, developement or staging
+variable environment {
+    type = "string"
+}
+
 # Location of the Azure resource group and services (ie. West Europe)
 variable location {
     type = "string"
@@ -84,7 +89,7 @@ resource "azurerm_resource_group" "azurerm_resource_group" {
     name     = "${var.azurerm_resource_group}"
     location = "${var.location}"
     tags {
-        environment = "production"
+        environment = "${var.environment}"
     }
 }
 
@@ -103,7 +108,7 @@ resource "azurerm_storage_account" "azurerm_storage_account" {
     enable_blob_encryption = true
 
     tags {
-        environment = "production"
+        environment = "${var.environment}"
     }
 }
 
@@ -120,7 +125,7 @@ resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
     enable_blob_encryption = true
 
     tags {
-        environment = "production"
+        environment = "${var.environment}"
     }
 }
 
@@ -176,7 +181,7 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
     }
 
     tags {
-        environment = "production"
+        environment = "${var.environment}"
     }
 
     ## !!! DATABASE AND COLLECTIONS ARE NOT SUPPORTED: we create them manually

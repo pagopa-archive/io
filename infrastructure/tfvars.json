@@ -1,4 +1,5 @@
 {
+  "environment": "production",
   "location": "West Europe",
   "cosmosdb_failover_location": "North Europe",
   "azurerm_resource_group": "agid-rg-prod",

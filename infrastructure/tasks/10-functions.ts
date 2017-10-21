@@ -64,10 +64,10 @@ export const run = async () => {
   }
   // We finally got the storage account keys so we can build the connection string
   // @see StorageAccountListKeysResult
+  const storageAccountMasterKey = storageAccountKeys.keys[0].value;
   const storageConnectionString =
     `DefaultEndpointsProtocol=https;AccountName=` +
-    `${config.azurerm_functionapp_storage_account};AccountKey=${storageAccountKeys
-      .keys[0].value}`;
+    `${config.azurerm_functionapp_storage_account};AccountKey=${storageAccountMasterKey}`;
 
   // Get CosmosDB key and url
   const cosmosClient = new CosmosDBManagementClient(

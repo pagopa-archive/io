@@ -15,6 +15,8 @@
   "functionapp_git_repo": "https://github.com/teamdigitale/digital-citizenship-functions",
   "functionapp_git_branch": "master",
   "functionapp_scm_type": "GitHub",
+  "functionapp_nodejs_version": "6.11.2",
+  "azurerm_functionapp_storage_account": "agidfuncstorageprod",
   "azurerm_application_insights": "agid-appinsights-prod",
   "azurerm_log_analytics": "agid-loganalytics-prod",
   "azurerm_apim": "agid-apim-prod",

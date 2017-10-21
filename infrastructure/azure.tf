@@ -38,6 +38,11 @@ variable "azurerm_storage_container" {
     type = "string"
 }
 
+# Name of the storage account for functions
+variable "azurerm_functionapp_storage_account" {
+    type = "string"
+}
+
 # Name of the storage queue for email notifications
 variable "azurerm_storage_queue_emailnotifications" {
     type = "string"
@@ -87,6 +92,23 @@ resource "azurerm_resource_group" "azurerm_resource_group" {
 
 resource "azurerm_storage_account" "azurerm_storage_account" {
     name                = "${var.azurerm_storage_account}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+
+    # can be one between Premium_LRS, Standard_GRS, Standard_LRS, Standard_RAGRS, Standard_ZRS
+    # see https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy
+    account_type = "Standard_GRS"
+
+    # see https://docs.microsoft.com/en-us/azure/storage/common/storage-service-encryption
+    enable_blob_encryption = true
+
+    tags {
+        environment = "production"
+    }
+}
+
+resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
+    name                = "${var.azurerm_functionapp_storage_account}"
     resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
     location            = "${azurerm_resource_group.azurerm_resource_group.location}"
 

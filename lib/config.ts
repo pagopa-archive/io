@@ -17,6 +17,7 @@ function failIfEmpty(
 }
 
 export interface IResourcesConfiguration {
+  readonly environment: string;
   readonly location: string;
   readonly cosmosdb_failover_location: string;
   readonly azurerm_resource_group: string;
@@ -55,6 +56,7 @@ export default (filePath: string): IResourcesConfiguration => {
     fs.readFileSync(filePath, "utf8")
   ) as IResourcesConfiguration;
   [
+    config.environment,
     config.location,
     config.cosmosdb_failover_location,
     config.azurerm_resource_group,

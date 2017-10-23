@@ -7,14 +7,17 @@
 
 import * as fs from "fs";
 
-function failIfempty(str: string): string {
-  if (!str) {
-    throw new TypeError("empty string not allowed");
+function failIfEmpty(
+  what: string | ReadonlyArray<string>
+): string | ReadonlyArray<string> {
+  if (!what) {
+    throw new TypeError("empty parameter not allowed in configuration file");
   }
-  return str;
+  return what;
 }
 
 export interface IResourcesConfiguration {
+  readonly environment: string;
   readonly location: string;
   readonly cosmosdb_failover_location: string;
   readonly azurerm_resource_group: string;
@@ -31,6 +34,8 @@ export interface IResourcesConfiguration {
   readonly functionapp_git_repo: string;
   readonly functionapp_git_branch: string;
   readonly functionapp_scm_type: string;
+  readonly functionapp_nodejs_version: string;
+  readonly azurerm_functionapp_storage_account: string;
   readonly azurerm_application_insights: string;
   readonly azurerm_log_analytics: string;
   readonly azurerm_apim: string;
@@ -47,51 +52,36 @@ export interface IResourcesConfiguration {
  * Throws an Exception and exit on any kind of error.
  */
 export default (filePath: string): IResourcesConfiguration => {
-  const config = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  const config = JSON.parse(
+    fs.readFileSync(filePath, "utf8")
+  ) as IResourcesConfiguration;
+  [
+    config.environment,
+    config.location,
+    config.cosmosdb_failover_location,
+    config.azurerm_resource_group,
+    config.azurerm_storage_account,
+    config.azurerm_storage_container,
+    config.azurerm_storage_queue_emailnotifications,
+    config.azurerm_storage_queue_createdmessages,
+    config.azurerm_cosmosdb,
+    config.azurerm_cosmosdb_documentdb,
+    config.azurerm_cosmosdb_collections,
+    config.azurerm_app_service_plan,
+    config.azurerm_functionapp,
+    config.azurerm_functionapp_slot,
+    config.functionapp_nodejs_version,
+    config.azurerm_functionapp_storage_account,
+    config.azurerm_application_insights,
+    config.azurerm_log_analytics,
+    config.azurerm_apim,
+    config.apim_email,
+    config.apim_publisher,
+    config.apim_sku,
+    config.apim_scm_username,
+    config.apim_scm_cred_username,
+    config.message_blob_container
+  ].forEach(failIfEmpty);
 
-  return {
-    location: failIfempty((config as any).location),
-    cosmosdb_failover_location: failIfempty(
-      (config as any).cosmosdb_failover_location
-    ),
-    azurerm_resource_group: failIfempty((config as any).azurerm_resource_group),
-    azurerm_storage_account: failIfempty(
-      (config as any).azurerm_storage_account
-    ),
-    azurerm_storage_container: failIfempty(
-      (config as any).azurerm_storage_container
-    ),
-    azurerm_storage_queue_emailnotifications: failIfempty(
-      (config as any).azurerm_storage_queue_emailnotifications
-    ),
-    azurerm_storage_queue_createdmessages: failIfempty(
-      (config as any).azurerm_storage_queue_createdmessages
-    ),
-    azurerm_cosmosdb: failIfempty((config as any).azurerm_cosmosdb),
-    azurerm_cosmosdb_documentdb: failIfempty(
-      (config as any).azurerm_cosmosdb_documentdb
-    ),
-    azurerm_cosmosdb_collections: (config as any).azurerm_cosmosdb_collections,
-    azurerm_app_service_plan: failIfempty(
-      (config as any).azurerm_app_service_plan
-    ),
-    azurerm_functionapp: failIfempty((config as any).azurerm_functionapp),
-    azurerm_functionapp_slot: failIfempty(
-      (config as any).azurerm_functionapp_slot
-    ),
-    functionapp_git_repo: (config as any).functionapp_git_repo,
-    functionapp_git_branch: (config as any).functionapp_git_branch,
-    functionapp_scm_type: (config as any).functionapp_scm_type,
-    azurerm_application_insights: failIfempty(
-      (config as any).azurerm_application_insights
-    ),
-    azurerm_log_analytics: failIfempty((config as any).azurerm_log_analytics),
-    azurerm_apim: failIfempty((config as any).azurerm_apim),
-    apim_email: failIfempty((config as any).apim_email),
-    apim_publisher: failIfempty((config as any).apim_publisher),
-    apim_sku: failIfempty((config as any).apim_sku),
-    apim_scm_username: failIfempty((config as any).apim_scm_username),
-    apim_scm_cred_username: failIfempty((config as any).apim_scm_cred_username),
-    message_blob_container: failIfempty((config as any).message_blob_container)
-  };
+  return config;
 };

@@ -76,18 +76,29 @@ const createDatabaseIfNotExists = (
 const createCollectionIfNotExists = (
   dbClient: documentdb.DocumentClient,
   dbName: string,
-  collectionName: string
+  collectionName: string,
+  partitionKey: string
 ) => {
   return new Promise((resolve, reject) => {
     collectionNotExists(dbClient, dbName, collectionName).then(
       () => {
         const dbUri = documentdb.UriFactory.createDatabaseUri(dbName);
-        dbClient.createCollection(dbUri, { id: collectionName }, (err, ret) => {
-          if (err) {
-            return reject(err);
+        dbClient.createCollection(
+          dbUri,
+          {
+            id: collectionName,
+            partitionKey: {
+              kind: "Hash",
+              paths: [`/${partitionKey}`]
+            }
+          },
+          (err, ret) => {
+            if (err) {
+              return reject(err);
+            }
+            resolve(ret);
           }
-          resolve(ret);
-        });
+        );
       },
       err => resolve(err)
     );
@@ -124,11 +135,12 @@ export const run = async () => {
 
   return Promise.all(
     config.azurerm_cosmosdb_collections.map(
-      async (collection: string) =>
+      async collection =>
         await createCollectionIfNotExists(
           dbClient,
           config.azurerm_cosmosdb_documentdb,
-          collection
+          collection.name,
+          collection.partitionKey
         )
     )
   );

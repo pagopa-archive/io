@@ -204,6 +204,9 @@ export const run = async () => {
     apiManagementService.scmUrl,
     CONFIGURATION_DIRECTORY_PATH
   );
+
+  // Configure ADB2C authentication
+  // apiClient.identityProvider.createOrUpdate()
 };
 
 // TODO: configure logger + event hub:

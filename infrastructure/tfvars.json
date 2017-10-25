@@ -9,11 +9,17 @@
   "azurerm_storage_queue_createdmessages": "createdmessages",
   "azurerm_cosmosdb": "agid-cosmosdb-prod",
   "azurerm_cosmosdb_documentdb": "agid-documentdb-prod",
-  "azurerm_cosmosdb_collections": ["messages", "profiles", "notifications", "organizations"],
+  "azurerm_cosmosdb_collections": [
+    { "name": "messages", "partitionKey": "fiscalCode" },
+    { "name": "profiles", "partitionKey": "fiscalCode" },
+    { "name": "notifications", "partitionKey": "messageId" },
+    { "name": "services", "partitionKey": "serviceId" }
+  ],
   "azurerm_app_service_plan": "agid-app-prod",
   "azurerm_functionapp": "agid-functions-prod",
   "azurerm_functionapp_slot": "agid-functions-staging",
-  "functionapp_git_repo": "https://github.com/teamdigitale/digital-citizenship-functions",
+  "functionapp_git_repo":
+    "https://github.com/teamdigitale/digital-citizenship-functions",
   "functionapp_git_branch": "master",
   "functionapp_scm_type": "GitHub",
   "functionapp_nodejs_version": "6.11.2",

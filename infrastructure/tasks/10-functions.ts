@@ -118,7 +118,9 @@ export const run = async () => {
         // Avoid edit functions code from the Azure portal
         { name: "FUNCTION_APP_EDIT_MODE", value: "readonly" },
         // AzureWebJobsSecretStorageType may be `disabled` or `Blob`
-        { name: "AzureWebJobsSecretStorageType", value: "Blob" },
+        // When set to `Blob` the API manager task won't be able
+        // to retrieve the master key
+        { name: "AzureWebJobsSecretStorageType", value: "disabled" },
         { name: "WEBSITE_HTTPLOGGING_RETENTION_DAYS", value: "3" },
         {
           name: "MESSAGE_CONTAINER_NAME",

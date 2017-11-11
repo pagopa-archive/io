@@ -42,10 +42,6 @@ Il cittadino interagisce con un unico servizio di gestione delle preferenze (SGP
 
 Le amministrazioni avranno piena visibilità delle comunicazioni (e del loro stato), limitatamente a quelle di cui sono esse stesse i mittenti.
 
-### API correlate
-
-- [API notifiche](api/notifications.html)
-
 ## Preferenze
 
 Il sistema di gestione delle preferenze (SGP) consente al cittadino di gestire centralmente le impostazioni di personalizzazione relative ai servizi digitali forniti dalla Pubblica Amministrazione. Per esempio:
@@ -55,10 +51,6 @@ Il sistema di gestione delle preferenze (SGP) consente al cittadino di gestire c
 - Metodi di pagamento preferiti (pagoPA)
 
 Attraverso queste informazioni, SGP fornisce alle amministrazioni che lo consultano l'opportunità di personalizzare i propri servizi digitali. I cittadini non hanno accesso diretto al sistema: i sistemi di amministrazione dell'amministrazione utilizzano l'API per accedere (leggere) gli attributi gestiti dal SGP per conto dei cittadini che si autenticano sui loro servizi digitali.
-
-### API correlate
-
-- [Preferenze API](api/preferences.html)
 
 ## Vantaggi
 
@@ -100,5 +92,4 @@ Attraverso queste informazioni, SGP fornisce alle amministrazioni che lo consult
 
 ## API docs
 
-- [API notifiche](api/notifications.html)
-- [Preferenze API](api/preferences.html)
+- [Digital Citizenship API](api/public.html)

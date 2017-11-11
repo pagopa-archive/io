@@ -43,10 +43,6 @@ Administrations will be able to submit multichannel notifications (SMS, E-mail, 
 The citizen interacts with a single preference management service (SGP) that will be queried by the SdA at the time of forwarding a notice to find the preferred forwarding channels and the recipient's contact addresses.
 The citizen therefore has no direct access to the system: the information systems of the parties involved in the service will be able to send alerts to the citizens through the provided API.
 
-### Related APIs
-
-- [Notifications API](api/notifications.html)
-
 ## Preferences
 
 The Preferences Management System (SGP) allows the citizen to centrally manage his personalization settings related to digital services provided by the Public Administration. Eg:
@@ -56,10 +52,6 @@ The Preferences Management System (SGP) allows the citizen to centrally manage h
 - Preferred payment methods (pagoPA)
 
 Through this information, SGP provides the consulting authorities with the opportunity to customize their digital services. Citizens do not have direct access to the system: administration information systems use the API to access (read) the attributes managed by the SGP on behalf of citizens authenticating on their digital services.
-
-### Related APIs
-
-- [Preferences API](api/preferences.html)
 
 ## Advantages
 
@@ -82,5 +74,4 @@ Through this information, SGP provides the consulting authorities with the oppor
 
 ## API docs
 
-- [Notifications API](api/notifications.html)
-- [Preferences API](api/preferences.html)
+- [Digital Citizenship API](api/public.html)

@@ -7,5 +7,4 @@ pages:
 theme: readthedocs
 strict: true
 extra_templates:
-    - api/notifications.html
-    - api/preferences.html
+    - api/public.html

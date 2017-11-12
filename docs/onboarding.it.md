@@ -26,10 +26,16 @@ Al momento dell'attivazione riceverai un'email.
 Da quel momento è possibile iniziare a utilizzare l'API in modalità di test.
 L'email contiene un codice fiscale "fittizio" tramite il quale potrai utilizzare
 l'**API per l'invio di messaggi** che ti verrano recapitati all'indirizzo
-email che hai fornito durante la registrazione.
+che hai fornito durante la registrazione.
 
-Fin quando sarà attiva la modalità di test, non potrai inviare messaggi
-a indirizzi diversi da quello verificato in fase di registrazione.
+### Differenze tra la sottoscrizione di test e produzione
+
+Fin quando sarà attiva la modalità di test:
+
+- non potrai inviare messaggi a indirizzi email diversi da quello che hai fornito in fase di registrazione
+- non potrai inviare messaggi usando un codice fiscale diverso da quello che hai ricevuto durante la registrazione
+- non potrai leggere / scrivere le preferenze associate a un codice fiscale (Profile API)
+- il numero di richieste API che è possible inoltrare è limitato a 1000 per settimana
 
 ## Provare le API tramite il portale sviluppatori
 
@@ -39,11 +45,12 @@ Tramite il developer portal è possibile:
 - visualizzare l'API-key, necessaria per utilizzare le API
 - provare a inviare messaggi tramite l'[interfaccia grafica](https://agid-apim-prod.portal.azure-api.net/docs/services/digital-citizenship-api)
 
-L'account di test è limitato all'utilizzo dell'API di invio dei messaggi ("submitMessage");
-sarà necessario fornire in input il codice fiscale ottenuto durante la registrazione.
+L'account di test è limitato all'utilizzo dell'API di invio dei messaggi ("submitMessage").
+Per inviare un messaggio tramite API è necessario fornire in input il 
+codice fiscale ottenuto durante la registrazione.
 
 Nella [pagina con i dati relativi al tuo account](https://agid-apim-prod.portal.azure-api.net/developer)
-troverai l'Api-Key ("Primary key") che è necessario utilizzare per autenticarsi alle API.
+puoi trovare l'Api-Key ("Primary key") che è necessario utilizzare per autenticarsi alle API.
 
 ![sign-up](assets/3-apikey.PNG)
 

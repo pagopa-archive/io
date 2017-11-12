@@ -24,9 +24,6 @@
     "resources:deploy":
       "npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api"
   },
-  "dependencies": {
-    "gh-pages": "^1.0.0"
-  },
   "devDependencies": {
     "@types/documentdb": "^1.10.2",
     "@types/node": "^6.0.0",
@@ -42,6 +39,7 @@
     "azure-storage": "^2.5.0",
     "documentdb": "^1.12.2",
     "dotenv": "^4.0.0",
+    "gh-pages": "^1.0.0",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.0",
     "request": "^2.83.0",

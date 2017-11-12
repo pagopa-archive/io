@@ -19,13 +19,14 @@ Ti verranno chieste le seguenti informazioni:
 - dipartimento (area) dell'amministrazione a cui afferisce il servizio di notifica
 
 Una volta avuto accesso al portale sviluppatori segui il link
-"Subscribe to the Digital Citizenship API" e attendi
+**"Subscribe to the Digital Citizenship API"** e attendi
 che la sottoscrizione venga attivata.
 
-Al momento dell'attivazione riceverai un'email.
-Da quel momento è possibile iniziare a utilizzare l'API in modalità di test.
-L'email contiene un codice fiscale "fittizio" tramite il quale potrai utilizzare
-l'**API per l'invio di messaggi** che ti verrano recapitati all'indirizzo
+Al momento dell'attivazione riceverai un'email:
+da quel momento è possibile iniziare a utilizzare l'API in modalità di test.
+
+L'email contiene un codice fiscale "fittizio" tramite il quale puoi utilizzare
+l'**API per l'invio di messaggi**; ti verrano recapitati all'indirizzo
 che hai fornito durante la registrazione.
 
 ### Differenze tra la sottoscrizione di test e produzione

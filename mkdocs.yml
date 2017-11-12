@@ -3,7 +3,8 @@ repo_url: https://github.com/teamdigitale/digital-citizenship
 pages:
     - Home: index.md
     - Home (it): index.it.md
-    - Test the API (it): onboarding.it.md
+    - Quick start (it): onboarding.it.md
+    - Resources: resources.md
 theme: readthedocs
 strict: true
 extra_templates:

@@ -11,15 +11,19 @@
   "license": "MIT",
   "scripts": {
     "lint": "tslint -p . -c tslint.json",
-    "resources:tf-init": "terraform init -var-file=infrastructure/tfvars.json infrastructure",
-    "resources:tf-plan": "terraform plan -var-file=infrastructure/tfvars.json infrastructure",
-    "resources:tf-apply": "terraform apply -var-file=infrastructure/tfvars.json infrastructure",
+    "docs:deploy": "gh-pages -d site",
+    "resources:tf-init":
+      "terraform init -var-file=infrastructure/tfvars.json infrastructure",
+    "resources:tf-plan":
+      "terraform plan -var-file=infrastructure/tfvars.json infrastructure",
+    "resources:tf-apply":
+      "terraform apply -var-file=infrastructure/tfvars.json infrastructure",
     "resources:api": "ts-node infrastructure/tasks/20-apim.ts",
     "resources:functions": "ts-node infrastructure/tasks/10-functions.ts",
     "resources:cosmosdb": "ts-node infrastructure/tasks/00-cosmosdb.ts",
-    "resources:deploy": "npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api"
+    "resources:deploy":
+      "npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api"
   },
-  "dependencies": {},
   "devDependencies": {
     "@types/documentdb": "^1.10.2",
     "@types/node": "^6.0.0",
@@ -35,6 +39,7 @@
     "azure-storage": "^2.5.0",
     "documentdb": "^1.12.2",
     "dotenv": "^4.0.0",
+    "gh-pages": "^1.0.0",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.0",
     "request": "^2.83.0",

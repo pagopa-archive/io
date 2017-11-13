@@ -5,18 +5,23 @@
 Puoi richiedere accesso da subito all'ambiente di test per le API,
 in modo da provare l'invio dei primi messaggi tramite il sistema di notifiche.
 
-[Registrati sul portale sviluppatori](https://agid-apim-prod.portal.azure-api.net) -> "Sign up now"
+[Registrati sul portale sviluppatori](https://agid-apim-prod.portal.azure-api.net) 
 
-Ti verranno chieste le seguenti informazioni:
+Se non hai un account è necessario seguire il link "**Sign up now**";
+ti verranno chieste le seguenti informazioni (tutte da fornire obbligatoriamente):
 
 - un indirizzo email valido
 - nome utente
 - password
-- nome
-- cognome
-- nome dell'amministrazione ("Organization") di appartenenza (verrà inserito nel contenuto dei messaggi inviati)
-- nome del servizio in cui vuoi integrare le notifiche (es. "avvisi di scadenza")
+- il tuo nome
+- il tuo cognome
+- nome dell'amministrazione ("Organization") di appartenenza
+- nome del servizio in cui vuoi integrare le notifiche (es. "Avvisi di scadenza", "Portale del cittadino", ...),
 - dipartimento (area) dell'amministrazione a cui afferisce il servizio di notifica
+
+Il nome dell'amministrazione, quello del servizio e dell'area
+verranno inseriti nel contenuto dei messaggi inviati in modo che i destinatari
+possano individuarne la provenienza.
 
 Una volta avuto accesso al portale sviluppatori segui il link
 **"Subscribe to the Digital Citizenship API"** e attendi

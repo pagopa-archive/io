@@ -2,8 +2,8 @@ site_name: Digital Citizenship
 repo_url: https://github.com/teamdigitale/digital-citizenship
 pages:
     - Home: index.md
-    - Home (it): index.it.md
-    - Quick start (it): onboarding.it.md
+    - Home (Italiano): index.it.md
+    - Quick start (Italiano): onboarding.it.md
     - Resources: resources.md
 theme: readthedocs
 strict: true

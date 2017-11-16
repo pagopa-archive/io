@@ -6,3 +6,4 @@ site
 *.exe
 local.*
 npm-debug.log
+build

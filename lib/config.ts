@@ -8,8 +8,8 @@
 import * as fs from "fs";
 
 function failIfEmpty(
-  what: string | ReadonlyArray<string>
-): string | ReadonlyArray<string> {
+  what: string | ReadonlyArray<any>
+): string | ReadonlyArray<any> {
   if (!what) {
     throw new TypeError("empty parameter not allowed in configuration file");
   }
@@ -27,7 +27,10 @@ export interface IResourcesConfiguration {
   readonly azurerm_storage_queue_createdmessages: string;
   readonly azurerm_cosmosdb: string;
   readonly azurerm_cosmosdb_documentdb: string;
-  readonly azurerm_cosmosdb_collections: ReadonlyArray<string>;
+  readonly azurerm_cosmosdb_collections: ReadonlyArray<{
+    readonly name: string;
+    readonly partitionKey: string;
+  }>;
   readonly azurerm_app_service_plan: string;
   readonly azurerm_functionapp: string;
   readonly azurerm_functionapp_slot: string;

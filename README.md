@@ -2,11 +2,10 @@
 
 This is work in progress.
 
-## Usage
+## Documentation
 
-`mkdocs serve` to run documentation site locally
-
-`mkdocs gh-deploy` to deploy docs to gh-pages
+`npm run docs:build` to build sphinx documentation
+`npm run docs:publish` to deploy docs to gh-pages
 
 ## Contributing
 

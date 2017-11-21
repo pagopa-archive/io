@@ -11,7 +11,11 @@
   "license": "MIT",
   "scripts": {
     "lint": "tslint -p . -c tslint.json",
-    "docs:deploy": "gh-pages -d site",
+    "docs:build": "sphinx-build docs site",
+    "docs:nojekyll": "cp .nojekyll site",
+    "docs:api": "cp -r docs/api site",
+    "docs:deploy": "gh-pages -t -d site",
+    "docs:publish": "npm-run-all docs:build docs:nojekyll docs:api docs:deploy",
     "resources:tf-init":
       "terraform init -var-file=infrastructure/tfvars.json infrastructure",
     "resources:tf-plan":

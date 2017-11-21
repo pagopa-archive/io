@@ -17,23 +17,38 @@ Modello di funzionamento
 #. La funzione interagisce con un endpoint specifico per quel canale di inoltro (es. un MTA, un API di terze parti, etc.) che invierà il contenuto al destinatario
 #. Il risultato della chiamata è memorizzato nel database (*Notification*) e potrà essere recuperato tramite l'API per interrogare lo stato della notifica inoltrata
 
-Registrazione al servizio e credenziali
----------------------------------------
+Invio di una notifica per un messaggio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+.. image:: assets/send-message-seq.svg
+  :alt:
 
-Authentication of requests is handled by the Azure API Management service. Currently the system relies on a custom API token 
-for authenticating clients. The token is transmitted in the HTTP request custom header Ocp-Apim-Subscription-Key and is tied to one user account belonging to an Organization.
+Autenticazione e autorizzazioni
+-------------------------------
 
-Access rights to the resources is based on scopes. Each scope has a corresponding custom group in the Azure API Management service 
-(e.g., the ProfileRead scope has a corresponding ProfileRead group).
+L'autenticazione al servizio è gestita tramite un token (API-Key) fornito all'utente che si registra
+al *developer portal* (portale delle adesioni).
 
-Most resources have read and write scopes (e.g. ProfileRead, ProfileWrite).
+Il token deve essere trasmesso dai client `REST <https://it.wikipedia.org/wiki/Representational_State_Transfer>`__
+tramite un header HTTP custom (*Ocp-Apim-Subscription-Key*).
 
-API clients can be allowed to any scope by adding the client to the scope's group in the Azure API Management console 
-(i.e., a client that is part of the ProfileRead and the ProfileWrite groups will have read and write rights on the profiles resource).
+Ad esempio, tramite `cURL <https://curl.haxx.se/>`__:
 
-The currently supported scopes can be found in the Azure API Authentication middleware.
+.. code:: bash
+
+  curl -X GET \
+    https://agid-apim-prod.azure-api.net/api/v1/info \
+    -H 'accept: application/json'
+    -H 'content-type: application/json' \
+    -H 'Ocp-Apim-Subscription-Key: a1b2c3d4e5f6g7h8i9l0'
+
+I diritti di accesso alle operazioni (singole API) sono basati sull'appartenenza dell'utente
+(associato all'API-Key) a specifici sottoinsiemi di "gruppi" creati all'interno del servizio di API management;
+ad esempio gli utenti appartenenti al gruppo `ProfileRead` hanno accesso in lettura alle informazioni
+memorizzate nei profili degli utenti.
+
+In genere per ogni risorsa esiste almeno un gruppo che ne permette la lettura ed eventualmente 
+uno che ne permette la scrittura (es. `ProfileRead`, `ProfileWrite`).
 
 .. [1] Per *messaggio* si intende un contenuto testuale (titolo, corpo) associato a metadati che vengono salvati sul database.
 .. [2] Per *notifica* si intende un messaggio inoltrato su uno dei canali associati al destinatario (es. email, push notification).

@@ -1,15 +1,33 @@
+activate SAS
 SAS -> "API gateway": send message request
+activate "API gateway"
 "API gateway" -> "API Functions": forward message
+activate "API Functions"
 "API Functions" -> "Database": save message
+activate "Database"
 "Database" -> "API Functions": message saved
+deactivate "Database"
 "API Functions" -> "API gateway": return message
 "API gateway" -> "SAS": return queued message id
-
+deactivate "API gateway"
+deactivate SAS
+activate "Notification queue"
 "API Functions" -> "Notification queue": map message to notification
+deactivate "API Functions"
 "Notification queue" -> "API Functions": trigger notification function
+activate "API Functions"
+deactivate "Notification queue"
 "API Functions" -> "Channel queue": dispatch notification to channel
+activate "Channel queue"
+deactivate "API Functions"
 "Channel queue" -> "API Functions": trigger channel function
-
+deactivate "Channel queue"
+activate "API Functions"
 "API Functions" -> "Channel": send notification to channel
+activate "Channel"
 "Channel" -> "API Functions": return notification status
+activate "Database"
+deactivate "Channel"
 "API Functions" -> "Database": save notification status
+deactivate "API Functions"
+deactivate "Database"

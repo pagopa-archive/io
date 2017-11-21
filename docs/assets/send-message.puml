@@ -5,15 +5,15 @@ activate "API gateway"
 activate "API Functions"
 "API Functions" -> "Database": save message
 activate "Database"
-"Database" -> "API Functions": message saved
+"Database" --> "API Functions": saved message
 deactivate "Database"
-"API Functions" -> "API gateway": return message
-"API gateway" -> "SAS": return queued message id
+"API Functions" -> "Notification queue": map message to notification
+activate "Notification queue"
+"API Functions" --> "API gateway": return message
+deactivate "API Functions"
+"API gateway" --> "SAS": return queued message id
 deactivate "API gateway"
 deactivate SAS
-"API Functions" -> "Notification queue": map message to notification
-deactivate "API Functions"
-activate "Notification queue"
 "Notification queue" -> "API Functions": trigger notification function
 deactivate "Notification queue"
 activate "API Functions"
@@ -25,9 +25,10 @@ deactivate "Channel queue"
 activate "API Functions"
 "API Functions" -> "Channel": send notification to channel
 activate "Channel"
-"Channel" -> "API Functions": return notification status
+"Channel" --> "API Functions": return notification status
 deactivate "Channel"
-activate "Database"
 "API Functions" -> "Database": save notification status
-deactivate "API Functions"
+activate "Database"
+"Database" --> "API Functions": notification status saved
 deactivate "Database"
+deactivate "API Functions"

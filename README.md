@@ -1,10 +1,11 @@
 # Digital Citizenship
 
-This is work in progress.
+Docs (Italian): https://teamdigitale.github.io/digital-citizenship/
 
 ## Documentation
 
 `npm run docs:build` to build sphinx documentation
+
 `npm run docs:publish` to deploy docs to gh-pages
 
 ## Contributing

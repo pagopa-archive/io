@@ -1,0 +1,15 @@
+SAS -> "API gateway": send message request
+"API gateway" -> "API Functions": forward message
+"API Functions" -> "Database": save message
+"Database" -> "API Functions": message saved
+"API Functions" -> "API gateway": return message
+"API gateway" -> "SAS": return queued message id
+
+"API Functions" -> "Notification queue": map message to notification
+"Notification queue" -> "API Functions": trigger notification function
+"API Functions" -> "Channel queue": dispatch notification to channel
+"Channel queue" -> "API Functions": trigger channel function
+
+"API Functions" -> "Channel": send notification to channel
+"Channel" -> "API Functions": return notification status
+"API Functions" -> "Database": save notification status

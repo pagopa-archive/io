@@ -17,14 +17,14 @@ nonché risparmiare sull’effort richiesto da un’implementazione
 
 .. table:: Componenti della Cittadinanza digitale
 
-+----------------------------+-----------------------------+---------------------+-------------------------+-------------------+
-| Identità                   | Preferenze                  | Comunicazioni       | Transazioni finanziarie | Archiviazione     |
-+----------------------------+-----------------------------+---------------------+-------------------------+-------------------+
-| Credenziali e informazioni | Preferenze personali        | Ricezione di avvisi | Pagamenti e crediti     | Archivio digitale |
-| personali (SPID)           | orizzontali (ad es. Lingua) | di cortesia         | (pagoPA)                | di tutta la       |
-|                            | e verticali (di un servizio | e notifiche legali  |                         | documentazione    |
-|                            | specifico)                  |                     |                         |                   |
-+----------------------------+-----------------------------+---------------------+-------------------------+-------------------+
+  +----------------------------+-----------------------------+---------------------+-------------------------+-------------------+
+  | Identità                   | Preferenze                  | Comunicazioni       | Transazioni finanziarie | Archiviazione     |
+  +----------------------------+-----------------------------+---------------------+-------------------------+-------------------+
+  | Credenziali e informazioni | Preferenze personali        | Ricezione di avvisi | Pagamenti e crediti     | Archivio digitale |
+  | personali (SPID)           | orizzontali (ad es. Lingua) | di cortesia         | (pagoPA)                | di tutta la       |
+  |                            | e verticali (di un servizio | e notifiche legali  |                         | documentazione    |
+  |                            | specifico)                  |                     |                         |                   |
+  +----------------------------+-----------------------------+---------------------+-------------------------+-------------------+
 
 L’integrazione dei vari componenti nei servizi digitali forniti dalla
 PA consentirà al cittadino di vivere l’esperienza

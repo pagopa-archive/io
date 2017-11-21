@@ -16,10 +16,10 @@ from recommonmark.transform import AutoStructify
 settings_doc_version = ""
 settings_doc_release = settings_doc_version
 settings_project_name = 'Cittadinanza digitale'
-settings_copyright_copyleft = 'CC-BY 3.0 - Agenzia per l\'Italia Digitale'
+settings_copyright_copyleft = 'CC-BY 4.0 - Agenzia per l\'Italia Digitale'
 settings_editor_name = 'AgID - Agenzia per l\'Italia Digitale'
-settings_basename = 'digital-citizenship'
-settings_file_name = 'digital-citizenship'
+settings_basename = 'cittadinanza-digitale'
+settings_file_name = 'cittadinanza-digitale'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom

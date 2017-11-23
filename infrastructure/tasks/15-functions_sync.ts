@@ -23,7 +23,9 @@ import webSiteManagementClient = require("azure-arm-website");
 
 export const run = async () => {
   if (!config.functionapp_git_repo) {
-    return Promise.resolve();
+    return Promise.reject(
+      "Deployment from source control repository not configured"
+    );
   }
   const loginCreds = await login();
 
@@ -42,7 +44,7 @@ export const run = async () => {
 run()
   .then(r => {
     if (r) {
-      console.log("successfully synced functions with source control");
+      console.log("Successfully synced functions with source control");
     }
   })
   .catch(console.error);

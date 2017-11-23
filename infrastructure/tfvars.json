@@ -20,7 +20,7 @@
   "azurerm_functionapp_slot": "agid-functions-staging",
   "functionapp_git_repo":
     "https://github.com/teamdigitale/digital-citizenship-functions",
-  "functionapp_git_branch": "master",
+  "functionapp_git_branch": "funcpack-release-latest",
   "functionapp_scm_type": "GitHub",
   "functionapp_nodejs_version": "6.11.2",
   "azurerm_functionapp_storage_account": "agidfuncstorageprod",

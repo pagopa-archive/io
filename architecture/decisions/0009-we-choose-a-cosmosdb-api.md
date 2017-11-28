@@ -6,6 +6,8 @@ Date: 2017-08-02
 
 Accepted
 
+Amended by [11. We chose a different CosmosDB API](0011-we-chose-a-different-cosmosdb-api.md)
+
 ## Context
 
 [CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/) provide two document-oriented APIs:

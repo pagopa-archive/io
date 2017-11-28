@@ -1,18 +1,37 @@
 # Digital Citizenship
 
-Docs (Italian): https://teamdigitale.github.io/digital-citizenship/
+This is the main repository of the Digital Citizenship project, managed by
+[AgID](http://agid.gov.it) and the [Digital Transformation Team](https://teamdigitale.governo.it/en/49-content.htm).
 
-## Documentation
+This repository stores technical documentation and code, for a more friendly
+introduction on the topic, check out the following pages (Italian):
 
-`npm run docs:build` to build sphinx documentation
+*   The [Digital Citizenship project page](https://teamdigitale.governo.it/it/projects/cittadinanza-digitale.htm)
+    in the Digital Transformation Team site for high level introduction.
+*   The [Digital Citizenship documentation site](https://teamdigitale.github.io/digital-citizenship/)
+    for more indepth explanation of the project components and goals.
 
-`npm run docs:publish` to deploy docs to gh-pages
+## Child projects
+
+### The Digital Citizenship APIs
+
+*   [backlog](https://www.pivotaltracker.com/n/projects/2088623)
+*   [API source](https://github.com/teamdigitale/digital-citizenship-functions)
+*   [docs](https://teamdigitale.github.io/digital-citizenship/)
+
+### The Digital Citizenship mobile app
+
+*   backlog: [app](https://www.pivotaltracker.com/n/projects/2048617)
+    and [app backend](https://www.pivotaltracker.com/n/projects/2116794)
+*   code: [app](https://github.com/teamdigitale/italia-app)
+    and [app backend](https://github.com/teamdigitale/italia-backend)
 
 ## Contributing
 
-### Architecture decisions
+### Architecture decision records
 
-We use [ADR](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)s to track architectural decisions of this initiative.
+We use [ADR](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)s
+to track architectural decisions of this initiative.
 
 This repository is configured for Nat Pryce's [_adr-tools_](https://github.com/npryce/adr-tools).
 
@@ -32,29 +51,26 @@ Here's the decisions we taken so far:
 | 10  | [We select an Azure app hosting service](architecture/decisions/0010-we-select-an-azure-app-hosting-service.md)              | [PR#27](https://github.com/teamdigitale/digital-citizenship/pull/27) |
 | 11  | [We chose a different CosmosDB API](architecture/decisions/0011-we-chose-a-different-cosmosdb-api.md)                        | [PR#28](https://github.com/teamdigitale/digital-citizenship/pull/28) |
 
-### API definitions
+### Azure infrastructure
 
-API definitions are in OAS (Swagger 2.0).
+The [infrastructure](https://github.com/teamdigitale/digital-citizenship/tree/master/infrastructure)
+drectory contains scripts and Terraform configuration to deploy the
+infrastructure on the Azure cloud.
 
-## Configuring the Azure infrastructure
+#### Prerequisites
 
-This repository contains scripts to deploy needed PaaS on Azure cloud.
-
-### Prerequisites
-
-- [Git](https://git-scm.com/)
-- [NodeJS](https://nodejs.org/it/) >= 0.6.x
-- [Terraform](https://terraform.io) >= 0.10.x
+-   [Git](https://git-scm.com/)
+-   [Terraform](https://terraform.io) >= 0.10.x
+-   [NodeJS](https://nodejs.org/it/) >= 0.6.x
+-   NPM packages, run `npm install`
 
 All binaries must be in the system path.
 
-### Deploy instructions
+#### Setting up the Azure credentials
 
-- Get an [Azure account](https://azure.microsoft.com/en-us/free)
-
-- Set up an [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
-
-- Set up environment variables:
+1.  Get an [Azure account](https://azure.microsoft.com/en-us/free)
+1.  Set up an [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
+1.  Set up environment variables:
 
 ```
 export ARM_SUBSCRIPTION_ID=<subscription Id>
@@ -62,33 +78,6 @@ export ARM_CLIENT_ID=<service principal client (app) Id>
 export ARM_CLIENT_SECRET=<service principal client secret (key)>
 export ARM_TENANT_ID=<Active Directory domain Id>
 ```
-
-- edit configuration file `infrastructure/tfvars.json`
-
-- edit Terraform configuration file `infrastructure/azure.cf`
-
-- Run the following commands:
-
-`npm install`
-`npm run resources:deploy`
-
-This task will deploy the following services to an Azure resource group:
-
-- [App service plan](https://azure.microsoft.com/en-us/pricing/details/app-service/plans/)
-- [Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview) app (configured)
-- [CosmosDB database](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) (and collections)
-- [Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction)
-- [Storage queues](https://azure.microsoft.com/en-us/services/storage/queues/) (for emails and messages)
-- [Blob storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
-- [API management](https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts) (with configuration)
-- [Application insights](https://azure.microsoft.com/it-it/services/application-insights/)
-- [Log analytics](https://azure.microsoft.com/en-au/services/log-analytics/)
-
-Most services get provisioned by Terraform (see `infrastructure/azure.tf`).
-
-Some services aren't yet supported by Terraform (CosmosDB database and collections, [Functions](https://github.com/terraform-providers/terraform-provider-azurerm/issues/131), API manager);
-these ones are created by NodeJS scripts (`infrastructure/tasks`) that provision the services through the
-[Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node).
 
 #### Shared Terraform state
 
@@ -98,7 +87,31 @@ The Terraform state is shared through an Azure
 Before running any command involving Terraform you must request access
 to the Azure container to the project administrators.
 
-#### Example output
+#### Making changes to the configuration
+
+1.  edit configuration file `infrastructure/tfvars.json`
+1.  edit Terraform configuration file `infrastructure/azure.cf`
+
+#### Apply the changes
+
+The deploy task will configure the following services:
+
+-   [App service plan](https://azure.microsoft.com/en-us/pricing/details/app-service/plans/)
+-   [Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview) app (configured)
+-   [CosmosDB database](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) (and collections)
+-   [Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction)
+-   [Storage queues](https://azure.microsoft.com/en-us/services/storage/queues/) (for emails and messages)
+-   [Blob storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
+-   [API management](https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts) (with configuration)
+-   [Application insights](https://azure.microsoft.com/it-it/services/application-insights/)
+-   [Log analytics](https://azure.microsoft.com/en-au/services/log-analytics/)
+
+_Note_: Most services get provisioned by Terraform (see `infrastructure/azure.tf`).
+Some services aren't yet supported by Terraform (CosmosDB database and collections, [Functions](https://github.com/terraform-providers/terraform-provider-azurerm/issues/131), API manager);
+these ones are created by NodeJS scripts (`infrastructure/tasks`) that provision the services through the
+[Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node).
+
+To apply the changes, run the following command:
 
 ```
 $ npm run resources:deploy
@@ -134,4 +147,23 @@ successfully deployed cosmsodb database and collections
 
 ...
 
+```
+
+## Other
+
+### Building the documentation site
+
+The source of the Digital Citizenship documentation site is under the `docs`
+directory of this repository.
+
+To build the sphinx documentation from this repository:
+
+```
+npm run docs:build
+```
+
+To deploy the documentation site (via GitHub pages):
+
+```
+npm run docs:publish
 ```

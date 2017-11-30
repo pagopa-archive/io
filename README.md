@@ -30,6 +30,12 @@ introduction on the topic, check out the following pages (Italian):
 
 ### Architecture decision records
 
+In a world of evolutionary architecture, it's important to record certain design
+decisions for the benefit of future team members as well as for external
+oversight. Architecture Decision Records is a technique for capturing important architectural decisions along with their context and consequences. We store
+these details in source control, along with code, as then they can provide a
+record that remains in sync with the code itself.
+
 We use [ADR](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)s
 to track architectural decisions of this initiative.
 

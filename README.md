@@ -63,64 +63,296 @@ The [infrastructure](https://github.com/teamdigitale/digital-citizenship/tree/ma
 drectory contains scripts and Terraform configuration to deploy the
 infrastructure on the Azure cloud.
 
+#### Deploy Environments
+
+For each of the three different deployment environments 
+(`test`, `staging` and `production`) a directory in 
+`infrastructure/env` contains the relative configuration.
+
+The configuration consists in a JSON file with the name
+of the Azure services that need to be provisioned
+(ie. web applications, databases) in a specific
+[resource group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview)
+(one for each environment).
+
+The automated setup tools (discussed below) take the value
+from the `ENVIRONMENT` environment variable, that must be set
+at the beginning of the whole procedure.
+
+ie:
+
+```
+ENVIRONMENT=staging
+```
+
 #### Prerequisites
 
--   [Git](https://git-scm.com/)
--   [Terraform](https://terraform.io) >= 0.10.x
--   [NodeJS](https://nodejs.org/it/) >= 0.6.x
--   NPM packages, run `npm install`
+- An active [Azure subscription](https://azure.microsoft.com/en-us/free)
+- [Git](https://git-scm.com/)
+- [NodeJS](https://nodejs.org/it/) >= 0.6.x
+- [Terraform](https://terraform.io) >= 0.10.x
+- [Yarn](https://yarnpkg.com) >= 1.0.x
+- NPM packages: run `yarn install`
 
 All binaries must be in the system path.
 
-#### Setting up the Azure credentials
+### Set up an Azure Active Directory B2C tenant
 
-1.  Get an [Azure account](https://azure.microsoft.com/en-us/free)
-1.  Set up an [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
-1.  Set up environment variables:
+#### Step 1 - Add an Azure Active Directory B2C resource
+
+To authenticate Digital Citizenship API users (through the developer portal) we use an [Active Directory B2C](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-overview) (ADB2C) tenant.
+
+As it's actually not possible to create (and manage) an ADB2C tenant
+programmatically, it must be manually created. See the get started guide:
+
+https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-get-started
+
+The ADB2C tenant *must* exists *before* running any task illustrated below.
+
+Once created, before going on with the installation procedure,
+put the tenant name in `ADB2C_TENANT_ID` environment variable:
 
 ```
-export ARM_SUBSCRIPTION_ID=<subscription Id>
-export ARM_CLIENT_ID=<service principal client (app) Id>
-export ARM_CLIENT_SECRET=<service principal client secret (key)>
-export ARM_TENANT_ID=<Active Directory domain Id>
+ADB2C_TENANT_ID=<yourtenant>.onmicrosoft.com
 ```
 
-#### Shared Terraform state
+#### Step 2 - Add custom users attributes in ADB2C
+
+During user sign-in to the Digital Citizenship API
+we collect some custom attributes relative to the user account.
+
+Go to the ADB2C blade in the Azure portal, then select 
+"User attributes" and add the following custom attributes
+(type is always "String"):
+
+1. Organization
+1. Department
+1. Service
+
+#### Step 3 - Add and configure an ADB2C Sign-in / Sign-up policy
+
+For users to be able to sign-in and sign-up through ADB2C 
+you need to [create a Sign-in / Sign-up Policy](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-reference-policies).
+
+Go the Azure ADB2C blade in the Azure portal 
+-> "Sign-up or Sign-in policies" -> "Add".
+
+Policy Name:
+  - SignUpIn
+
+Identity Providers:
+  - Email signup
+
+Sign-up attributes:
+  - Department
+  - Display Name
+  - Given Name
+  - Organization
+  - Service
+  - Surname
+
+Application claims: 
+  - Department
+  - Display Name
+  - Given Name
+  - Organization
+  - Service
+  - Surname
+  - Email Addresses
+  - Identity Provider
+  - User is new
+  - User's Object ID
+
+Multifactor authentication:
+- On
+
+Page UI customization:
+- Set up for every page the following custom page URI:  
+  https://teamdigitale.github.io/digital-citizenship-onboarding/unified.html
+- Save the policy
+- Customize the "Multifactor authentication page"
+- Open "Local account sign-up page"
+  - Mark all fields as required (optional = no)
+  - Reorder fields and rename labels at wish
+
+#### Step 4 - Add the Developer Portal Applications in the Azure ADB2C tenant
+
+Finally, you need to register (create) the Developer Portal ADB2C Applications:
+
+[instructions on how to create an ADB2C application](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-app-registration)
+
+1. Register an ADB2C Application `dev-portal-app`
+
+Set the return URL of this application to:  
+`https://${apim}.portal.azure-api.net/signin-aad`
+
+(replace `${APIM}` with the value of `config.azurerm_apim` in your tfvars.json file)
+
+Generate an application key, then set the two environment variables:
+
+```
+DEV_PORTAL_CLIENT_ID=<Application Id>
+DEV_PORTAL_CLIENT_SECRET=<Application Key>
+```
+
+2. Register an ADB2C Application `dev-portal-ext`
+
+Set the return URL of this application to:  
+https://`${PORTAL}`.azurewebsites.net/auth/openid/return
+
+(replace `${PORTAL}` with the value of `config.azurerm_app_service_portal` in your tfvars.json file)
+
+Generate an application key, then set the two environment variables:
+
+```
+DEV_PORTAL_EXT_CLIENT_ID=<Application Id>
+DEV_PORTAL_EXT_CLIENT_SECRET=<Application Key>
+```
+
+### Deploy instructions
+
+1. Create an [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
+and get `CLIENT_ID`, `CLIENT_SECRET`, `TENANT_ID` (the Active Directory Id) and Azure `SUBSCRIPTION_ID`.
+
+Set up the following environment variables to let the automated
+setup tools authenticate against the Azure subscription:
+
+```
+ARM_SUBSCRIPTION_ID=<subscription Id>
+ARM_CLIENT_ID=<service principal client (app) Id>
+ARM_CLIENT_SECRET=<service principal client secret (key)>
+ARM_TENANT_ID=<Active Directory domain Id>
+```
+
+2. Check your [enviroment configuration](#example-environment-configuration) then run: 
+
+```
+yarn infrastructure:deploy
+```
+
+Running the above command will deploy the following services to an Azure resource group:
+
+- [App service plan](https://azure.microsoft.com/en-us/pricing/details/app-service/plans/)
+- [Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview) app (configured)
+- [CosmosDB database](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) (and collections)
+- [Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction)
+- [Storage queues](https://azure.microsoft.com/en-us/services/storage/queues/) (for emails and messages)
+- [Blob storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
+- [API management](https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts) (with configuration)
+- [Application insights](https://azure.microsoft.com/it-it/services/application-insights/)
+- [Log analytics](https://azure.microsoft.com/en-au/services/log-analytics/)
+- [EventHub](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-what-is-event-hubs)
+- [Web App service](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-overview)
+
+#### Component diagram
+
+![](./docs/assets/components.svg)
+
+#### Tasks
+
+Some services aren't yet supported by Terraform (ie. CosmosDB database and collections, [Functions](https://github.com/terraform-providers/terraform-provider-azurerm/issues/131), 
+[API management](https://docs.microsoft.com/en-us/azure/api-management/)).
+
+These ones are created by NodeJS scripts (`infrastructure/tasks`) that provision the services through the
+[Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node) and are supposed to be run from
+command line using the relative npm (or yarn) script:
+ 
+| Command                          | Task                                                                                                                                                       |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `yarn resources:cosmosdb`        | [Setup CosmosDB database and collections](./infrastructure/tasks/00-cosmosdb_setup.ts)                                                                     |
+| `yarn resources:functions:setup` | [Create Functions resource and setup application settings](./infrastructure/tasks/10-functions_setup.ts)                                                   |
+| `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                                                            |
+| `yarn resources:apim:setup`      | [Create API management resource and setup configuration from template files](./infrastructure/tasks/20-apim_setup.ts)                                      |
+| `yarn resources:apim:logger`     | [Setup API management logging through EventHub](./infrastructure/tasks/21-apim_logger.ts)                                                                  |
+| `yarn resources:apim:adb2c`      | [Setup API management authentication through Active Directory B2C](./infrastructure/tasks/22-apim_adb2c.ts)                                                |
+| `yarn resources:apim:api`        | [Synch Digital Citizenship API from OpenAPI specs to API management](./infrastructure/tasks/25-apim_api.ts)                                                |
+| `yarn resources:devapp:apikey`   | [Create a Digital Citizenship API user and setup its API Key in the developer portal web application settings](./infrastructure/tasks/30-devapp_apikey.ts) |
+| `yarn resources:devapp:setup`    | [Setup developer portal application settings](./infrastructure/tasks/31-devapp_setup.ts)                                                                   |
+| `yarn resources:devapp:git`      | [Setup developer portal application deployment from the GitHub repository](./infrastructure/tasks/34-devapp_git.ts)                                        |
+| `yarn deploy:devapp:sync`        | [Deploy developer portal application code from the GitHub repository](./infrastructure/tasks/35-devapp_sync.ts)                                            |
+| `yarn resources:ip:restrict`     | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)                                                                      |
+
+### Finishing the installation
+
+Some tasks cannot be carried out programmatically and require a manual intervention 
+by the Azure subscription administrator through the Azure portal interface.
+
+#### Activate "Managed Service Identity" for the onboarding Web App Service
+
+To ease the onboarding of new developers (API users) we use a dedicated
+[Application](https://github.com/teamdigitale/digital-citizenship-onboarding)
+that starts some automated tasks once the user sign-in into the developer portal.
+
+This web application exposes an HTTP endpoint that triggers some actions
+on the authenticated user's account (ie. create a subscription to use the Digital Citizenship API).
+These actions are triggered when the logged-in user clicks on a call-to-action button
+that redirects her browser to the exposed endpoint.
+
+To give the needed permissions (manage API management users account) to the onboarding Web App 
+we use [Managed Service Identity](https://docs.microsoft.com/en-us/azure/active-directory/msi-overview).
+In this way we can manage developer portal users directly from the Web application
+without hardcoding any client credential into the App Service settings.
+
+To activate Managed Service Identity and assign the needed role to the App Service:
+
+1. Navigate to the Azure Portal App Service blade (for the Web App Service ${config.azurerm_app_service_portal})
+ -> Managed Service Identity -> Register with Azure Active Directory -> set the value to 'On'.
+
+1. Navigate to the Azure Portal API management blade -> Access Control (IAM) 
+-> Add the registered Web application as a "Contributor".
+
+1. Restart the Web App Service.
+
+## Shared Terraform state
 
 The Terraform state is shared through an Azure
 [storage container](https://www.terraform.io/docs/state/remote.html).
 
 Before running any command involving Terraform you must request access
-to the Azure container to the project administrators.
+to the Azure container to the project administrators (or use your own
+for testing purposes when deploying to a staging resource group).
 
-#### Making changes to the configuration
+## Example environment configuration
 
-1.  edit configuration file `infrastructure/tfvars.json`
-1.  edit Terraform configuration file `infrastructure/azure.cf`
+Make sure you have the following environment variables
+set up before launching any npm task to provision Azure resources.
 
-#### Apply the changes
+To do that, place a `.env` file in the root of this directory
+that contains the following configuration variables (all mandatory):
 
-The deploy task will configure the following services:
+```bash
+# May be `test`, `staging` or `production`
+ENVIRONMENT=staging
 
--   [App service plan](https://azure.microsoft.com/en-us/pricing/details/app-service/plans/)
--   [Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview) app (configured)
--   [CosmosDB database](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) (and collections)
--   [Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction)
--   [Storage queues](https://azure.microsoft.com/en-us/services/storage/queues/) (for emails and messages)
--   [Blob storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
--   [API management](https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts) (with configuration)
--   [Application insights](https://azure.microsoft.com/it-it/services/application-insights/)
--   [Log analytics](https://azure.microsoft.com/en-au/services/log-analytics/)
+# Tenant name of the Active Directory B2C
+ADB2C_TENANT_ID=XXXXXXXXX.onmicrosoft.com
 
-_Note_: Most services get provisioned by Terraform (see `infrastructure/azure.tf`).
-Some services aren't yet supported by Terraform (CosmosDB database and collections, [Functions](https://github.com/terraform-providers/terraform-provider-azurerm/issues/131), API manager);
-these ones are created by NodeJS scripts (`infrastructure/tasks`) that provision the services through the
-[Azure Resource Manager APIs](https://github.com/Azure/azure-sdk-for-node).
+# Azure service principal credentials (main AD tenant)
+ARM_SUBSCRIPTION_ID=XXXXX-XXXX-XXXX-XXXX-dXXXXXXXXX
+ARM_CLIENT_ID=XXXXXXX-XXXX-XXXX-XXX-XXXXXXXXX
+ARM_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXX=
+ARM_TENANT_ID=XXXXXXX-XXXXX-XXXX-XXXX-XXXXXXXXXXX
 
-To apply the changes, run the following command:
+# Client credentials for dev-portal-app ADB2C App
+DEV_PORTAL_CLIENT_ID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
+DEV_PORTAL_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
+
+# Client credentials for dev-portal-ext ADB2C App
+DEV_PORTAL_EXT_CLIENT_ID=XXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
+DEV_PORTAL_EXT_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
+
+# Sync API products and policies
+INCLUDE_API_PRODUCTS=1
+INCLUDE_API_POLICIES=1
+
+# Mail service API key
+SENDGRID_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+## Example output
 
 ```
-$ npm run resources:deploy
+$ yarn infrastructure:deploy
 
 > digital-citizenship@0.1.0 resources:deploy ...digital-citizenship
 > npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api
@@ -155,6 +387,33 @@ successfully deployed cosmsodb database and collections
 
 ```
 
+## Deploy new releases
+
+When you are ready to deploy a new release, you need to synch 
+the source code in the Git repository to the App Service (or to Azure Functions).
+
+Azure gives you the option to configure continuos deployment from a GitHub branch,
+automatically triggering a new deploy through a webhook when changes are pushed.
+To do that you must give your Azure subscription access to your
+GitHub account in order to set up the webhook:  
+https://docs.microsoft.com/en-us/azure/azure-functions/functions-continuous-deployment
+
+We chose to not setup this kind of continous deployment, but
+to provide a script that, when launched from the command line, 
+will synch the code from the GitHub repository to Azure services.
+
+To deploy new code to the developer portal web application run:
+
+```
+yarn deploy:devapp:sync
+```
+
+To deploy new code to Azure Functions run:
+
+```
+yarn deploy:functions:sync
+```
+
 ## Other
 
 ### Building the documentation site
@@ -165,11 +424,11 @@ directory of this repository.
 To build the sphinx documentation from this repository:
 
 ```
-npm run docs:build
+yarn docs:build
 ```
 
 To deploy the documentation site (via GitHub pages):
 
 ```
-npm run docs:publish
+yarn docs:publish
 ```

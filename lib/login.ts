@@ -1,11 +1,6 @@
 import * as msRest from "ms-rest";
 import * as msRestAzure from "ms-rest-azure";
 
-const clientId = process.env.ARM_CLIENT_ID;
-const secret = process.env.ARM_CLIENT_SECRET;
-const domain = process.env.ARM_TENANT_ID;
-const subscriptionId = process.env.ARM_SUBSCRIPTION_ID;
-
 process.on("unhandledRejection", console.error);
 
 export interface ICreds {
@@ -13,13 +8,19 @@ export interface ICreds {
   readonly subscriptionId: string;
 }
 
-export const login = (): Promise<ICreds> =>
+export const login = (
+  opts: msRestAzure.AzureTokenCredentialsOptions = {},
+  clientId = process.env.ARM_CLIENT_ID,
+  secret = process.env.ARM_CLIENT_SECRET,
+  domain = process.env.ARM_TENANT_ID,
+  subscriptionId = process.env.ARM_SUBSCRIPTION_ID
+): Promise<ICreds> =>
   new Promise((resolve, reject) => {
     msRestAzure.loginWithServicePrincipalSecret(
       clientId,
       secret,
       domain,
-      {},
+      opts,
       (err, creds) => {
         if (err) {
           return reject(err);

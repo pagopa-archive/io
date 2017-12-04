@@ -1,19 +1,16 @@
 /**
- * Run this task to sync Azure Functions staging slot
- * to the source control repository code branch
- * specified in the configuration file.
+ * Run this task from the command line to sync the source code
+ * from the GitHub repository to the Azure App Service
+ * running the developer portal onboarding facilities:
+ * 
+ * yarn deploy:devapp:sync
+ * 
+ * https://github.com/teamdigitale/digital-citizenship-onboarding
  *  
- * yarn deploy:functions:sync
- * 
- * This is equivalent to push the "Sync" button in the
- * Azure portal -> Functions -> Deployments blade.
- * 
- * WARNING: this task does not sync the production slot.
- * 
  * This task assumes that the following resources are already created:
  *  - Resource group
- *  - Functions (app service)
- * 
+ *  - App Service Plan
+ *  - App Service
  */
 // tslint:disable:no-console
 // tslint:disable:no-any
@@ -27,9 +24,9 @@ import { checkEnvironment } from "../../lib/environment";
 import webSiteManagementClient = require("azure-arm-website");
 
 export const run = async (config: IResourcesConfiguration) => {
-  if (!config.functionapp_git_repo) {
+  if (!config.app_service_portal_git_repo) {
     return Promise.reject(
-      "Deployment from source control repository not configured"
+      "Deployment from source control repository not configured, skipping."
     );
   }
   const loginCreds = await login();
@@ -39,12 +36,12 @@ export const run = async (config: IResourcesConfiguration) => {
     loginCreds.subscriptionId
   );
 
-  winston.info("Sync Git repository to Function staging slot");
+  winston.info("Sync Git repository to the Developer Portal application");
 
-  return webSiteClient.webApps.syncRepositorySlot(
+  // Sync git to app service
+  return webSiteClient.webApps.syncRepository(
     config.azurerm_resource_group,
-    config.azurerm_functionapp,
-    config.azurerm_functionapp_slot
+    config.azurerm_app_service_portal
   );
 };
 
@@ -53,7 +50,9 @@ checkEnvironment()
   .then(run)
   .then(r => {
     if (r) {
-      winston.info("Successfully synced functions with source control");
+      winston.info(
+        "Successfully synced developer portal webapp with source control"
+      );
     }
   })
   .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));

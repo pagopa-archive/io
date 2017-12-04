@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:teamdigitale/digital-citizenship.git"
+    "url": "https://github.com/teamdigitale/digital-citizenship.git"
   },
   "author": "Team per la Trasformazione Digitale, AgID",
   "license": "MIT",
@@ -17,43 +17,67 @@
     "docs:deploy": "gh-pages -t -d site",
     "docs:publish": "npm-run-all docs:build docs:nojekyll docs:api docs:deploy",
     "resources:tf-init":
-      "terraform init -var-file=infrastructure/tfvars.json infrastructure",
+      "env-cmd .env cross-var terraform init -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json -backend-config=\"infrastructure/env/$ENVIRONMENT/backend.tf\" infrastructure",
     "resources:tf-plan":
-      "terraform plan -var-file=infrastructure/tfvars.json infrastructure",
+      "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "resources:tf-apply":
-      "terraform apply -var-file=infrastructure/tfvars.json infrastructure",
-    "resources:api": "ts-node infrastructure/tasks/20-apim.ts",
-    "resources:functions": "ts-node infrastructure/tasks/10-functions.ts",
-    "resources:cosmosdb": "ts-node infrastructure/tasks/00-cosmosdb.ts",
-    "resources:deploy":
-      "npm-run-all resources:tf-init resources:tf-apply resources:cosmosdb resources:functions resources:api"
+      "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
+    "resources:cosmosdb:setup":
+      "ts-node infrastructure/tasks/00-cosmosdb_setup.ts",
+    "resources:functions:setup":
+      "ts-node infrastructure/tasks/10-functions_setup.ts",
+    "deploy:functions:sync":
+      "ts-node infrastructure/tasks/15-functions_sync.ts",
+    "resources:apim:setup": "ts-node infrastructure/tasks/20-apim_setup.ts",
+    "resources:apim:logger": "ts-node infrastructure/tasks/21-apim_logger.ts",
+    "resources:apim:adb2c": "ts-node infrastructure/tasks/22-apim_adb2c.ts",
+    "resources:apim:api": "ts-node infrastructure/tasks/25-apim_api.ts",
+    "resources:devapp:apikey":
+      "ts-node --no-ignore infrastructure/tasks/30-devapp_apikey.ts",
+    "resources:devapp:setup": "ts-node infrastructure/tasks/31-devapp_setup.ts",
+    "resources:devapp:git": "ts-node infrastructure/tasks/34-devapp_git.ts",
+    "deploy:devapp:sync": "ts-node infrastructure/tasks/35-devapp_sync.ts",
+    "resources:security:ip": "ts-node infrastructure/tasks/70-security_ip.ts",
+    "infrastructure:deploy": "cross-env NPMDEPLOY=1 npm-run-all -s resources:**"
   },
   "devDependencies": {
     "@types/documentdb": "^1.10.2",
+    "@types/dotenv": "^4.0.2",
     "@types/node": "^6.0.0",
+    "@types/readline-sync": "^1.4.2",
     "@types/request": "^2.0.3",
     "@types/shelljs": "^0.7.4",
     "@types/tmp": "^0.0.33",
     "azure-arm-apimanagement": "^1.0.0-preview",
     "azure-arm-appinsights": "^1.0.0-preview",
     "azure-arm-cosmosdb": "^1.0.0-preview",
+    "azure-arm-eventhub": "^1.1.0-preview",
     "azure-arm-storage": "^3.1.0",
     "azure-arm-website": "^2.0.0-preview",
-    "azure-cli": "^0.10.16",
     "azure-storage": "^2.5.0",
+    "cross-env": "^5.1.1",
+    "cross-var": "^1.1.0",
+    "digital-citizenship-functions":
+      "https://github.com/teamdigitale/digital-citizenship-functions#94f119d19",
     "documentdb": "^1.12.2",
     "dotenv": "^4.0.0",
+    "env-cmd": "^7.0.0",
+    "fp-ts": "^0.6.4",
     "gh-pages": "^1.0.0",
+    "io-ts": "^0.9.0",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.0",
+    "readline-sync": "^1.4.7",
+    "replace-in-file": "^3.0.0",
     "request": "^2.83.0",
     "shelljs": "^0.7.8",
     "tmp": "^0.0.33",
-    "ts-option": "^1.1.4",
+    "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "tslint-config-prettier": "^1.5.0",
     "tslint-immutable": "^4.1.0",
     "tslint-plugin-prettier": "^1.2.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.5.2",
+    "winston": "^2.4.0"
   }
 }

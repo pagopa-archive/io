@@ -1,6 +1,7 @@
 /**
  * Run this task to deploy Azure API Manager:
- * ts-node apim.ts
+ * 
+ * yarn resources:apim:setup
  *
  * This task assumes that the following resources are already created:
  *  - Resource group
@@ -12,18 +13,22 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import * as winston from "winston";
 import { login } from "../../lib/login";
+import { getFunctionsInfo } from "../../lib/task_utils";
 
-import readConfig from "../../lib/config";
-const config = readConfig(__dirname + "/../tfvars.json");
+import { IResourcesConfiguration, readConfig } from "../../lib/config";
+import { checkEnvironment } from "../../lib/environment";
 
 import apiManagementClient = require("azure-arm-apimanagement");
 import webSiteManagementClient = require("azure-arm-website");
+
 import * as path from "path";
-import * as request from "request";
 import * as shelljs from "shelljs";
 import * as tmp from "tmp";
 import * as url from "url";
+
+import * as replaceInFiles from "replace-in-file";
 
 // tslint:disable-next-line:no-object-mutation
 shelljs.config.fatal = true;
@@ -42,44 +47,45 @@ const addDays = (date: Date, days: number) => {
 };
 
 /**
- * Get Functions (app service) backend URL and master key
- * to set up API manager properties (backend).
+ * For each published.html file found in tmpDirName/portalTemplates
+ * replace `${var_name}` with the relative value found in config.var_name
  */
-const getFunctionsInfo = async (webClient: webSiteManagementClient) => {
-  const functions = await webClient.webApps.get(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+const replaceVariables = (
+  tmpDirName: string,
+  config: IResourcesConfiguration
+) => {
+  const templateFiles = path.join(
+    tmpDirName,
+    CONFIGURATION_DIRECTORY_NAME,
+    "api-management",
+    "portalTemplates",
+    "**/published.html"
   );
-  const creds = await webClient.webApps.listPublishingCredentials(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
-  );
-  const backendUrl = `https://${functions.defaultHostName}`;
-
-  // @FIXME: unfortunately there is no API to get a Functions App master key
-  const secretUrl = url.format({
-    auth: `${creds.publishingUserName}:${creds.publishingPassword}`,
-    host: `${config.azurerm_functionapp}.scm.azurewebsites.net`,
-    pathname: "/api/functions/admin/masterkey",
-    protocol: "https"
-  });
-
-  const masterKey = await new Promise<string>((resolve, reject) =>
-    request.get(secretUrl, (err, __, body) => {
-      if (err) {
-        return reject(err);
+  return replaceInFiles.sync({
+    files: templateFiles,
+    from: /\$\{[^}]+\}/g,
+    to: (found: string) => {
+      const varName = /\${(.+)}/.exec(found);
+      const value = (config as any)[varName ? varName[1] : ""];
+      if (value === null || value === "") {
+        throw new Error(`Cannot find configuration variable for ${found}`);
       }
-      resolve(JSON.parse(body).masterKey);
-    })
-  );
-  return { masterKey, backendUrl };
+      winston.info(`Replaced ${found} with ${value} in template.`);
+      return value;
+    }
+  });
 };
 
+/** 
+ * Set a named valued (property)
+ * see https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-properties
+ */
 const setApimProperties = async (
   apiClient: apiManagementClient,
   properties: {
     readonly [s: string]: { readonly secret: boolean; readonly value: string };
-  }
+  },
+  config: IResourcesConfiguration
 ) => {
   return await Promise.all(
     Object.keys(properties).map(async prop => {
@@ -99,16 +105,24 @@ const setApimProperties = async (
 };
 
 /**
- * Set up configuration, products, groups, policies, api, email templates, developer portal templates
+ * Set up API management
+ *  - Products
+ *  - Groups
+ *  - Policies
+ *  - API operations from Functions
+ *  - Email templates
+ *  - Developer portal templates
+ *  - Configuration settings (named values)
  */
 const setupConfigurationFromGit = async (
   apiClient: apiManagementClient,
   scmUrl: string,
-  configurationDirectoryPath: string
+  configurationDirectoryPath: string,
+  config: IResourcesConfiguration
 ) => {
-  // TODO: Save old configuration to snapshot branch
+  winston.info("Get API management Git repository credentials");
 
-  // Get APi manager configuration repository (git) credentials
+  // Get API management configuration repository (git) credentials
   const gitKey = await apiClient.user.getSharedAccessToken(
     config.azurerm_resource_group,
     config.azurerm_apim,
@@ -120,6 +134,7 @@ const setupConfigurationFromGit = async (
     }
   );
 
+  // Build Git URL with user and password
   const { hostname, protocol } = url.parse(scmUrl);
   const scmUrlWithCreds = url.format({
     ...{ hostname, protocol },
@@ -127,12 +142,24 @@ const setupConfigurationFromGit = async (
   });
 
   // Push master branch
+  // Actually, the only things we need to push are the developer portal templates
+  // as there is no API to edit them programmatically
   const tmpDir = tmp.dirSync();
   if (!tmpDir) {
     throw new Error("Cannot create temporary directory");
   }
   shelljs.cp("-R", configurationDirectoryPath, tmpDir.name);
   shelljs.pushd(path.join(tmpDir.name, CONFIGURATION_DIRECTORY_NAME));
+
+  const changes = replaceVariables(tmpDir.name, config);
+  winston.info(
+    `Replaced configuration parameters in ${JSON.stringify(changes)}`
+  );
+
+  winston.info(
+    "Push local configuration to the master branch of the API management SCM repository"
+  );
+
   shelljs.exec(`git init .`);
   shelljs.exec(`git remote add origin ${scmUrlWithCreds}`);
   shelljs.exec(`git add -A`);
@@ -140,10 +167,9 @@ const setupConfigurationFromGit = async (
   shelljs.exec(`git push origin master --force`);
   shelljs.popd();
 
-  // TODO: validate configuration
-  // https://docs.microsoft.com/it-it/rest/api/apimanagement/tenantconfiguration/validate
+  winston.info("Deploy configuration from master branch to API management");
 
-  // Deploy configuration from master branch
+  // Deploy configuration from pushed master branch
   const deploy = await apiClient.tenantConfiguration.deploy(
     config.azurerm_resource_group,
     config.azurerm_apim,
@@ -160,7 +186,7 @@ const setupConfigurationFromGit = async (
   return gitKey;
 };
 
-export const run = async () => {
+export const run = async (config: IResourcesConfiguration) => {
   const loginCreds = await login();
 
   // Needed to get storage connection string
@@ -169,7 +195,11 @@ export const run = async () => {
     loginCreds.subscriptionId
   );
 
-  // Create API manager PaaS
+  winston.info(
+    "Create API management resource, this takes a while (about 30 minutes)..."
+  );
+
+  // Create API management PaaS
   const apiManagementService = await apiClient.apiManagementService.createOrUpdate(
     config.azurerm_resource_group,
     config.azurerm_apim,
@@ -182,38 +212,49 @@ export const run = async () => {
     }
   );
 
+  winston.info("Get Functions application key to setup API management backend");
+
   // Get Functions (backend) info
+  // We need these to setup API operations
   const webSiteClient = new webSiteManagementClient(
     loginCreds.creds as any,
     loginCreds.subscriptionId
   );
-  const { masterKey, backendUrl } = await getFunctionsInfo(webSiteClient);
+  const { masterKey, backendUrl } = await getFunctionsInfo(
+    config,
+    webSiteClient
+  );
 
-  // Set up backend url and code (master key) to access Functions
-  await setApimProperties(apiClient, {
-    backendUrl: { secret: false, value: backendUrl },
-    code: { secret: true, value: masterKey }
-  });
+  winston.info(
+    "Setup Functions application key in the API management settings"
+  );
+
+  // Set up backend url and code (master key) named values
+  // to access Functions endpoint in policies
+  await setApimProperties(
+    apiClient,
+    {
+      backendUrl: { secret: false, value: backendUrl },
+      code: { secret: true, value: masterKey }
+    },
+    config
+  );
 
   if (!apiManagementService.scmUrl) {
     throw new Error("Cannot get apiManagementService.scmUrl");
   }
 
+  // Push configuration from local repository
   return setupConfigurationFromGit(
     apiClient,
     apiManagementService.scmUrl,
-    CONFIGURATION_DIRECTORY_PATH
+    CONFIGURATION_DIRECTORY_PATH,
+    config
   );
-
-  // Configure ADB2C authentication
-  // apiClient.identityProvider.createOrUpdate()
 };
 
-// TODO: configure logger + event hub:
-//  https://docs.microsoft.com/it-it/azure/api-management/api-management-howto-log-event-hubs#create-an-api-management-logger
-//  https://docs.microsoft.com/it-it/rest/api/apimanagement/Logger/CreateOrUpdate
-//  or log analytics (or storage)
-
-run()
-  .then(() => console.log("successfully deployed api manager"))
-  .catch(console.error);
+checkEnvironment()
+  .then(() => readConfig(process.env.ENVIRONMENT))
+  .then(run)
+  .then(() => winston.info("Successfully deployed API management"))
+  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));

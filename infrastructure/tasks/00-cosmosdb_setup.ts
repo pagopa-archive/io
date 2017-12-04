@@ -1,6 +1,7 @@
 /**
  * Run this task to deploy CosmoDB database and collections:
- * ts-node cosmosdb.ts
+ *
+ * yarn resources:cosmosdb:setup
  * 
  * This task assumes that the following resources are already created:
  *  - Resource group
@@ -9,10 +10,11 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import * as winston from "winston";
 import { login } from "../../lib/login";
 
-import readConfig from "../../lib/config";
-const config = readConfig(__dirname + "/../tfvars.json");
+import { IResourcesConfiguration, readConfig } from "../../lib/config";
+import { checkEnvironment } from "../../lib/environment";
 
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 import * as documentdb from "documentdb";
@@ -79,6 +81,9 @@ const createCollectionIfNotExists = (
   collectionName: string,
   partitionKey: string
 ) => {
+  winston.info(
+    `Create CosmosDB collection ${collectionName} with partitionKey ${partitionKey}`
+  );
   return new Promise((resolve, reject) => {
     collectionNotExists(dbClient, dbName, collectionName).then(
       () => {
@@ -105,7 +110,7 @@ const createCollectionIfNotExists = (
   });
 };
 
-export const run = async () => {
+export const run = async (config: IResourcesConfiguration) => {
   const loginCreds = await login();
 
   const client = new CosmosDBManagementClient(
@@ -119,7 +124,7 @@ export const run = async () => {
   );
 
   if (databaseAccount.documentEndpoint === undefined) {
-    throw new Error("cannot get databaseAccount.documentEndpoint");
+    throw new Error("Cannot get databaseAccount.documentEndpoint");
   }
 
   const keys = await client.databaseAccounts.listKeys(
@@ -130,6 +135,8 @@ export const run = async () => {
   const dbClient = new DocumentClient(databaseAccount.documentEndpoint, {
     masterKey: keys.primaryMasterKey
   });
+
+  winston.info("Setup CosmosDB database");
 
   await createDatabaseIfNotExists(dbClient, config.azurerm_cosmosdb_documentdb);
 
@@ -146,8 +153,10 @@ export const run = async () => {
   );
 };
 
-run()
+checkEnvironment()
+  .then(() => readConfig(process.env.ENVIRONMENT))
+  .then(run)
   .then(() =>
-    console.log("successfully deployed cosmsodb database and collections")
+    winston.info("Successfully deployed CosmosDB database and collections")
   )
-  .catch(console.error);
+  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));

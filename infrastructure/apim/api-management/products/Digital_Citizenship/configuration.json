@@ -1,0 +1,16 @@
+{
+  "id": "/products/starter",
+  "name": "Digital Citizenship",
+  "$ref-description": "api-management/products/Digital_Citizenship/product.description.html",
+  "terms": "",
+  "subscriptionRequired": true,
+  "approvalRequired": true,
+  "subscriptionsLimit": 1,
+  "state": "published",
+  "$refs-groups": [
+    "api-management/groups/Administrators/configuration.json",
+    "api-management/groups/Developers/configuration.json"
+  ],
+  "$refs-apis": [],
+  "$ref-policy": "api-management/policies/products/Digital_Citizenship.xml"
+}

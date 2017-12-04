@@ -1,5 +1,5 @@
 {
-  "name": "ApiOrganizationRead",
+  "name": "ApiLimitedMessageWrite",
   "$ref-description": null,
   "builtIn": false,
   "type": "custom",

@@ -1,6 +1,6 @@
 {
   "settings": {
-    "RegistrationEnabled": "True",
+    "RegistrationEnabled": "False",
     "UserRegistrationTerms": null,
     "UserRegistrationTermsEnabled": "False",
     "UserRegistrationTermsConsentRequired": "False",
@@ -11,6 +11,6 @@
   },
   "$ref-policy": "api-management/policies/global.xml",
   "IntegrationModuleVersion": "13",
-  "IntegrationModuleBitsVersion": "0.8.413.0",
-  "ExportDate": "2017-10-03T13:31:43.9058085Z"
+  "IntegrationModuleBitsVersion": "0.8.433.0",
+  "ExportDate": "2017-11-27T15:30:56.1325694Z"
 }

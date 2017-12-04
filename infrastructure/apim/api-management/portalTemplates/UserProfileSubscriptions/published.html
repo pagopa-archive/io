@@ -5,7 +5,8 @@
   </a>
 
     {% if subscriptions.size == 0 %}
-        <p class="lead">You must <a href="/products">subscribe to one or more products</a> to start using the API.</p>
+        <!-- <p class="lead">You must <a href="/products">subscribe to one or more products</a> to start using the API.</p>-->
+        <a class="btn btn-lg btn-success" href="https://${azurerm_app_service_portal}.azurewebsites.net/login/{{userId}}">Subscribe to the Digital Citizenship API</a>
     {% else %}
   <h2>{% localized "SubscriptionListStrings|WebDevelopersYourSubscriptions" %}</h2>
 

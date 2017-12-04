@@ -4,12 +4,11 @@
 # Set up an Azure backend to store Terraform state.
 # You *must* create the storage account and the container before running this script
 terraform {
- backend "azurerm" {
-   resource_group_name  = "terraform-resource-group"
-   storage_account_name = "terraformstorageaccount"
-   container_name       = "terraform-storage-container"
-   key                  = "production.terraform.tfstate"
- }
+    backend "azurerm" {
+        resource_group_name  = "terraform-resource-group"
+        storage_account_name = "terraformstorageaccount"
+        container_name       = "terraform-storage-container"     
+    }
 }
 
 # Environment: production, developement or staging
@@ -68,6 +67,26 @@ variable "azurerm_app_service_plan" {
     type = "string"
 }
 
+# Name of the App Service Plan for developer portal
+variable "azurerm_app_service_plan_portal" {
+    type = "string"
+}
+
+# Name of the App Service for developer portal
+variable "azurerm_app_service_portal" {
+    type = "string"
+}
+
+# Name of the API management resource
+variable "azurerm_apim" {
+    type = "string"
+}
+
+# Name of the ADB2C policy
+variable "azurerm_adb2c_policy" {
+    type = "string"
+}
+
 # Name of Application Insights resource
 variable "azurerm_application_insights" {
     type = "string"
@@ -75,6 +94,21 @@ variable "azurerm_application_insights" {
 
 # Name of Log Analytics resource
 variable "azurerm_log_analytics" {
+    type = "string"    
+}
+
+# EventHub namespace
+variable "azurerm_eventhub_ns" {
+    type = "string"    
+}
+
+# EventHub logger for API management
+variable "azurerm_apim_eventhub" {
+    type = "string"    
+}
+
+# EventHub rule for API management
+variable "azurerm_apim_eventhub_rule" {
     type = "string"    
 }
 
@@ -102,7 +136,8 @@ resource "azurerm_storage_account" "azurerm_storage_account" {
 
     # can be one between Premium_LRS, Standard_GRS, Standard_LRS, Standard_RAGRS, Standard_ZRS
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy
-    account_type = "Standard_GRS"
+    account_tier             = "Standard"
+    account_replication_type = "GRS"
 
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-service-encryption
     enable_blob_encryption = true
@@ -119,7 +154,8 @@ resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
 
     # can be one between Premium_LRS, Standard_GRS, Standard_LRS, Standard_RAGRS, Standard_ZRS
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy
-    account_type = "Standard_GRS"
+    account_tier             = "Standard"
+    account_replication_type = "GRS"
 
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-service-encryption
     enable_blob_encryption = true
@@ -219,6 +255,82 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
     # }
 }
 
+### DEVELOPER PORTAL TASKS
+
+resource "azurerm_app_service_plan" "azurerm_app_service_plan_portal" {
+    name                = "${var.azurerm_app_service_plan_portal}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+
+    sku {
+        tier = "Standard"
+        # Possible values are B1, B2, B3, D1, F1, FREE, P1, P2, P3, S1, S2, S3, SHARED
+        size = "S1"
+    }
+}
+
+resource "random_string" "cookie_key" {
+  length = 32
+}
+
+resource "random_string" "cookie_iv" {
+  length = 12
+}
+
+resource "azurerm_app_service" "azurerm_app_service_portal" {
+    name                = "${var.azurerm_app_service_portal}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    app_service_plan_id = "${azurerm_app_service_plan.azurerm_app_service_plan_portal.id}"
+
+    site_config {
+        always_on = true
+    }
+
+    # Go to https://github.com/teamdigitale/digital-citizenship-onboarding
+    # to see how to fill these values
+    app_settings {
+        ARM_SUBSCRIPTION_ID = ""
+        ADMIN_API_KEY = ""
+        CLIENT_ID = ""
+        CLIENT_SECRET = ""
+        POLICY_NAME = "${var.azurerm_adb2c_policy}"
+        WEBSITE_NODE_DEFAULT_VERSION = "6.5.0"
+        COOKIE_KEY = "${random_string.cookie_key.result}"
+        COOKIE_IV = "${random_string.cookie_iv.result}"
+        LOG_LEVEL = "info"
+        ARM_RESOURCE_GROUP = "${azurerm_resource_group.azurerm_resource_group.name}"
+        ARM_APIM = "${var.azurerm_apim}"
+        APIM_PRODUCT_NAME = "starter"
+        APIM_USER_GROUPS = "ApiLimitedMessageWrite,ApiInfoRead,ApiMessageRead"
+        ADMIN_API_URL = "https://${var.azurerm_apim}.azure-api.net/"
+        POST_LOGIN_URL = "https://${var.azurerm_apim}.portal.azure-api.net/developer"
+        POST_LOGOUT_URL = "https://${var.azurerm_apim}.portal.azure-api.net/"
+        REPLY_URL = "https://${var.azurerm_app_service_portal}.azurewebsites.net/auth/openid/return"
+    }
+}
+
+# TODO: assign role to the MSI to let the App Service access API Management users
+# resource "azurerm_virtual_machine_extension" "app_service_portal_msi" {
+#     name                 = "app_service_portal_msi"
+#     location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+#     resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+#     app_service_plan_id = "${azurerm_app_service_plan.azurerm_app_service_plan_portal.id}"
+#
+#     # virtual_machine_name = "${azurerm_virtual_machine.test.name}"
+#
+#     publisher            = "Microsoft.ManagedIdentity"
+#     type                 = "ManagedIdentityExtensionForWindows"
+#     type_handler_version = "1.0"
+#     settings             = ""
+# }
+# resource "azurerm_role_assignment" "app_service_portal_role" {
+#   name               = "app_service_portal_role"
+#   scope              = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.azurerm_resource_group}/providers/Microsoft.Storage/storageAccounts/${var.azurerm_apim}"
+#   role_definition_id = ""
+#   principal_id       = ""
+# }
+
 ## !!! API MANAGER NOT SUPPORTED
 
 # Logging (OSM)
@@ -229,4 +341,36 @@ resource "azurerm_log_analytics_workspace" "azurerm_log_analytics" {
     resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
     sku                 = "Standard"
     retention_in_days   = 30
+}
+
+# Logging (EventHub)
+
+resource "azurerm_eventhub_namespace" "azurerm_eventhub_ns" {
+    name                = "${var.azurerm_eventhub_ns}"
+    location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    sku                 = "Standard"
+    capacity            = 1
+    tags {
+        environment = "${var.environment}"
+    }
+}
+
+resource "azurerm_eventhub" "azurerm_apim_eventhub" {
+    name                = "${var.azurerm_apim_eventhub}"
+    namespace_name      = "${azurerm_eventhub_namespace.azurerm_eventhub_ns.name}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    # EventHub Partition Count has to be between 2 and 32
+    partition_count     = 2
+    message_retention   = 7
+}
+
+resource "azurerm_eventhub_authorization_rule" "azurerm_apim_eventhub_rule" {
+    name                = "${var.azurerm_apim_eventhub_rule}"
+    namespace_name      = "${azurerm_eventhub_namespace.azurerm_eventhub_ns.name}"
+    resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    eventhub_name       = "${azurerm_eventhub.azurerm_apim_eventhub.name}"
+    listen              = true
+    send                = true
+    manage              = false
 }

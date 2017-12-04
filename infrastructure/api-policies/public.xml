@@ -1,0 +1,33 @@
+<policies>
+    <inbound>
+        <set-backend-service base-url="{{backendUrl}}/api/v1" />
+        <base />
+        <set-header name="x-user-id" exists-action="override">
+            <value>@(context.User.Id)</value>
+        </set-header>
+        <set-header name="x-user-groups" exists-action="override">
+            <value>@(String.Join(",", context.User.Groups.Select(g => g.Name)))</value>
+        </set-header>
+        <set-header name="x-subscription-id" exists-action="override">
+            <value>@(context.Subscription.Id)</value>
+        </set-header>
+        <set-header name="x-user-email" exists-action="override">
+            <value>@(context.User.Email)</value>
+        </set-header>
+        <set-header name="x-functions-key" exists-action="override">
+            <value>{{code}}</value>
+        </set-header>
+        <log-to-eventhub logger-id="apim-logger">
+            @( string.Join(",", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name))
+        </log-to-eventhub>
+    </inbound>
+    <outbound>
+        <base />
+    </outbound>
+    <backend>
+        <base />
+    </backend>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

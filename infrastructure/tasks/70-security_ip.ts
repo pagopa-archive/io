@@ -5,7 +5,7 @@
  * - 3. Functions (allowing access from the API management)
  *
  * yarn resources:security:ip
- * 
+ *
  */
 // tslint:disable:no-console
 // tslint:disable:no-any
@@ -196,7 +196,9 @@ export const run = async (config: IResourcesConfiguration) => {
           functionIPs,
           config.azure_portal_ips.map(s => s.trim()),
           (cosmosdb.ipRangeFilter || "").split(",")
-        ].reduce((a, b) => a.concat(b), [])
+        ]
+          .reduce((a, b) => a.concat(b), [])
+          .filter(ip => ip !== "")
       )
     ).join(",");
 

@@ -9,7 +9,7 @@ modo da provare l’invio dei primi messaggi tramite il sistema di
 notifiche.
 
 `Registrati sul portale
-sviluppatori <https://agid-apim-prod.portal.azure-api.net>`__
+sviluppatori <https://developer.cd.italia.it/>`__
 
 Se non hai un account è necessario seguire il link “**Sign up now**”; ti
 verranno chieste le seguenti informazioni (tutte da fornire

@@ -213,6 +213,46 @@ variable "SENDGRID_KEY" {
   description = "The API key for the SendGrid service"
 }
 
+variable "azurerm_kubernetes_name" {
+  type = "string"
+  description = "The name of the container service resource"
+}
+
+variable "azurerm_kubernetes_master_count" {
+  type = "string"
+  description = "How many masters in the cluster"
+}
+
+variable "azurerm_kubernetes_admin_ssh_publickey" {
+  type = "string"
+  description = "The ssh public key for the admin account on cluster nodes"
+}
+
+variable "azurerm_kubernetes_agent_count" {
+  type = "string"
+  description = "How many agent nodes in the cluster"
+}
+
+# See VM sizes https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes
+variable "azurerm_kubernetes_agent_vm_size" {
+  type = "string"
+  description = "Virtual machine size for agent nodes"
+}
+
+variable "azurerm_kubernetes_service_principal_client_id" {
+  type = "string"
+  description = "The client ID of the service principal"
+}
+
+variable "azurerm_kubernetes_service_principal_client_secret" {
+  type = "string"
+  description = "The client secret of the service principal"
+}
+
+#
+# Paths to local provisioner scripts
+#
+
 variable "cosmosdb_collection_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
 }
@@ -220,8 +260,6 @@ variable "cosmosdb_collection_provisioner" {
 variable "website_git_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_website_git.ts"
 }
-
-#### API management provisioners
 
 variable "website_apim_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_apim.ts"
@@ -761,4 +799,21 @@ resource "null_resource" "azurerm_apim_api" {
       "--apim_include_products"))
     }"
   }
+}
+
+# Azure Container Service (Kubernetes)
+
+module "azurerm_container_service" {
+  source = "./modules/azurerm/kubernetes"
+
+  environment = "${var.environment}"
+  resource_group_location = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+  name = "${var.azurerm_container_service_name}"
+  master_count = "${var.azurerm_container_service_master_count}"
+  admin_ssh_publickey = "${var.azurerm_linux_admin_ssh_publickey}" # TODO: lookup public key from github?
+  agent_count = "${var.azurerm_container_service_agent_count}"
+  agent_vm_size = "${var.azurerm_container_service_agent_vm_size}"
+  service_principal_client_id = "${var.azurerm_service_principal_client_id}"
+  service_principal_client_secret = "${var.azurerm_service_principal_client_secret}"
 }

@@ -1,0 +1,65 @@
+#
+# Configures the namespaces where we launch the resources and defines resource
+# limits for each namespace.
+# Note that since production doesn't specify any limit, containers can use as
+# much resources as available.
+#
+# Documentation on quotas and limits:
+# http://kubernetes.io/docs/admin/resourcequota/
+# http://kubernetes.io/docs/admin/resourcequota/walkthrough/
+# http://kubernetes.io/docs/user-guide/compute-resources/
+#
+---
+################################################################################
+#    ___  ___  ____  ___  __  _____________________  _  __
+#   / _ \/ _ \/ __ \/ _ \/ / / / ___/_  __/  _/ __ \/ |/ /
+#  / ___/ , _/ /_/ / // / /_/ / /__  / / _/ // /_/ /    /
+# /_/  /_/|_|\____/____/\____/\___/ /_/ /___/\____/_/|_/
+#
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    name: production
+
+---
+################################################################################
+#    _____________  __________  _______
+#   / __/_  __/ _ |/ ___/  _/ |/ / ___/
+#  _\ \  / / / __ / (_ // //    / (_ /
+# /___/ /_/ /_/ |_\___/___/_/|_/\___/
+#
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+  labels:
+    name: staging
+
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota
+  namespace: staging
+spec:
+  hard:
+    cpu: "2"
+    memory: 6Gi
+
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limits
+  namespace: staging
+spec:
+  limits:
+  - default:
+      cpu: 0.2
+      memory: 512Mi
+    defaultRequest:
+      cpu: 0.1
+      memory: 256Mi
+    type: Container

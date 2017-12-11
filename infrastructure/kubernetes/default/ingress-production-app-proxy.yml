@@ -1,0 +1,39 @@
+#
+#    ___  ___  ____  ___  __  _____________________  _  __
+#   / _ \/ _ \/ __ \/ _ \/ / / / ___/_  __/  _/ __ \/ |/ /
+#  / ___/ , _/ /_/ / // / /_/ / /__  / / _/ // /_/ /    /
+# /_/  /_/|_|\____/____/\____/\___/ /_/ /___/\____/_/|_/
+#
+#
+# This service is used to route requests for the app proxt from the default
+# namespace to the production namespace.
+# Requests are routed to the cluster IPs and to the statically assigned nodePort
+# of the webapp service.
+#
+# TODO can we make the template automatically lookup the cluster IPs from
+#      the cluster metadata?
+#
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: production-app-proxy
+  namespace: default
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 31010
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: production-app-proxy
+  namespace: default
+subsets:
+  - addresses:
+    - ip: "10.240.0.4"
+    - ip: "10.240.0.5"
+    - ip: "10.240.0.7"
+    ports:
+    - port: 31010

@@ -1,0 +1,72 @@
+#
+#    ___  ___  ____  ___  __  _____________________  _  __
+#   / _ \/ _ \/ __ \/ _ \/ / / / ___/_  __/  _/ __ \/ |/ /
+#  / ___/ , _/ /_/ / // / /_/ / /__  / / _/ // /_/ /    /
+# /_/  /_/|_|\____/____/\____/\___/ /_/ /___/\____/_/|_/
+#
+#
+# The app proxy
+#
+---
+#
+# Deploy the pods
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app-proxy
+  namespace: production
+  labels:
+    app: app-proxy
+    environment: production
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      name: app-proxy
+      namespace: production
+      labels:
+        app: app-proxy
+        environment: production
+    spec:
+      containers:
+      - image: "karthequian/helloworld:latest"
+        name: app-proxy
+        ports:
+        - name: http-port
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 5
+
+---
+#
+# An service exposing the app to the cluster.
+# A production ingress will open the service to the world
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-proxy
+  namespace: production
+spec:
+  type: NodePort
+  selector:
+    app: app-proxy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31010
+      name: app-proxy

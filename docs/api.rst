@@ -68,14 +68,14 @@ Tramite il developer portal è possibile:
 -  consultare le spefiche delle API (OpenAPI / Swagger)
 -  visualizzare l’API-key, necessaria per utilizzare le API
 -  provare a inviare messaggi tramite l’\ `interfaccia
-   grafica <https://agid-apim-prod.portal.azure-api.net/docs/services/digital-citizenship-api>`__
+   grafica <https://developer.cd.italia.it/docs/services/digital-citizenship-api>`__
 
 L’account di test è limitato all’utilizzo dell’API di invio dei messaggi
 (“submitMessage”). Per inviare un messaggio tramite API è necessario
 fornire in input il codice fiscale ottenuto durante la registrazione.
 
 Nella `pagina con i dati relativi al tuo
-account <https://agid-apim-prod.portal.azure-api.net/developer>`__ puoi
+account <https://developer.cd.italia.it/developer>`__ puoi
 trovare l’Api-Key (“Primary key”) che è necessario utilizzare per
 autenticarsi alle API.
 
@@ -94,4 +94,4 @@ Microsoft, è possibile generare client in C#, Go, Java, Node.js,
 TypeScript, Python, Ruby and PHP.
 
 `Specifiche OpenAPI per l’iniziativa di Cittadinanza
-Digitale <https://agid-apim-prod.portal.azure-api.net/docs/services/digital-citizenship-api/export?DocumentFormat=Swagger>`__
+Digitale <https://developer.cd.italia.it/docs/services/digital-citizenship-api/export?DocumentFormat=Swagger>`__

@@ -470,7 +470,9 @@ directory of this repository.
 
 #### Prerequisites
 
-Install [Python language runtime](https://www.python.org/downloads/).
+* [Python language runtime](https://www.python.org/downloads/)
+* [Python pip](https://pip.pypa.io/en/stable/installing/)
+* [Sphinx](http://www.sphinx-doc.org/en/stable/install.html)
 
 Then install the following packages:
 

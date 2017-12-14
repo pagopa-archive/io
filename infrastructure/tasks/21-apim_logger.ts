@@ -1,6 +1,6 @@
 /**
  * Run this task from the command line to create en EventHub logger for API Management.
- * 
+ *
  * yarn resources:apim:logger
  *
  * Reference:

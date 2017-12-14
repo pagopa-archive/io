@@ -3,12 +3,12 @@
  * for the developer portal facilities web application.
  *
  * yarn resources:devapp:setup
- * 
+ *
  * https://github.com/teamdigitale/digital-citizenship-onboarding
- * 
- * Two further steps are needed to complete the Web App deployment: 
+ *
+ * Two further steps are needed to complete the Web App deployment:
  *  - activate MSI for the application
- *  - register the application as "Contributor" into the API management IAM 
+ *  - register the application as "Contributor" into the API management IAM
  */
 // tslint:disable:no-console
 // tslint:disable:no-any

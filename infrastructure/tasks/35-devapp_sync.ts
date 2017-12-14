@@ -2,11 +2,11 @@
  * Run this task from the command line to sync the source code
  * from the GitHub repository to the Azure App Service
  * running the developer portal onboarding facilities:
- * 
+ *
  * yarn deploy:devapp:sync
- * 
+ *
  * https://github.com/teamdigitale/digital-citizenship-onboarding
- *  
+ *
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - App Service Plan

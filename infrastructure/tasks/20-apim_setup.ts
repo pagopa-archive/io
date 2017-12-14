@@ -1,6 +1,6 @@
 /**
  * Run this task to deploy Azure API Manager:
- * 
+ *
  * yarn resources:apim:setup
  *
  * This task assumes that the following resources are already created:
@@ -76,7 +76,7 @@ const replaceVariables = (
   });
 };
 
-/** 
+/**
  * Set a named valued (property)
  * see https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-properties
  */

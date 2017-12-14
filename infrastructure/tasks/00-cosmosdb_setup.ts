@@ -2,7 +2,7 @@
  * Run this task to deploy CosmoDB database and collections:
  *
  * yarn resources:cosmosdb:setup
- * 
+ *
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - CosmoDB database account
@@ -82,7 +82,9 @@ const createCollectionIfNotExists = (
   partitionKey: string
 ) => {
   winston.info(
-    `Create CosmosDB collection ${collectionName} with partitionKey ${partitionKey}`
+    `Create CosmosDB collection ${collectionName} with partitionKey ${
+      partitionKey
+    }`
   );
   return new Promise((resolve, reject) => {
     collectionNotExists(dbClient, dbName, collectionName).then(

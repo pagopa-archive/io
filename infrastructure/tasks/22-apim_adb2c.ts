@@ -1,7 +1,7 @@
 /**
- * Run this task from the command line to configure Active Directory B2C 
+ * Run this task from the command line to configure Active Directory B2C
  * authentication for the API Manager developer portal.
- * 
+ *
  * yarn resources:apim:adb2c
  *
  * API users must sign-in / sign-up through ADB2C.

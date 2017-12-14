@@ -1,17 +1,17 @@
 /**
  * Run this task from the command line to sync the API Manager APIs
  * from the OpenAPI specs (operations) exposed by Functions.
- * 
+ *
  * yarn resources:apim:api
  *
  * In this way the API management can let HTTP requests pass through
- * when they match the synched API operations. Otherwise it will 
+ * when they match the synched API operations. Otherwise it will
  * return "404 not found" for every request.
- * 
+ *
  * This task lets you synchronize API operations, products and policies
  * without the need to push the whole local git repository which
  * contains the API management configuration (ie. site templates).
- * 
+ *
  * By default only API operations are synched.
  * To sync policies and products as well set the following environment variables:
  * INCLUDE_API_PRODUCTS=1 INCLUDE_API_POLICIES=1
@@ -71,8 +71,9 @@ export const run = async (config: IResourcesConfiguration) => {
 
   return Promise.all(
     config.apim_apis.map(async apiEntry => {
-      const contentValue = `${backendUrl}${apiEntry.api
-        .specsPath}?code=${masterKey}`;
+      const contentValue = `${backendUrl}${apiEntry.api.specsPath}?code=${
+        masterKey
+      }`;
 
       winston.info(
         `Adding API from URL: ${backendUrl}${apiEntry.api.specsPath}`

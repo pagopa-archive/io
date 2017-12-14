@@ -95,8 +95,9 @@ export const createOrUpdateService = async (
   );
   if (isLeft(errorOrMaybeService)) {
     throw new Error(
-      `Error in findOneByServiceId(): ${errorOrMaybeService.value
-        .code}:${errorOrMaybeService.value.body}`
+      `Error in findOneByServiceId(): ${errorOrMaybeService.value.code}:${
+        errorOrMaybeService.value.body
+      }`
     );
   }
   const maybeService = errorOrMaybeService.value;
@@ -109,8 +110,9 @@ export const createOrUpdateService = async (
     );
     if (isLeft(errorOrService)) {
       throw new Error(
-        `Error in serviceModel.create(), check CosmosDB firewall rules: ${errorOrService
-          .value.code}:${errorOrService.value.body}`
+        `Error in serviceModel.create(), check CosmosDB firewall rules: ${
+          errorOrService.value.code
+        }:${errorOrService.value.body}`
       );
     }
     return errorOrService.value;
@@ -131,8 +133,9 @@ export const createOrUpdateService = async (
     );
     if (isLeft(errorOrMaybeUpdatedService)) {
       throw new Error(
-        `Error in serviceModel.update(), check CosmosDB firewall rules: ${errorOrMaybeUpdatedService
-          .value.code}:${errorOrMaybeUpdatedService.value.body}`
+        `Error in serviceModel.update(), check CosmosDB firewall rules: ${
+          errorOrMaybeUpdatedService.value.code
+        }:${errorOrMaybeUpdatedService.value.body}`
       );
     } else {
       const maybeUpdatedService = errorOrMaybeUpdatedService.value;

@@ -1,8 +1,8 @@
 /**
  * Run this task to deploy Azure Functions:
- * 
+ *
  * yarn resources:functions:setup
- * 
+ *
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - CosmoDB database
@@ -10,7 +10,7 @@
  *  - Storage account
  *  - Storage Blob container
  *  - AppInsights instance
- * 
+ *
  */
 // tslint:disable:no-console
 // tslint:disable:no-any
@@ -82,7 +82,9 @@ export const run = async (config: IResourcesConfiguration) => {
   const storageAccountMasterKey = storageAccountKeys.keys[0].value;
   const storageConnectionString =
     `DefaultEndpointsProtocol=https;AccountName=` +
-    `${config.azurerm_functionapp_storage_account};AccountKey=${storageAccountMasterKey};EndpointSuffix=core.windows.net`;
+    `${config.azurerm_functionapp_storage_account};AccountKey=${
+      storageAccountMasterKey
+    };EndpointSuffix=core.windows.net`;
 
   winston.info(
     "Get Storage account (Queues, Blob) connection string to populate Functions settings"
@@ -101,7 +103,9 @@ export const run = async (config: IResourcesConfiguration) => {
   const queueStorageAccountMasterKey = queueStorageAccountKeys.keys[0].value;
   const queueStorageConnectionString =
     `DefaultEndpointsProtocol=https;AccountName=` +
-    `${config.azurerm_storage_account};AccountKey=${queueStorageAccountMasterKey};EndpointSuffix=core.windows.net`;
+    `${config.azurerm_storage_account};AccountKey=${
+      queueStorageAccountMasterKey
+    };EndpointSuffix=core.windows.net`;
 
   winston.info("Get CosmosDB connection string to populate Functions settings");
 
@@ -115,7 +119,9 @@ export const run = async (config: IResourcesConfiguration) => {
     config.azurerm_cosmosdb
   );
   const cosmosdbKey = keys.primaryMasterKey;
-  const cosmosdbLink = `https://${config.azurerm_cosmosdb}.documents.azure.com:443/`;
+  const cosmosdbLink = `https://${
+    config.azurerm_cosmosdb
+  }.documents.azure.com:443/`;
 
   winston.info("Create Function APP Service Plan");
 

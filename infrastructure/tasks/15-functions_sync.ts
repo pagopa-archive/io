@@ -2,18 +2,18 @@
  * Run this task to sync Azure Functions staging slot
  * to the source control repository code branch
  * specified in the configuration file.
- *  
+ *
  * yarn deploy:functions:sync
- * 
+ *
  * This is equivalent to push the "Sync" button in the
  * Azure portal -> Functions -> Deployments blade.
- * 
+ *
  * WARNING: this task does not sync the production slot.
- * 
+ *
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - Functions (app service)
- * 
+ *
  */
 // tslint:disable:no-console
 // tslint:disable:no-any

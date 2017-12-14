@@ -1,12 +1,12 @@
 /**
  * Run this task from the command line to create
- * a new API management user that has the rights to 
+ * a new API management user that has the rights to
  * create a new Service (through Admin API) and to send
  * a new Message (through Digital Citizenship API).
  *
  * yarn resources:devapp:apikey
  *
- * 
+ *
  * This lets the developer portal facilities web application
  * create or update API gateway users.
  *
@@ -94,7 +94,9 @@ const createOrUpdareAdminApiUser = async (
     config.azurerm_cosmosdb
   );
   const cosmosdbKey = keys.primaryMasterKey;
-  const cosmosdbLink = `https://${config.azurerm_cosmosdb}.documents.azure.com:443/`;
+  const cosmosdbLink = `https://${
+    config.azurerm_cosmosdb
+  }.documents.azure.com:443/`;
 
   winston.info(`Using CosmosDB url ${cosmosdbLink}`);
 

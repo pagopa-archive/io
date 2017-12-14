@@ -17,11 +17,11 @@
     "docs:deploy": "gh-pages -t -d site",
     "docs:publish": "npm-run-all docs:build docs:nojekyll docs:api docs:deploy",
     "resources:tf-init":
-      "env-cmd .env cross-var terraform init -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json -backend-config=\"infrastructure/env/$ENVIRONMENT/backend.tf\" infrastructure",
+      "env-cmd .env cross-var terraform init -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json -backend-config=\"infrastructure/env/$ENVIRONMENT/backend.tf\" infrastructure",
     "resources:tf-plan":
-      "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
+      "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "resources:tf-apply":
-      "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
+      "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "resources:cosmosdb:setup":
       "ts-node infrastructure/tasks/00-cosmosdb_setup.ts",
     "resources:functions:setup":

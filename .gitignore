@@ -8,8 +8,7 @@ local.*
 npm-debug.log
 build
 yarn-error.log
-.env
+.env*
 .vscode
 **/*.js
 **/*.js.map
-

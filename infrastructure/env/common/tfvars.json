@@ -1,0 +1,4 @@
+{
+  "azurerm_storage_queue_emailnotifications": "emailnotifications",
+  "azurerm_storage_queue_createdmessages": "createdmessages"
+}

@@ -241,7 +241,20 @@ deploying a new Azure resource or to make changes to the existing ones:
 * `infrastructure/apim/*`: a directory that contains the configuration of the API management resource (ie. portal templates) taken from the [embedded git repository](https://docs.microsoft.com/en-us/azure/api-management/api-management-configuration-repository-git)
 * `infrastructure/api-policies`: API policies used by the API management
 
-#### Steps
+#### Shared Terraform state
+
+The Terraform state is shared through an Azure
+[storage container](https://www.terraform.io/docs/state/remote.html).
+
+The file `infrastructure/$ENVIRONMENT/backend.tf` contains 
+the name of the remote file, in the Azure Blob storage, 
+that stores the Terraform state for each environment.
+
+Before running any command involving Terraform you must request access to the
+Azure container to the project administrators (or use your own for testing
+purposes when deploying to a test resource group).
+
+#### Steps to create and configure Azure resources
 
 1. Ask the Azure subscription administrator for the credentials of the
   [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
@@ -350,15 +363,6 @@ Service:
    Add the registered Web application as a "Contributor".
 
 1. Restart the Web App Service.
-
-## Shared Terraform state
-
-The Terraform state is shared through an Azure
-[storage container](https://www.terraform.io/docs/state/remote.html).
-
-Before running any command involving Terraform you must request access to the
-Azure container to the project administrators (or use your own for testing
-purposes when deploying to a test resource group).
 
 ## Example environment configuration
 

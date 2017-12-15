@@ -77,6 +77,16 @@ variable "azurerm_app_service_portal" {
     type = "string"
 }
 
+# Redirect to this page after developer portal login
+variable "app_service_portal_post_login_url" {
+    type = "string"
+}
+
+# Redirect to this page after developer portal logout
+variable "app_service_portal_post_logout_url" {
+    type = "string"
+}
+
 # Name of the API management resource
 variable "azurerm_apim" {
     type = "string"
@@ -290,10 +300,6 @@ resource "azurerm_app_service" "azurerm_app_service_portal" {
     # Go to https://github.com/teamdigitale/digital-citizenship-onboarding
     # to see how to fill these values
     app_settings {
-        ARM_SUBSCRIPTION_ID = ""
-        ADMIN_API_KEY = ""
-        CLIENT_ID = ""
-        CLIENT_SECRET = ""
         POLICY_NAME = "${var.azurerm_adb2c_policy}"
         WEBSITE_NODE_DEFAULT_VERSION = "6.5.0"
         COOKIE_KEY = "${random_string.cookie_key.result}"
@@ -304,9 +310,17 @@ resource "azurerm_app_service" "azurerm_app_service_portal" {
         APIM_PRODUCT_NAME = "starter"
         APIM_USER_GROUPS = "ApiLimitedMessageWrite,ApiInfoRead,ApiMessageRead"
         ADMIN_API_URL = "https://${var.azurerm_apim}.azure-api.net/"
-        POST_LOGIN_URL = "https://${var.azurerm_apim}.portal.azure-api.net/developer"
-        POST_LOGOUT_URL = "https://${var.azurerm_apim}.portal.azure-api.net/"
+        POST_LOGIN_URL = "${var.app_service_portal_post_login_url}"
+        POST_LOGOUT_URL = "${var.app_service_portal_post_logout_url}"
         REPLY_URL = "https://${var.azurerm_app_service_portal}.azurewebsites.net/auth/openid/return"
+
+        # Prevent Terraform to override these values
+        APPINSIGHTS_INSTRUMENTATIONKEY = ""
+        TENANT_ID = ""
+        ARM_SUBSCRIPTION_ID = ""
+        ADMIN_API_KEY = ""
+        CLIENT_ID = ""
+        CLIENT_SECRET = ""
     }
 }
 

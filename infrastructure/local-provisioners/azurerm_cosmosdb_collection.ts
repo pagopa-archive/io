@@ -1,23 +1,12 @@
-/**
- * Run this task to deploy CosmoDB database and collections:
- *
- * yarn resources:cosmosdb:setup
- *
- * This task assumes that the following resources are already created:
- *  - Resource group
- *  - CosmoDB database account
- */
 // tslint:disable:no-console
-// tslint:disable:no-any
 
 import * as winston from "winston";
-import { login } from "../../lib/login";
-
-import { IResourcesConfiguration, readConfig } from "../../lib/config";
-import { checkEnvironment } from "../../lib/environment";
+import { login, missingLoginEnvironment } from "../../lib/login";
 
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 import * as documentdb from "documentdb";
+
+import yargs = require("yargs");
 
 const DocumentClient = documentdb.DocumentClient;
 
@@ -112,17 +101,25 @@ const createCollectionIfNotExists = (
   });
 };
 
-export const run = async (config: IResourcesConfiguration) => {
-  const loginCreds = await login();
+interface IRunParams {
+  readonly resourceGroup: string;
+  readonly cosmosdbAccountName: string;
+  readonly cosmosdbDatabaseName: string;
+  readonly cosmosdbCollectionName: string;
+  readonly cosmosdbCollectionPartitionKey: string;
+}
+
+export const run = async (config: IRunParams) => {
+  const loginResult = await login();
 
   const client = new CosmosDBManagementClient(
-    (loginCreds as any).creds,
-    loginCreds.subscriptionId
+    loginResult.creds,
+    loginResult.subscriptionId
   );
 
   const databaseAccount = await client.databaseAccounts.get(
-    config.azurerm_resource_group,
-    config.azurerm_cosmosdb
+    config.resourceGroup,
+    config.cosmosdbAccountName
   );
 
   if (databaseAccount.documentEndpoint === undefined) {
@@ -130,35 +127,63 @@ export const run = async (config: IResourcesConfiguration) => {
   }
 
   const keys = await client.databaseAccounts.listKeys(
-    config.azurerm_resource_group,
-    config.azurerm_cosmosdb
+    config.resourceGroup,
+    config.cosmosdbAccountName
   );
 
   const dbClient = new DocumentClient(databaseAccount.documentEndpoint, {
     masterKey: keys.primaryMasterKey
   });
 
-  winston.info("Setup CosmosDB database");
+  winston.info(
+    `Making sure database exists: name=${config.cosmosdbDatabaseName}`
+  );
 
-  await createDatabaseIfNotExists(dbClient, config.azurerm_cosmosdb_documentdb);
+  await createDatabaseIfNotExists(dbClient, config.cosmosdbDatabaseName);
 
-  return Promise.all(
-    config.azurerm_cosmosdb_collections.map(
-      async collection =>
-        await createCollectionIfNotExists(
-          dbClient,
-          config.azurerm_cosmosdb_documentdb,
-          collection.name,
-          collection.partitionKey
-        )
-    )
+  winston.info(
+    `Making sure collection exists: name=${
+      config.cosmosdbCollectionName
+    } partitionKey=${config.cosmosdbCollectionPartitionKey}`
+  );
+  return createCollectionIfNotExists(
+    dbClient,
+    config.cosmosdbDatabaseName,
+    config.cosmosdbCollectionName,
+    config.cosmosdbCollectionPartitionKey
   );
 };
 
-checkEnvironment()
-  .then(() => readConfig(process.env.ENVIRONMENT))
-  .then(run)
-  .then(() =>
-    winston.info("Successfully deployed CosmosDB database and collections")
-  )
-  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));
+// check whether all required environment variables are set
+const missingEnvs = missingLoginEnvironment();
+if (missingEnvs.length > 0) {
+  console.error(`Missing required env vars: ${missingEnvs.join(", ")}`);
+  process.exit(-1);
+}
+
+const argv = yargs
+  .alias("g", "resource-group-name")
+  .demandOption("g")
+  .string("g")
+  .alias("n", "cosmosdb-account-name")
+  .demandOption("n")
+  .string("n")
+  .alias("d", "cosmosdb-documentdb-name")
+  .demandOption("d")
+  .string("d")
+  .alias("c", "cosmosdb-collection-name")
+  .demandOption("c")
+  .string("c")
+  .alias("k", "cosmosdb-collection-partition-key")
+  .demandOption("k")
+  .string("k").argv;
+
+run({
+  cosmosdbAccountName: argv.n as string,
+  cosmosdbCollectionName: argv.c as string,
+  cosmosdbCollectionPartitionKey: argv.k as string,
+  cosmosdbDatabaseName: argv.d as string,
+  resourceGroup: argv.g as string
+})
+  .then(() => winston.info("Completed"))
+  .catch((e: Error) => winston.error(e.message));

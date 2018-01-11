@@ -16,24 +16,16 @@
     "docs:api": "cp -r docs/api site",
     "docs:deploy": "gh-pages -t -d site",
     "docs:publish": "npm-run-all docs:build docs:nojekyll docs:api docs:deploy",
-    "resources:tf-init":
-      "env-cmd .env cross-var terraform init -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json -backend-config=\"infrastructure/env/$ENVIRONMENT/backend.tf\" infrastructure",
-    "resources:tf-plan":
-      "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
-    "resources:tf-apply":
-      "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
-    "resources:cosmosdb:setup":
-      "ts-node infrastructure/tasks/00-cosmosdb_setup.ts",
-    "resources:functions:setup":
-      "ts-node infrastructure/tasks/10-functions_setup.ts",
-    "deploy:functions:sync":
-      "ts-node infrastructure/tasks/15-functions_sync.ts",
+    "resources:tf-init": "env-cmd .env cross-var terraform init -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json -backend-config=\"infrastructure/env/$ENVIRONMENT/backend.tf\" infrastructure",
+    "resources:tf-plan": "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
+    "resources:tf-apply": "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
+    "resources:functions:setup": "ts-node infrastructure/tasks/10-functions_setup.ts",
+    "deploy:functions:sync": "ts-node infrastructure/tasks/15-functions_sync.ts",
     "resources:apim:setup": "ts-node infrastructure/tasks/20-apim_setup.ts",
     "resources:apim:logger": "ts-node infrastructure/tasks/21-apim_logger.ts",
     "resources:apim:adb2c": "ts-node infrastructure/tasks/22-apim_adb2c.ts",
     "resources:apim:api": "ts-node infrastructure/tasks/25-apim_api.ts",
-    "resources:devapp:apikey":
-      "ts-node --no-ignore infrastructure/tasks/30-devapp_apikey.ts",
+    "resources:devapp:apikey": "ts-node --no-ignore infrastructure/tasks/30-devapp_apikey.ts",
     "resources:devapp:setup": "ts-node infrastructure/tasks/31-devapp_setup.ts",
     "resources:devapp:git": "ts-node infrastructure/tasks/34-devapp_git.ts",
     "deploy:devapp:sync": "ts-node infrastructure/tasks/35-devapp_sync.ts",
@@ -57,8 +49,7 @@
     "azure-storage": "^2.5.0",
     "cross-env": "^5.1.1",
     "cross-var": "^1.1.0",
-    "digital-citizenship-functions":
-      "https://github.com/teamdigitale/digital-citizenship-functions#94f119d19",
+    "digital-citizenship-functions": "https://github.com/teamdigitale/digital-citizenship-functions#94f119d19",
     "documentdb": "^1.12.2",
     "dotenv": "^4.0.0",
     "env-cmd": "^7.0.0",
@@ -79,5 +70,8 @@
     "tslint-plugin-prettier": "^1.2.0",
     "typescript": "^2.5.2",
     "winston": "^2.4.0"
+  },
+  "dependencies": {
+    "@types/yargs": "^10.0.1"
   }
 }

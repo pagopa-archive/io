@@ -9,6 +9,10 @@ provider "random" {
   version = "~> 1.1"
 }
 
+provider "null" {
+  version = "~> 1.0"
+}
+
 # Set up an Azure backend to store Terraform state.
 # You *must* create the storage account and the container before running this script
 terraform {
@@ -43,7 +47,7 @@ variable "azurerm_resource_group" {
 # Name of the storage account
 variable "azurerm_storage_account" {
     type = "string"
-} 
+}
 
 # Name of the storage container resource
 variable "azurerm_storage_container" {
@@ -68,6 +72,16 @@ variable "azurerm_storage_queue_createdmessages" {
 # Name of the CosmosDB account
 variable "azurerm_cosmosdb" {
     type = "string"
+}
+
+variable "azurerm_cosmosdb_documentdb" {
+  type = "string"
+  description = "Name of CosmosDB Database"
+}
+
+variable "azurerm_cosmosdb_collections" {
+  type = "map"
+  description = "Name and partition keys of collections that must exist in the CosmosDB database"
 }
 
 # Name of the App Service Plan resource
@@ -112,27 +126,31 @@ variable "azurerm_application_insights" {
 
 # Name of Log Analytics resource
 variable "azurerm_log_analytics" {
-    type = "string"    
+    type = "string"
 }
 
 # EventHub namespace
 variable "azurerm_eventhub_ns" {
-    type = "string"    
+    type = "string"
 }
 
 # EventHub logger for API management
 variable "azurerm_apim_eventhub" {
-    type = "string"    
+    type = "string"
 }
 
 # EventHub rule for API management
 variable "azurerm_apim_eventhub_rule" {
-    type = "string"    
+    type = "string"
 }
 
 # module "variables" {
 #     source = "./modules/variables"
 # }
+
+variable "cosmosdb_collection_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
+}
 
 ## RESOURCE GROUP
 
@@ -212,13 +230,13 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
     name                = "${var.azurerm_cosmosdb}"
     location            = "${azurerm_resource_group.azurerm_resource_group.location}"
     resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
-  
+
     # Possible values are GlobalDocumentDB and MongoDB
     kind = "GlobalDocumentDB"
 
     # Required - can be only set to Standard
     offer_type          = "Standard"
-  
+
     # Can be either BoundedStaleness, Eventual, Session or Strong
     # see https://docs.microsoft.com/en-us/azure/cosmos-db/consistency-levels
     # Note: with the default BoundedStaleness settings CosmosDB cannot perform failover / replication:
@@ -242,6 +260,29 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
     # provisioner "local-exec" {
     #   command = "ts-node ./tasks/cosmosdb.ts"
     # }
+}
+
+resource "null_resource" "azurerm_cosmosdb_collections" {
+  triggers = {
+    cosmosdb_id = "${azurerm_cosmosdb_account.azurerm_cosmosdb.id}"
+
+    # serialize the collection data to json so that the provisioner will be
+    # triggered when collections get added or changed
+    # NOTE: when a collection gets removed from the config it will NOT be
+    # removed by the provisioner (the provisioner only creates collections)
+    collections_json = "${jsonencode(var.azurerm_cosmosdb_collections)}"
+
+    # increment the following value when changing the provisioner script to
+    # trigger the re-execution of the script
+    # TODO: consider using the hash of the script content instead
+    provisioner_version = "5"
+  }
+
+  count = "${length(keys(var.azurerm_cosmosdb_collections))}"
+
+  provisioner "local-exec" {
+    command = "ts-node ${var.cosmosdb_collection_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --cosmosdb-account-name ${azurerm_cosmosdb_account.azurerm_cosmosdb.name} --cosmosdb-documentdb-name ${var.azurerm_cosmosdb_documentdb} --cosmosdb-collection-name ${element(keys(var.azurerm_cosmosdb_collections), count.index)} -cosmosdb-collection-partition-key ${lookup(var.azurerm_cosmosdb_collections, element(keys(var.azurerm_cosmosdb_collections), count.index))}"
+  }
 }
 
 ## APPLICATION INSIGHTS

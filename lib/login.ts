@@ -8,6 +8,19 @@ export interface ICreds {
   readonly subscriptionId: string;
 }
 
+/**
+ * Returns required env vars for logging in to Azure that are either undefined
+ * or empty.
+ */
+export const missingLoginEnvironment = (): ReadonlyArray<string> =>
+  [
+    "ARM_SUBSCRIPTION_ID",
+    "ARM_CLIENT_ID",
+    "ARM_CLIENT_SECRET",
+    "ARM_TENANT_ID"
+  ]
+  .filter(e => process.env[e] == undefined || process.env[e] == "")
+
 export const login = (
   opts: msRestAzure.AzureTokenCredentialsOptions = {},
   clientId = process.env.ARM_CLIENT_ID,

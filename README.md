@@ -246,8 +246,8 @@ deploying a new Azure resource or to make changes to the existing ones:
 The Terraform state is shared through an Azure
 [storage container](https://www.terraform.io/docs/state/remote.html).
 
-The file `infrastructure/$ENVIRONMENT/backend.tf` contains 
-the name of the remote file, in the Azure Blob storage, 
+The file `infrastructure/$ENVIRONMENT/backend.tf` contains
+the name of the remote file, in the Azure Blob storage,
 that stores the Terraform state for each environment.
 
 Before running any command involving Terraform you must request access to the
@@ -314,7 +314,6 @@ script:
 
 | Command                          | Task                                                                                                                                                       |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `yarn resources:cosmosdb`        | [Setup CosmosDB database and collections](./infrastructure/tasks/00-cosmosdb_setup.ts)                                                                     |
 | `yarn resources:functions:setup` | [Create Functions resource and setup application settings](./infrastructure/tasks/10-functions_setup.ts)                                                   |
 | `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                                                            |
 | `yarn resources:apim:setup`      | [Create API management resource and setup configuration from template files](./infrastructure/tasks/20-apim_setup.ts)                                      |

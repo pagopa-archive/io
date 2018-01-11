@@ -1,13 +1,21 @@
 # Terraform configuration file to create Azure resources.
 # Set up environment variables before running this script (see README.md)
 
+provider "azurerm" {
+  version = "~> 0.3"
+}
+
+provider "random" {
+  version = "~> 1.1"
+}
+
 # Set up an Azure backend to store Terraform state.
 # You *must* create the storage account and the container before running this script
 terraform {
     backend "azurerm" {
         resource_group_name  = "terraform-resource-group"
         storage_account_name = "terraformstorageaccount"
-        container_name       = "terraform-storage-container"     
+        container_name       = "terraform-storage-container"
     }
 }
 

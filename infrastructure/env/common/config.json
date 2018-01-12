@@ -43,7 +43,6 @@
       "policyFile": "admin.xml"
     }
   ],
-  "message_blob_container": "message-content",
   "azure_portal_ips": [
     "104.42.195.92",
     "40.76.54.131",

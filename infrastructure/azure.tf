@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 0.3"
+  version = "~> 1.0"
 }
 
 provider "random" {
@@ -54,9 +54,29 @@ variable "azurerm_storage_container" {
     type = "string"
 }
 
-# Name of the storage account for functions
+variable "message_blob_container" {
+  default = "message-content"
+  description = "Name of the message container blob"
+}
+
+variable "azurerm_functionapp" {
+  type = "string"
+  description = "Name of the main Functions application"
+}
+
 variable "azurerm_functionapp_storage_account" {
-    type = "string"
+  type = "string"
+  description = "Name of the storage account for functions"
+}
+
+variable "azurerm_functionapp_git_repo" {
+  default = "https://github.com/teamdigitale/digital-citizenship-functions"
+  description = "The GitHub repository that must be associated to the function app"
+}
+
+variable "azurerm_functionapp_git_branch" {
+  default = "funcpack-release-latest"
+  description = "The branch of the GitHub repository that must be associated to the function app"
 }
 
 # Name of the storage queue for email notifications
@@ -154,6 +174,12 @@ variable "azurerm_apim_eventhub_rule" {
     type = "string"
 }
 
+# This should be passed bya ENV var TF_VAR_SENDGRID_KEY
+variable "SENDGRID_KEY" {
+  type = "string"
+  description = "The API key for the SendGrid service"
+}
+
 # module "variables" {
 #     source = "./modules/variables"
 # }
@@ -192,6 +218,8 @@ resource "azurerm_storage_account" "azurerm_storage_account" {
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-service-encryption
     enable_blob_encryption = true
 
+    enable_https_traffic_only = true
+
     tags {
         environment = "${var.environment}"
     }
@@ -209,6 +237,8 @@ resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
 
     # see https://docs.microsoft.com/en-us/azure/storage/common/storage-service-encryption
     enable_blob_encryption = true
+
+    enable_https_traffic_only = true
 
     tags {
         environment = "${var.environment}"
@@ -236,6 +266,18 @@ resource "azurerm_storage_queue" "azurerm_storage_queue_createdmessages" {
     name                 = "${var.azurerm_storage_queue_createdmessages}"
     resource_group_name  = "${azurerm_resource_group.azurerm_resource_group.name}"
     storage_account_name = "${azurerm_storage_account.azurerm_storage_account.name}"
+}
+
+## BLOBS
+
+resource "azurerm_storage_blob" "azurerm_message_blob" {
+  name = "${var.message_blob_container}"
+
+  resource_group_name    = "${azurerm_resource_group.azurerm_resource_group.name}"
+  storage_account_name   = "${azurerm_storage_account.azurerm_storage_account.name}"
+  storage_container_name = "${azurerm_storage_container.azurerm_storage_container.name}"
+
+  type = "block"
 }
 
 ## DATABASE
@@ -328,6 +370,91 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
     # }
 }
 
+## FUNCTIONS
+
+resource "azurerm_function_app" "azurerm_function_app" {
+  name                      = "${var.azurerm_functionapp}"
+  location                  = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name       = "${azurerm_resource_group.azurerm_resource_group.name}"
+  app_service_plan_id       = "${azurerm_app_service_plan.azurerm_app_service_plan.id}"
+  storage_connection_string = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"
+  version                   = "~1"
+
+  site_config = {
+    # We don't want the express server to idle
+    # so do not set `alwaysOn: false` in production
+    always_on = true
+  }
+
+  app_settings = {
+    # "AzureWebJobsStorage" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"
+    # "AzureWebJobsDashboard" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"
+
+    "COSMOSDB_NAME" = "${var.azurerm_cosmosdb_documentdb}"
+
+    "QueueStorageConnection" = "${azurerm_storage_account.azurerm_storage_account.primary_connection_string}"
+
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.azurerm_application_insights.instrumentation_key}"
+
+    # Avoid edit functions code from the Azure portal
+    "FUNCTION_APP_EDIT_MODE" = "readonly"
+
+    # AzureWebJobsSecretStorageType may be `disabled` or `Blob`
+    # When set to `Blob` the API manager task won't be able
+    # to retrieve the master key
+    "AzureWebJobsSecretStorageType" = "disabled"
+
+    "WEBSITE_HTTPLOGGING_RETENTION_DAYS" = "3"
+
+    "DIAGNOSTICS_AZUREBLOBRETENTIONINDAYS" = "1"
+
+    "WEBSITE_NODE_DEFAULT_VERSION" = "6.11.2"
+
+    "SCM_USE_FUNCPACK_BUILD" = "1"
+
+    "MESSAGE_CONTAINER_NAME" = "${azurerm_storage_blob.azurerm_message_blob.name}"
+  }
+
+  connection_string = [
+    # [#152800384] - TODO: change the following value
+    # when we'll migrate to production service
+    {
+      name = "SENDGRID_KEY"
+      type = "Custom"
+      value = "${var.SENDGRID_KEY}"
+    },
+    {
+      name = "COSMOSDB_URI"
+      type = "Custom"
+      value = "https://${azurerm_cosmosdb_account.azurerm_cosmosdb.name}.documents.azure.com:443/"
+    },
+    {
+      name = "COSMOSDB_KEY"
+      type = "Custom"
+      value = "${azurerm_cosmosdb_account.azurerm_cosmosdb.primary_master_key}"
+    }
+  ]
+}
+
+resource "null_resource" "azurerm_function_app_git" {
+  triggers = {
+    azurerm_functionapp_id = "${azurerm_function_app.azurerm_function_app.id}"
+
+    # trigger recreation of this resource when the following variables change
+    azurerm_functionapp_git_repo = "${var.azurerm_functionapp_git_repo}"
+    azurerm_functionapp_git_branch = "${var.azurerm_functionapp_git_branch}"
+
+    # increment the following value when changing the provisioner script to
+    # trigger the re-execution of the script
+    # TODO: consider using the hash of the script content instead
+    provisioner_version = "1"
+  }
+
+  provisioner "local-exec" {
+    command = "ts-node ${var.website_git_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --app-name ${azurerm_function_app.azurerm_function_app.name} --git-repo ${var.azurerm_functionapp_git_repo} --git-branch ${var.azurerm_functionapp_git_branch}"
+  }
+}
+
 ### DEVELOPER PORTAL TASKS
 
 resource "azurerm_app_service_plan" "azurerm_app_service_plan_portal" {
@@ -402,7 +529,7 @@ resource "null_resource" "azurerm_app_service_portal_git" {
   }
 
   provisioner "local-exec" {
-    command = "ts-node ${var.website_git_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --appservice-portal-name ${azurerm_app_service.azurerm_app_service_portal.name} --git-repo ${var.app_service_portal_git_repo} --git-branch ${var.app_service_portal_git_branch}"
+    command = "ts-node ${var.website_git_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --app-name ${azurerm_app_service.azurerm_app_service_portal.name} --git-repo ${var.app_service_portal_git_repo} --git-branch ${var.app_service_portal_git_branch}"
   }
 }
 

@@ -1,7 +1,7 @@
 // tslint:disable:no-console
 
 import * as winston from "winston";
-import { login, missingLoginEnvironment } from "../../lib/login";
+import { login } from "../../lib/login";
 
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 import * as documentdb from "documentdb";
@@ -153,13 +153,6 @@ export const run = async (config: IRunParams) => {
     config.cosmosdbCollectionPartitionKey
   );
 };
-
-// check whether all required environment variables are set
-const missingEnvs = missingLoginEnvironment();
-if (missingEnvs.length > 0) {
-  console.error(`Missing required env vars: ${missingEnvs.join(", ")}`);
-  process.exit(-1);
-}
 
 const argv = yargs
   .alias("g", "resource-group-name")

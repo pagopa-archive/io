@@ -322,8 +322,6 @@ script:
 | `yarn resources:apim:api`        | [Synch Digital Citizenship API from OpenAPI specs to API management](./infrastructure/tasks/25-apim_api.ts)                                                |
 | `yarn resources:devapp:apikey`   | [Create a Digital Citizenship API user and setup its API Key in the developer portal web application settings](./infrastructure/tasks/30-devapp_apikey.ts) |
 | `yarn resources:devapp:setup`    | [Setup developer portal application settings](./infrastructure/tasks/31-devapp_setup.ts)                                                                   |
-| `yarn resources:devapp:git`      | [Setup developer portal application deployment from the GitHub repository](./infrastructure/tasks/34-devapp_git.ts)                                        |
-| `yarn deploy:devapp:sync`        | [Deploy developer portal application code from the GitHub repository](./infrastructure/tasks/35-devapp_sync.ts)                                            |
 | `yarn resources:ip:restrict`     | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)                                                                      |
 
 ### Finishing the installation

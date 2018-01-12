@@ -1,10 +1,4 @@
 {
-  "azurerm_cosmosdb_collections": [
-    { "name": "messages", "partitionKey": "fiscalCode" },
-    { "name": "profiles", "partitionKey": "fiscalCode" },
-    { "name": "notifications", "partitionKey": "messageId" },
-    { "name": "services", "partitionKey": "serviceId" }
-  ],
   "app_service_portal_git_repo":
     "https://github.com/teamdigitale/digital-citizenship-onboarding",
   "app_service_portal_git_branch": "master",

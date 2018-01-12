@@ -12,28 +12,31 @@ export interface ICreds {
  * Returns required env vars for logging in to Azure that are either undefined
  * or empty.
  */
-export const missingLoginEnvironment = (): ReadonlyArray<string> =>
+const missingLoginEnvironment = (): ReadonlyArray<string> =>
   [
     "ARM_SUBSCRIPTION_ID",
     "ARM_CLIENT_ID",
     "ARM_CLIENT_SECRET",
     "ARM_TENANT_ID"
-  ]
-  .filter(e => process.env[e] == undefined || process.env[e] == "")
+  ].filter(e => process.env[e] === undefined || process.env[e] === "");
 
-export const login = (
-  opts: msRestAzure.AzureTokenCredentialsOptions = {},
-  clientId = process.env.ARM_CLIENT_ID,
-  secret = process.env.ARM_CLIENT_SECRET,
-  domain = process.env.ARM_TENANT_ID,
-  subscriptionId = process.env.ARM_SUBSCRIPTION_ID
-): Promise<ICreds> =>
+export const login = (): Promise<ICreds> =>
   new Promise((resolve, reject) => {
+    const missingEnvs = missingLoginEnvironment();
+    if (missingEnvs.length > 0) {
+      return reject(`Missing required env vars: ${missingEnvs.join(", ")}`);
+    }
+
+    const clientId = process.env.ARM_CLIENT_ID;
+    const secret = process.env.ARM_CLIENT_SECRET;
+    const domain = process.env.ARM_TENANT_ID;
+    const subscriptionId = process.env.ARM_SUBSCRIPTION_ID;
+
     msRestAzure.loginWithServicePrincipalSecret(
       clientId,
       secret,
       domain,
-      opts,
+      {},
       (err, creds) => {
         if (err) {
           return reject(err);

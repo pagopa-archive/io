@@ -27,8 +27,6 @@
     "resources:apim:api": "ts-node infrastructure/tasks/25-apim_api.ts",
     "resources:devapp:apikey": "ts-node --no-ignore infrastructure/tasks/30-devapp_apikey.ts",
     "resources:devapp:setup": "ts-node infrastructure/tasks/31-devapp_setup.ts",
-    "resources:devapp:git": "ts-node infrastructure/tasks/34-devapp_git.ts",
-    "deploy:devapp:sync": "ts-node infrastructure/tasks/35-devapp_sync.ts",
     "resources:security:ip": "ts-node infrastructure/tasks/70-security_ip.ts",
     "infrastructure:deploy": "cross-env NPMDEPLOY=1 npm-run-all -s resources:**"
   },

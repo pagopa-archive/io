@@ -6,5 +6,6 @@
     "profiles": "fiscalCode",
     "notifications": "messageId",
     "services": "serviceId"
-  }
+  },
+  "app_service_portal_git_repo": "https://github.com/teamdigitale/digital-citizenship-onboarding"
 }

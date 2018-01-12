@@ -99,6 +99,16 @@ variable "azurerm_app_service_portal" {
     type = "string"
 }
 
+variable "app_service_portal_git_repo" {
+  type = "string"
+  description = "URL of the GitHub repository providing the source of the App Service Portal"
+}
+
+variable "app_service_portal_git_branch" {
+  default = "master"
+  description = "Branch of the GitHub repository providing the source of the App Service Portal"
+}
+
 # Redirect to this page after developer portal login
 variable "app_service_portal_post_login_url" {
     type = "string"
@@ -150,6 +160,10 @@ variable "azurerm_apim_eventhub_rule" {
 
 variable "cosmosdb_collection_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
+}
+
+variable "website_git_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_website_git.ts"
 }
 
 ## RESOURCE GROUP
@@ -371,6 +385,25 @@ resource "azurerm_app_service" "azurerm_app_service_portal" {
         CLIENT_ID = ""
         CLIENT_SECRET = ""
     }
+}
+
+resource "null_resource" "azurerm_app_service_portal_git" {
+  triggers = {
+    azurerm_app_service_portal_id = "${azurerm_app_service.azurerm_app_service_portal.id}"
+
+    # trigger recreation of this resource when the following variables change
+    app_service_portal_git_repo = "${var.app_service_portal_git_repo}"
+    app_service_portal_git_branch = "${var.app_service_portal_git_branch}"
+
+    # increment the following value when changing the provisioner script to
+    # trigger the re-execution of the script
+    # TODO: consider using the hash of the script content instead
+    provisioner_version = "1"
+  }
+
+  provisioner "local-exec" {
+    command = "ts-node ${var.website_git_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --appservice-portal-name ${azurerm_app_service.azurerm_app_service_portal.name} --git-repo ${var.app_service_portal_git_repo} --git-branch ${var.app_service_portal_git_branch}"
+  }
 }
 
 # TODO: assign role to the MSI to let the App Service access API Management users

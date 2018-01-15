@@ -1,16 +1,6 @@
 /**
  * Run this task from the command line to set up deployment
- * from the GitHub repository to the Azure App Service
- * running the developer portal onboarding facilities:
- *
- * yarn resources:devapp:git
- *
- * https://github.com/teamdigitale/digital-citizenship-onboarding
- *
- * This task assumes that the following resources are already created:
- *  - Resource group
- *  - App Service Plan
- *  - App Service
+ * from the GitHub repository to an Azure App
  */
 // tslint:disable:no-console
 // tslint:disable:no-any
@@ -24,13 +14,13 @@ import webSiteManagementClient = require("azure-arm-website");
 
 interface IRunParams {
   readonly resourceGroupName: string;
-  readonly appServicePortalName: string;
-  readonly appServicePortalGitBranch: string;
-  readonly appServicePortalGitRepo: string;
+  readonly appName: string;
+  readonly appGitBranch: string;
+  readonly appGitRepo: string;
 }
 
 export const run = async (config: IRunParams) => {
-  if (!config.appServicePortalGitRepo) {
+  if (!config.appGitRepo) {
     return Promise.reject(
       "Deployment from source control repository not configured, skipping."
     );
@@ -43,26 +33,26 @@ export const run = async (config: IRunParams) => {
   );
 
   const siteSourceControl = {
-    branch: config.appServicePortalGitBranch,
+    branch: config.appGitBranch,
     deploymentRollbackEnabled: true,
     // [#152115927] TODO: setting `isManualIntegration: false` will fail trying to send an email
     // to the service principal user. I guess this is a bug in the Azure APIs
     isManualIntegration: true,
     isMercurial: false,
-    repoUrl: config.appServicePortalGitRepo,
+    repoUrl: config.appGitRepo,
     type: "GitHub"
   };
 
   winston.info(
-    `Configuring Git integration for the Developer Portal application: ${
-      config.appServicePortalGitRepo
-    }#${config.appServicePortalGitBranch}`
+    `Configuring Git integration for the application: ${
+      config.appGitRepo
+    }#${config.appGitBranch}`
   );
 
   // Create git integration
   return webSiteClient.webApps.createOrUpdateSourceControl(
     config.resourceGroupName,
-    config.appServicePortalName,
+    config.appName,
     siteSourceControl
   );
 };
@@ -71,7 +61,7 @@ const argv = yargs
   .alias("g", "resource-group-name")
   .demandOption("g")
   .string("g")
-  .alias("n", "appservice-portal-name")
+  .alias("n", "app-name")
   .demandOption("n")
   .string("n")
   .alias("r", "git-repo")
@@ -82,16 +72,14 @@ const argv = yargs
   .string("b").argv;
 
 run({
-  appServicePortalGitBranch: argv.b as string,
-  appServicePortalGitRepo: argv.r as string,
-  appServicePortalName: argv.n as string,
+  appGitBranch: argv.b as string,
+  appGitRepo: argv.r as string,
+  appName: argv.n as string,
   resourceGroupName: argv.g as string
 })
   .then(r => {
     if (r) {
-      winston.info(
-        "Successfully synced developer portal webapp with source control"
-      );
+      winston.info("Successfully synced app with source control");
     } else {
       winston.warn("Nothing happened");
     }

@@ -314,7 +314,6 @@ script:
 
 | Command                          | Task                                                                                                                                                       |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `yarn resources:functions:setup` | [Create Functions resource and setup application settings](./infrastructure/tasks/10-functions_setup.ts)                                                   |
 | `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                                                            |
 | `yarn resources:apim:setup`      | [Create API management resource and setup configuration from template files](./infrastructure/tasks/20-apim_setup.ts)                                      |
 | `yarn resources:apim:logger`     | [Setup API management logging through EventHub](./infrastructure/tasks/21-apim_logger.ts)                                                                  |
@@ -395,7 +394,7 @@ INCLUDE_API_PRODUCTS=1
 INCLUDE_API_POLICIES=1
 
 # Mail service API key
-SENDGRID_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+TF_VAR_SENDGRID_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 ## Example output

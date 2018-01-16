@@ -174,6 +174,16 @@ variable "azurerm_apim_eventhub_rule" {
     type = "string"
 }
 
+variable "azurerm_shared_address_space_cidr" {
+  default = "100.64.0.0/10"
+  description = "Azure internal network CIDR"
+}
+
+variable "azurerm_azure_portal_ips" {
+  default = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
+  description = "The IPs of the Azure admin portal"
+}
+
 # This should be passed bya ENV var TF_VAR_SENDGRID_KEY
 variable "SENDGRID_KEY" {
   type = "string"
@@ -190,6 +200,10 @@ variable "cosmosdb_collection_provisioner" {
 
 variable "website_git_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_website_git.ts"
+}
+
+variable "cosmosdb_iprange_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_cosmosdb_iprange.ts"
 }
 
 ## RESOURCE GROUP
@@ -307,6 +321,8 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
         location = "${var.cosmosdb_failover_location}"
         priority = 0
     }
+
+    ip_range_filter = "${azurerm_function_app.azurerm_function_app.outbound_ip_addresses}"
 
     tags {
         environment = "${var.environment}"
@@ -530,6 +546,26 @@ resource "null_resource" "azurerm_app_service_portal_git" {
 
   provisioner "local-exec" {
     command = "ts-node ${var.website_git_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --app-name ${azurerm_app_service.azurerm_app_service_portal.name} --git-repo ${var.app_service_portal_git_repo} --git-branch ${var.app_service_portal_git_branch}"
+  }
+}
+
+locals {
+  application_outbound_ips = "${azurerm_shared_address_space_cidr},${azurerm_function_app.azurerm_function_app.outbound_ip_addresses},${azurerm_app_service.azurerm_app_service_portal.outbound_ip_addresses},${var.azurerm_azure_portal_ips}"
+}
+
+resource "null_resource" "azurerm_cosmosdb_ip_range_filter" {
+  triggers = {
+    cosmosdb_id = "${azurerm_cosmosdb_account.azurerm_cosmosdb.id}"
+    application_outbound_ips = "${local.application_outbound_ips}"
+
+    # increment the following value when changing the provisioner script to
+    # trigger the re-execution of the script
+    # TODO: consider using the hash of the script content instead
+    provisioner_version = "1"
+  }
+
+  provisioner "local-exec" {
+    command = "ts-node ${var.cosmosdb_iprange_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --cosmosdb-name ${azurerm_cosmosdb_account.azurerm_cosmosdb.name} --ips ${local.application_outbound_ips}"
   }
 }
 

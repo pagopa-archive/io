@@ -16,10 +16,9 @@
   "azurerm_app_service_portal": "agid-portal-prod",
   "app_service_portal_post_login_url": "https://developer.cd.italia.it/developer",
   "app_service_portal_post_logout_url": "https://developer.cd.italia.it/",
-  "azurerm_adb2c_policy": "B2C_1_SignUpIn",
   "azurerm_log_analytics": "agid-loganalytics-prod",
   "azurerm_apim": "agid-apim-prod",
-  "apim_sku": "Developer",
+  "azurerm_apim_sku": "Developer",
   "azurerm_eventhub_ns": "agid-eventhub-ns-prod",
   "azurerm_apim_eventhub": "agid-apim-eventhub-prod",
   "azurerm_apim_eventhub_rule": "apim-eventhub-rule"

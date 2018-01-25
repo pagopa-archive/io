@@ -24,7 +24,7 @@ import webSiteManagementClient = require("azure-arm-website");
 const CLIENT_ID = process.env.DEV_PORTAL_EXT_CLIENT_ID;
 const CLIENT_SECRET = process.env.DEV_PORTAL_EXT_CLIENT_SECRET;
 const ARM_SUBSCRIPTION_ID = process.env.ARM_SUBSCRIPTION_ID;
-const TENANT_ID = process.env.ADB2C_TENANT_ID;
+const TENANT_ID = process.env.TF_VAR_ADB2C_TENANT_ID;
 
 export const run = async (config: IResourcesConfiguration) => {
   const loginCreds = await login();
@@ -63,7 +63,12 @@ export const run = async (config: IResourcesConfiguration) => {
 
 checkEnvironment()
   .then(() => readConfig(process.env.ENVIRONMENT))
-  .then(run)
+  .then(e =>
+    e.mapLeft(() => {
+      throw new Error("Cannot read configuration");
+    })
+  )
+  .then(e => e.map(run))
   .then(r => {
     if (r) {
       winston.info(

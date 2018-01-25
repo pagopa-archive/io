@@ -27,11 +27,6 @@ import { checkEnvironment } from "../../lib/environment";
 import webSiteManagementClient = require("azure-arm-website");
 
 export const run = async (config: IResourcesConfiguration) => {
-  if (!config.functionapp_git_repo) {
-    return Promise.reject(
-      "Deployment from source control repository not configured"
-    );
-  }
   const loginCreds = await login();
 
   const webSiteClient = new webSiteManagementClient(
@@ -41,16 +36,20 @@ export const run = async (config: IResourcesConfiguration) => {
 
   winston.info("Sync Git repository to Function staging slot");
 
-  return webSiteClient.webApps.syncRepositorySlot(
+  return webSiteClient.webApps.syncRepository(
     config.azurerm_resource_group,
-    config.azurerm_functionapp,
-    config.azurerm_functionapp_slot
+    config.azurerm_functionapp
   );
 };
 
 checkEnvironment()
   .then(() => readConfig(process.env.ENVIRONMENT))
-  .then(run)
+  .then(e =>
+    e.mapLeft(() => {
+      throw new Error("Cannot read configuration");
+    })
+  )
+  .then(e => e.map(run))
   .then(r => {
     if (r) {
       winston.info("Successfully synced functions with source control");

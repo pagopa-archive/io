@@ -9,9 +9,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "strictFunctionTypes": true,
     "sourceMap": true
   },
   "exclude": [
+    "lib/**/local.*",
     "node_modules"
   ]
 }

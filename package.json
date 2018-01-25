@@ -19,8 +19,6 @@
     "resources:tf-init": "env-cmd .env cross-var terraform init -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json -backend-config=\"infrastructure/env/$ENVIRONMENT/backend.tf\" infrastructure",
     "resources:tf-plan": "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "resources:tf-apply": "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
-    "resources:tf-apim": "env-cmd .env cross-var terraform apply -target=null_resource.azurerm_apim -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
-    "resources:tf-apim:api": "env-cmd .env cross-var terraform apply -target=null_resource.azurerm_apim_api -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "deploy:functions:sync": "ts-node infrastructure/tasks/15-functions_sync.ts",
     "resources:devapp:apikey": "ts-node --no-ignore infrastructure/tasks/30-devapp_apikey.ts",
     "resources:devapp:setup": "ts-node infrastructure/tasks/31-devapp_setup.ts",

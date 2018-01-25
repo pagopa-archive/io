@@ -1,0 +1,41 @@
+{
+  "apim_email": "apim@agid.gov.it",
+  "apim_publisher": "Digital Citizenship",
+  "apim_logger_id": "apim-logger",
+  "apim_scm_username": "apim",
+  "apim_scm_cred_username": "git",
+  "apim_admin_product": "starter",
+  "apim_admin_email": "apim-deploy@agid.gov.it",
+  "apim_admin_firstname": "AzureDevPortal",
+  "apim_admin_groups": [
+    "ApiProfileWrite",
+    "ApiMessageWrite",
+    "ApiMessageRead",
+    "ApiServiceWrite",
+    "ApiServiceRead"
+  ],
+  "apim_admin_lastname": "Deploy",
+  "apim_admin_oid": "AzureDeploy",
+  "apim_apis": [
+    {
+      "id": "digital-citizenship-api",
+      "api": {
+        "specsPath": "/specs/api/v1/swagger.json",
+        "displayName": "Digital Citizenship API",
+        "path": "/api/v1"
+      },
+      "products": ["starter"],
+      "policyFile": "public.xml"
+    },
+    {
+      "id": "digital-citizenship-admin",
+      "api": {
+        "specsPath": "/specs/adm/swagger.json",
+        "displayName": "Digital Citizenship Admin API",
+        "path": "/adm"
+      },
+      "products": ["starter"],
+      "policyFile": "admin.xml"
+    }
+  ]
+}

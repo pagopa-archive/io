@@ -1,11 +1,11 @@
 /**
- * Run this task to deploy Azure API Manager:
- *
- * yarn resources:apim:setup
+ * This task deploys Azure API Management resource.
  *
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - Functions (app service)
+ *  - ADB2C directory
+ *  - EventHub
  *
  * Unfortunately you cannot migrate Widgets and Media Libray:
  * https://{publisherPortalName}.portal.azure-api.net/Admin/Widgets
@@ -52,6 +52,13 @@ const CONFIGURATION_DIRECTORY_PATH = path.resolve(
   __dirname,
   `../${CONFIGURATION_DIRECTORY_NAME}`
 );
+
+interface IApimProperties {
+  readonly [s: string]: {
+    readonly secret: boolean;
+    readonly value: string;
+  };
+}
 
 /**
  * ApiParams contains the variables taken from command line (provisioner arguments)
@@ -247,9 +254,7 @@ const replaceVariables = (
 const setupProperties = async (
   apiClient: apiManagementClient,
   config: IResourcesConfiguration,
-  properties: {
-    readonly [s: string]: { readonly secret: boolean; readonly value: string };
-  }
+  properties: IApimProperties
 ) => {
   winston.info(
     "Setup Functions application key in the API management settings"

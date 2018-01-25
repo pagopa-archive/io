@@ -139,33 +139,38 @@ variable "app_service_portal_post_logout_url" {
   type = "string"
 }
 
-# Name of the API management resource
 variable "azurerm_apim" {
-  type = "string"
+  type        = "string"
+  description = "Name of the API management"
 }
 
 variable "azurerm_apim_sku" {
-  type = "string"
+  type        = "string"
+  description = "SKU (tier) of the API management"
 }
 
 # Name of the ADB2C policy
 variable "azurerm_adb2c_policy" {
-  type = "string"
+  type        = "string"
+  description = "Name of ADB2C policy used in the API management portal authentication flow"
 }
 
 # TF_VAR_ADB2C_TENANT_ID
 variable "ADB2C_TENANT_ID" {
-  type = "string"
+  type        = "string"
+  description = "Name of the Active Directory B2C tenant used in the API management portal authentication flow"
 }
 
 # TF_VAR_DEV_PORTAL_CLIENT_ID
 variable "DEV_PORTAL_CLIENT_ID" {
-  type = "string"
+  type        = "string"
+  description = "Cliend ID of an application used in the API management portal authentication flow"
 }
 
 # TF_VAR_DEV_PORTAL_CLIENT_SECRET
 variable "DEV_PORTAL_CLIENT_SECRET" {
-  type = "string"
+  type        = "string"
+  description = "Cliend secret of the application used in the API management portal authentication flow"
 }
 
 # Name of Application Insights resource
@@ -198,6 +203,7 @@ variable "azurerm_shared_address_space_cidr" {
   description = "Azure internal network CIDR"
 }
 
+# see https://docs.microsoft.com/en-us/azure/cosmos-db/firewall-support
 variable "azurerm_azure_portal_ips" {
   default     = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
   description = "The IPs of the Azure admin portal"
@@ -208,10 +214,6 @@ variable "SENDGRID_KEY" {
   type        = "string"
   description = "The API key for the SendGrid service"
 }
-
-# module "variables" {
-#     source = "./modules/variables"
-# }
 
 variable "cosmosdb_collection_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
@@ -268,6 +270,7 @@ resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
   name                = "${var.azurerm_functionapp_storage_account}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+
   # can be one between Premium_LRS, Standard_GRS, Standard_LRS, Standard_RAGRS, Standard_ZRS
   # see https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy
   account_tier = "Standard"
@@ -352,11 +355,6 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
   tags {
     environment = "${var.environment}"
   }
-
-  ## !!! DATABASE AND COLLECTIONS ARE NOT SUPPORTED: we create them manually
-  # provisioner "local-exec" {
-  #   command = "ts-node ./tasks/cosmosdb.ts"
-  # }
 }
 
 resource "null_resource" "azurerm_cosmosdb_collections" {
@@ -403,7 +401,7 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
   sku {
     tier = "Standard"
 
-    # Possible values are B1, B2, B3, D1, F1, FREE, P1, P2, P3, S1, S2, S3, SHARED
+    # see https://azure.microsoft.com/en-en/pricing/details/app-service/
     size = "S1"
   }
 }

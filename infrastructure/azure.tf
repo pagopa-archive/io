@@ -501,7 +501,7 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan_portal" {
   sku {
     tier = "Standard"
 
-    # Possible values are B1, B2, B3, D1, F1, FREE, P1, P2, P3, S1, S2, S3, SHARED
+    # see https://azure.microsoft.com/en-en/pricing/details/app-service/
     size = "S1"
   }
 }

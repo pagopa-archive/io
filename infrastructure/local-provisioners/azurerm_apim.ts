@@ -1,11 +1,9 @@
 /**
- * This task deploys Azure API Management resource.
+ * This task deploys the Azure API Management resource.
  *
  * This task assumes that the following resources are already created:
  *  - Resource group
  *  - Functions (app service)
- *  - ADB2C directory
- *  - EventHub
  *
  * Unfortunately you cannot migrate Widgets and Media Libray:
  * https://{publisherPortalName}.portal.azure-api.net/Admin/Widgets
@@ -29,7 +27,6 @@ import { checkEnvironment } from "../../lib/environment";
 import apiManagementClient = require("azure-arm-apimanagement");
 import webSiteManagementClient = require("azure-arm-website");
 
-import * as fs from "fs";
 import * as path from "path";
 import * as shelljs from "shelljs";
 import * as tmp from "tmp";
@@ -38,6 +35,7 @@ import * as url from "url";
 import { left } from "fp-ts/lib/Either";
 import * as replaceInFiles from "replace-in-file";
 import {
+  CONF_DIR,
   getObjectFromJson,
   IResourcesConfiguration,
   readConfig
@@ -60,161 +58,17 @@ interface IApimProperties {
   };
 }
 
-/**
- * ApiParams contains the variables taken from command line (provisioner arguments)
- * that represents values that *change* between different deploying environments.
- */
-const SetupOpenApiParams = t.interface({
+const ApimParams = t.interface({
   environment: t.string,
-  apim_include_products: t.boolean,
-  apim_include_policies: t.boolean,
-  apim_task: t.literal("setupOpenapi")
-});
-
-const CreateApiManagementServiceParams = t.interface({
-  environment: t.string,
-  azurerm_apim_eventhub_connstr: t.string,
-  adb2c_tenant_id: t.string,
-  adb2c_portal_client_id: t.string,
-  adb2c_portal_client_secret: t.string,
-  apim_task: t.literal("createApiManagementService")
+  apim_configuration_path: t.string
 });
 
 type ApimParams = t.TypeOf<typeof ApimParams>;
-
-const ApimParams = t.union([
-  SetupOpenApiParams,
-  CreateApiManagementServiceParams
-]);
 
 const addDays = (date: Date, days: number) => {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
-};
-
-const setupOpenapi = (
-  apiClient: apiManagementClient,
-  config: IResourcesConfiguration,
-  backendUrl: string,
-  masterKey: string,
-  includeProducts: boolean,
-  includePolicies: boolean
-) => {
-  return Promise.all(
-    config.apim_apis.map(async apiEntry => {
-      const contentValue = `${backendUrl}${apiEntry.api.specsPath}?code=${
-        masterKey
-      }`;
-
-      winston.info(
-        `Adding API from URL: ${backendUrl}${apiEntry.api.specsPath}`
-      );
-
-      // Add API to API management
-      await apiClient.api.createOrUpdate(
-        config.azurerm_resource_group,
-        config.azurerm_apim,
-        apiEntry.id,
-        {
-          contentFormat: "swagger-link-json",
-          contentValue,
-          displayName: apiEntry.api.displayName,
-          path: apiEntry.api.path,
-          protocols: ["https"],
-          // WARNING: serviceUrl is taken from the swagger specs "host" field
-          // and there's no way to override that value here: it *must* be changed
-          // manually in the API management settings
-          // (or provide a real value in the swagger specs).
-          serviceUrl: backendUrl
-        }
-      );
-      // Add API to products
-      if (includeProducts) {
-        await Promise.all(
-          apiEntry.products.map(async (product: string) => {
-            winston.info(
-              `Import API product into the API management: ${product}`
-            );
-            return apiClient.productApi.createOrUpdate(
-              config.azurerm_resource_group,
-              config.azurerm_apim,
-              product,
-              apiEntry.id
-            );
-          })
-        );
-      }
-      // Add a policy to the API reading it from a file
-      if (includePolicies && apiEntry.policyFile) {
-        winston.info(
-          `Import API policy into the API management: ${apiEntry.policyFile}`
-        );
-        const policyContent = fs.readFileSync(
-          path.join(__dirname, "..", "api-policies", apiEntry.policyFile),
-          "utf8"
-        );
-        await apiClient.apiPolicy.createOrUpdate(
-          config.azurerm_resource_group,
-          config.azurerm_apim,
-          apiEntry.id,
-          {
-            policyContent
-          },
-          // If-Match: *
-          "*"
-        );
-      }
-    })
-  );
-};
-
-/**
- * Setup ADB2C authentication for developer portal users.
- */
-const setupAdb2c = (
-  apiClient: apiManagementClient,
-  config: IResourcesConfiguration,
-  adb2cTenantId: string,
-  adb2cClientId: string,
-  adb2cClientSecret: string
-) => {
-  return apiClient.identityProvider.createOrUpdate(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
-    "aadB2C",
-    {
-      allowedTenants: [adb2cTenantId],
-      clientId: adb2cClientId,
-      clientSecret: adb2cClientSecret,
-      identityProviderContractType: "aadB2C",
-      signinPolicyName: config.azurerm_adb2c_policy,
-      signupPolicyName: config.azurerm_adb2c_policy
-    }
-  );
-};
-
-const setupLogger = async (
-  apiClient: apiManagementClient,
-  config: IResourcesConfiguration,
-  eventHubConnectionString: string
-) => {
-  winston.info("Create an EventHub logger for the API management");
-  return apiClient.logger.createOrUpdate(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
-    config.apim_logger_id,
-    {
-      credentials: {
-        connectionString: eventHubConnectionString,
-        name: config.azurerm_apim_eventhub
-      },
-      description: "API management EventHub logger",
-      loggerType: "azureEventHub"
-      // We have to cast to any here because of a bug in Azure ARM EventHub API:
-      // when you update (PUT) the EventHub logger you MUST provide the loggerType
-    } as any
-  );
 };
 
 /**
@@ -408,11 +262,14 @@ const createOrUpdateApiManagementService = async (
 };
 
 export const run = async (params: ApimParams) => {
-  const config = readConfig(params.environment).fold(errs => {
+  const config = readConfig(
+    params.environment,
+    path.join(...CONF_DIR, ...params.apim_configuration_path.split("/"))
+  ).getOrElse(errs => {
     throw new Error(
       "Error parsing configuration:\n\n" + reporter(left(errs) as any)
     );
-  }, t.identity);
+  });
 
   const loginCreds = await login();
 
@@ -424,55 +281,26 @@ export const run = async (params: ApimParams) => {
 
   const functionProperties = await getPropsFromFunctions(loginCreds, config);
 
+  const apiManagementService = await createOrUpdateApiManagementService(
+    apiClient,
+    config
+  );
+
+  if (!apiManagementService.scmUrl) {
+    throw new Error("Cannot get apiManagementService.scmUrl");
+  }
+
   // Set up backend url and code (master key) named values
   // to access Functions endpoint in policies
+  await setupProperties(apiClient, config, functionProperties);
 
-  switch (params.apim_task) {
-    case "createApiManagementService":
-      const apiManagementService = await createOrUpdateApiManagementService(
-        apiClient,
-        config
-      );
-      if (!apiManagementService.scmUrl) {
-        throw new Error("Cannot get apiManagementService.scmUrl");
-      }
-      await setupProperties(apiClient, config, functionProperties);
-      // Push API management configuration from local repository
-      await setupConfigurationFromGit(
-        apiClient,
-        apiManagementService.scmUrl,
-        CONFIGURATION_DIRECTORY_PATH,
-        config
-      );
-      // Set up EventHub logging
-      await setupLogger(
-        apiClient,
-        config,
-        params.azurerm_apim_eventhub_connstr
-      );
-      // Allow access to developer portal through ADB2C
-      await setupAdb2c(
-        apiClient,
-        config,
-        params.adb2c_tenant_id,
-        params.adb2c_portal_client_id,
-        params.adb2c_portal_client_secret
-      );
-      break;
-    case "setupOpenapi":
-      // Setup OpenAPI from swagger specs
-      await setupOpenapi(
-        apiClient,
-        config,
-        functionProperties.backendUrl.value,
-        functionProperties.code.value,
-        params.apim_include_products,
-        params.apim_include_policies
-      );
-      break;
-    // default:
-    //   const _: never = params;
-  }
+  // Push API management configuration from local repository
+  await setupConfigurationFromGit(
+    apiClient,
+    apiManagementService.scmUrl,
+    CONFIGURATION_DIRECTORY_PATH,
+    config
+  );
 };
 
 const argv = yargs
@@ -480,26 +308,7 @@ const argv = yargs
     demandOption: true,
     string: true
   })
-  .option("apim_include_policies", {
-    boolean: true
-  })
-  .option("apim_include_products", {
-    boolean: true
-  })
-  .option("azurerm_apim_eventhub_connstr", {
-    string: true
-  })
-  .option("adb2c_tenant_id", {
-    string: true
-  })
-  .option("adb2c_portal_client_id", {
-    string: true
-  })
-  .option("adb2c_portal_client_secret", {
-    string: true
-  })
-  .option("apim_task", {
-    demandOption: true,
+  .option("apim_configuration_path", {
     string: true
   })
   .help().argv;

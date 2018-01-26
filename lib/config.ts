@@ -33,11 +33,13 @@ winston.configure({
 // configuration file to feed terraform settings
 const TF_VARS_FILE_NAME = "tfvars.json";
 
-// API management configuration file name
-const APIM_FILE_NAME = "apim.json";
-
 // Path to the directory with configuration files
-const CONF_DIR: ReadonlyArray<any> = [__dirname, "..", "infrastructure", "env"];
+export const CONF_DIR: ReadonlyArray<any> = [
+  __dirname,
+  "..",
+  "infrastructure",
+  "env"
+];
 
 const Api = t.interface({
   specsPath: t.string,
@@ -126,16 +128,17 @@ export const getMapFromFile = (filePath: string) =>
  * Throws an Exception and exit on any kind of error.
  */
 export const readConfig = (
-  environment: string
-  // tslint:disable-next-line:readonly-array
-): Either<t.ValidationError[], IResourcesConfiguration> => {
+  environment: string,
+  // tslint:disable-next-line:array-type readonly-array
+  ...files: string[]
+): // tslint:disable-next-line:readonly-array
+Either<t.ValidationError[], IResourcesConfiguration> => {
   const config = traverse(either)(getMapFromFile, [
-    // Get Common configuration values from JSON
+    // Get Common Terraform configuration from JSON
     path.join(...CONF_DIR, "common", TF_VARS_FILE_NAME),
     // Get environment specific Terraform configuration from JSON
     path.join(...CONF_DIR, environment, TF_VARS_FILE_NAME),
-    // Get API management configuration values from JSON
-    path.join(...CONF_DIR, "common", APIM_FILE_NAME)
+    ...files
   ])
     // Merge configuration files
     .fold(

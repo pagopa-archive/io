@@ -223,8 +223,29 @@ variable "website_git_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_website_git.ts"
 }
 
+#### API management provisioners
+
 variable "website_apim_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_apim.ts"
+}
+
+variable "website_apim_logger_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim_logger.ts"
+}
+
+variable "website_apim_adb2c_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim_adb2c.ts"
+}
+
+variable "website_apim_api_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim_api.ts"
+}
+
+####
+
+variable "apim_configuration_path" {
+  default     = "common/apim.json"
+  description = "Path of the (json) file that contains the configuration settings for the API management resource"
 }
 
 variable "cosmosdb_iprange_provisioner" {
@@ -657,56 +678,91 @@ resource "azurerm_eventhub_authorization_rule" "azurerm_apim_eventhub_rule" {
 
 # API management 
 
-# Create API management service
+## Create and configure the API management service
 
 resource "null_resource" "azurerm_apim" {
   triggers = {
-    # trigger recreation of this resource when the following variables change
-    azurerm_function_app_id            = "${azurerm_function_app.azurerm_function_app.id}"
-    azurerm_resource_group_name        = "${azurerm_resource_group.azurerm_resource_group.name}"
-    azurerm_apim_eventhub_id           = "${azurerm_eventhub.azurerm_apim_eventhub.id}"
-    azurerm_eventhub_connection_string = "${azurerm_eventhub_authorization_rule.azurerm_apim_eventhub_rule.primary_connection_string}"
-
-    # increment the following value when changing the provisioner script to
-    # trigger the re-execution of the script
-    # TODO: consider using the hash of the script content instead
-    provisioner_version = "1"
+    azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    provisioner_version         = "2"
   }
 
   provisioner "local-exec" {
     command = "${join(" ", list(
       "ts-node ${var.website_apim_provisioner}",
       "--environment ${var.environment}",
-      "--azurerm_apim_eventhub_connstr ${azurerm_eventhub_authorization_rule.azurerm_apim_eventhub_rule.primary_connection_string}",
-      "--adb2c_tenant_id ${var.ADB2C_TENANT_ID}",
-      "--adb2c_portal_client_id ${var.DEV_PORTAL_CLIENT_ID}",
-      "--adb2c_portal_client_secret ${var.DEV_PORTAL_CLIENT_SECRET}",
-      "--apim_task createApiManagementService"))
+      "--apim_configuration_path ${var.apim_configuration_path}"))
     }"
   }
 }
 
-# Setup OpenAPI in API management service from swagger specs exposed by Functions
+## Connect API management developer portal authentication to Active Directory B2C
 
-resource "null_resource" "azurerm_apim_api" {
+resource "null_resource" "azurerm_apim_adb2c" {
   triggers = {
-    # trigger recreation of this resource when the following variables change
     azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
     azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
-
-    # increment the following value when changing the provisioner script to
-    # trigger the re-execution of the script
-    # TODO: consider using the hash of the script content instead
-    provisioner_version = "1"
+    azurerm_apim_id             = "${null_resource.azurerm_apim.id}"
+    provisioner_version         = "1"
   }
+
+  depends_on = ["null_resource.azurerm_apim"]
 
   provisioner "local-exec" {
     command = "${join(" ", list(
-      "ts-node ${var.website_apim_provisioner}",
+      "ts-node ${var.website_apim_adb2c_provisioner}",
       "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
+      "--adb2c_tenant_id ${var.ADB2C_TENANT_ID}",
+      "--adb2c_portal_client_id ${var.DEV_PORTAL_CLIENT_ID}",
+      "--adb2c_portal_client_secret ${var.DEV_PORTAL_CLIENT_SECRET}"))
+    }"
+  }
+}
+
+## Connect the API management resource with the EventHub logger
+
+resource "null_resource" "azurerm_apim_logger" {
+  triggers = {
+    azurerm_function_app_id            = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name        = "${azurerm_resource_group.azurerm_resource_group.name}"
+    azurerm_apim_eventhub_id           = "${azurerm_eventhub.azurerm_apim_eventhub.id}"
+    azurerm_eventhub_connection_string = "${azurerm_eventhub_authorization_rule.azurerm_apim_eventhub_rule.primary_connection_string}"
+    azurerm_apim_id                    = "${null_resource.azurerm_apim.id}"
+    provisioner_version                = "1"
+  }
+
+  depends_on = ["null_resource.azurerm_apim"]
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.website_apim_logger_provisioner}",
+      "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
+      "--azurerm_apim_eventhub_connstr ${azurerm_eventhub_authorization_rule.azurerm_apim_eventhub_rule.primary_connection_string}"))
+    }"
+  }
+}
+
+## Setup OpenAPI in API management service from swagger specs exposed by Functions
+
+resource "null_resource" "azurerm_apim_api" {
+  triggers = {
+    azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    azurerm_apim_id             = "${null_resource.azurerm_apim.id}"
+    provisioner_version         = "1"
+  }
+
+  depends_on = ["null_resource.azurerm_apim_logger"]
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.website_apim_api_provisioner}",
+      "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
       "--apim_include_policies",
-      "--apim_include_products",
-      "--apim_task setupOpenapi"))
+      "--apim_include_products"))
     }"
   }
 }

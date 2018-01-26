@@ -684,7 +684,7 @@ resource "null_resource" "azurerm_apim" {
   triggers = {
     azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
     azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
-    provisioner_version         = "2"
+    provisioner_version         = "1"
   }
 
   provisioner "local-exec" {

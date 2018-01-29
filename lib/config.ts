@@ -7,11 +7,15 @@
 
 import * as dotenv from "dotenv";
 import * as fs from "fs";
+import * as t from "io-ts";
+
 import * as path from "path";
 import * as readlineSync from "readline-sync";
 import * as winston from "winston";
 
-import * as t from "io-ts";
+import { traverse } from "fp-ts/lib/Array";
+import { Either, either, fromPredicate, left, right } from "fp-ts/lib/Either";
+import { ValidationError } from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 
 // read environment variables from .env file
@@ -29,8 +33,13 @@ winston.configure({
 // configuration file to feed terraform settings
 const TF_VARS_FILE_NAME = "tfvars.json";
 
-// configuration file with variables used from tasks
-const COMMON_CONFIG_FILE_NAME = "config.json";
+// Path to the directory with configuration files
+export const CONF_DIR: ReadonlyArray<any> = [
+  __dirname,
+  "..",
+  "infrastructure",
+  "env"
+];
 
 const Api = t.interface({
   specsPath: t.string,
@@ -38,19 +47,16 @@ const Api = t.interface({
   path: t.string
 });
 
-const ApiDescription = t.interface({
+export const ApiDescription = t.interface({
   id: t.string,
   api: Api,
   products: t.array(t.string),
   policyFile: t.string
 });
 
-const CosmosCollection = t.interface({
-  name: t.string,
-  partitionKey: t.string
-});
+export type ApiDescription = t.TypeOf<typeof ApiDescription>;
 
-const ResourcesConfiguration = t.interface({
+export const ResourcesConfiguration = t.interface({
   apim_admin_email: t.string,
   apim_admin_firstname: t.string,
   apim_admin_groups: t.array(t.string),
@@ -63,10 +69,8 @@ const ResourcesConfiguration = t.interface({
   apim_publisher: t.string,
   apim_scm_cred_username: t.string,
   apim_scm_username: t.string,
-  apim_sku: t.string,
-  app_service_portal_git_branch: t.string,
+  azurerm_apim_sku: t.string,
   app_service_portal_git_repo: t.string,
-  azure_portal_ips: t.array(t.string),
   azurerm_adb2c_policy: t.string,
   azurerm_apim: t.string,
   azurerm_apim_eventhub: t.string,
@@ -87,73 +91,73 @@ const ResourcesConfiguration = t.interface({
   azurerm_storage_queue_emailnotifications: t.string,
   cosmosdb_failover_location: t.string,
   environment: t.string,
-  functionapp_git_branch: t.string,
-  functionapp_git_repo: t.string,
-  functionapp_nodejs_version: t.string,
-  functionapp_scm_type: t.string,
-  location: t.string,
-  message_blob_container: t.string
+  location: t.string
 });
 
 export type IResourcesConfiguration = t.TypeOf<typeof ResourcesConfiguration>;
+
+export const getObjectFromJson = <S, A>(
+  type: t.Type<S, A>,
+  json: S
+): Either<Error, A> => {
+  return t.validate(json, type).fold(
+    // tslint:disable-next-line:readonly-array
+    (l: ValidationError[]) => left(new Error(failure(l).join())),
+    (r: A) => right(r)
+  );
+};
+
+export const getObjectFromString = <A, B>(type: t.Type<A, B>, s: string) =>
+  getObjectFromJson(type, JSON.parse(s));
+
+// Get a typed javascript object (json) from file
+export const getObjectFromFile = <A, B>(type: t.Type<A, B>, filePath: string) =>
+  fromPredicate(
+    (p: string) => !!fs.existsSync(p),
+    p => new Error(`File ${p} not found`)
+  )(filePath).chain((p: string) =>
+    getObjectFromString(type, fs.readFileSync(p, "utf8"))
+  );
+
+// Get an untyped javascript object (json) from file
+export const getMapFromFile = (filePath: string) =>
+  getObjectFromFile(t.object, filePath);
 
 /**
  * Merge and parses configuration files.
  * Throws an Exception and exit on any kind of error.
  */
 export const readConfig = (
-  environment: string
-): Promise<IResourcesConfiguration> => {
-  return new Promise(resolve => {
-    // Get Terraform configuration from JSON
-    const tfFilePath = path.join(
-      __dirname,
-      "..",
-      "infrastructure",
-      "env",
-      environment,
-      TF_VARS_FILE_NAME
-    );
-    if (!fs.existsSync(tfFilePath)) {
-      throw new Error("Cannot find configuration file: " + tfFilePath);
-    }
-    const tfConfig = JSON.parse(fs.readFileSync(tfFilePath, "utf8"));
-
-    // Get Common configuration from JSON
-    const commonConfigFilePath = path.join(
-      "",
-      __dirname,
-      "..",
-      "infrastructure",
-      "env",
-      "common",
-      COMMON_CONFIG_FILE_NAME
-    );
-    if (!fs.existsSync(commonConfigFilePath)) {
-      throw new Error(
-        "Cannot find configuration file: " + commonConfigFilePath
-      );
-    }
-    const commonConfig = JSON.parse(
-      fs.readFileSync(commonConfigFilePath, "utf8")
+  environment: string,
+  // tslint:disable-next-line:array-type readonly-array
+  ...files: string[]
+): // tslint:disable-next-line:readonly-array
+Either<t.ValidationError[], IResourcesConfiguration> => {
+  const config = traverse(either)(getMapFromFile, [
+    // Get Common Terraform configuration from JSON
+    path.join(...CONF_DIR, "common", TF_VARS_FILE_NAME),
+    // Get environment specific Terraform configuration from JSON
+    path.join(...CONF_DIR, environment, TF_VARS_FILE_NAME),
+    ...files
+  ])
+    // Merge configuration files
+    .fold(
+      (l: Error) => {
+        // exit if some error occurred trying to parse the files
+        throw new Error("Error while parsing configuration files:" + l.message);
+      },
+      (r: ReadonlyArray<any>) =>
+        r.reduce((acc, curr) => ({ ...acc, ...curr }), {})
     );
 
-    // Merge Common configuration with Terraform configuration
-    const config = { ...commonConfig, ...tfConfig };
+  if (
+    !process.env.NPMDEPLOY &&
+    !readlineSync.keyInYNStrict(
+      `Do you want to proceed with this configuration (${environment}) ?`
+    )
+  ) {
+    throw new Error("Aborted.");
+  }
 
-    t.validate(config, ResourcesConfiguration).fold(errors => {
-      throw new Error(failure(errors).join("\n"));
-    }, t.identity);
-
-    if (
-      !process.env.NPMDEPLOY &&
-      !readlineSync.keyInYNStrict(
-        `Do you want to proceed with this configuration (${environment}) ?`
-      )
-    ) {
-      throw new Error("Aborted.");
-    }
-
-    return resolve(config);
-  });
+  return t.validate(config, ResourcesConfiguration);
 };

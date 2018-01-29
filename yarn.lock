@@ -1697,6 +1697,10 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
 
+fp-ts@^0.6.0, fp-ts@^0.6.2:
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.6.8.tgz#3b4ac3251f3565b2aefceffd787eb06c30c04b52"
+
 fp-ts@^0.6.3, fp-ts@^0.6.4:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.6.4.tgz#830cc9cc1b3f67341a2a6cc18fd00a942b507cc4"
@@ -2030,9 +2034,28 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
+io-ts-reporters@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/io-ts-reporters/-/io-ts-reporters-0.0.17.tgz#ce9ce5c939a32bd5479aa71def1330832593e57f"
+  dependencies:
+    fp-ts "^0.6.2"
+    io-ts "^0.8.2"
+
+io-ts@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.8.2.tgz#cf87ca011f384c662d7ef1bb9657c069a22de7d4"
+  dependencies:
+    fp-ts "^0.6.0"
+
 io-ts@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.9.0.tgz#0feac61ee0ea0076ad48d0280ce35c2ffb9ab45c"
+  dependencies:
+    fp-ts "^0.6.4"
+
+io-ts@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.9.5.tgz#cc5ca520306a6ac7bcbda3259c3a630edd7412c0"
   dependencies:
     fp-ts "^0.6.4"
 
@@ -3363,7 +3386,7 @@ type-is@~1.6.15:
     media-typer "0.3.0"
     mime-types "~2.1.15"
 
-typescript@^2.4.1, typescript@^2.5.2, typescript@^2.6.0:
+typescript@^2.4.1, typescript@^2.6.0, typescript@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 

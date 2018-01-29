@@ -1,8 +1,6 @@
 import * as request from "request";
 import * as url from "url";
 
-import { IResourcesConfiguration } from "./config";
-
 import webSiteManagementClient = require("azure-arm-website");
 
 /**
@@ -10,23 +8,21 @@ import webSiteManagementClient = require("azure-arm-website");
  * to set up API manager properties (backend).
  */
 export const getFunctionsInfo = async (
-  config: IResourcesConfiguration,
-  webClient: webSiteManagementClient
+  webClient: webSiteManagementClient,
+  resourceGroup: string,
+  functionApp: string
 ) => {
-  const functions = await webClient.webApps.get(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
-  );
+  const functions = await webClient.webApps.get(resourceGroup, functionApp);
   const creds = await webClient.webApps.listPublishingCredentials(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+    resourceGroup,
+    functionApp
   );
   const backendUrl = `https://${functions.defaultHostName}`;
 
   // @FIXME: unfortunately there is no API to get a Functions App master key
   const secretUrl = url.format({
     auth: `${creds.publishingUserName}:${creds.publishingPassword}`,
-    host: `${config.azurerm_functionapp}.scm.azurewebsites.net`,
+    host: `${functionApp}.scm.azurewebsites.net`,
     pathname: "/api/functions/admin/masterkey",
     protocol: "https"
   });

@@ -139,14 +139,38 @@ variable "app_service_portal_post_logout_url" {
   type = "string"
 }
 
-# Name of the API management resource
 variable "azurerm_apim" {
-  type = "string"
+  type        = "string"
+  description = "Name of the API management"
+}
+
+variable "azurerm_apim_sku" {
+  type        = "string"
+  description = "SKU (tier) of the API management"
 }
 
 # Name of the ADB2C policy
 variable "azurerm_adb2c_policy" {
-  type = "string"
+  type        = "string"
+  description = "Name of ADB2C policy used in the API management portal authentication flow"
+}
+
+# TF_VAR_ADB2C_TENANT_ID
+variable "ADB2C_TENANT_ID" {
+  type        = "string"
+  description = "Name of the Active Directory B2C tenant used in the API management portal authentication flow"
+}
+
+# TF_VAR_DEV_PORTAL_CLIENT_ID
+variable "DEV_PORTAL_CLIENT_ID" {
+  type        = "string"
+  description = "Cliend ID of an application used in the API management portal authentication flow"
+}
+
+# TF_VAR_DEV_PORTAL_CLIENT_SECRET
+variable "DEV_PORTAL_CLIENT_SECRET" {
+  type        = "string"
+  description = "Cliend secret of the application used in the API management portal authentication flow"
 }
 
 # Name of Application Insights resource
@@ -179,6 +203,7 @@ variable "azurerm_shared_address_space_cidr" {
   description = "Azure internal network CIDR"
 }
 
+# see https://docs.microsoft.com/en-us/azure/cosmos-db/firewall-support
 variable "azurerm_azure_portal_ips" {
   default     = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
   description = "The IPs of the Azure admin portal"
@@ -190,16 +215,37 @@ variable "SENDGRID_KEY" {
   description = "The API key for the SendGrid service"
 }
 
-# module "variables" {
-#     source = "./modules/variables"
-# }
-
 variable "cosmosdb_collection_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
 }
 
 variable "website_git_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_website_git.ts"
+}
+
+#### API management provisioners
+
+variable "website_apim_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim.ts"
+}
+
+variable "website_apim_logger_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim_logger.ts"
+}
+
+variable "website_apim_adb2c_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim_adb2c.ts"
+}
+
+variable "website_apim_api_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_apim_api.ts"
+}
+
+####
+
+variable "apim_configuration_path" {
+  default     = "common/apim.json"
+  description = "Path of the (json) file that contains the configuration settings for the API management resource"
 }
 
 variable "cosmosdb_iprange_provisioner" {
@@ -325,16 +371,11 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
     priority = 0
   }
 
-  ip_range_filter = "${azurerm_function_app.azurerm_function_app.outbound_ip_addresses}"
+  # ip_range_filter = "${azurerm_function_app.azurerm_function_app.outbound_ip_addresses}"
 
   tags {
     environment = "${var.environment}"
   }
-
-  ## !!! DATABASE AND COLLECTIONS ARE NOT SUPPORTED: we create them manually
-  # provisioner "local-exec" {
-  #   command = "ts-node ./tasks/cosmosdb.ts"
-  # }
 }
 
 resource "null_resource" "azurerm_cosmosdb_collections" {
@@ -381,14 +422,9 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
   sku {
     tier = "Standard"
 
-    # Possible values are B1, B2, B3, D1, F1, FREE, P1, P2, P3, S1, S2, S3, SHARED
+    # see https://azure.microsoft.com/en-en/pricing/details/app-service/
     size = "S1"
   }
-
-  ## !!! FUNCTIONS APP ARE NOT SUPPORTED: we create them manually
-  # provisioner "local-exec" {
-  #    command = "ts-node ./tasks/functions.ts"
-  # }
 }
 
 ## FUNCTIONS
@@ -437,12 +473,9 @@ resource "azurerm_function_app" "azurerm_function_app" {
 
   connection_string = [
     {
-      # [#152800384] - TODO: change the following value
-      # when we'll migrate to production service
-      name = "SENDGRID_KEY"
-
+      name  = "COSMOSDB_KEY"
       type  = "Custom"
-      value = "${var.SENDGRID_KEY}"
+      value = "${azurerm_cosmosdb_account.azurerm_cosmosdb.primary_master_key}"
     },
     {
       name  = "COSMOSDB_URI"
@@ -450,9 +483,12 @@ resource "azurerm_function_app" "azurerm_function_app" {
       value = "https://${azurerm_cosmosdb_account.azurerm_cosmosdb.name}.documents.azure.com:443/"
     },
     {
-      name  = "COSMOSDB_KEY"
+      # [#152800384] - TODO: change the following value
+      # when we'll migrate to production service
+      name = "SENDGRID_KEY"
+
       type  = "Custom"
-      value = "${azurerm_cosmosdb_account.azurerm_cosmosdb.primary_master_key}"
+      value = "${var.SENDGRID_KEY}"
     },
   ]
 }
@@ -486,7 +522,7 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan_portal" {
   sku {
     tier = "Standard"
 
-    # Possible values are B1, B2, B3, D1, F1, FREE, P1, P2, P3, S1, S2, S3, SHARED
+    # see https://azure.microsoft.com/en-en/pricing/details/app-service/
     size = "S1"
   }
 }
@@ -556,7 +592,7 @@ resource "null_resource" "azurerm_app_service_portal_git" {
 }
 
 locals {
-  application_outbound_ips = "${azurerm_shared_address_space_cidr},${azurerm_function_app.azurerm_function_app.outbound_ip_addresses},${azurerm_app_service.azurerm_app_service_portal.outbound_ip_addresses},${var.azurerm_azure_portal_ips}"
+  application_outbound_ips = "${var.azurerm_shared_address_space_cidr},${azurerm_function_app.azurerm_function_app.outbound_ip_addresses},${azurerm_app_service.azurerm_app_service_portal.outbound_ip_addresses},${var.azurerm_azure_portal_ips}"
 }
 
 resource "null_resource" "azurerm_cosmosdb_ip_range_filter" {
@@ -595,8 +631,6 @@ resource "null_resource" "azurerm_cosmosdb_ip_range_filter" {
 #   role_definition_id = ""
 #   principal_id       = ""
 # }
-
-## !!! API MANAGER NOT SUPPORTED
 
 # Logging (OSM)
 
@@ -640,4 +674,95 @@ resource "azurerm_eventhub_authorization_rule" "azurerm_apim_eventhub_rule" {
   listen              = true
   send                = true
   manage              = false
+}
+
+# API management 
+
+## Create and configure the API management service
+
+resource "null_resource" "azurerm_apim" {
+  triggers = {
+    azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    provisioner_version         = "1"
+  }
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.website_apim_provisioner}",
+      "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}"))
+    }"
+  }
+}
+
+## Connect API management developer portal authentication to Active Directory B2C
+
+resource "null_resource" "azurerm_apim_adb2c" {
+  triggers = {
+    azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    azurerm_apim_id             = "${null_resource.azurerm_apim.id}"
+    provisioner_version         = "1"
+  }
+
+  depends_on = ["null_resource.azurerm_apim"]
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.website_apim_adb2c_provisioner}",
+      "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
+      "--adb2c_tenant_id ${var.ADB2C_TENANT_ID}",
+      "--adb2c_portal_client_id ${var.DEV_PORTAL_CLIENT_ID}",
+      "--adb2c_portal_client_secret ${var.DEV_PORTAL_CLIENT_SECRET}"))
+    }"
+  }
+}
+
+## Connect the API management resource with the EventHub logger
+
+resource "null_resource" "azurerm_apim_logger" {
+  triggers = {
+    azurerm_function_app_id            = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name        = "${azurerm_resource_group.azurerm_resource_group.name}"
+    azurerm_apim_eventhub_id           = "${azurerm_eventhub.azurerm_apim_eventhub.id}"
+    azurerm_eventhub_connection_string = "${azurerm_eventhub_authorization_rule.azurerm_apim_eventhub_rule.primary_connection_string}"
+    azurerm_apim_id                    = "${null_resource.azurerm_apim.id}"
+    provisioner_version                = "1"
+  }
+
+  depends_on = ["null_resource.azurerm_apim"]
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.website_apim_logger_provisioner}",
+      "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
+      "--azurerm_apim_eventhub_connstr ${azurerm_eventhub_authorization_rule.azurerm_apim_eventhub_rule.primary_connection_string}"))
+    }"
+  }
+}
+
+## Setup OpenAPI in API management service from swagger specs exposed by Functions
+
+resource "null_resource" "azurerm_apim_api" {
+  triggers = {
+    azurerm_function_app_id     = "${azurerm_function_app.azurerm_function_app.id}"
+    azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    azurerm_apim_id             = "${null_resource.azurerm_apim.id}"
+    provisioner_version         = "1"
+  }
+
+  depends_on = ["null_resource.azurerm_apim_logger"]
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.website_apim_api_provisioner}",
+      "--environment ${var.environment}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
+      "--apim_include_policies",
+      "--apim_include_products"))
+    }"
+  }
 }

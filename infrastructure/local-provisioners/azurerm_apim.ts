@@ -1,7 +1,5 @@
 /**
- * Run this task to deploy Azure API Manager:
- *
- * yarn resources:apim:setup
+ * This task deploys the Azure API Management resource.
  *
  * This task assumes that the following resources are already created:
  *  - Resource group
@@ -13,11 +11,17 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import * as t from "io-ts";
+
+import { reporter } from "io-ts-reporters";
+
 import * as winston from "winston";
-import { login } from "../../lib/login";
+
+import yargs = require("yargs");
+
+import { ICreds, login } from "../../lib/login";
 import { getFunctionsInfo } from "../../lib/task_utils";
 
-import { IResourcesConfiguration, readConfig } from "../../lib/config";
 import { checkEnvironment } from "../../lib/environment";
 
 import apiManagementClient = require("azure-arm-apimanagement");
@@ -28,7 +32,14 @@ import * as shelljs from "shelljs";
 import * as tmp from "tmp";
 import * as url from "url";
 
+import { left } from "fp-ts/lib/Either";
 import * as replaceInFiles from "replace-in-file";
+import {
+  CONF_DIR,
+  getObjectFromJson,
+  IResourcesConfiguration,
+  readConfig
+} from "../../lib/config";
 
 // tslint:disable-next-line:no-object-mutation
 shelljs.config.fatal = true;
@@ -39,6 +50,20 @@ const CONFIGURATION_DIRECTORY_PATH = path.resolve(
   __dirname,
   `../${CONFIGURATION_DIRECTORY_NAME}`
 );
+
+interface IApimProperties {
+  readonly [s: string]: {
+    readonly secret: boolean;
+    readonly value: string;
+  };
+}
+
+const ApimParams = t.interface({
+  environment: t.string,
+  apim_configuration_path: t.string
+});
+
+type ApimParams = t.TypeOf<typeof ApimParams>;
 
 const addDays = (date: Date, days: number) => {
   const result = new Date(date);
@@ -80,13 +105,14 @@ const replaceVariables = (
  * Set a named valued (property)
  * see https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-properties
  */
-const setApimProperties = async (
+const setupProperties = async (
   apiClient: apiManagementClient,
-  properties: {
-    readonly [s: string]: { readonly secret: boolean; readonly value: string };
-  },
-  config: IResourcesConfiguration
+  config: IResourcesConfiguration,
+  properties: IApimProperties
 ) => {
+  winston.info(
+    "Setup Functions application key in the API management settings"
+  );
   return await Promise.all(
     Object.keys(properties).map(async prop => {
       return await apiClient.property.createOrUpdate(
@@ -186,20 +212,41 @@ const setupConfigurationFromGit = async (
   return gitKey;
 };
 
-export const run = async (config: IResourcesConfiguration) => {
-  const loginCreds = await login();
+const getPropsFromFunctions = async (
+  loginCreds: ICreds,
+  config: IResourcesConfiguration
+) => {
+  winston.info("Get Functions application key and backend URL");
 
-  // Needed to get storage connection string
-  const apiClient = new apiManagementClient(
-    (loginCreds as any).creds,
+  // Get Functions (backend) info
+  // We need these to setup API operations
+  const webSiteClient = new webSiteManagementClient(
+    loginCreds.creds as any,
     loginCreds.subscriptionId
   );
 
+  const { masterKey, backendUrl } = await getFunctionsInfo(
+    webSiteClient,
+    config.azurerm_resource_group,
+    config.azurerm_functionapp
+  );
+
+  return {
+    backendUrl: { secret: false, value: backendUrl },
+    code: { secret: true, value: masterKey }
+  };
+};
+
+/**
+ * Creates the API management PaaS
+ */
+const createOrUpdateApiManagementService = async (
+  apiClient: apiManagementClient,
+  config: IResourcesConfiguration
+) => {
   winston.info(
     "Create API management resource, this takes a while (about 30 minutes)..."
   );
-
-  // Create API management PaaS
   const apiManagementService = await apiClient.apiManagementService.createOrUpdate(
     config.azurerm_resource_group,
     config.azurerm_apim,
@@ -208,35 +255,34 @@ export const run = async (config: IResourcesConfiguration) => {
       notificationSenderEmail: config.apim_email,
       publisherEmail: config.apim_email,
       publisherName: config.apim_publisher,
-      sku: { name: config.apim_sku, capacity: 1 }
+      sku: { name: config.azurerm_apim_sku, capacity: 1 }
     }
   );
+  return apiManagementService;
+};
 
-  winston.info("Get Functions application key to setup API management backend");
+export const run = async (params: ApimParams) => {
+  const config = readConfig(
+    params.environment,
+    path.join(...CONF_DIR, ...params.apim_configuration_path.split("/"))
+  ).getOrElse(errs => {
+    throw new Error(
+      "Error parsing configuration:\n\n" + reporter(left(errs) as any)
+    );
+  });
 
-  // Get Functions (backend) info
-  // We need these to setup API operations
-  const webSiteClient = new webSiteManagementClient(
-    loginCreds.creds as any,
+  const loginCreds = await login();
+
+  // Needed to get storage connection string
+  const apiClient = new apiManagementClient(
+    loginCreds.creds,
     loginCreds.subscriptionId
   );
-  const { masterKey, backendUrl } = await getFunctionsInfo(
-    config,
-    webSiteClient
-  );
 
-  winston.info(
-    "Setup Functions application key in the API management settings"
-  );
+  const functionProperties = await getPropsFromFunctions(loginCreds, config);
 
-  // Set up backend url and code (master key) named values
-  // to access Functions endpoint in policies
-  await setApimProperties(
+  const apiManagementService = await createOrUpdateApiManagementService(
     apiClient,
-    {
-      backendUrl: { secret: false, value: backendUrl },
-      code: { secret: true, value: masterKey }
-    },
     config
   );
 
@@ -244,8 +290,12 @@ export const run = async (config: IResourcesConfiguration) => {
     throw new Error("Cannot get apiManagementService.scmUrl");
   }
 
-  // Push configuration from local repository
-  return setupConfigurationFromGit(
+  // Set up backend url and code (master key) named values
+  // to access Functions endpoint in policies
+  await setupProperties(apiClient, config, functionProperties);
+
+  // Push API management configuration from local repository
+  await setupConfigurationFromGit(
     apiClient,
     apiManagementService.scmUrl,
     CONFIGURATION_DIRECTORY_PATH,
@@ -253,8 +303,22 @@ export const run = async (config: IResourcesConfiguration) => {
   );
 };
 
+const argv = yargs
+  .option("environment", {
+    demandOption: true,
+    string: true
+  })
+  .option("apim_configuration_path", {
+    string: true
+  })
+  .help().argv;
+
 checkEnvironment()
-  .then(() => readConfig(process.env.ENVIRONMENT))
-  .then(run)
-  .then(() => winston.info("Successfully deployed API management"))
-  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));
+  .then(() => getObjectFromJson(ApimParams, argv))
+  .then(e =>
+    e.map(run).mapLeft(err => {
+      throw err;
+    })
+  )
+  .then(() => winston.info("Completed"))
+  .catch((e: Error) => winston.error(e.message));

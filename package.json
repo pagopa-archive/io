@@ -20,10 +20,6 @@
     "resources:tf-plan": "env-cmd .env cross-var terraform plan -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "resources:tf-apply": "env-cmd .env cross-var terraform apply -var-file=infrastructure/env/common/tfvars.json -var-file=infrastructure/env/$ENVIRONMENT/tfvars.json infrastructure",
     "deploy:functions:sync": "ts-node infrastructure/tasks/15-functions_sync.ts",
-    "resources:apim:setup": "ts-node infrastructure/tasks/20-apim_setup.ts",
-    "resources:apim:logger": "ts-node infrastructure/tasks/21-apim_logger.ts",
-    "resources:apim:adb2c": "ts-node infrastructure/tasks/22-apim_adb2c.ts",
-    "resources:apim:api": "ts-node infrastructure/tasks/25-apim_api.ts",
     "resources:devapp:apikey": "ts-node --no-ignore infrastructure/tasks/30-devapp_apikey.ts",
     "resources:devapp:setup": "ts-node infrastructure/tasks/31-devapp_setup.ts",
     "resources:security:ip": "ts-node infrastructure/tasks/70-security_ip.ts",
@@ -52,7 +48,7 @@
     "env-cmd": "^7.0.0",
     "fp-ts": "^0.6.4",
     "gh-pages": "^1.0.0",
-    "io-ts": "^0.9.0",
+    "io-ts": "^0.9.5",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.0",
     "readline-sync": "^1.4.7",
@@ -65,10 +61,9 @@
     "tslint-config-prettier": "^1.5.0",
     "tslint-immutable": "^4.1.0",
     "tslint-plugin-prettier": "^1.2.0",
-    "typescript": "^2.5.2",
+    "typescript": "^2.6.2",
+    "@types/yargs": "^10.0.1",
+    "io-ts-reporters": "^0.0.17",
     "winston": "^2.4.0"
-  },
-  "dependencies": {
-    "@types/yargs": "^10.0.1"
   }
 }

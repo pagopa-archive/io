@@ -1,13 +1,13 @@
 export const checkEnvironment = (): Promise<void> => {
   const emptyVars = [
     "ENVIRONMENT",
-    "ADB2C_TENANT_ID",
+    "TF_VAR_ADB2C_TENANT_ID",
     "ARM_SUBSCRIPTION_ID",
     "ARM_CLIENT_ID",
     "ARM_CLIENT_SECRET",
     "ARM_TENANT_ID",
-    "DEV_PORTAL_CLIENT_ID",
-    "DEV_PORTAL_CLIENT_SECRET",
+    "TF_VAR_DEV_PORTAL_CLIENT_ID",
+    "TF_VAR_DEV_PORTAL_CLIENT_SECRET",
     "DEV_PORTAL_EXT_CLIENT_ID",
     "DEV_PORTAL_EXT_CLIENT_SECRET"
   ]

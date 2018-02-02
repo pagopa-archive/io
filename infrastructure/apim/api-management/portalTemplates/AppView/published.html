@@ -1,0 +1,32 @@
+<h2>{{title}}</h2>
+{% if icon.url != "" %}
+<aside class="applications_aside">
+  <div class="image-placeholder">
+    <img src="{{icon.url}}" alt="Application Icon" />
+  </div>
+</aside>
+{% endif %}
+
+<article>
+  {% if url != "" %}
+    <a href="{{url}}">{{url}}</a>
+  {% endif %}
+  
+  <p>{{description}}</p>
+
+  {% if requirements != null %}
+  <h3>{% localized "AppDetailsStrings|WebApplicationsRequirementsHeader" %}</h3>
+  <p>{{requirements}}</p>
+  {% endif %}
+
+  {% if attachments.size > 0 %}
+  <h3>{% localized "AppDetailsStrings|WebApplicationsScreenshotsHeader" %}</h3>
+    {% for screenshot in attachments %}
+      {% if screenshot.type != "Icon" %}
+      <a href="{{screenshot.url}}" data-lightbox="example-set">
+          <img src="/Developer/Applications/Thumbnail?url={{screenshot.url}}" alt='{% localized "AppDetailsStrings|WebApplicationsScreenshotAlt" %}' />
+      </a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</article>

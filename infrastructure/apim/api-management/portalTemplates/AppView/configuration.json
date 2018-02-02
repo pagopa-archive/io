@@ -1,6 +1,6 @@
 {
   "Name": "AppView",
-  "$ref-Published": null,
+  "$ref-Published": "api-management/portalTemplates/AppView/published.html",
   "$ref-Draft": null,
   "$ref-Original": "api-management/portalTemplates/AppView/original.html"
 }

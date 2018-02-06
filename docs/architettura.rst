@@ -37,7 +37,7 @@ Ad esempio, tramite `cURL <https://curl.haxx.se/>`__:
 .. code:: bash
 
   curl -X GET \
-    https://agid-apim-prod.azure-api.net/api/v1/info \
+    https://api.cd.italia.it/api/v1/info \
     -H 'accept: application/json'
     -H 'content-type: application/json' \
     -H 'Ocp-Apim-Subscription-Key: a1b2c3d4e5f6g7h8i9l0'

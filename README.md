@@ -120,7 +120,7 @@ https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c
 The ADB2C tenant _must_ exists _before_ running any task illustrated below.
 
 Once created, before going on with the installation procedure, put the tenant
-name in `ADB2C_TENANT_ID` environment variable:
+name in `TF_VAR_ADB2C_TENANT_ID` environment variable:
 
 ```
 ADB2C_TENANT_ID=<yourtenant>.onmicrosoft.com
@@ -207,8 +207,8 @@ file)
 Generate an application key, then set the two environment variables:
 
 ```
-DEV_PORTAL_CLIENT_ID=<Application Id>
-DEV_PORTAL_CLIENT_SECRET=<Application Key>
+TF_VAR_DEV_PORTAL_CLIENT_ID=<Application Id>
+TF_VAR_DEV_PORTAL_CLIENT_SECRET=<Application Key>
 ```
 
 2. Register an ADB2C Application `dev-portal-ext`
@@ -222,8 +222,8 @@ your tfvars.json file)
 Generate an application key, then set the two environment variables:
 
 ```
-DEV_PORTAL_EXT_CLIENT_ID=<Application Id>
-DEV_PORTAL_EXT_CLIENT_SECRET=<Application Key>
+TF_VAR_DEV_PORTAL_EXT_CLIENT_ID=<Application Id>
+TF_VAR_DEV_PORTAL_EXT_CLIENT_SECRET=<Application Key>
 ```
 
 ### Deploy instructions
@@ -382,13 +382,19 @@ ARM_CLIENT_ID=XXXXXXX-XXXX-XXXX-XXX-XXXXXXXXX
 ARM_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXX=
 ARM_TENANT_ID=XXXXXXX-XXXXX-XXXX-XXXX-XXXXXXXXXXX
 
-# Client credentials for dev-portal-app ADB2C App
+# Client credentials for dev-portal ADB2C App
+# To find these values navigate to the Azure Portal (https://portal.azure.com)
+# go to the ADB2C tenant directory (using the dropdown in the upper right corner)
+# go the "Azure AD B2C" blade and select "Applications" -> "developer-portal"
 TF_VAR_DEV_PORTAL_CLIENT_ID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
 TF_VAR_DEV_PORTAL_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
 
 # Client credentials for dev-portal-ext ADB2C App
-DEV_PORTAL_EXT_CLIENT_ID=XXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
-DEV_PORTAL_EXT_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
+# To find these values navigate to the Azure Portal (https://portal.azure.com)
+# go to the ADB2C tenant directory (using the dropdown in the upper right corner)
+# go the "Azure AD B2C" blade and select "Applications" -> "developer-portal-ext"
+TF_VAR_DEV_PORTAL_EXT_CLIENT_ID=XXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
+TF_VAR_DEV_PORTAL_EXT_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
 
 # Sync API products and policies
 INCLUDE_API_PRODUCTS=1

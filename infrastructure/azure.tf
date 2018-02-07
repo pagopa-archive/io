@@ -23,35 +23,34 @@ terraform {
   }
 }
 
-# Environment: production, developement or staging
 variable environment {
   type = "string"
+  description = "Environment: production, developement or staging"
 }
 
-# Location of the Azure resource group and services (ie. West Europe)
 variable location {
   type = "string"
+  description = "Location of the Azure resource group and services (ie. West Europe)"
 }
 
-# Location for CosmosDB failover (ie. North Europe)
-# Must differ from "location" value
 variable "cosmosdb_failover_location" {
   type = "string"
+  description = "Location for CosmosDB failover (ie. North Europe), Must differ from 'location'"
 }
 
-# Name of the resource group
 variable "azurerm_resource_group" {
   type = "string"
+  description = "Name of the resource group"
 }
 
-# Name of the storage account
 variable "azurerm_storage_account" {
   type = "string"
+  description = "Name of the storage account"
 }
 
-# Name of the storage container resource
 variable "azurerm_storage_container" {
   type = "string"
+  description = "Name of the storage container resource"
 }
 
 variable "message_blob_container" {
@@ -79,19 +78,19 @@ variable "azurerm_functionapp_git_branch" {
   description = "The branch of the GitHub repository that must be associated to the function app"
 }
 
-# Name of the storage queue for email notifications
 variable "azurerm_storage_queue_emailnotifications" {
   type = "string"
+  description = "Name of the storage queue for email notifications"
 }
 
-# Name of the storage queue for created messages
 variable "azurerm_storage_queue_createdmessages" {
   type = "string"
+  description = "Name of the storage queue for created messages"
 }
 
-# Name of the CosmosDB account
 variable "azurerm_cosmosdb" {
   type = "string"
+  description = "Name of the CosmosDB account"
 }
 
 variable "azurerm_cosmosdb_documentdb" {
@@ -104,19 +103,19 @@ variable "azurerm_cosmosdb_collections" {
   description = "Name and partition keys of collections that must exist in the CosmosDB database"
 }
 
-# Name of the App Service Plan resource
 variable "azurerm_app_service_plan" {
   type = "string"
+  description = "Name of the App Service Plan resource"
 }
 
-# Name of the App Service Plan for developer portal
 variable "azurerm_app_service_plan_portal" {
   type = "string"
+  description = "Name of the App Service Plan for developer portal"
 }
 
-# Name of the App Service for developer portal
 variable "azurerm_app_service_portal" {
   type = "string"
+  description = "Name of the App Service for developer portal"
 }
 
 variable "app_service_portal_git_repo" {
@@ -129,14 +128,14 @@ variable "app_service_portal_git_branch" {
   description = "Branch of the GitHub repository providing the source of the App Service Portal"
 }
 
-# Redirect to this page after developer portal login
 variable "app_service_portal_post_login_url" {
   type = "string"
+  description = "Redirect to this page after developer portal login"
 }
 
-# Redirect to this page after developer portal logout
 variable "app_service_portal_post_logout_url" {
   type = "string"
+  description = "Redirect to this page after developer portal logout"
 }
 
 variable "azurerm_apim" {
@@ -149,7 +148,6 @@ variable "azurerm_apim_sku" {
   description = "SKU (tier) of the API management"
 }
 
-# Name of the ADB2C policy
 variable "azurerm_adb2c_policy" {
   type        = "string"
   description = "Name of ADB2C policy used in the API management portal authentication flow"
@@ -173,29 +171,29 @@ variable "DEV_PORTAL_CLIENT_SECRET" {
   description = "Cliend secret of the application used in the API management portal authentication flow"
 }
 
-# Name of Application Insights resource
 variable "azurerm_application_insights" {
   type = "string"
+  description = "Name of Application Insights resource"
 }
 
-# Name of Log Analytics resource
 variable "azurerm_log_analytics" {
   type = "string"
+  description = "Name of Log Analytics resource"
 }
 
-# EventHub namespace
 variable "azurerm_eventhub_ns" {
   type = "string"
+  description = "EventHub namespace"
 }
 
-# EventHub logger for API management
 variable "azurerm_apim_eventhub" {
   type = "string"
+  description = "EventHub logger for API management"
 }
 
-# EventHub rule for API management
 variable "azurerm_apim_eventhub_rule" {
   type = "string"
+  description = "EventHub rule for API management"
 }
 
 variable "azurerm_shared_address_space_cidr" {
@@ -240,8 +238,6 @@ variable "website_apim_adb2c_provisioner" {
 variable "website_apim_api_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_apim_api.ts"
 }
-
-####
 
 variable "apim_configuration_path" {
   default     = "common/apim.json"

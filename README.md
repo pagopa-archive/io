@@ -317,9 +317,6 @@ script:
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                                                            |
 | `yarn resources:apim:setup`      | [Create API management resource and setup configuration from template files](./infrastructure/tasks/20-apim_setup.ts)                                      |
-| `yarn resources:apim:logger`     | [Setup API management logging through EventHub](./infrastructure/tasks/21-apim_logger.ts)                                                                  |
-| `yarn resources:apim:adb2c`      | [Setup API management authentication through Active Directory B2C](./infrastructure/tasks/22-apim_adb2c.ts)                                                |
-| `yarn resources:apim:api`        | [Synch Digital Citizenship API from OpenAPI specs to API management](./infrastructure/tasks/25-apim_api.ts)                                                |
 | `yarn resources:devapp:apikey`   | [Create a Digital Citizenship API user and setup its API Key in the developer portal web application settings](./infrastructure/tasks/30-devapp_apikey.ts) |
 | `yarn resources:devapp:setup`    | [Setup developer portal application settings](./infrastructure/tasks/31-devapp_setup.ts)                                                                   |
 | `yarn resources:ip:restrict`     | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)                                                                      |

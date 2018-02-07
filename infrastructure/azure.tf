@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 1.0"
+  version = "~> 1.1"
 }
 
 provider "random" {
@@ -676,7 +676,7 @@ resource "azurerm_eventhub_authorization_rule" "azurerm_apim_eventhub_rule" {
   manage              = false
 }
 
-# API management 
+# API management
 
 ## Create and configure the API management service
 

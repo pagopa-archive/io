@@ -374,6 +374,7 @@ following configuration variables (all mandatory):
 ENVIRONMENT=test
 
 # Tenant name of the Active Directory B2C
+# Ask the project administrator for the value of this variable
 TF_VAR_ADB2C_TENANT_ID=XXXXXXXXX.onmicrosoft.com
 
 # Azure service principal credentials (main AD tenant)
@@ -383,22 +384,14 @@ ARM_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXX=
 ARM_TENANT_ID=XXXXXXX-XXXXX-XXXX-XXXX-XXXXXXXXXXX
 
 # Client credentials for dev-portal ADB2C App
-# To find these values navigate to the Azure Portal (https://portal.azure.com)
-# go to the ADB2C tenant directory (using the dropdown in the upper right corner)
-# go the "Azure AD B2C" blade and select "Applications" -> "developer-portal"
+# Ask the project administrator for the values of these variables
 TF_VAR_DEV_PORTAL_CLIENT_ID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
 TF_VAR_DEV_PORTAL_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
 
 # Client credentials for dev-portal-ext ADB2C App
-# To find these values navigate to the Azure Portal (https://portal.azure.com)
-# go to the ADB2C tenant directory (using the dropdown in the upper right corner)
-# go the "Azure AD B2C" blade and select "Applications" -> "developer-portal-ext"
+# Ask the project administrator for the values of these variables
 TF_VAR_DEV_PORTAL_EXT_CLIENT_ID=XXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX
 TF_VAR_DEV_PORTAL_EXT_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
-
-# Sync API products and policies
-INCLUDE_API_PRODUCTS=1
-INCLUDE_API_POLICIES=1
 
 # Mail service API key
 TF_VAR_SENDGRID_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

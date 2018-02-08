@@ -1,0 +1,60 @@
+#
+# The app proxy
+#
+---
+#
+# Deploy the pods
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app-proxy
+  namespace: default
+  labels:
+    app: app-proxy
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      name: app-proxy
+      namespace: default
+      labels:
+        app: app-proxy
+    spec:
+      containers:
+      - image: "karthequian/helloworld:latest"
+        name: app-proxy
+        ports:
+        - name: http-port
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 5
+
+---
+#
+# A service exposing the app to the cluster.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-proxy
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: app-proxy
+  ports:
+    - protocol: TCP
+      port: 80

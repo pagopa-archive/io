@@ -25,7 +25,17 @@ terraform {
 
 variable environment {
   type = "string"
-  description = "Environment: production, developement or staging"
+  description = "Environment: production or test"
+}
+
+variable environment_short {
+  type = "string"
+  description = "Short version of environment name: prod or test (used in resource names)"
+}
+
+variable "azurerm_resource_name_prefix" {
+  type = "string"
+  description = "Prefix for naming resources (e.g. 'myorg')"
 }
 
 variable location {
@@ -213,6 +223,41 @@ variable "SENDGRID_KEY" {
   description = "The API key for the SendGrid service"
 }
 
+variable "azurerm_kubernetes_master_count" {
+  type = "string"
+  description = "How many masters in the Kubernetes cluster"
+}
+
+variable "azurerm_kubernetes_admin_username" {
+  type = "string"
+  description = "The username of the admin account on the Kubernetes nodes"
+}
+
+variable "azurerm_kubernetes_admin_ssh_publickey_file" {
+  type = "string"
+  description = "The name of the file under 'files' of the ssh public key for the admin account on the Kubernetes nodes"
+}
+
+variable "azurerm_kubernetes_agent_count" {
+  type = "string"
+  description = "How many agent nodes in the Kubernetes cluster"
+}
+
+# See VM sizes https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes
+variable "azurerm_kubernetes_agent_vm_size" {
+  type = "string"
+  description = "Virtual machine size for agent nodes in Kubernetes cluster"
+}
+
+variable "ARM_CLIENT_SECRET" {
+  type = "string"
+  description = "The client secret of the service principal"
+}
+
+#
+# Paths to local provisioner scripts
+#
+
 variable "cosmosdb_collection_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
 }
@@ -220,8 +265,6 @@ variable "cosmosdb_collection_provisioner" {
 variable "website_git_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_website_git.ts"
 }
-
-#### API management provisioners
 
 variable "website_apim_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_apim.ts"
@@ -247,6 +290,26 @@ variable "apim_configuration_path" {
 variable "cosmosdb_iprange_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_iprange.ts"
 }
+
+
+#
+# Compute name of resources
+#
+# Instead of explicitly defining the name of each resource, we use a convention
+# to compose the name of the resource as: PREFIX-RESOURCE_TYPE-ENVIRONMENT_SHORT
+#
+
+locals {
+  azurerm_kubernetes_name = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
+}
+
+#
+# Data resources
+#
+
+# We need the configuration of the Azure Resource Manager provider for some
+# resources that need to create other resources themselves (i.e. Kubernetes)
+data "azurerm_client_config" "current" { }
 
 ## RESOURCE GROUP
 
@@ -761,4 +824,29 @@ resource "null_resource" "azurerm_apim_api" {
       "--apim_include_products"))
     }"
   }
+}
+
+# Azure Container Service (Kubernetes)
+
+locals {
+  # The ssh public key for the admin account on the k8s nodes is read from the
+  # file stored in the "files" directory and named after the value of the
+  # variable "azurerm_kubernetes_admin_ssh_publickey_file"
+  azurerm_kubernetes_admin_ssh_publickey = "${file("${path.module}/files/${var.azurerm_kubernetes_admin_ssh_publickey_file}")}"
+}
+
+module "kubernetes" {
+  source = "./modules/azurerm/kubernetes"
+
+  environment = "${var.environment}"
+  resource_group_location = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+  name = "${local.azurerm_kubernetes_name}"
+  master_count = "${var.azurerm_kubernetes_master_count}"
+  admin_username = "${var.azurerm_kubernetes_admin_username}"
+  admin_ssh_publickey = "${local.azurerm_kubernetes_admin_ssh_publickey}"
+  agent_count = "${var.azurerm_kubernetes_agent_count}"
+  agent_vm_size = "${var.azurerm_kubernetes_agent_vm_size}"
+  service_principal_client_id = "${data.azurerm_client_config.current.client_id}"
+  service_principal_client_secret = "${var.ARM_CLIENT_SECRET}"
 }

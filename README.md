@@ -267,6 +267,7 @@ Set up the following enviroment variables:
 ARM_SUBSCRIPTION_ID=<subscription Id>
 ARM_CLIENT_ID=<service principal client (app) Id>
 ARM_CLIENT_SECRET=<service principal client secret (key)>
+TF_VAR_ARM_CLIENT_SECRET=<same value as ARM_CLIENT_SECRET>
 ARM_TENANT_ID=<Active Directory domain Id>
 ```
 

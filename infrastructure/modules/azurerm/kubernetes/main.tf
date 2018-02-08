@@ -1,5 +1,6 @@
-# TODO: verify that master_count is 3 or 5
-
+#
+# Kubernetes cluster
+#
 resource "azurerm_container_service" "azurerm_container_service" {
   name                   = "${var.name}"
   location               = "${var.resource_group_location}"
@@ -20,7 +21,7 @@ resource "azurerm_container_service" "azurerm_container_service" {
   }
 
   agent_pool_profile {
-    name       = "default"
+    name       = "${var.name}-pool-default"
     count      = "${var.agent_count}"
     dns_prefix = "${var.name}-agent"
     vm_size    = "${var.agent_vm_size}"
@@ -34,19 +35,6 @@ resource "azurerm_container_service" "azurerm_container_service" {
   diagnostics_profile {
     enabled = false
   }
-
-  tags {
-    environment = "${var.environment}"
-  }
-}
-
-resource "azurerm_public_ip" "azurerm_public_ip_container_service" {
-  name                         = "${var.name}-publicip"
-  location                     = "${var.resource_group_location}"
-  resource_group_name          = "${var.resource_group_name}"
-  public_ip_address_allocation = "static"
-
-  # reverse_fqdn
 
   tags {
     environment = "${var.environment}"

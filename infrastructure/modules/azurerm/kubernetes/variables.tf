@@ -26,7 +26,6 @@ variable "master_count" {
 variable "admin_username" {
   type = "string"
   description = "The username for the admin account on cluster nodes"
-  default = "root"
 }
 
 variable "admin_ssh_publickey" {

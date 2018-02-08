@@ -23,5 +23,7 @@
   "azurerm_eventhub_ns": "agid-eventhub-ns-prod",
   "azurerm_apim_eventhub": "agid-apim-eventhub-prod",
   "azurerm_apim_eventhub_rule": "apim-eventhub-rule",
-  "azurerm_kubernetes_agent_vm_size": "Standard_F8s_v2"
+  "azurerm_kubernetes_master_count": 3,
+  "azurerm_kubernetes_agent_count": 5,
+  "azurerm_kubernetes_agent_vm_size": "Standard_D3"
 }

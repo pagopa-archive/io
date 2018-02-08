@@ -1,5 +1,6 @@
 {
   "environment": "production",
+  "environment_short": "prod",
   "location": "West Europe",
   "cosmosdb_failover_location": "North Europe",
   "azurerm_resource_group": "agid-rg-prod",
@@ -22,6 +23,5 @@
   "azurerm_eventhub_ns": "agid-eventhub-ns-prod",
   "azurerm_apim_eventhub": "agid-apim-eventhub-prod",
   "azurerm_apim_eventhub_rule": "apim-eventhub-rule",
-  "azurerm_kubernetes_name": "agid-k8s-prod",
   "azurerm_kubernetes_agent_vm_size": "Standard_F8s_v2"
 }

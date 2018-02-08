@@ -1,5 +1,6 @@
 {
   "environment": "test",
+  "environment_short": "test",
   "location": "West Europe",
   "cosmosdb_failover_location": "North Europe",
   "azurerm_resource_group": "agid-rg-test",
@@ -22,6 +23,5 @@
   "azurerm_eventhub_ns": "agid-eventhub-ns-test",
   "azurerm_apim_eventhub": "agid-apim-eventhub-test",
   "azurerm_apim_eventhub_rule": "apim-eventhub-rule",
-  "azurerm_kubernetes_name": "agid-k8s-test",
   "azurerm_kubernetes_agent_vm_size": "Standard_B2ms"
 }

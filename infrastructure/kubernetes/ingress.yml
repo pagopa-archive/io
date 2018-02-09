@@ -146,9 +146,9 @@ metadata:
 spec:
   tls:
     - hosts:
-      - agid-apim-test.azure-api.net
+      - app-backend
   rules:
-  - host: agid-apim-test.azure-api.net
+  - host: app-backend
     http:
       paths:
       - path: /api-proxy/v1

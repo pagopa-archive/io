@@ -8,10 +8,10 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: app-proxy
+  name: app-backend
   namespace: default
   labels:
-    app: app-proxy
+    app: app-backend
 spec:
   replicas: 2
   strategy:
@@ -22,14 +22,14 @@ spec:
   revisionHistoryLimit: 10
   template:
     metadata:
-      name: app-proxy
+      name: app-backend
       namespace: default
       labels:
-        app: app-proxy
+        app: app-backend
     spec:
       containers:
       - image: "karthequian/helloworld:latest"
-        name: app-proxy
+        name: app-backend
         ports:
         - name: http-port
           containerPort: 80
@@ -49,12 +49,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-proxy
+  name: app-backend
   namespace: default
 spec:
-  type: NodePort
   selector:
-    app: app-proxy
+    app: app-backend
   ports:
     - protocol: TCP
       port: 80

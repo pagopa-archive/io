@@ -301,6 +301,7 @@ variable "cosmosdb_iprange_provisioner" {
 
 locals {
   azurerm_kubernetes_name = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
+  azurerm_kubernetes_public_ip_name = "${var.azurerm_resource_name_prefix}-k8s-ip-${var.environment_short}"
 }
 
 #
@@ -850,3 +851,28 @@ module "kubernetes" {
   service_principal_client_id = "${data.azurerm_client_config.current.client_id}"
   service_principal_client_secret = "${var.ARM_CLIENT_SECRET}"
 }
+
+#
+# Allocates a public IP for exposing the Kubernetes services
+#
+# This IP needs to be registered on the following CNAMEs:
+#
+# *.k8s.test.cd.teamdigitale.it (for the test environment)
+# *.k8s.prod.cd.teamdigitale.it (for the production environment)
+#
+
+resource "azurerm_public_ip" "azurerm_kubernetes_public_ip" {
+  name                         = "${local.azurerm_kubernetes_public_ip_name}"
+  location                     = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name          = "${azurerm_resource_group.azurerm_resource_group.name}"
+  public_ip_address_allocation = "static"
+
+  tags {
+    environment = "${var.environment}"
+  }
+}
+
+output "azurerm_kubernetes_public_ip_ip" {
+  value = "${azurerm_public_ip.azurerm_kubernetes_public_ip.ip_address}"
+}
+

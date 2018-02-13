@@ -31,15 +31,14 @@ spec:
       - image: "teamdigitale/italia-backend:0.0.1"
         name: app-backend
         ports:
-        - name: https-port
-          containerPort: 443
+        - name: http-port
+          containerPort: 80
         env:
           NODE_ENV: "production"
         livenessProbe:
           httpGet:
             path: "/"
-            port: 443
-            scheme: "HTTPS"
+            port: 80
           initialDelaySeconds: 30
           timeoutSeconds: 5
           periodSeconds: 10

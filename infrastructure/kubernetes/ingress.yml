@@ -151,6 +151,7 @@ spec:
   - host: app-backend
     http:
       paths:
+      # TODO: review endpoint (da server.js + error.html e profile.html)
       - path: /api-proxy/v1
         backend:
           serviceName: app-backend
@@ -169,7 +170,8 @@ spec:
   # create the public IP adddress resource yourself and uncomment the
   # loadBalancerIP attribute.
   type: LoadBalancer
-  # loadBalancerIP: X.X.X.X
+  # loadBalancerIP = output of "azurerm_kubernetes_public_ip_ip" in "test" environment
+  loadBalancerIP: 13.95.82.27
   ports:
     - port: 443
       name: https

@@ -13,7 +13,7 @@ metadata:
   labels:
     app: app-backend
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -28,21 +28,43 @@ spec:
         app: app-backend
     spec:
       containers:
-      - image: "teamdigitale/italia-backend:0.0.1"
+      - image: "teamdigitale/italia-backend:v0.0.2"
         name: app-backend
         ports:
         - name: http-port
           containerPort: 80
         env:
-          NODE_ENV: "production"
+        - name: "NODE_ENV"
+          value: "production"
+        volumeMounts:
+          - name: certs
+            mountPath: "/usr/src/app/certs"
+            readOnly: true
         livenessProbe:
           httpGet:
-            path: "/"
+            path: "/ping"
             port: 80
           initialDelaySeconds: 30
           timeoutSeconds: 5
           periodSeconds: 10
           failureThreshold: 5
+      - image: wodby/redis:4.0
+        name: redis
+        ports:
+        - name: redis-port
+          containerPort: 6379
+        env:
+        - name: "REDIS_TIMEOUT"
+          value: "300"
+        - name: "REDIS_TCP_KEEPALIVE"
+          value: "60"
+        - name: "REDIS_MAXMEMORY"
+          value: "182m"
+      volumes:
+      - name: certs
+        secret:
+          # cert.pem, key.pem
+          secretName: spid-cert
 
 ---
 #
@@ -58,4 +80,4 @@ spec:
     app: app-backend
   ports:
     - protocol: TCP
-      port: 443
+      port: 80

@@ -146,16 +146,16 @@ metadata:
 spec:
   tls:
     - hosts:
-      - app-backend
+      - app-backend.k8s.test.cd.teamdigitale.it
   rules:
-  - host: app-backend
+  - host: app-backend.k8s.test.cd.teamdigitale.it
     http:
       paths:
-      # TODO: review endpoint (da server.js + error.html e profile.html)
-      - path: /api-proxy/v1
+      - path: /
         backend:
           serviceName: app-backend
           servicePort: 80
+
 ---
 #
 # Expose the ingress to the world via a load balancer service and static IP
@@ -176,4 +176,4 @@ spec:
     - port: 443
       name: https
   selector:
-    app: ingress-nginx
+    app: nginx-ingress-controller

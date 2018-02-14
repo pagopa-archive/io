@@ -16,12 +16,18 @@ by Terraform.
 
 ## Configuring resources
 
-You'll probably first want to configure the ingress (`ingress.yml`) and then
-the rest of the resources (see comments in each file).
+Resources should be configured in the following order:
+
+  1. `cert-manager.yml` (the `cert-manager` chart needs to be installed before this step, see below)
+  1. `ingress.yml`
+
+The following should be configured in any order:
+
+  * `app-backend.yml`
 
 ## Additional components
 
-### Cert Manager
+### Installing Cert Manager
 
 We use [Cert Manager](https://github.com/jetstack/cert-manager) for
 automatically provision the TLS certificates for public HTTPS endpoints.

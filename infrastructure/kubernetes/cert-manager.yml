@@ -1,0 +1,45 @@
+#
+# Issuer configuration for cert-manager
+#
+# See https://github.com/jetstack/cert-manager/blob/master/docs/user-guides/acme-http-validation.md
+#
+---
+#
+# Let's encrypt (staging)
+#
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+  namespace: default
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-staging.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: info@teamdigitale.governo.it
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    # Enable the HTTP-01 challenge provider
+    http01: {}
+---
+#
+# Let's encrypt (production)
+#
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: default
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v01.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: info@teamdigitale.governo.it
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    http01: {}

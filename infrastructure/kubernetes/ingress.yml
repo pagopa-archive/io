@@ -142,11 +142,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/ssl-redirect: "false"
-    # kubernetes.io/tls-acme: "true"
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
       - app-backend.k8s.test.cd.teamdigitale.it
+      secretName: app-backend-cert-lep
   rules:
   - host: app-backend.k8s.test.cd.teamdigitale.it
     http:
@@ -173,6 +175,8 @@ spec:
   # loadBalancerIP = output of "azurerm_kubernetes_public_ip_ip" in "test" environment
   loadBalancerIP: 13.95.82.27
   ports:
+    - port: 80
+      name: http
     - port: 443
       name: https
   selector:

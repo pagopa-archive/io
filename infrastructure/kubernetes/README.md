@@ -11,8 +11,11 @@ by Terraform.
   1. Install and setup `kubectl`
   1. Configure the K8S cluster credentials (on Azure you'll need `az acs` for
      legacy K8S or `az aks` for managed K8S).
+  1. Check that you have [Helm](https://helm.sh/) (the package manager for
+     Kubernetes) properly configured for your cluster (see
+     the Troubleshooting section below)
   1. [Switch the context](https://kubernetes-v1-4.github.io/docs/user-guide/kubectl/kubectl_config_use-context/)
-     for the environment you want to work on (e.g. test or production).
+     for the environment you want to work on (e.g. `test` or `production`).
 
 ## Configuring resources
 
@@ -33,7 +36,7 @@ We use [Cert Manager](https://github.com/jetstack/cert-manager) for
 automatically provision the TLS certificates for public HTTPS endpoints.
 
 Cert Manager is [deployed](https://github.com/jetstack/cert-manager/blob/master/docs/user-guides/deploying.md)
-via [Helm](https://github.com/kubernetes/helm) with the
+via Helm with the
 [Ingress shim](https://github.com/jetstack/cert-manager/blob/master/docs/user-guides/deploying.md#addendum)
 enabled.
 

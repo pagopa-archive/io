@@ -141,6 +141,7 @@ metadata:
   # see https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/annotations.md
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    # TODO: we want ssl-redirect to be true but see https://github.com/jetstack/cert-manager/issues/194
     ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
     certmanager.k8s.io/issuer: "letsencrypt-prod"

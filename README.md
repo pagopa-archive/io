@@ -63,6 +63,7 @@ Here's the decisions we taken so far:
 | 10  | [We select an Azure app hosting service](architecture/decisions/0010-we-select-an-azure-app-hosting-service.md)              | [PR#27](https://github.com/teamdigitale/digital-citizenship/pull/27) |
 | 11  | [We chose a different CosmosDB API](architecture/decisions/0011-we-chose-a-different-cosmosdb-api.md)                        | [PR#28](https://github.com/teamdigitale/digital-citizenship/pull/28) |
 | 12  | [We chose a retry strategy in case of processing errors](architecture/decisions/0012-we-chose-a-retry-strategy.md)           | [PR#48](https://github.com/teamdigitale/digital-citizenship/pull/48) |
+| 13  | [We decide how to expose the app backend to the internet](architecture/decisions/0013-we-decide-how-to-expose-the-app-backend-to-the-internet.md)                                                                                    | [PR#52](https://github.com/teamdigitale/digital-citizenship/pull/52) |
 
 ### Azure infrastructure
 
@@ -494,3 +495,46 @@ To deploy the documentation site (via GitHub pages):
 ```
 yarn docs:publish
 ```
+
+## Troubleshooting
+
+### Terraform
+
+#### Error locking state: Error acquiring the state lock
+
+It may happen that during a Terraform apply operation, something happens and the
+lock acquired by Terraform on the remote state blog doesn't get released.
+When this happen you'll get an error like this:
+
+```
+Error: Error locking state: Error acquiring the state lock: storage: service returned error: StatusCode=409, ErrorCode=LeaseAlreadyPresent, ErrorMessage=There is already a lease present.
+RequestId:f2b85816-001e-00c0-2cc6-a4f222000000
+Time:2018-02-13T12:32:43.1850979Z, RequestInitiated=Tue, 13 Feb 2018 12:32:42 GMT, RequestId=f2b85816-001e-00c0-2cc6-a4f222000000, API Version=2016-05-31, QueryParameterName=, QueryParameterValue=
+Lock Info:
+  ID:        fa16c993-763c-df60-9e37-bb16869ba6c5
+  Path:      terraform-storage-container/test.terraform.tfstate
+  Operation: OperationTypeApply
+  Who:       federico@Ashroid
+  Version:   0.11.2
+  Created:   2018-02-08 14:04:27.879567437 +0000 UTC
+  Info:
+```
+
+To solve this issue, you have to manually unlock the lease.
+
+The Terraform documentation says you can use the command `terraform force-unlock`
+but at the time of this writing, that command [doesn't work with the Azure backend](https://groups.google.com/forum/#!topic/terraform-tool/we21XjC58pI).
+
+The solution is then to manually unlock the lease on the remote state blob using
+the Azure CLI (`az`). For instance, to release the lock on the `test.terraform.tfstate`
+blob (remote state for the `test` environment):
+
+```
+$ az storage blob lease break \
+  --account-name terraformstorageaccount \
+  -c terraform-storage-container \
+  --blob-name test.terraform.tfstate \
+  --lease-break-period 1
+```
+
+You can find further explanation about this process in [this article](https://social.msdn.microsoft.com/Forums/azure/en-US/d0df8205-c1f8-4da0-9391-460256092d34/how-to-remove-lease-so-i-can-delete-storage-account?forum=windowsazuredata).

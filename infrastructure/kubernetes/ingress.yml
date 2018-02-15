@@ -75,27 +75,25 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: nginx-ingress-controller
-  namespace: default
+  labels:
+    k8s-app: nginx-ingress-controller
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ingress-nginx
+      app: nginx-ingress-controller
   template:
     metadata:
       labels:
-        app: ingress-nginx
+        app: nginx-ingress-controller
     spec:
       containers:
         - name: nginx-ingress-controller
-          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.9.0
+          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.10.2
           args:
             - /nginx-ingress-controller
             - --default-backend-service=$(POD_NAMESPACE)/default-http-backend
-            - --configmap=$(POD_NAMESPACE)/nginx-configuration
-            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services
-            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services
-            - --annotations-prefix=nginx.ingress.kubernetes.io
+            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-service
           env:
             - name: POD_NAME
               valueFrom:
@@ -134,24 +132,33 @@ spec:
 # Ingress routing rules, apps will be routed based on host names where
 # services will be routed based on paths.
 #
+# TODO:
+# - add whitelist-source-range annotation
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress
-  namespace: default
+  name: ingress-nginx
+  # see https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/annotations.md
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    # TODO: we want ssl-redirect to be true but see https://github.com/jetstack/cert-manager/issues/194
     ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/issuer: "letsencrypt-prod"
 spec:
+  tls:
+    - hosts:
+      - app-backend.k8s.test.cd.teamdigitale.it
+      secretName: app-backend-cert-lep
   rules:
-  - host: proxy.cd.italia.it
+  - host: app-backend.k8s.test.cd.teamdigitale.it
     http:
       paths:
       - path: /
         backend:
-          serviceName: app-proxy
+          serviceName: app-backend
           servicePort: 80
+
 ---
 #
 # Expose the ingress to the world via a load balancer service and static IP
@@ -161,12 +168,18 @@ kind: Service
 metadata:
   name: ingress-nginx-service
 spec:
+  # The LoadBalancer resource will be automatically created by Azure, allocating
+  # a public IP address, in case you need a specific IP address you should
+  # create the public IP adddress resource yourself and uncomment the
+  # loadBalancerIP attribute.
   type: LoadBalancer
-  # loadBalancerIP: TODO from static IP via Terraform
+  # The value of loadBalancerIP is the output of the Terraform resource
+  # "azurerm_kubernetes_public_ip_ip" in the "test" environment
+  loadBalancerIP: 13.95.82.27
   ports:
     - port: 80
       name: http
     - port: 443
       name: https
   selector:
-    app: ingress-nginx
+    app: nginx-ingress-controller

@@ -14,34 +14,34 @@ The `italia-app` application relies on a backend application ([italia-backend](h
 for intermediating the interaction with external services (e.g. the Digital
 Citizenship APIs) and for coordinating the SPID authentication process.
 
-The `italia-app` application is deployed as a Docker container inside a
-Kubernetes cluster, provisioned by Terraform.
+## Decision
 
-### How italia-app is exposed to the internet
+The backend application (`app_backend`) is deployed as a Docker container
+inside a Kubernetes cluster, provisioned by Terraform.
 
-![img](https://www.planttext.com/plantuml/img/LP0_QyD03CLtVGgDxM1IQ0PJGad9KkWIYBTIZ6mhyH7xpfLq7LhwtMkRr7_WXkEzt-aztLwDn6BR0FXGCJgZnb5ENGTm5cePNxwZCFxS_2uMZIjpDzblwMaohwdcolBbIfu5vo_2ggln1PLNzXN0xtXWJiLTaYJFSmm-uNRxk7dDikC9O9Pt0xN8wxcxx72y1rYA4tKhiQR-nP5QD-l1z65C7LOpHd6NsZ2SyNtnyWDmB8R6qZfFve87b12D5OK_8wjXGSeL1ezrKDjqP3KC0SDKW7r_xJ__3m00)
+![img](https://www.planttext.com/plantuml/svg/XP7FIiGm4CRlynJp0cK5zo2oo887tSkoO0-2I4ZJsJPicyH9ilW7tzsaQbjwKCWXpFpovPlvjZv83h7l08oj2NMGdPP2EWTmPDaJolV899WQRGr-_60kLfrMGe_KALR4XW9veRhe0_78QjCmUIyyyLah6dMT4vLK9pArSBOUyLaTuFFtm6GCDqLHt4mMy1glBbRtPNdu6rglBmVg0M0gRpArSFWjMDuU_kUoPWPXsHhusIWpasdCGCYwQGFQ8pujdZu3xkzs-qTaEXFxj6kshs-0QQMzDZ9j68SfK5bZI8KK2o3Rc1jCBv5ym4fwgZ7brLeVLaw65hA7_370DbrJu5y0)
 
-[source of diagram](https://www.planttext.com/?text=LP0_QyD03CLtVGgDxM1IQ0PJGad9KkWIYBTIZ6mhyH7xpfLq7LhwtMkRr7_WXkEzt-aztLwDn6BR0FXGCJgZnb5ENGTm5cePNxwZCFxS_2uMZIjpDzblwMaohwdcolBbIfu5vo_2ggln1PLNzXN0xtXWJiLTaYJFSmm-uNRxk7dDikC9O9Pt0xN8wxcxx72y1rYA4tKhiQR-nP5QD-l1z65C7LOpHd6NsZ2SyNtnyWDmB8R6qZfFve87b12D5OK_8wjXGSeL1ezrKDjqP3KC0SDKW7r_xJ__3m00)
+[source of diagram](https://www.planttext.com/?text=XP7FIiGm4CRlynJp0cK5zo2oo887tSkoO0-2I4ZJsJPicyH9ilW7tzsaQbjwKCWXpFpovPlvjZv83h7l08oj2NMGdPP2EWTmPDaJolV899WQRGr-_60kLfrMGe_KALR4XW9veRhe0_78QjCmUIyyyLah6dMT4vLK9pArSBOUyLaTuFFtm6GCDqLHt4mMy1glBbRtPNdu6rglBmVg0M0gRpArSFWjMDuU_kUoPWPXsHhusIWpasdCGCYwQGFQ8pujdZu3xkzs-qTaEXFxj6kshs-0QQMzDZ9j68SfK5bZI8KK2o3Rc1jCBv5ym4fwgZ7brLeVLaw65hA7_370DbrJu5y0)
 
 Requests coming from the app to the backend gets routed through a few components:
 
-  1. An Azure public IP with a firewall configured to listen on port 443
-  1. A K8S service that routes the port 443 to the Ingress
+  1. An Azure public IP with a firewall configured to listen on ports 80 and 443
+  1. A K8S service that routes the ports 80 and 443 to the Ingress
   1. A K8S Ingress that terminates the HTTPS connection and routes the request based on the HTTP `Host` and path
   1. The `italia-backend` app.
 
-### Requests that italia-backend needs to serve
-
-Now, given the above high level diagram, let's see what requests the `italia-backend`
-application needs to serve and what are the requirements/implications considering
-that the HTTPS connection is terminated by the Ingress.
-
-...
-
-## Decision
-
-Decision here...
-
 ## Consequences
 
-Consequences here...
+### Responsibilities of the backend application
+
+  * it should listen on port 80 alone (since the Ingress terminates the HTTPS
+    connection)
+  * it should inspect `X-Forwarded-For` headers(s) in case it wants to know
+    something about the client
+  * avoid responding to non HTTPS requests
+
+### Responsibilities of the Ingress
+
+  * terminate the HTTPS connection
+  * provision and renew TLS certificates via Cert Manager
+  * (optional) rate limiting

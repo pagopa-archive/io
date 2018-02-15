@@ -173,7 +173,8 @@ spec:
   # create the public IP adddress resource yourself and uncomment the
   # loadBalancerIP attribute.
   type: LoadBalancer
-  # loadBalancerIP = output of "azurerm_kubernetes_public_ip_ip" in "test" environment
+  # The value of loadBalancerIP is the output of the Terraform resource
+  # "azurerm_kubernetes_public_ip_ip" in the "test" environment
   loadBalancerIP: 13.95.82.27
   ports:
     - port: 80

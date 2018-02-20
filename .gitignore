@@ -12,3 +12,5 @@ yarn-error.log
 .vscode
 **/*.js
 **/*.js.map
+infrastructure/env/dev
+

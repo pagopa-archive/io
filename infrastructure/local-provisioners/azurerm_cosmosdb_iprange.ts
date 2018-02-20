@@ -23,7 +23,7 @@ interface IRunParams {
   readonly ips: string;
 }
 
-export const run = async (config: IRunParams) => {
+export const run = async (params: IRunParams) => {
   const loginCreds = await login();
 
   // CosmosDB: restrict access to Functions IP
@@ -33,14 +33,14 @@ export const run = async (config: IRunParams) => {
   );
 
   const cosmosdb = await cosmosDbClient.databaseAccounts.get(
-    config.azurerm_resource_group,
-    config.azurerm_cosmosdb
+    params.azurerm_resource_group,
+    params.azurerm_cosmosdb
   );
 
   // IP addresses/ranges must be comma separated and must not contain any spaces.
   const ipRangeFilter = Array.from(
     new Set(
-      config.ips
+      params.ips
         .trim()
         .split(",")
         .filter(ip => ip !== "")
@@ -56,8 +56,8 @@ export const run = async (config: IRunParams) => {
 
     // This ovverrides unset parameters
     await cosmosDbClient.databaseAccounts.createOrUpdate(
-      config.azurerm_resource_group,
-      config.azurerm_cosmosdb,
+      params.azurerm_resource_group,
+      params.azurerm_cosmosdb,
       {
         consistencyPolicy: cosmosdb.consistencyPolicy,
         enableAutomaticFailover: cosmosdb.enableAutomaticFailover,

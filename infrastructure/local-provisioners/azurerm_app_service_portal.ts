@@ -16,22 +16,49 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import * as t from "io-ts";
+import * as path from "path";
 import * as winston from "winston";
+
+import yargs = require("yargs");
+
 import { ICreds, login } from "../../lib/login";
 
-import { IResourcesConfiguration, readConfig } from "../../lib/config";
 import { checkEnvironment } from "../../lib/environment";
 
 import { IUserData, updateApimUser } from "../../lib/apim_user";
-import { createOrUpdateService, getServiceModel } from "../../lib/service";
+import { createOrUpdateService } from "../../lib/service";
 
 import apiManagementClient = require("azure-arm-apimanagement");
 import webSiteManagementClient = require("azure-arm-website");
 
-import CosmosDBManagementClient = require("azure-arm-cosmosdb");
+import { DocumentClient, UriFactory } from "documentdb";
+import { left } from "fp-ts/lib/Either";
+import { reporter } from "io-ts-reporters";
+import {
+  CONF_DIR,
+  getObjectFromJson,
+  IResourcesConfiguration,
+  readConfig
+} from "../../lib/config";
+
+const TaskParams = t.interface({
+  environment: t.string,
+  azurerm_resource_group: t.string,
+  azurerm_functionapp: t.string,
+  azurerm_apim: t.string,
+  azurerm_cosmosdb: t.string,
+  azurerm_documentdb: t.string,
+  apim_configuration_path: t.string,
+  azurerm_app_service_portal: t.string,
+  azurerm_cosmosdb_key: t.string
+});
+
+type TaskParams = t.TypeOf<typeof TaskParams>;
 
 const createOrUpdareAdminApiUser = async (
   config: IResourcesConfiguration,
+  params: TaskParams,
   loginCreds: ICreds
 ) => {
   const userData: IUserData = {
@@ -54,8 +81,8 @@ const createOrUpdareAdminApiUser = async (
 
   // Create or update user in API management
   const user = await apiClient.user.createOrUpdate(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    params.azurerm_resource_group,
+    params.azurerm_apim,
     userData.oid,
     {
       email: userData.email,
@@ -75,70 +102,69 @@ const createOrUpdareAdminApiUser = async (
     user.name,
     userData,
     apiClient,
-    config
+    params.azurerm_resource_group,
+    params.azurerm_apim
   );
 
   if (!subscription || !subscription.name) {
     throw new Error("Cannot create subscription");
   }
 
-  winston.info("Get CosmosDB credentials to create a Service for the user");
-
-  // Get CosmosDB key and url
-  const cosmosClient = new CosmosDBManagementClient(
-    (loginCreds as any).creds,
-    loginCreds.subscriptionId
-  );
-  const keys = await cosmosClient.databaseAccounts.listKeys(
-    config.azurerm_resource_group,
-    config.azurerm_cosmosdb
-  );
-  const cosmosdbKey = keys.primaryMasterKey;
+  const serviceId = subscription.name;
   const cosmosdbLink = `https://${
-    config.azurerm_cosmosdb
+    params.azurerm_cosmosdb
   }.documents.azure.com:443/`;
+  const cosmosdbKey = params.azurerm_cosmosdb_key;
 
   winston.info(`Using CosmosDB url ${cosmosdbLink}`);
-
-  if (undefined === cosmosdbKey) {
-    throw new Error("Cannot get CosmosDB key");
-  }
-
-  // Create serviceModel in order to reuse CRUD methods
-  // to upsert Service data
-  const serviceModel = getServiceModel(
-    cosmosdbLink,
-    cosmosdbKey,
-    config.azurerm_cosmosdb_documentdb
+  winston.info(
+    `Creating Service for the Developer Portal application user ${serviceId}`
   );
-  const serviceId = subscription.name;
 
-  winston.info("Create a Service for the Developer Portal application user");
+  const cosmosdbClient = new DocumentClient(cosmosdbLink, {
+    masterKey: cosmosdbKey
+  });
 
   // Save a service related to the user subscription.
   // We cannot use the APIs at https://${config.azurerm_apim}.azure-api.net
   // because to do that we need an associated Service
   // *before* the actual call to the APIs
   await createOrUpdateService(
+    cosmosdbClient,
+    UriFactory.createDocumentCollectionUri(
+      params.azurerm_documentdb,
+      "services"
+    ),
     serviceId,
     {
-      authorized_cidrs: [],
-      authorized_recipients: [],
-      department_name: "IT",
-      organization_name: "AgID",
-      service_id: serviceId,
-      service_name: "Digital Citizenship"
-    },
-    serviceModel
+      authorizedCIDRs: [],
+      authorizedRecipients: [],
+      organizationName: "IT",
+      departmentName: "AgID",
+      serviceId,
+      serviceName: "Digital Citizenship"
+    }
   );
 
   return subscription;
 };
 
-export const run = async (config: IResourcesConfiguration) => {
+export const run = async (params: TaskParams) => {
+  const config = readConfig(
+    params.environment,
+    path.join(...CONF_DIR, ...params.apim_configuration_path.split("/"))
+  ).getOrElse(errs => {
+    throw new Error(
+      "Error parsing configuration:\n\n" + reporter(left(errs) as any)
+    );
+  });
   const loginCreds = await login();
 
-  const subscription = await createOrUpdareAdminApiUser(config, loginCreds);
+  const subscription = await createOrUpdareAdminApiUser(
+    config,
+    params,
+    loginCreds
+  );
 
   const webSiteClient = new webSiteManagementClient(
     loginCreds.creds as any,
@@ -146,19 +172,18 @@ export const run = async (config: IResourcesConfiguration) => {
   );
 
   const appSettings = await webSiteClient.webApps.listApplicationSettings(
-    config.azurerm_resource_group,
-    config.azurerm_app_service_portal
-  );
-
-  winston.info(
-    "Setup the user API Key into the Developer Portal application settings"
+    params.azurerm_resource_group,
+    params.azurerm_app_service_portal
   );
 
   // Set up ADMIN_API_KEY variable in application settings
   if (appSettings.properties) {
+    winston.info(
+      "Setup the user API Key into the Developer Portal application settings"
+    );
     await webSiteClient.webApps.updateApplicationSettings(
-      config.azurerm_resource_group,
-      config.azurerm_app_service_portal,
+      params.azurerm_resource_group,
+      params.azurerm_app_service_portal,
       {
         properties: {
           ...appSettings.properties,
@@ -169,10 +194,42 @@ export const run = async (config: IResourcesConfiguration) => {
   }
 };
 
+const argv = yargs
+  .option("environment", {
+    string: true
+  })
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_functionapp", {
+    string: true
+  })
+  .option("azurerm_apim", {
+    string: true
+  })
+  .option("apim_configuration_path", {
+    string: true
+  })
+  .option("azurerm_app_service_portal", {
+    string: true
+  })
+  .option("azurerm_documentdb", {
+    string: true
+  })
+  .option("azurerm_cosmosdb", {
+    string: true
+  })
+  .option("azurerm_cosmosdb_key", {
+    string: true
+  })
+  .help().argv;
+
 checkEnvironment()
-  .then(() => readConfig(process.env.ENVIRONMENT))
-  .then(run)
-  .then(() =>
-    winston.info("Successfully set up developer portal ADMIN_API_KEY")
+  .then(() => getObjectFromJson(TaskParams, argv))
+  .then(e =>
+    e.map(run).mapLeft(err => {
+      throw err;
+    })
   )
-  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));
+  .then(() => winston.info("Completed"))
+  .catch((e: Error) => winston.error(e.message));

@@ -38,6 +38,9 @@ import {
  */
 const ApimParams = t.interface({
   environment: t.string,
+  azurerm_resource_group: t.string,
+  azurerm_apim: t.string,
+  azurerm_apim_eventhub: t.string,
   apim_configuration_path: t.string,
   azurerm_apim_eventhub_connstr: t.string
 });
@@ -47,17 +50,17 @@ type ApimParams = t.TypeOf<typeof ApimParams>;
 const setupLogger = async (
   apiClient: apiManagementClient,
   config: IResourcesConfiguration,
-  eventHubConnectionString: string
+  params: ApimParams
 ) => {
   winston.info("Create an EventHub logger for the API management");
   return apiClient.logger.createOrUpdate(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    params.azurerm_resource_group,
+    params.azurerm_apim,
     config.apim_logger_id,
     {
       credentials: {
-        connectionString: eventHubConnectionString,
-        name: config.azurerm_apim_eventhub
+        connectionString: params.azurerm_apim_eventhub_connstr,
+        name: params.azurerm_apim_eventhub
       },
       description: "API management EventHub logger",
       loggerType: "azureEventHub"
@@ -85,12 +88,21 @@ export const run = async (params: ApimParams) => {
   );
 
   // Set up EventHub logging
-  await setupLogger(apiClient, config, params.azurerm_apim_eventhub_connstr);
+  await setupLogger(apiClient, config, params);
 };
 
 const argv = yargs
   .option("environment", {
     demandOption: true,
+    string: true
+  })
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_apim", {
+    string: true
+  })
+  .option("azurerm_apim_eventhub", {
     string: true
   })
   .option("apim_configuration_path", {

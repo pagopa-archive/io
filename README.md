@@ -315,13 +315,10 @@ the services through the
 are supposed to be run from command line using the relative npm (or yarn)
 script:
 
-| Command                          | Task                                                                                                                                                       |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                                                            |
-| `yarn resources:apim:setup`      | [Create API management resource and setup configuration from template files](./infrastructure/tasks/20-apim_setup.ts)                                      |
-| `yarn resources:devapp:apikey`   | [Create a Digital Citizenship API user and setup its API Key in the developer portal web application settings](./infrastructure/tasks/30-devapp_apikey.ts) |
-| `yarn resources:devapp:setup`    | [Setup developer portal application settings](./infrastructure/tasks/31-devapp_setup.ts)                                                                   |
-| `yarn resources:ip:restrict`     | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)                                                                      |
+| Command                          | Task                                                                                                                  |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------|
+| `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                       |
+| `yarn resources:security:ip`     | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)                                 |
 
 ### Finishing the installation
 

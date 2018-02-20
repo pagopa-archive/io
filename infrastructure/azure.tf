@@ -24,42 +24,42 @@ terraform {
 }
 
 variable environment {
-  type = "string"
+  type        = "string"
   description = "Environment: production or test"
 }
 
 variable environment_short {
-  type = "string"
+  type        = "string"
   description = "Short version of environment name: prod or test (used in resource names)"
 }
 
 variable "azurerm_resource_name_prefix" {
-  type = "string"
+  type        = "string"
   description = "Prefix for naming resources (e.g. 'myorg')"
 }
 
 variable location {
-  type = "string"
+  type        = "string"
   description = "Location of the Azure resource group and services (ie. West Europe)"
 }
 
 variable "cosmosdb_failover_location" {
-  type = "string"
+  type        = "string"
   description = "Location for CosmosDB failover (ie. North Europe), Must differ from 'location'"
 }
 
 variable "azurerm_resource_group" {
-  type = "string"
+  type        = "string"
   description = "Name of the resource group"
 }
 
 variable "azurerm_storage_account" {
-  type = "string"
+  type        = "string"
   description = "Name of the storage account"
 }
 
 variable "azurerm_storage_container" {
-  type = "string"
+  type        = "string"
   description = "Name of the storage container resource"
 }
 
@@ -89,17 +89,17 @@ variable "azurerm_functionapp_git_branch" {
 }
 
 variable "azurerm_storage_queue_emailnotifications" {
-  type = "string"
+  type        = "string"
   description = "Name of the storage queue for email notifications"
 }
 
 variable "azurerm_storage_queue_createdmessages" {
-  type = "string"
+  type        = "string"
   description = "Name of the storage queue for created messages"
 }
 
 variable "azurerm_cosmosdb" {
-  type = "string"
+  type        = "string"
   description = "Name of the CosmosDB account"
 }
 
@@ -114,17 +114,17 @@ variable "azurerm_cosmosdb_collections" {
 }
 
 variable "azurerm_app_service_plan" {
-  type = "string"
+  type        = "string"
   description = "Name of the App Service Plan resource"
 }
 
 variable "azurerm_app_service_plan_portal" {
-  type = "string"
+  type        = "string"
   description = "Name of the App Service Plan for developer portal"
 }
 
 variable "azurerm_app_service_portal" {
-  type = "string"
+  type        = "string"
   description = "Name of the App Service for developer portal"
 }
 
@@ -139,12 +139,12 @@ variable "app_service_portal_git_branch" {
 }
 
 variable "app_service_portal_post_login_url" {
-  type = "string"
+  type        = "string"
   description = "Redirect to this page after developer portal login"
 }
 
 variable "app_service_portal_post_logout_url" {
-  type = "string"
+  type        = "string"
   description = "Redirect to this page after developer portal logout"
 }
 
@@ -182,27 +182,27 @@ variable "DEV_PORTAL_CLIENT_SECRET" {
 }
 
 variable "azurerm_application_insights" {
-  type = "string"
+  type        = "string"
   description = "Name of Application Insights resource"
 }
 
 variable "azurerm_log_analytics" {
-  type = "string"
+  type        = "string"
   description = "Name of Log Analytics resource"
 }
 
 variable "azurerm_eventhub_ns" {
-  type = "string"
+  type        = "string"
   description = "EventHub namespace"
 }
 
 variable "azurerm_apim_eventhub" {
-  type = "string"
+  type        = "string"
   description = "EventHub logger for API management"
 }
 
 variable "azurerm_apim_eventhub_rule" {
-  type = "string"
+  type        = "string"
   description = "EventHub rule for API management"
 }
 
@@ -224,33 +224,33 @@ variable "SENDGRID_KEY" {
 }
 
 variable "azurerm_kubernetes_master_count" {
-  type = "string"
+  type        = "string"
   description = "How many masters in the Kubernetes cluster"
 }
 
 variable "azurerm_kubernetes_admin_username" {
-  type = "string"
+  type        = "string"
   description = "The username of the admin account on the Kubernetes nodes"
 }
 
 variable "azurerm_kubernetes_admin_ssh_publickey_file" {
-  type = "string"
+  type        = "string"
   description = "The name of the file under 'files' of the ssh public key for the admin account on the Kubernetes nodes"
 }
 
 variable "azurerm_kubernetes_agent_count" {
-  type = "string"
+  type        = "string"
   description = "How many agent nodes in the Kubernetes cluster"
 }
 
 # See VM sizes https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes
 variable "azurerm_kubernetes_agent_vm_size" {
-  type = "string"
+  type        = "string"
   description = "Virtual machine size for agent nodes in Kubernetes cluster"
 }
 
 variable "ARM_CLIENT_SECRET" {
-  type = "string"
+  type        = "string"
   description = "The client secret of the service principal"
 }
 
@@ -291,7 +291,6 @@ variable "cosmosdb_iprange_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_iprange.ts"
 }
 
-
 #
 # Compute name of resources
 #
@@ -300,7 +299,7 @@ variable "cosmosdb_iprange_provisioner" {
 #
 
 locals {
-  azurerm_kubernetes_name = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
+  azurerm_kubernetes_name           = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
   azurerm_kubernetes_public_ip_name = "${var.azurerm_resource_name_prefix}-k8s-ip-${var.environment_short}"
 }
 
@@ -310,7 +309,7 @@ locals {
 
 # We need the configuration of the Azure Resource Manager provider for some
 # resources that need to create other resources themselves (i.e. Kubernetes)
-data "azurerm_client_config" "current" { }
+data "azurerm_client_config" "current" {}
 
 ## RESOURCE GROUP
 
@@ -839,16 +838,16 @@ locals {
 module "kubernetes" {
   source = "./modules/azurerm/kubernetes"
 
-  environment = "${var.environment}"
-  resource_group_location = "${azurerm_resource_group.azurerm_resource_group.location}"
-  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
-  name = "${local.azurerm_kubernetes_name}"
-  master_count = "${var.azurerm_kubernetes_master_count}"
-  admin_username = "${var.azurerm_kubernetes_admin_username}"
-  admin_ssh_publickey = "${local.azurerm_kubernetes_admin_ssh_publickey}"
-  agent_count = "${var.azurerm_kubernetes_agent_count}"
-  agent_vm_size = "${var.azurerm_kubernetes_agent_vm_size}"
-  service_principal_client_id = "${data.azurerm_client_config.current.client_id}"
+  environment                     = "${var.environment}"
+  resource_group_location         = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name             = "${azurerm_resource_group.azurerm_resource_group.name}"
+  name                            = "${local.azurerm_kubernetes_name}"
+  master_count                    = "${var.azurerm_kubernetes_master_count}"
+  admin_username                  = "${var.azurerm_kubernetes_admin_username}"
+  admin_ssh_publickey             = "${local.azurerm_kubernetes_admin_ssh_publickey}"
+  agent_count                     = "${var.azurerm_kubernetes_agent_count}"
+  agent_vm_size                   = "${var.azurerm_kubernetes_agent_vm_size}"
+  service_principal_client_id     = "${data.azurerm_client_config.current.client_id}"
   service_principal_client_secret = "${var.ARM_CLIENT_SECRET}"
 }
 
@@ -875,4 +874,3 @@ resource "azurerm_public_ip" "azurerm_kubernetes_public_ip" {
 output "azurerm_kubernetes_public_ip_ip" {
   value = "${azurerm_public_ip.azurerm_kubernetes_public_ip.ip_address}"
 }
-

@@ -129,13 +129,13 @@ variable "DEV_PORTAL_CLIENT_SECRET" {
 # TF_VAR_DEV_PORTAL_EXT_CLIENT_ID
 variable "DEV_PORTAL_EXT_CLIENT_ID" {
   type        = "string"
-  description = "Cliend ID of an application used by the digital citizenship onboarding procedure"
+  description = "Client ID of an application used by the digital citizenship onboarding procedure"
 }
 
 # TF_VAR_DEV_PORTAL_EXT_CLIENT_SECRET
 variable "DEV_PORTAL_EXT_CLIENT_SECRET" {
   type        = "string"
-  description = "Cliend secret of the application used by the digital citizenship onboarding procedure"
+  description = "Client secret of the application used by the digital citizenship onboarding procedure"
 }
 
 variable "azurerm_apim_eventhub_rule" {

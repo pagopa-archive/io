@@ -48,34 +48,9 @@ variable "cosmosdb_failover_location" {
   description = "Location for CosmosDB failover (ie. North Europe), Must differ from 'location'"
 }
 
-variable "azurerm_resource_group" {
-  type = "string"
-  description = "Name of the resource group"
-}
-
-variable "azurerm_storage_account" {
-  type = "string"
-  description = "Name of the storage account"
-}
-
-variable "azurerm_storage_container" {
-  type = "string"
-  description = "Name of the storage container resource"
-}
-
 variable "message_blob_container" {
   default     = "message-content"
   description = "Name of the message container blob"
-}
-
-variable "azurerm_functionapp" {
-  type        = "string"
-  description = "Name of the main Functions application"
-}
-
-variable "azurerm_functionapp_storage_account" {
-  type        = "string"
-  description = "Name of the storage account for functions"
 }
 
 variable "azurerm_functionapp_git_repo" {
@@ -98,34 +73,9 @@ variable "azurerm_storage_queue_createdmessages" {
   description = "Name of the storage queue for created messages"
 }
 
-variable "azurerm_cosmosdb" {
-  type = "string"
-  description = "Name of the CosmosDB account"
-}
-
-variable "azurerm_cosmosdb_documentdb" {
-  type        = "string"
-  description = "Name of CosmosDB Database"
-}
-
 variable "azurerm_cosmosdb_collections" {
   type        = "map"
   description = "Name and partition keys of collections that must exist in the CosmosDB database"
-}
-
-variable "azurerm_app_service_plan" {
-  type = "string"
-  description = "Name of the App Service Plan resource"
-}
-
-variable "azurerm_app_service_plan_portal" {
-  type = "string"
-  description = "Name of the App Service Plan for developer portal"
-}
-
-variable "azurerm_app_service_portal" {
-  type = "string"
-  description = "Name of the App Service for developer portal"
 }
 
 variable "app_service_portal_git_repo" {
@@ -146,11 +96,6 @@ variable "app_service_portal_post_login_url" {
 variable "app_service_portal_post_logout_url" {
   type = "string"
   description = "Redirect to this page after developer portal logout"
-}
-
-variable "azurerm_apim" {
-  type        = "string"
-  description = "Name of the API management"
 }
 
 variable "azurerm_apim_sku" {
@@ -179,26 +124,6 @@ variable "DEV_PORTAL_CLIENT_ID" {
 variable "DEV_PORTAL_CLIENT_SECRET" {
   type        = "string"
   description = "Cliend secret of the application used in the API management portal authentication flow"
-}
-
-variable "azurerm_application_insights" {
-  type = "string"
-  description = "Name of Application Insights resource"
-}
-
-variable "azurerm_log_analytics" {
-  type = "string"
-  description = "Name of Log Analytics resource"
-}
-
-variable "azurerm_eventhub_ns" {
-  type = "string"
-  description = "EventHub namespace"
-}
-
-variable "azurerm_apim_eventhub" {
-  type = "string"
-  description = "EventHub logger for API management"
 }
 
 variable "azurerm_apim_eventhub_rule" {
@@ -300,6 +225,21 @@ variable "cosmosdb_iprange_provisioner" {
 #
 
 locals {
+  azurerm_resource_group_name = "${var.azurerm_resource_name_prefix}-rg-${var.environment_short}"
+  azurerm_storage_account_name = "${var.azurerm_resource_name_prefix}storage${var.environment_short}"
+  azurerm_storage_container_name = "${var.azurerm_resource_name_prefix}-storage-${var.environment_short}"
+  azurerm_cosmosdb_name = "${var.azurerm_resource_name_prefix}-cosmosdb-${var.environment_short}"
+  azurerm_cosmosdb_documentdb_name = "${var.azurerm_resource_name_prefix}-documentdb-${var.environment_short}"
+  azurerm_app_service_plan_name = "${var.azurerm_resource_name_prefix}-app-${var.environment_short}"
+  azurerm_functionapp_name = "${var.azurerm_resource_name_prefix}-functions-${var.environment_short}"
+  azurerm_functionapp_storage_account_name = "${var.azurerm_resource_name_prefix}funcstorage${var.environment_short}"
+  azurerm_application_insights_name = "${var.azurerm_resource_name_prefix}-appinsights-${var.environment_short}"
+  azurerm_app_service_plan_portal_name = "${var.azurerm_resource_name_prefix}-portal-app-${var.environment_short}"
+  azurerm_app_service_portal_name = "${var.azurerm_resource_name_prefix}-portal-${var.environment_short}"
+  azurerm_log_analytics_name = "${var.azurerm_resource_name_prefix}-loganalytics-${var.environment_short}"
+  azurerm_apim_name = "${var.azurerm_resource_name_prefix}-apim-${var.environment_short}"
+  azurerm_eventhub_ns_name = "${var.azurerm_resource_name_prefix}-eventhub-ns-${var.environment_short}"
+  azurerm_apim_eventhub_name = "${var.azurerm_resource_name_prefix}-apim-eventhub-${var.environment_short}"
   azurerm_kubernetes_name = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
   azurerm_kubernetes_public_ip_name = "${var.azurerm_resource_name_prefix}-k8s-ip-${var.environment_short}"
 }
@@ -316,7 +256,7 @@ data "azurerm_client_config" "current" { }
 
 # Create a resource group if it doesn’t exist
 resource "azurerm_resource_group" "azurerm_resource_group" {
-  name     = "${var.azurerm_resource_group}"
+  name     = "${local.azurerm_resource_group_name}"
   location = "${var.location}"
 
   tags {
@@ -327,7 +267,7 @@ resource "azurerm_resource_group" "azurerm_resource_group" {
 ## STORAGE
 
 resource "azurerm_storage_account" "azurerm_storage_account" {
-  name                = "${var.azurerm_storage_account}"
+  name                = "${local.azurerm_storage_account_name}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
 
@@ -348,7 +288,7 @@ resource "azurerm_storage_account" "azurerm_storage_account" {
 }
 
 resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
-  name                = "${var.azurerm_functionapp_storage_account}"
+  name                = "${local.azurerm_functionapp_storage_account_name}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
 
@@ -369,7 +309,7 @@ resource "azurerm_storage_account" "azurerm_functionapp_storage_account" {
 }
 
 resource "azurerm_storage_container" "azurerm_storage_container" {
-  name                 = "${var.azurerm_storage_container}"
+  name                 = "${local.azurerm_storage_container_name}"
   resource_group_name  = "${azurerm_resource_group.azurerm_resource_group.name}"
   storage_account_name = "${azurerm_storage_account.azurerm_storage_account.name}"
 
@@ -406,7 +346,7 @@ resource "azurerm_storage_blob" "azurerm_message_blob" {
 ## DATABASE
 
 resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
-  name                = "${var.azurerm_cosmosdb}"
+  name                = "${local.azurerm_cosmosdb_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 
@@ -457,14 +397,14 @@ resource "null_resource" "azurerm_cosmosdb_collections" {
   count = "${length(keys(var.azurerm_cosmosdb_collections))}"
 
   provisioner "local-exec" {
-    command = "ts-node ${var.cosmosdb_collection_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --cosmosdb-account-name ${azurerm_cosmosdb_account.azurerm_cosmosdb.name} --cosmosdb-documentdb-name ${var.azurerm_cosmosdb_documentdb} --cosmosdb-collection-name ${element(keys(var.azurerm_cosmosdb_collections), count.index)} -cosmosdb-collection-partition-key ${lookup(var.azurerm_cosmosdb_collections, element(keys(var.azurerm_cosmosdb_collections), count.index))}"
+    command = "ts-node ${var.cosmosdb_collection_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --cosmosdb-account-name ${azurerm_cosmosdb_account.azurerm_cosmosdb.name} --cosmosdb-documentdb-name ${local.azurerm_cosmosdb_documentdb_name} --cosmosdb-collection-name ${element(keys(var.azurerm_cosmosdb_collections), count.index)} -cosmosdb-collection-partition-key ${lookup(var.azurerm_cosmosdb_collections, element(keys(var.azurerm_cosmosdb_collections), count.index))}"
   }
 }
 
 ## APPLICATION INSIGHTS
 
 resource "azurerm_application_insights" "azurerm_application_insights" {
-  name                = "${var.azurerm_application_insights}"
+  name                = "${local.azurerm_application_insights_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 
@@ -475,7 +415,7 @@ resource "azurerm_application_insights" "azurerm_application_insights" {
 ## APP SERVICE PLAN
 
 resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
-  name                = "${var.azurerm_app_service_plan}"
+  name                = "${local.azurerm_app_service_plan_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 
@@ -490,7 +430,7 @@ resource "azurerm_app_service_plan" "azurerm_app_service_plan" {
 ## FUNCTIONS
 
 resource "azurerm_function_app" "azurerm_function_app" {
-  name                      = "${var.azurerm_functionapp}"
+  name                      = "${local.azurerm_functionapp_name}"
   location                  = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name       = "${azurerm_resource_group.azurerm_resource_group.name}"
   app_service_plan_id       = "${azurerm_app_service_plan.azurerm_app_service_plan.id}"
@@ -506,7 +446,7 @@ resource "azurerm_function_app" "azurerm_function_app" {
   app_settings = {
     # "AzureWebJobsStorage" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"  # "AzureWebJobsDashboard" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"
 
-    "COSMOSDB_NAME" = "${var.azurerm_cosmosdb_documentdb}"
+    "COSMOSDB_NAME" = "${local.azurerm_cosmosdb_documentdb_name}"
 
     "QueueStorageConnection" = "${azurerm_storage_account.azurerm_storage_account.primary_connection_string}"
 
@@ -575,7 +515,7 @@ resource "null_resource" "azurerm_function_app_git" {
 ### DEVELOPER PORTAL TASKS
 
 resource "azurerm_app_service_plan" "azurerm_app_service_plan_portal" {
-  name                = "${var.azurerm_app_service_plan_portal}"
+  name                = "${local.azurerm_app_service_plan_portal_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 
@@ -596,7 +536,7 @@ resource "random_string" "cookie_iv" {
 }
 
 resource "azurerm_app_service" "azurerm_app_service_portal" {
-  name                = "${var.azurerm_app_service_portal}"
+  name                = "${local.azurerm_app_service_portal_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   app_service_plan_id = "${azurerm_app_service_plan.azurerm_app_service_plan_portal.id}"
@@ -614,13 +554,13 @@ resource "azurerm_app_service" "azurerm_app_service_portal" {
     COOKIE_IV                    = "${random_string.cookie_iv.result}"
     LOG_LEVEL                    = "info"
     ARM_RESOURCE_GROUP           = "${azurerm_resource_group.azurerm_resource_group.name}"
-    ARM_APIM                     = "${var.azurerm_apim}"
+    ARM_APIM                     = "${local.azurerm_apim_name}"
     APIM_PRODUCT_NAME            = "starter"
     APIM_USER_GROUPS             = "ApiLimitedMessageWrite,ApiInfoRead,ApiMessageRead"
-    ADMIN_API_URL                = "https://${var.azurerm_apim}.azure-api.net/"
+    ADMIN_API_URL                = "https://${local.azurerm_apim_name}.azure-api.net/"
     POST_LOGIN_URL               = "${var.app_service_portal_post_login_url}"
     POST_LOGOUT_URL              = "${var.app_service_portal_post_logout_url}"
-    REPLY_URL                    = "https://${var.azurerm_app_service_portal}.azurewebsites.net/auth/openid/return"
+    REPLY_URL                    = "https://${local.azurerm_app_service_portal_name}.azurewebsites.net/auth/openid/return"
 
     # Prevent Terraform to override these values
     APPINSIGHTS_INSTRUMENTATIONKEY = ""
@@ -695,7 +635,7 @@ resource "null_resource" "azurerm_cosmosdb_ip_range_filter" {
 # Logging (OSM)
 
 resource "azurerm_log_analytics_workspace" "azurerm_log_analytics" {
-  name                = "${var.azurerm_log_analytics}"
+  name                = "${local.azurerm_log_analytics_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   sku                 = "Standard"
@@ -705,7 +645,7 @@ resource "azurerm_log_analytics_workspace" "azurerm_log_analytics" {
 # Logging (EventHub)
 
 resource "azurerm_eventhub_namespace" "azurerm_eventhub_ns" {
-  name                = "${var.azurerm_eventhub_ns}"
+  name                = "${local.azurerm_eventhub_ns_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   sku                 = "Standard"
@@ -717,7 +657,7 @@ resource "azurerm_eventhub_namespace" "azurerm_eventhub_ns" {
 }
 
 resource "azurerm_eventhub" "azurerm_apim_eventhub" {
-  name                = "${var.azurerm_apim_eventhub}"
+  name                = "${local.azurerm_apim_eventhub_name}"
   namespace_name      = "${azurerm_eventhub_namespace.azurerm_eventhub_ns.name}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 

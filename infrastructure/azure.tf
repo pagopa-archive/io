@@ -412,7 +412,15 @@ resource "null_resource" "azurerm_cosmosdb_collections" {
   count = "${length(keys(var.azurerm_cosmosdb_collections))}"
 
   provisioner "local-exec" {
-    command = "ts-node ${var.cosmosdb_collection_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --cosmosdb-account-name ${azurerm_cosmosdb_account.azurerm_cosmosdb.name} --cosmosdb-documentdb-name ${local.azurerm_cosmosdb_documentdb_name} --cosmosdb-collection-name ${element(keys(var.azurerm_cosmosdb_collections), count.index)} --cosmosdb-collection-partition-key ${lookup(var.azurerm_cosmosdb_collections, element(keys(var.azurerm_cosmosdb_collections), count.index))}"
+    command = "${join(" ", list(
+      "ts-node ${var.cosmosdb_collection_provisioner}",
+      "--azurerm_resource_group ${azurerm_resource_group.azurerm_resource_group.name}",
+      "--azurerm_cosmosdb ${azurerm_cosmosdb_account.azurerm_cosmosdb.name}",
+      "--azurerm_documentdb ${local.azurerm_cosmosdb_documentdb_name}",
+      "--azurerm_cosmosdb_collection ${element(keys(var.azurerm_cosmosdb_collections), count.index)}",
+      "--azurerm_cosmosdb_collection_pk ${lookup(var.azurerm_cosmosdb_collections, element(keys(var.azurerm_cosmosdb_collections), count.index))}",
+      "--azurerm_cosmosdb_key ${azurerm_cosmosdb_account.azurerm_cosmosdb.primary_master_key}"))
+    }"
   }
 }
 

@@ -1,182 +1,92 @@
-// tslint:disable:no-console
-
+import { CollectionMeta, DocumentClient, UriFactory } from "documentdb";
+import { Either, left, right } from "fp-ts/lib/Either";
+import * as t from "io-ts";
 import * as winston from "winston";
-import { login } from "../../lib/login";
-
-import CosmosDBManagementClient = require("azure-arm-cosmosdb");
-import * as documentdb from "documentdb";
-
 import yargs = require("yargs");
+import { getObjectFromJson } from "../../lib/config";
+import { checkEnvironment } from "../../lib/environment";
 
-const DocumentClient = documentdb.DocumentClient;
+const TaskParams = t.interface({
+  azurerm_resource_group: t.string,
+  azurerm_documentdb: t.string,
+  azurerm_cosmosdb: t.string,
+  azurerm_cosmosdb_key: t.string,
+  azurerm_cosmosdb_collection: t.string,
+  azurerm_cosmosdb_collection_pk: t.string
+});
+export type TaskParams = t.TypeOf<typeof TaskParams>;
 
-const collectionNotExists = (
-  dbClient: documentdb.DocumentClient,
-  dbName: string,
-  collectionName: string
-) => {
-  return new Promise((resolve, reject) => {
-    dbClient.readCollection(
-      documentdb.UriFactory.createDocumentCollectionUri(dbName, collectionName),
-      (err, coll) => {
-        if (err && err.code === 404) {
-          return resolve(true);
-        }
-        reject(coll);
-      }
-    );
-  });
-};
-
-const databaseNotExists = (
-  dbClient: documentdb.DocumentClient,
-  dbName: string
-) => {
-  return new Promise((resolve, reject) => {
-    dbClient.readDatabase(
-      documentdb.UriFactory.createDatabaseUri(dbName),
-      (err, db) => {
-        if (err && err.code === 404) {
-          return resolve(true);
-        }
-        reject(db);
-      }
-    );
-  });
-};
-
-const createDatabaseIfNotExists = (
-  dbClient: documentdb.DocumentClient,
-  dbName: string
-) => {
-  return new Promise((resolve, reject) => {
-    databaseNotExists(dbClient, dbName).then(
-      () => {
-        dbClient.createDatabase({ id: dbName }, (err, ret) => {
-          if (err) {
-            return reject(err);
-          }
-          resolve(ret);
-        });
-      },
-      err => resolve(err)
-    );
-  });
-};
-
-const createCollectionIfNotExists = (
-  dbClient: documentdb.DocumentClient,
-  dbName: string,
-  collectionName: string,
-  partitionKey: string
-) => {
+function createCollection(
+  dbClient: DocumentClient,
+  params: TaskParams
+): Promise<Either<Error, CollectionMeta>> {
   winston.info(
-    `Create CosmosDB collection ${collectionName} with partitionKey ${
-      partitionKey
-    }`
+    `Create CosmosDB collection ${
+      params.azurerm_cosmosdb_collection
+    } with partitionKey ${params.azurerm_cosmosdb_collection_pk}`
   );
-  return new Promise((resolve, reject) => {
-    collectionNotExists(dbClient, dbName, collectionName).then(
-      () => {
-        const dbUri = documentdb.UriFactory.createDatabaseUri(dbName);
-        dbClient.createCollection(
-          dbUri,
-          {
-            id: collectionName,
-            partitionKey: {
-              kind: "Hash",
-              paths: [`/${partitionKey}`]
-            }
-          },
-          (err, ret) => {
-            if (err) {
-              return reject(err);
-            }
-            resolve(ret);
-          }
-        );
+  return new Promise(resolve => {
+    const dbUri = UriFactory.createDatabaseUri(params.azurerm_documentdb);
+    dbClient.createCollection(
+      dbUri,
+      {
+        id: params.azurerm_cosmosdb_collection,
+        partitionKey: {
+          kind: "Hash",
+          paths: [`/${params.azurerm_cosmosdb_collection_pk}`]
+        }
       },
-      err => resolve(err)
+      (err, ret) => {
+        if (err) {
+          return resolve(left<Error, CollectionMeta>(new Error(err.body)));
+        }
+        resolve(right<Error, CollectionMeta>(ret));
+      }
     );
   });
-};
-
-interface IRunParams {
-  readonly resourceGroup: string;
-  readonly cosmosdbAccountName: string;
-  readonly cosmosdbDatabaseName: string;
-  readonly cosmosdbCollectionName: string;
-  readonly cosmosdbCollectionPartitionKey: string;
 }
 
-export const run = async (params: IRunParams) => {
-  const loginResult = await login();
-
-  const client = new CosmosDBManagementClient(
-    loginResult.creds,
-    loginResult.subscriptionId
-  );
-
-  const databaseAccount = await client.databaseAccounts.get(
-    params.resourceGroup,
-    params.cosmosdbAccountName
-  );
-
-  if (databaseAccount.documentEndpoint === undefined) {
-    throw new Error("Cannot get databaseAccount.documentEndpoint");
-  }
-
-  const keys = await client.databaseAccounts.listKeys(
-    params.resourceGroup,
-    params.cosmosdbAccountName
-  );
-
-  const dbClient = new DocumentClient(databaseAccount.documentEndpoint, {
-    masterKey: keys.primaryMasterKey
+export const run = async (params: TaskParams) => {
+  const cosmosdbLink = `https://${
+    params.azurerm_cosmosdb
+  }.documents.azure.com:443/`;
+  const cosmosdbKey = params.azurerm_cosmosdb_key;
+  winston.info(`Using CosmosDB url ${cosmosdbLink}`);
+  const cosmosdbClient = new DocumentClient(cosmosdbLink, {
+    masterKey: cosmosdbKey
   });
-
-  winston.info(
-    `Making sure database exists: name=${params.cosmosdbDatabaseName}`
-  );
-
-  await createDatabaseIfNotExists(dbClient, params.cosmosdbDatabaseName);
-
-  winston.info(
-    `Making sure collection exists: name=${
-      params.cosmosdbCollectionName
-    } partitionKey=${params.cosmosdbCollectionPartitionKey}`
-  );
-  return createCollectionIfNotExists(
-    dbClient,
-    params.cosmosdbDatabaseName,
-    params.cosmosdbCollectionName,
-    params.cosmosdbCollectionPartitionKey
+  (await createCollection(cosmosdbClient, params)).mapLeft(err =>
+    winston.error(err.message)
   );
 };
 
 const argv = yargs
-  .alias("g", "resource-group-name")
-  .demandOption("g")
-  .string("g")
-  .alias("n", "cosmosdb-account-name")
-  .demandOption("n")
-  .string("n")
-  .alias("d", "cosmosdb-documentdb-name")
-  .demandOption("d")
-  .string("d")
-  .alias("c", "cosmosdb-collection-name")
-  .demandOption("c")
-  .string("c")
-  .alias("k", "cosmosdb-collection-partition-key")
-  .demandOption("k")
-  .string("k").argv;
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_documentdb", {
+    string: true
+  })
+  .option("azurerm_cosmosdb", {
+    string: true
+  })
+  .option("azurerm_cosmosdb_key", {
+    string: true
+  })
+  .option("azurerm_cosmosdb_collection", {
+    string: true
+  })
+  .option("azurerm_cosmosdb_collection_pk", {
+    string: true
+  })
+  .help().argv;
 
-run({
-  cosmosdbAccountName: argv.n as string,
-  cosmosdbCollectionName: argv.c as string,
-  cosmosdbCollectionPartitionKey: argv.k as string,
-  cosmosdbDatabaseName: argv.d as string,
-  resourceGroup: argv.g as string
-})
+checkEnvironment()
+  .then(() => getObjectFromJson(TaskParams, argv))
+  .then(e =>
+    e.map(run).mapLeft(err => {
+      throw err;
+    })
+  )
   .then(() => winston.info("Completed"))
   .catch((e: Error) => winston.error(e.message));

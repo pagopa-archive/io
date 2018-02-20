@@ -109,7 +109,7 @@ interface IRunParams {
   readonly cosmosdbCollectionPartitionKey: string;
 }
 
-export const run = async (config: IRunParams) => {
+export const run = async (params: IRunParams) => {
   const loginResult = await login();
 
   const client = new CosmosDBManagementClient(
@@ -118,8 +118,8 @@ export const run = async (config: IRunParams) => {
   );
 
   const databaseAccount = await client.databaseAccounts.get(
-    config.resourceGroup,
-    config.cosmosdbAccountName
+    params.resourceGroup,
+    params.cosmosdbAccountName
   );
 
   if (databaseAccount.documentEndpoint === undefined) {
@@ -127,8 +127,8 @@ export const run = async (config: IRunParams) => {
   }
 
   const keys = await client.databaseAccounts.listKeys(
-    config.resourceGroup,
-    config.cosmosdbAccountName
+    params.resourceGroup,
+    params.cosmosdbAccountName
   );
 
   const dbClient = new DocumentClient(databaseAccount.documentEndpoint, {
@@ -136,21 +136,21 @@ export const run = async (config: IRunParams) => {
   });
 
   winston.info(
-    `Making sure database exists: name=${config.cosmosdbDatabaseName}`
+    `Making sure database exists: name=${params.cosmosdbDatabaseName}`
   );
 
-  await createDatabaseIfNotExists(dbClient, config.cosmosdbDatabaseName);
+  await createDatabaseIfNotExists(dbClient, params.cosmosdbDatabaseName);
 
   winston.info(
     `Making sure collection exists: name=${
-      config.cosmosdbCollectionName
-    } partitionKey=${config.cosmosdbCollectionPartitionKey}`
+      params.cosmosdbCollectionName
+    } partitionKey=${params.cosmosdbCollectionPartitionKey}`
   );
   return createCollectionIfNotExists(
     dbClient,
-    config.cosmosdbDatabaseName,
-    config.cosmosdbCollectionName,
-    config.cosmosdbCollectionPartitionKey
+    params.cosmosdbDatabaseName,
+    params.cosmosdbCollectionName,
+    params.cosmosdbCollectionPartitionKey
   );
 };
 

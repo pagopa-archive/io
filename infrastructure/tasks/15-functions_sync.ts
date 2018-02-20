@@ -18,15 +18,26 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import * as t from "io-ts";
 import * as winston from "winston";
+
+import yargs = require("yargs");
+
 import { login } from "../../lib/login";
 
-import { IResourcesConfiguration, readConfig } from "../../lib/config";
 import { checkEnvironment } from "../../lib/environment";
 
 import webSiteManagementClient = require("azure-arm-website");
+import { getObjectFromJson } from "../../lib/config";
 
-export const run = async (config: IResourcesConfiguration) => {
+const TaskParams = t.interface({
+  azurerm_resource_group: t.string,
+  azurerm_functionapp: t.string
+});
+
+type TaskParams = t.TypeOf<typeof TaskParams>;
+
+export const run = async (params: TaskParams) => {
   const loginCreds = await login();
 
   const webSiteClient = new webSiteManagementClient(
@@ -37,22 +48,26 @@ export const run = async (config: IResourcesConfiguration) => {
   winston.info("Sync Git repository to Function staging slot");
 
   return webSiteClient.webApps.syncRepository(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+    params.azurerm_resource_group,
+    params.azurerm_functionapp
   );
 };
 
+const argv = yargs
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_functionapp", {
+    string: true
+  })
+  .help().argv;
+
 checkEnvironment()
-  .then(() => readConfig(process.env.ENVIRONMENT))
+  .then(() => getObjectFromJson(TaskParams, argv))
   .then(e =>
-    e.mapLeft(() => {
-      throw new Error("Cannot read configuration");
+    e.map(run).mapLeft(err => {
+      throw err;
     })
   )
-  .then(e => e.map(run))
-  .then(r => {
-    if (r) {
-      winston.info("Successfully synced functions with source control");
-    }
-  })
-  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));
+  .then(() => winston.info("Completed"))
+  .catch((e: Error) => winston.error(e.message));

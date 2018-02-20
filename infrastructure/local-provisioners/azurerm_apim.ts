@@ -60,6 +60,9 @@ interface IApimProperties {
 
 const ApimParams = t.interface({
   environment: t.string,
+  azurerm_resource_group: t.string,
+  azurerm_apim: t.string,
+  azurerm_functionapp: t.string,
   apim_configuration_path: t.string
 });
 
@@ -73,11 +76,12 @@ const addDays = (date: Date, days: number) => {
 
 /**
  * For each published.html file found in tmpDirName/portalTemplates
- * replace `${var_name}` with the relative value found in config.var_name
+ * replace `${var_name}` with the relative value found in configuration
  */
 const replaceVariables = (
   tmpDirName: string,
-  config: IResourcesConfiguration
+  config: IResourcesConfiguration,
+  params: ApimParams
 ) => {
   const templateFiles = path.join(
     tmpDirName,
@@ -86,12 +90,13 @@ const replaceVariables = (
     "portalTemplates",
     "**/published.html"
   );
+  const vars = { ...config, ...params };
   return replaceInFiles.sync({
     files: templateFiles,
     from: /\$\{[^}]+\}/g,
     to: (found: string) => {
       const varName = /\${(.+)}/.exec(found);
-      const value = (config as any)[varName ? varName[1] : ""];
+      const value = (vars as any)[varName ? varName[1] : ""];
       if (value === null || value === "") {
         throw new Error(`Cannot find configuration variable for ${found}`);
       }
@@ -107,7 +112,7 @@ const replaceVariables = (
  */
 const setupProperties = async (
   apiClient: apiManagementClient,
-  config: IResourcesConfiguration,
+  params: ApimParams,
   properties: IApimProperties
 ) => {
   winston.info(
@@ -116,8 +121,8 @@ const setupProperties = async (
   return await Promise.all(
     Object.keys(properties).map(async prop => {
       return await apiClient.property.createOrUpdate(
-        config.azurerm_resource_group,
-        config.azurerm_apim,
+        params.azurerm_resource_group,
+        params.azurerm_apim,
         prop,
         {
           displayName: prop,
@@ -144,14 +149,15 @@ const setupConfigurationFromGit = async (
   apiClient: apiManagementClient,
   scmUrl: string,
   configurationDirectoryPath: string,
-  config: IResourcesConfiguration
+  config: IResourcesConfiguration,
+  params: ApimParams
 ) => {
   winston.info("Get API management Git repository credentials");
 
   // Get API management configuration repository (git) credentials
   const gitKey = await apiClient.user.getSharedAccessToken(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    params.azurerm_resource_group,
+    params.azurerm_apim,
     config.apim_scm_cred_username,
     {
       // Access token can have maximum expiry time of 30 days
@@ -177,7 +183,7 @@ const setupConfigurationFromGit = async (
   shelljs.cp("-R", configurationDirectoryPath, tmpDir.name);
   shelljs.pushd(path.join(tmpDir.name, CONFIGURATION_DIRECTORY_NAME));
 
-  const changes = replaceVariables(tmpDir.name, config);
+  const changes = replaceVariables(tmpDir.name, config, params);
   winston.info(
     `Replaced configuration parameters in ${JSON.stringify(changes)}`
   );
@@ -197,8 +203,8 @@ const setupConfigurationFromGit = async (
 
   // Deploy configuration from pushed master branch
   const deploy = await apiClient.tenantConfiguration.deploy(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    params.azurerm_resource_group,
+    params.azurerm_apim,
     {
       branch: "master",
       // deletes subscriptions to products that are deleted in this update
@@ -214,7 +220,7 @@ const setupConfigurationFromGit = async (
 
 const getPropsFromFunctions = async (
   loginCreds: ICreds,
-  config: IResourcesConfiguration
+  params: ApimParams
 ) => {
   winston.info("Get Functions application key and backend URL");
 
@@ -227,8 +233,8 @@ const getPropsFromFunctions = async (
 
   const { masterKey, backendUrl } = await getFunctionsInfo(
     webSiteClient,
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+    params.azurerm_resource_group,
+    params.azurerm_functionapp
   );
 
   return {
@@ -242,14 +248,15 @@ const getPropsFromFunctions = async (
  */
 const createOrUpdateApiManagementService = async (
   apiClient: apiManagementClient,
-  config: IResourcesConfiguration
+  config: IResourcesConfiguration,
+  params: ApimParams
 ) => {
   winston.info(
     "Create API management resource, this takes a while (about 30 minutes)..."
   );
   const apiManagementService = await apiClient.apiManagementService.createOrUpdate(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    params.azurerm_resource_group,
+    params.azurerm_apim,
     {
       location: config.location,
       notificationSenderEmail: config.apim_email,
@@ -279,11 +286,12 @@ export const run = async (params: ApimParams) => {
     loginCreds.subscriptionId
   );
 
-  const functionProperties = await getPropsFromFunctions(loginCreds, config);
+  const functionProperties = await getPropsFromFunctions(loginCreds, params);
 
   const apiManagementService = await createOrUpdateApiManagementService(
     apiClient,
-    config
+    config,
+    params
   );
 
   if (!apiManagementService.scmUrl) {
@@ -292,20 +300,30 @@ export const run = async (params: ApimParams) => {
 
   // Set up backend url and code (master key) named values
   // to access Functions endpoint in policies
-  await setupProperties(apiClient, config, functionProperties);
+  await setupProperties(apiClient, params, functionProperties);
 
   // Push API management configuration from local repository
   await setupConfigurationFromGit(
     apiClient,
     apiManagementService.scmUrl,
     CONFIGURATION_DIRECTORY_PATH,
-    config
+    config,
+    params
   );
 };
 
 const argv = yargs
   .option("environment", {
     demandOption: true,
+    string: true
+  })
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_apim", {
+    string: true
+  })
+  .option("azurerm_functionapp", {
     string: true
   })
   .option("apim_configuration_path", {

@@ -34,6 +34,8 @@ import {
 
 const ApimParams = t.interface({
   environment: t.string,
+  azurerm_resource_group: t.string,
+  azurerm_apim: t.string,
   apim_configuration_path: t.string,
   adb2c_tenant_id: t.string,
   adb2c_portal_client_id: t.string,
@@ -48,18 +50,16 @@ type ApimParams = t.TypeOf<typeof ApimParams>;
 const setupAdb2c = (
   apiClient: apiManagementClient,
   config: IResourcesConfiguration,
-  adb2cTenantId: string,
-  adb2cClientId: string,
-  adb2cClientSecret: string
+  params: ApimParams
 ) => {
   return apiClient.identityProvider.createOrUpdate(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    params.azurerm_resource_group,
+    params.azurerm_apim,
     "aadB2C",
     {
-      allowedTenants: [adb2cTenantId],
-      clientId: adb2cClientId,
-      clientSecret: adb2cClientSecret,
+      allowedTenants: [params.adb2c_tenant_id],
+      clientId: params.adb2c_portal_client_id,
+      clientSecret: params.adb2c_portal_client_secret,
       identityProviderContractType: "aadB2C",
       signinPolicyName: config.azurerm_adb2c_policy,
       signupPolicyName: config.azurerm_adb2c_policy
@@ -85,18 +85,18 @@ export const run = async (params: ApimParams) => {
   );
 
   // Allow access to developer portal through ADB2C
-  await setupAdb2c(
-    apiClient,
-    config,
-    params.adb2c_tenant_id,
-    params.adb2c_portal_client_id,
-    params.adb2c_portal_client_secret
-  );
+  await setupAdb2c(apiClient, config, params);
 };
 
 const argv = yargs
   .option("environment", {
     demandOption: true,
+    string: true
+  })
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_apim", {
     string: true
   })
   .option("apim_configuration_path", {

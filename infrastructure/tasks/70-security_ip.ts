@@ -10,10 +10,15 @@
 // tslint:disable:no-console
 // tslint:disable:no-any
 
+import * as t from "io-ts";
 import * as winston from "winston";
+
 import { login } from "../../lib/login";
 
-import { IResourcesConfiguration, readConfig } from "../../lib/config";
+import yargs = require("yargs");
+
+import { getObjectFromJson } from "../../lib/config";
+
 import { checkEnvironment } from "../../lib/environment";
 
 import apiManagementClient = require("azure-arm-apimanagement");
@@ -23,6 +28,19 @@ import webSiteManagementClient = require("azure-arm-website");
 
 import { IPRule } from "azure-arm-storage/lib/models";
 import { IpSecurityRestriction } from "azure-arm-website/lib/models";
+
+const TaskParams = t.interface({
+  azurerm_resource_group: t.string,
+  azurerm_functionapp: t.string,
+  azurerm_storage_account: t.string,
+  azurerm_functionapp_storage_account: t.string,
+  azurerm_cosmosdb: t.string,
+  azurerm_apim: t.string,
+  azure_portal_ips: t.string,
+  restrict_storage_access: t.boolean
+});
+
+type TaskParams = t.TypeOf<typeof TaskParams>;
 
 // We need to allow this CIDR used by Azure for internal networking
 const SHARED_ADDRESS_SPACE = "100.64.0.0/10";
@@ -53,7 +71,7 @@ const uniqueIpSecurityRestrictions = (ipRules: IpSecurityRestriction[]) => {
   return Object.keys(ipSecMap).map(k => (ipSecMap as any)[k]);
 };
 
-export const run = async (config: IResourcesConfiguration) => {
+export const run = async (params: TaskParams) => {
   const loginCreds = await login();
 
   // Get Functions IPs
@@ -63,8 +81,8 @@ export const run = async (config: IResourcesConfiguration) => {
   );
 
   const functions = await webSiteClient.webApps.get(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+    params.azurerm_resource_group,
+    params.azurerm_functionapp
   );
 
   if (!functions.outboundIpAddresses) {
@@ -81,8 +99,8 @@ export const run = async (config: IResourcesConfiguration) => {
   );
 
   const apim = await apiClient.apiManagementService.get(
-    config.azurerm_resource_group,
-    config.azurerm_apim
+    params.azurerm_resource_group,
+    params.azurerm_apim
   );
 
   if (!Array.isArray(apim.staticIps)) {
@@ -95,7 +113,7 @@ export const run = async (config: IResourcesConfiguration) => {
   // 1. Storage Account(s): restrict access to Functions IP
   // [#153344792] TODO: IP restrictions on storages are disabled
   // by now as they prevent Functions to work
-  if (process.env.RESTRICT_STORAGE_ACCESS) {
+  if (params.restrict_storage_access) {
     winston.info("Restrict access to Storage accounts from Functions IPs");
 
     const storageClient = new storageManagementClient(
@@ -108,14 +126,16 @@ export const run = async (config: IResourcesConfiguration) => {
       iPAddressOrRange: ip
     }));
 
-    const azurePortalIpForStorage = config.azure_portal_ips.map(ip => ({
-      action: "Allow",
-      iPAddressOrRange: ip
-    }));
+    const azurePortalIpForStorage = params.azure_portal_ips
+      .split(",")
+      .map(ip => ({
+        action: "Allow",
+        iPAddressOrRange: ip
+      }));
 
     const storageProperties = await storageClient.storageAccounts.getProperties(
-      config.azurerm_resource_group,
-      config.azurerm_storage_account
+      params.azurerm_resource_group,
+      params.azurerm_storage_account
     );
 
     if (
@@ -128,8 +148,8 @@ export const run = async (config: IResourcesConfiguration) => {
     winston.info("Restrict access to Queue and Blob storage account");
 
     await storageClient.storageAccounts.update(
-      config.azurerm_resource_group,
-      config.azurerm_storage_account,
+      params.azurerm_resource_group,
+      params.azurerm_storage_account,
       {
         enableHttpsTrafficOnly: true,
         networkRuleSet: {
@@ -145,8 +165,8 @@ export const run = async (config: IResourcesConfiguration) => {
     );
 
     const storageFunctionsProperties = await storageClient.storageAccounts.getProperties(
-      config.azurerm_resource_group,
-      config.azurerm_storage_account
+      params.azurerm_resource_group,
+      params.azurerm_storage_account
     );
 
     if (
@@ -159,8 +179,8 @@ export const run = async (config: IResourcesConfiguration) => {
     winston.info("Restrict access to the Functions storage account");
 
     await storageClient.storageAccounts.update(
-      config.azurerm_resource_group,
-      config.azurerm_functionapp_storage_account,
+      params.azurerm_resource_group,
+      params.azurerm_functionapp_storage_account,
       {
         enableHttpsTrafficOnly: true,
         networkRuleSet: {
@@ -183,8 +203,8 @@ export const run = async (config: IResourcesConfiguration) => {
   );
 
   const cosmosdb = await cosmosDbClient.databaseAccounts.get(
-    config.azurerm_resource_group,
-    config.azurerm_cosmosdb
+    params.azurerm_resource_group,
+    params.azurerm_cosmosdb
   );
 
   if (cosmosdb.failoverPolicies) {
@@ -194,7 +214,7 @@ export const run = async (config: IResourcesConfiguration) => {
         [
           [SHARED_ADDRESS_SPACE],
           functionIPs,
-          config.azure_portal_ips.map(s => s.trim()),
+          params.azure_portal_ips.split(",").map(s => s.trim()),
           (cosmosdb.ipRangeFilter || "").split(",")
         ]
           .reduce((a, b) => a.concat(b), [])
@@ -206,8 +226,8 @@ export const run = async (config: IResourcesConfiguration) => {
 
     // This ovverrides unset parameters
     await cosmosDbClient.databaseAccounts.createOrUpdate(
-      config.azurerm_resource_group,
-      config.azurerm_cosmosdb,
+      params.azurerm_resource_group,
+      params.azurerm_cosmosdb,
       {
         consistencyPolicy: cosmosdb.consistencyPolicy,
         enableAutomaticFailover: cosmosdb.enableAutomaticFailover,
@@ -227,11 +247,11 @@ export const run = async (config: IResourcesConfiguration) => {
 
   // 3. Functions: restrict access to API management IPs
   const configuration = await webSiteClient.webApps.getConfiguration(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+    params.azurerm_resource_group,
+    params.azurerm_functionapp
   );
 
-  const azurePortalAddresses = config.azure_portal_ips.map(s => ({
+  const azurePortalAddresses = params.azure_portal_ips.split(",").map(s => ({
     ipAddress: s.trim()
   }));
 
@@ -258,14 +278,42 @@ export const run = async (config: IResourcesConfiguration) => {
   );
 
   await webSiteClient.webApps.updateConfiguration(
-    config.azurerm_resource_group,
-    config.azurerm_functionapp,
+    params.azurerm_resource_group,
+    params.azurerm_functionapp,
     newSiteConfig
   );
 };
 
+const argv = yargs
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_functionapp_storage_account", {
+    string: true
+  })
+  .option("azurerm_cosmosdb", {
+    string: true
+  })
+  .option("azurerm_apim", {
+    string: true
+  })
+  .option("azure_portal_ips", {
+    string: true
+  })
+  .option("azurerm_functionapp", {
+    string: true
+  })
+  .option("restrict_storage_access", {
+    boolean: true
+  })
+  .help().argv;
+
 checkEnvironment()
-  .then(() => readConfig(process.env.ENVIRONMENT))
-  .then(run)
-  .then(() => winston.info("Successfully set up IP restrictions"))
-  .catch((e: Error) => console.error(process.env.VERBOSE ? e : e.message));
+  .then(() => getObjectFromJson(TaskParams, argv))
+  .then(e =>
+    e.map(run).mapLeft(err => {
+      throw err;
+    })
+  )
+  .then(() => winston.info("Completed"))
+  .catch((e: Error) => winston.error(e.message));

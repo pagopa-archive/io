@@ -19,8 +19,8 @@ interface IRunParams {
   readonly appGitRepo: string;
 }
 
-export const run = async (config: IRunParams) => {
-  if (!config.appGitRepo) {
+export const run = async (params: IRunParams) => {
+  if (!params.appGitRepo) {
     return Promise.reject(
       "Deployment from source control repository not configured, skipping."
     );
@@ -33,26 +33,26 @@ export const run = async (config: IRunParams) => {
   );
 
   const siteSourceControl = {
-    branch: config.appGitBranch,
+    branch: params.appGitBranch,
     deploymentRollbackEnabled: true,
     // [#152115927] TODO: setting `isManualIntegration: false` will fail trying to send an email
     // to the service principal user. I guess this is a bug in the Azure APIs
     isManualIntegration: true,
     isMercurial: false,
-    repoUrl: config.appGitRepo,
+    repoUrl: params.appGitRepo,
     type: "GitHub"
   };
 
   winston.info(
-    `Configuring Git integration for the application: ${
-      config.appGitRepo
-    }#${config.appGitBranch}`
+    `Configuring Git integration for the application: ${params.appGitRepo}#${
+      params.appGitBranch
+    }`
   );
 
   // Create git integration
   return webSiteClient.webApps.createOrUpdateSourceControl(
-    config.resourceGroupName,
-    config.appName,
+    params.resourceGroupName,
+    params.appName,
     siteSourceControl
   );
 };

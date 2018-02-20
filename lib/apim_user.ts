@@ -11,8 +11,6 @@ import {
   UserCreateParameters
 } from "azure-arm-apimanagement/lib/models";
 
-import { IResourcesConfiguration } from "./config";
-
 import * as crypto from "crypto";
 
 export interface IUserData extends UserCreateParameters {
@@ -42,34 +40,28 @@ export const userIdToSubscriptionId = (userId: string, productName: string) =>
 const getExistingUser = async (
   apiClient: apiManagementClient,
   userId: string,
-  config: IResourcesConfiguration
+  resourceGroup: string,
+  apim: string
 ) => {
-  return apiClient.user.get(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
-    userId
-  );
+  return apiClient.user.get(resourceGroup, apim, userId);
 };
 
 const addUserToProduct = async (
   apiClient: apiManagementClient,
   user: UserContract,
   productName: string,
-  config: IResourcesConfiguration
+  resourceGroup: string,
+  apim: string
 ) => {
-  const product = await apiClient.product.get(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
-    productName
-  );
+  const product = await apiClient.product.get(resourceGroup, apim, productName);
   if (user && user.id && user.name && product && product.id && productName) {
     // For some odd reason in the Azure ARM API user.name here is
     // in reality the user.id
     const subscriptionId = userIdToSubscriptionId(user.name, productName);
     // We do not skip existing subscriptions so we can activate a canceled one.
     return apiClient.subscription.createOrUpdate(
-      config.azurerm_resource_group,
-      config.azurerm_apim,
+      resourceGroup,
+      apim,
       subscriptionId,
       {
         displayName: subscriptionId,
@@ -89,14 +81,15 @@ const addUserToGroups = async (
   apiClient: apiManagementClient,
   user: UserContract,
   groups: ReadonlyArray<string>,
-  config: IResourcesConfiguration
+  resourceGroup: string,
+  apim: string
 ) => {
   if (!user || !user.name) {
     return Promise.reject(new Error("Cannot parse user"));
   }
   const existingGroups = await apiClient.userGroup.list(
-    config.azurerm_resource_group,
-    config.azurerm_apim,
+    resourceGroup,
+    apim,
     user.name
   );
   const existingGroupsNames = new Set(existingGroups.map(g => g.name));
@@ -111,8 +104,8 @@ const addUserToGroups = async (
       // For some odd reason in the Azure ARM API user.name here is
       // in reality the user.id
       return await apiClient.groupUser.create(
-        config.azurerm_resource_group,
-        config.azurerm_apim,
+        resourceGroup,
+        apim,
         group,
         user.name as string
       );
@@ -127,9 +120,16 @@ export const updateApimUser = async (
   userId: string,
   userData: IUserData,
   apiClient: apiManagementClient,
-  config: IResourcesConfiguration
+  resourceGroup: string,
+  apim: string
 ): Promise<SubscriptionContract> => {
-  const user = await getExistingUser(apiClient, userId, config);
-  await addUserToGroups(apiClient, user, userData.groups, config);
-  return addUserToProduct(apiClient, user, userData.productName, config);
+  const user = await getExistingUser(apiClient, userId, resourceGroup, apim);
+  await addUserToGroups(apiClient, user, userData.groups, resourceGroup, apim);
+  return addUserToProduct(
+    apiClient,
+    user,
+    userData.productName,
+    resourceGroup,
+    apim
+  );
 };

@@ -40,7 +40,10 @@ import { getFunctionsInfo } from "../../lib/task_utils";
  */
 const ApimParams = t.interface({
   environment: t.string,
+  azurerm_resource_group: t.string,
+  azurerm_apim: t.string,
   apim_configuration_path: t.string,
+  azurerm_functionapp: t.string,
   apim_include_products: t.boolean,
   apim_include_policies: t.boolean
 });
@@ -49,7 +52,7 @@ type ApimParams = t.TypeOf<typeof ApimParams>;
 
 const getPropsFromFunctions = async (
   loginCreds: ICreds,
-  config: IResourcesConfiguration
+  params: ApimParams
 ) => {
   winston.info("Get Functions application key and backend URL");
 
@@ -62,8 +65,8 @@ const getPropsFromFunctions = async (
 
   const { masterKey, backendUrl } = await getFunctionsInfo(
     webSiteClient,
-    config.azurerm_resource_group,
-    config.azurerm_functionapp
+    params.azurerm_resource_group,
+    params.azurerm_functionapp
   );
 
   return {
@@ -77,8 +80,7 @@ const setupOpenapi = (
   config: IResourcesConfiguration,
   backendUrl: string,
   masterKey: string,
-  includeProducts: boolean,
-  includePolicies: boolean
+  params: ApimParams
 ) => {
   return Promise.all(
     config.apim_apis.map(async apiEntry => {
@@ -92,8 +94,8 @@ const setupOpenapi = (
 
       // Add API to API management
       await apiClient.api.createOrUpdate(
-        config.azurerm_resource_group,
-        config.azurerm_apim,
+        params.azurerm_resource_group,
+        params.azurerm_apim,
         apiEntry.id,
         {
           contentFormat: "swagger-link-json",
@@ -105,15 +107,15 @@ const setupOpenapi = (
         }
       );
       // Add API to products
-      if (includeProducts) {
+      if (params.apim_include_products) {
         await Promise.all(
           apiEntry.products.map(async (product: string) => {
             winston.info(
               `Import API product into the API management: ${product}`
             );
             return apiClient.productApi.createOrUpdate(
-              config.azurerm_resource_group,
-              config.azurerm_apim,
+              params.azurerm_resource_group,
+              params.azurerm_apim,
               product,
               apiEntry.id
             );
@@ -125,7 +127,7 @@ const setupOpenapi = (
         );
       }
       // Add a policy to the API reading it from a file
-      if (includePolicies && apiEntry.policyFile) {
+      if (params.apim_include_policies && apiEntry.policyFile) {
         winston.info(
           `Import API policy into the API management: ${apiEntry.policyFile}`
         );
@@ -134,8 +136,8 @@ const setupOpenapi = (
           "utf8"
         );
         await apiClient.apiPolicy.createOrUpdate(
-          config.azurerm_resource_group,
-          config.azurerm_apim,
+          params.azurerm_resource_group,
+          params.azurerm_apim,
           apiEntry.id,
           {
             policyContent
@@ -169,21 +171,29 @@ export const run = async (params: ApimParams) => {
     loginCreds.subscriptionId
   );
 
-  const functionProperties = await getPropsFromFunctions(loginCreds, config);
+  const functionProperties = await getPropsFromFunctions(loginCreds, params);
 
   await setupOpenapi(
     apiClient,
     config,
     functionProperties.backendUrl.value,
     functionProperties.code.value,
-    params.apim_include_products,
-    params.apim_include_policies
+    params
   );
 };
 
 const argv = yargs
   .option("environment", {
     demandOption: true,
+    string: true
+  })
+  .option("azurerm_resource_group", {
+    string: true
+  })
+  .option("azurerm_apim", {
+    string: true
+  })
+  .option("azurerm_functionapp", {
     string: true
   })
   .option("apim_configuration_path", {

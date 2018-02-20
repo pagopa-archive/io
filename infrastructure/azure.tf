@@ -117,13 +117,13 @@ variable "ADB2C_TENANT_ID" {
 # TF_VAR_DEV_PORTAL_CLIENT_ID
 variable "DEV_PORTAL_CLIENT_ID" {
   type        = "string"
-  description = "Cliend ID of an application used in the API management portal authentication flow"
+  description = "Client ID of an application used in the API management portal authentication flow"
 }
 
 # TF_VAR_DEV_PORTAL_CLIENT_SECRET
 variable "DEV_PORTAL_CLIENT_SECRET" {
   type        = "string"
-  description = "Cliend secret of the application used in the API management portal authentication flow"
+  description = "Client secret of the application used in the API management portal authentication flow"
 }
 
 # TF_VAR_DEV_PORTAL_EXT_CLIENT_ID

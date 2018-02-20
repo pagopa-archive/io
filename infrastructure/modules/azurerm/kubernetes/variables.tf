@@ -18,11 +18,6 @@ variable "name" {
   description = "The name of the container service resource"
 }
 
-variable "master_count" {
-  type = "string"
-  description = "How many masters in the cluster"
-}
-
 variable "admin_username" {
   type = "string"
   description = "The username for the admin account on cluster nodes"

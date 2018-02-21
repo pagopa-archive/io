@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 1.1"
+  version = "~> 1.1.2"
 }
 
 provider "random" {
@@ -158,11 +158,6 @@ variable "azurerm_azure_portal_ips" {
 variable "SENDGRID_KEY" {
   type        = "string"
   description = "The API key for the SendGrid service"
-}
-
-variable "azurerm_kubernetes_master_count" {
-  type        = "string"
-  description = "How many masters in the Kubernetes cluster"
 }
 
 variable "azurerm_kubernetes_admin_username" {
@@ -846,7 +841,6 @@ module "kubernetes" {
   resource_group_location         = "${azurerm_resource_group.azurerm_resource_group.location}"
   resource_group_name             = "${azurerm_resource_group.azurerm_resource_group.name}"
   name                            = "${local.azurerm_kubernetes_name}"
-  master_count                    = "${var.azurerm_kubernetes_master_count}"
   admin_username                  = "${var.azurerm_kubernetes_admin_username}"
   admin_ssh_publickey             = "${local.azurerm_kubernetes_admin_ssh_publickey}"
   agent_count                     = "${var.azurerm_kubernetes_agent_count}"

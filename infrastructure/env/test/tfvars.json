@@ -6,7 +6,6 @@
   "app_service_portal_post_login_url": "https://agid-apim-test.portal.azure-api.net/developer",
   "app_service_portal_post_logout_url": "https://agid-apim-test.portal.azure-api.net/",
   "azurerm_apim_sku": "Standard",
-  "azurerm_kubernetes_master_count": 1,
   "azurerm_kubernetes_agent_count": 3,
   "azurerm_kubernetes_agent_vm_size": "Standard_D2"
 }

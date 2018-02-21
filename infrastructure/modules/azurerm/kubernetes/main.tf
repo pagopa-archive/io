@@ -1,16 +1,14 @@
 #
 # Kubernetes cluster
 #
-resource "azurerm_container_service" "azurerm_container_service" {
+resource "azurerm_kubernetes_cluster" "azurerm_kubernetes_cluster" {
   name                   = "${var.name}"
   location               = "${var.resource_group_location}"
   resource_group_name    = "${var.resource_group_name}"
-  orchestration_platform = "Kubernetes"
+  dns_prefix             = "${var.name}"
 
-  master_profile {
-    count      = "${var.master_count}" // 3 or 5 for HA
-    dns_prefix = "${var.name}-master"
-  }
+  # see https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az_aks_create
+  kubernetes_version     = "1.8.7"
 
   linux_profile {
     admin_username = "${var.admin_username}"
@@ -21,19 +19,14 @@ resource "azurerm_container_service" "azurerm_container_service" {
   }
 
   agent_pool_profile {
-    name       = "${var.name}-pool-default"
+    name       = "default"
     count      = "${var.agent_count}"
-    dns_prefix = "${var.name}-agent"
     vm_size    = "${var.agent_vm_size}"
   }
 
   service_principal {
     client_id     = "${var.service_principal_client_id}"
     client_secret = "${var.service_principal_client_secret}"
-  }
-
-  diagnostics_profile {
-    enabled = false
   }
 
   tags {

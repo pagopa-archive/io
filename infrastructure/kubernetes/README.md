@@ -18,14 +18,34 @@ by Terraform.
 
 ## Configuring resources
 
+### System resources
+
 Resources should be configured in the following order:
 
   1. `cert-manager.yml` (the `cert-manager` chart needs to be installed before this step, see below)
   1. `ingress.yml`
 
-The following should be configured in any order:
+### Application resources
 
-  * `app-backend.yml`
+The following should be configured in any order.
+
+#### App backend
+
+Before creating the `app-backend` resources you must create the secret that will
+provide the SPID certificates used by the app backend:
+
+```
+$ kubectl create secret generic spid-cert --from-file=./cert.pem --from-file=./key.pem
+secret "spid-cert" created
+```
+
+Once the secret has been created, you can create or update the application pods:
+
+```
+$ kubectl apply -f app-backend.yml
+deployment "app-backend" configured
+service "app-backend" configured
+```
 
 ## Additional components
 

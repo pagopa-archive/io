@@ -9,11 +9,10 @@ by Terraform.
 ## Prerequisites
 
   1. Install and setup `kubectl`
-  1. Configure the K8S cluster credentials (on Azure you'll need `az acs` for
-     legacy K8S or `az aks` for managed K8S).
-  1. Check that you have [Helm](https://helm.sh/) (the package manager for
+  1. Configure the K8S cluster credentials (`az aks get-credentials --admin`).
+  1. Install and configure [Helm](https://helm.sh/) (the package manager for
      Kubernetes) properly configured for your cluster (see
-     the Troubleshooting section below)
+     the below)
   1. [Switch the context](https://kubernetes-v1-4.github.io/docs/user-guide/kubectl/kubectl_config_use-context/)
      for the environment you want to work on (e.g. `test` or `production`).
 
@@ -29,6 +28,45 @@ The following should be configured in any order:
   * `app-backend.yml`
 
 ## Additional components
+
+### Installing Helm
+
+#### Creating cluster-admin role
+
+There's an [issue](https://github.com/Azure/acs-engine/issues/1892) related to
+recent versions of ACS and AKS. In case Help complaints about `cluster-admin` role
+missing, you can create it manually:
+
+Then run `kubectl` with the insecure port:
+
+```
+$ kubectl apply -f system/cluster-admin.yml --namespace=kube-system
+clusterrole "cluster-admin" created
+```
+
+_Note: you will be able to create the admin role only if you requested `admin`
+credentials with `az aks get-credentials`._
+
+#### Creating the Service Account for Tiller
+
+Once you have created the `cluster-admin` you'll have to create a service
+account for Tiller and bind it to the `cluster-admin` role:
+
+```
+$ kubectl create -f system/tiller-rbac-config.yaml
+serviceaccount "tiller" created
+clusterrolebinding "tiller" created
+```
+
+#### Install Tiller in the cluster
+
+Not you can install Tiller giving it the proper rights:
+
+```
+$ helm init --service-account tiller
+Tiller (the Helm server-side component) has been upgraded to the current version.
+Happy Helming!
+```
 
 ### Installing Cert Manager
 
@@ -46,16 +84,6 @@ Tiller (i.e. v2.6.1)_
 
 ## Troubleshooting
 
-### SSH-ing into the master nodes
-
-You'll need the private SSH key used to provision the nodes (ask an admin for
-that), then you'll need to lookup the FQDN of the master in the Azure portal,
-then:
-
-```
-$ ssh -i PRIVATE_KEY_PATH k8s-admin@MASTER_FQDN
-```
-
 ### Helm cannot connect to Tiller
 
 In case the `helm` client is unable to create a port forwarding tunnel to Tiller
@@ -72,40 +100,3 @@ and then run `helm` as:
 ```
 $ HELM_HOST=:44134 helm COMMAND
 ```
-
-### Cluster role cluster-admin not found
-
-There's an [issue](https://github.com/Azure/acs-engine/issues/1892) related to
-recent versions of ACS. In case Help complaints about `cluster-admin` role
-missing, you can create it manually by ssh-ing into a master node, then:
-
-```
-$ cat > cluster-admin.yml
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRole
-metadata:
-  creationTimestamp: null
-  name: cluster-admin
-  annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
-rules:
-- apiGroups:
-  - '*'
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- nonResourceURLs:
-  - '*'
-  verbs:
-  - '*'
-```
-
-Then run `kubectl` with the insecure port:
-
-```
-$ kubectl -s 127.0.0.1:8080 apply -f cluster-admin.yml
-clusterrole "cluster-admin" created
-```
-
-

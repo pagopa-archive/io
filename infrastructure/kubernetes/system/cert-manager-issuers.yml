@@ -1,14 +1,14 @@
 #
 # Issuer configuration for cert-manager
 #
-# See https://github.com/jetstack/cert-manager/blob/master/docs/user-guides/acme-http-validation.md
+# See https://github.com/jetstack/cert-manager/blob/master/docs/user-guides/cluster-issuers.md
 #
 ---
 #
 # Let's encrypt (staging)
 #
 apiVersion: certmanager.k8s.io/v1alpha1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
   namespace: default
@@ -28,7 +28,7 @@ spec:
 # Let's encrypt (production)
 #
 apiVersion: certmanager.k8s.io/v1alpha1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
   namespace: default

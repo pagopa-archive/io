@@ -20,10 +20,31 @@ by Terraform.
 
 ### System resources
 
-Resources should be configured in the following order:
+The system resources should be configured in the following order.
 
-  1. `cert-manager.yml` (the `cert-manager` chart needs to be installed before this step, see below)
-  1. `ingress.yml`
+#### 1. Cert-Manager Issuers
+
+Before configuring the certificate issuers, make sure the `cert-manager` chart
+is properly installed and configured. Then run:
+
+```
+$ kubectl apply -f system/cert-manager-issuers.yml
+clusterissuer "letsencrypt-staging" created
+clusterissuer "letsencrypt-prod" created
+```
+
+#### 2. Ingress
+
+Once certificate issuers are ready, you can configure the ingress:
+
+```
+$ kubectl apply -f system/ingress.yml
+deployment "default-http-backend" created
+service "default-http-backend" created
+deployment "nginx-ingress-controller" created
+ingress "ingress-nginx" created
+service "ingress-nginx-service" created
+```
 
 ### Application resources
 

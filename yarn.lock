@@ -1080,6 +1080,10 @@ cycle@1.0.x:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
 
+"danger-plugin-digitalcitizenship@https://github.com/teamdigitale/danger-plugin-digitalcitizenship#v0.0.1":
+  version "0.0.1"
+  resolved "https://github.com/teamdigitale/danger-plugin-digitalcitizenship#78eaf579808495af56b652bc361adbd2f5e77c46"
+
 danger@^3.1.7:
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/danger/-/danger-3.1.7.tgz#11814753e9a2a666f5719e6a8b9b0b3c11ed01bd"
@@ -2673,7 +2677,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vm2@github:patriksimek/vm2#custom_files":
+vm2@patriksimek/vm2#custom_files:
   version "3.5.0"
   resolved "https://codeload.github.com/patriksimek/vm2/tar.gz/7e82f90ac705fc44fad044147cb0df09b4c79a57"
 

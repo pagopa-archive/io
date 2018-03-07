@@ -1080,9 +1080,11 @@ cycle@1.0.x:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
 
-"danger-plugin-digitalcitizenship@https://github.com/teamdigitale/danger-plugin-digitalcitizenship#v0.0.1":
+"danger-plugin-digitalcitizenship@https://github.com/teamdigitale/danger-plugin-digitalcitizenship#v0.0.2":
   version "0.0.1"
-  resolved "https://github.com/teamdigitale/danger-plugin-digitalcitizenship#78eaf579808495af56b652bc361adbd2f5e77c46"
+  resolved "https://github.com/teamdigitale/danger-plugin-digitalcitizenship#e0ec127cde017b9e9a86308985aeb0adb7c93bd9"
+  dependencies:
+    pivotaljs "^1.0.3"
 
 danger@^3.1.7:
   version "3.1.7"
@@ -2127,6 +2129,13 @@ pinpoint@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pinpoint/-/pinpoint-1.1.0.tgz#0cf7757a6977f1bf7f6a32207b709e377388e874"
 
+pivotaljs@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/pivotaljs/-/pivotaljs-1.0.3.tgz#fafd4bac7bb921ca4509e6e768f3c10772a1f34f"
+  dependencies:
+    request latest
+    underscore latest
+
 prettier@^1.7.0:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.8.2.tgz#bff83e7fd573933c607875e5ba3abbdffb96aeb8"
@@ -2246,7 +2255,7 @@ replace-in-file@^3.0.0:
     glob "^7.1.2"
     yargs "^10.0.3"
 
-"request@>= 2.52.0", request@^2.74.0, request@^2.83.0:
+"request@>= 2.52.0", request@^2.74.0, request@^2.83.0, request@latest:
   version "2.83.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
   dependencies:
@@ -2632,7 +2641,7 @@ typescript@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
-underscore@1.8.3, "underscore@>= 1.3.1", underscore@~1.8.3:
+underscore@1.8.3, "underscore@>= 1.3.1", underscore@latest, underscore@~1.8.3:
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 

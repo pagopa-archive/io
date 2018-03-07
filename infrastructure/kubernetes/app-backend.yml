@@ -41,9 +41,9 @@ spec:
         - name: "REDIS_URL"
           value: "redis://redis"
         - name: "SAML_CALLBACK_URL"
-          value: "http://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"
+          value: "https://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"
         - name: "SAML_ISSUER"
-          value: "http://app-backend.cd.teamdigitale.it"
+          value: "https://app-backend.cd.teamdigitale.it"
         - name: "API_KEY"
           valueFrom:
             secretKeyRef:

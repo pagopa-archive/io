@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 1.1.2"
+  version = "~> 1.2.0"
 }
 
 provider "random" {
@@ -186,6 +186,18 @@ variable "ARM_CLIENT_SECRET" {
   description = "The client secret of the service principal"
 }
 
+# PagoPA VPN
+
+variable "pagopa_vpn_site_gateway_ip" {
+  default = ""
+  description = "The IP address of the pagoPA VPN gateway"
+}
+
+variable "pagopa_vpn_shared_key" {
+  default = ""
+  description = "The shared key to be used by the pagoPA VPN"
+}
+
 #
 # Paths to local provisioner scripts
 #
@@ -235,6 +247,8 @@ variable "cosmosdb_iprange_provisioner" {
 #
 
 locals {
+  # Define resource names based on the following convention:
+  # {azurerm_resource_name_prefix}-RESOURCE_TYPE-{environment_short}
   azurerm_resource_group_name              = "${var.azurerm_resource_name_prefix}-rg-${var.environment_short}"
   azurerm_storage_account_name             = "${var.azurerm_resource_name_prefix}storage${var.environment_short}"
   azurerm_storage_container_name           = "${var.azurerm_resource_name_prefix}-storage-${var.environment_short}"
@@ -871,4 +885,31 @@ resource "azurerm_public_ip" "azurerm_kubernetes_public_ip" {
 
 output "azurerm_kubernetes_public_ip_ip" {
   value = "${azurerm_public_ip.azurerm_kubernetes_public_ip.ip_address}"
+}
+
+#
+# PagoPA VPN
+# Currently enabled only for test environment
+#
+# WARNING: see note in the module source about associating AKS agents to the
+# backend pool.
+#
+
+module "pagopa_vpn" {
+  source = "./modules/pagopa-vpn"
+
+  # This resource must exist only in the "test" environment
+  enable = "${var.environment == "test" ? "true" : "false"}"
+
+  environment                     = "${var.environment}"
+  azurerm_resource_name_prefix    = "${var.azurerm_resource_name_prefix}"
+  environment_short               = "${var.environment_short}"
+  resource_group_location         = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name             = "${azurerm_resource_group.azurerm_resource_group.name}"
+  site_gateway_address            = "${var.pagopa_vpn_site_gateway_ip}"
+  vpn_shared_key                  = "${var.pagopa_vpn_shared_key}"
+}
+
+output "pagopa_vpn_public_ip_ip" {
+  value = "${module.pagopa_vpn.vpn_gateway_public_ip}"
 }

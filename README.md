@@ -67,16 +67,21 @@ Here's the decisions we taken so far:
 
 ### Azure infrastructure
 
+**WARNING: the following instructions may not be up to date, please ask 
+a project maintainer before attempting to setup or update the 
+infrastructure.**
+
 The
 [infrastructure](https://github.com/teamdigitale/digital-citizenship/tree/master/infrastructure)
 drectory contains scripts and Terraform configuration to deploy the
 infrastructure on the Azure cloud.
 
-#### Deploy Environments
+All the infrastructure related configuration files are stored under the `infrastructure` directory. 
 
-For each of the two different deployment environments (`test` or `production`)
-a directory in `infrastructure/env` contains the relative
-configuration.
+#### Environments
+
+For each of the two different environments (`test` or `production`)
+a directory in `env` contains the relative configuration.
 
 The configuration consists in a JSON file (`tfvars.json`) with the name of the Azure services
 that need to be provisioned (ie. web applications, databases) in a specific
@@ -104,7 +109,7 @@ ENVIRONMENT=test
 
 All binaries must be in the system path.
 
-### Set up an Azure Active Directory B2C tenant
+### First time set up an Azure Active Directory B2C tenant
 
 #### Step 1 - Add an Azure Active Directory B2C resource
 
@@ -227,21 +232,14 @@ TF_VAR_DEV_PORTAL_EXT_CLIENT_ID=<Application Id>
 TF_VAR_DEV_PORTAL_EXT_CLIENT_SECRET=<Application Key>
 ```
 
-### Deploy instructions
-
 #### Configuration files
 
-On or more between the following configuration files must be changed before
-deploying a new Azure resource or to make changes to the existing ones:
-
-* `infrastructure/$ENVIRONMENT/tfvars.json`: read by Terrafom and the automated tasks, contains the name of the Azure resources specific to one enviroment
-* `infrastructure/azure.tf`: the main Terraform configuration file; it takes variables value from `tfvars.json`
-
-* `infrastructure/common/tfvars.json`: read by Terraform and the automated tasks, contains values for variables common to all environments; rarely needs to be changed
-* `infrastructure/common/config.json`: a configuration file read by the automated tasks (ignored by Terraform); rarely needs to be changed
-
-* `infrastructure/apim/*`: a directory that contains the configuration of the API management resource (ie. portal templates) taken from the [embedded git repository](https://docs.microsoft.com/en-us/azure/api-management/api-management-configuration-repository-git)
-* `infrastructure/api-policies`: API policies used by the API management
+* `$ENVIRONMENT/tfvars.json`: read by Terrafom and the automated tasks, contains the name of the Azure resources specific to one enviroment
+* `azure.tf`: the main Terraform configuration file; it takes variables value from `tfvars.json`
+* `common/tfvars.json`: read by Terraform and the automated tasks, contains values for variables common to all environments; rarely needs to be changed
+* `common/config.json`: a configuration file read by the automated tasks (ignored by Terraform); rarely needs to be changed
+* `apim/*`: a directory that contains the configuration of the API management resource (ie. portal templates) taken from the [embedded git repository](https://docs.microsoft.com/en-us/azure/api-management/api-management-configuration-repository-git)
+* `api-policies`: API policies used by the API management
 
 #### Shared Terraform state
 

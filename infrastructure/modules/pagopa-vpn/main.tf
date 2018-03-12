@@ -10,8 +10,17 @@ locals {
   # Local gateway subnet (reserved for the VPN gateway resources)
   vpn_gateway_subnet = "10.250.1.160/28"
 
+  # Default subnet (can be used for load balancers)
+  vpn_default_subnet = "10.250.1.176/28"
+
   # Remote site subnet (remote hosts)
   vpn_site_subnet = "10.250.1.128/27"
+
+  # IP of proxy host (inbound and outbound)
+  vpn_nat_ip = "10.250.1.182"
+
+  # On what port we expose the internal services to the external nodes
+  vpn_nat_inbount_port = "80"
 
   # We need at leat VpnGw1 SKU (the Basic SKU doesn't support custom IPSec policy)
   vpn_sku                                 = "VpnGw1"
@@ -134,3 +143,39 @@ resource "azurerm_virtual_network_gateway_connection" "default" {
     environment = "${var.environment}"
   }
 }
+
+resource "azurerm_subnet" "default" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
+  name                 = "default"
+  resource_group_name  = "${var.resource_group_name}"
+  virtual_network_name = "${azurerm_virtual_network.default.name}"
+  address_prefix       = "${local.vpn_default_subnet}"
+}
+
+#
+# Create peerings between the VPN virtual network and the AKS virtual network
+#
+
+resource "azurerm_virtual_network_peering" "pagopa_to_aks" {
+  name                         = "PagoPaToAks"
+  resource_group_name          = "${var.resource_group_name}"
+  virtual_network_name         = "${azurerm_virtual_network.default.name}"
+  remote_virtual_network_id    = "${var.aks_vnet_id}"
+  allow_virtual_network_access = "true"
+}
+
+resource "azurerm_virtual_network_peering" "aks_to_pagopa" {
+  name                         = "AksToPagoPa"
+  resource_group_name          = "${var.aks_rg_name}"
+  virtual_network_name         = "${var.aks_vnet_name}"
+  remote_virtual_network_id    = "${azurerm_virtual_network.default.id}"
+  allow_virtual_network_access = "true"
+}
+
+# TODO: create lb VM in default subnet with STATIC IP = vpn_nat_ip
+# TODO: add rules to VM network security group:
+# - allow inbound any from 10.240.0.0/24
+# - allow outbound 30100 to 10.240.0.0/24
+

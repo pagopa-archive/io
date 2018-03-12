@@ -189,12 +189,12 @@ variable "ARM_CLIENT_SECRET" {
 # PagoPA VPN
 
 variable "pagopa_vpn_site_gateway_ip" {
-  default = ""
+  default     = ""
   description = "The IP address of the pagoPA VPN gateway"
 }
 
 variable "pagopa_vpn_shared_key" {
-  default = ""
+  default     = ""
   description = "The shared key to be used by the pagoPA VPN"
 }
 
@@ -249,7 +249,8 @@ variable "cosmosdb_iprange_provisioner" {
 locals {
   # Define resource names based on the following convention:
   # {azurerm_resource_name_prefix}-RESOURCE_TYPE-{environment_short}
-  azurerm_resource_group_name              = "${var.azurerm_resource_name_prefix}-rg-${var.environment_short}"
+  azurerm_resource_group_name = "${var.azurerm_resource_name_prefix}-rg-${var.environment_short}"
+
   azurerm_storage_account_name             = "${var.azurerm_resource_name_prefix}storage${var.environment_short}"
   azurerm_storage_container_name           = "${var.azurerm_resource_name_prefix}-storage-${var.environment_short}"
   azurerm_cosmosdb_name                    = "${var.azurerm_resource_name_prefix}-cosmosdb-${var.environment_short}"
@@ -901,13 +902,16 @@ module "pagopa_vpn" {
   # This resource must exist only in the "test" environment
   enable = "${var.environment == "test" ? "true" : "false"}"
 
-  environment                     = "${var.environment}"
-  azurerm_resource_name_prefix    = "${var.azurerm_resource_name_prefix}"
-  environment_short               = "${var.environment_short}"
-  resource_group_location         = "${azurerm_resource_group.azurerm_resource_group.location}"
-  resource_group_name             = "${azurerm_resource_group.azurerm_resource_group.name}"
-  site_gateway_address            = "${var.pagopa_vpn_site_gateway_ip}"
-  vpn_shared_key                  = "${var.pagopa_vpn_shared_key}"
+  environment                  = "${var.environment}"
+  azurerm_resource_name_prefix = "${var.azurerm_resource_name_prefix}"
+  environment_short            = "${var.environment_short}"
+  resource_group_location      = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name          = "${azurerm_resource_group.azurerm_resource_group.name}"
+  site_gateway_address         = "${var.pagopa_vpn_site_gateway_ip}"
+  vpn_shared_key               = "${var.pagopa_vpn_shared_key}"
+  aks_rg_name                  = "${module.kubernetes.aks_rg_name}"
+  aks_vnet_id                  = "${module.kubernetes.aks_vnet_id}"
+  aks_vnet_name                = "${module.kubernetes.aks_vnet_name}"
 }
 
 output "pagopa_vpn_public_ip_ip" {

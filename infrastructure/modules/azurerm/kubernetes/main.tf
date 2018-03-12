@@ -1,14 +1,15 @@
 #
 # Kubernetes cluster
 #
+
 resource "azurerm_kubernetes_cluster" "azurerm_kubernetes_cluster" {
-  name                   = "${var.name}"
-  location               = "${var.resource_group_location}"
-  resource_group_name    = "${var.resource_group_name}"
-  dns_prefix             = "${var.name}"
+  name                = "${var.name}"
+  location            = "${var.resource_group_location}" # West Europe
+  resource_group_name = "${var.resource_group_name}"
+  dns_prefix          = "${var.name}"
 
   # see https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az_aks_create
-  kubernetes_version     = "1.8.7"
+  kubernetes_version = "1.8.7"
 
   linux_profile {
     admin_username = "${var.admin_username}"
@@ -19,9 +20,9 @@ resource "azurerm_kubernetes_cluster" "azurerm_kubernetes_cluster" {
   }
 
   agent_pool_profile {
-    name       = "default"
-    count      = "${var.agent_count}"
-    vm_size    = "${var.agent_vm_size}"
+    name    = "default"
+    count   = "${var.agent_count}"
+    vm_size = "${var.agent_vm_size}"
   }
 
   service_principal {
@@ -32,4 +33,18 @@ resource "azurerm_kubernetes_cluster" "azurerm_kubernetes_cluster" {
   tags {
     environment = "${var.environment}"
   }
+}
+
+locals {
+  # The agents get created in a dedicated resource group that gets automatically
+  # provisioned by Azure, there's currently no way to get the name of this
+  # resource group, thus we need to manually compute its name.
+  agents_resource_group_name = "MC_${var.resource_group_name}_${var.name}_${replace(lower(var.resource_group_location), " ", "")}"
+}
+
+data "azurerm_virtual_network" "aks" {
+  # TODO: find a way to look up the name of the VNet created by AKS
+  name                = "aks-vnet-27508996"
+  resource_group_name = "${local.agents_resource_group_name}"
+  depends_on          = ["azurerm_kubernetes_cluster.azurerm_kubernetes_cluster"]
 }

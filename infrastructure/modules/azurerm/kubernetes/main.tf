@@ -36,15 +36,25 @@ resource "azurerm_kubernetes_cluster" "azurerm_kubernetes_cluster" {
 }
 
 locals {
+  # This ID gets used by AKS to name resources, there's no current way of
+  # reading this value.
+  # TODO: find a way to look this up
+  aks_id = "27508996"
+
   # The agents get created in a dedicated resource group that gets automatically
   # provisioned by Azure, there's currently no way to get the name of this
   # resource group, thus we need to manually compute its name.
   agents_resource_group_name = "MC_${var.resource_group_name}_${var.name}_${replace(lower(var.resource_group_location), " ", "")}"
+
+  # The name of the network security group created by AKS
+  agents_network_security_group_name = "aks-agentpool-${local.aks_id}-nsg"
+
+  # The CIDR for the AKS agent nodes
+  agent_nodes_cidr = "10.240.0.0/16"
 }
 
 data "azurerm_virtual_network" "aks" {
-  # TODO: find a way to look up the name of the VNet created by AKS
-  name                = "aks-vnet-27508996"
+  name                = "aks-vnet-${local.aks_id}"
   resource_group_name = "${local.agents_resource_group_name}"
   depends_on          = ["azurerm_kubernetes_cluster.azurerm_kubernetes_cluster"]
 }

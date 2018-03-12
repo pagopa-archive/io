@@ -17,10 +17,14 @@ locals {
   vpn_site_subnet = "10.250.1.128/27"
 
   # IP of proxy host (inbound and outbound)
-  vpn_nat_ip = "10.250.1.182"
+  vpn_loadbalancer_ip = "10.250.1.182"
 
   # On what port we expose the internal services to the external nodes
-  vpn_nat_inbount_port = "80"
+  vpn_loadbalancer_inbound_port = "80"
+
+  # The port the AKS nodes where the CD service will listen for requests from
+  # the pagoPA nodes
+  aks_nodeport = "30010"
 
   # We need at leat VpnGw1 SKU (the Basic SKU doesn't support custom IPSec policy)
   vpn_sku                                 = "VpnGw1"
@@ -155,9 +159,10 @@ resource "azurerm_subnet" "default" {
 }
 
 #
-# Create peerings between the VPN virtual network and the AKS virtual network
+# Peerings between the VPN virtual network and the AKS virtual network
 #
 
+# Peering from the pagoPA VPN VNet to the AKS agent VNet
 resource "azurerm_virtual_network_peering" "pagopa_to_aks" {
   name                         = "PagoPaToAks"
   resource_group_name          = "${var.resource_group_name}"
@@ -166,6 +171,7 @@ resource "azurerm_virtual_network_peering" "pagopa_to_aks" {
   allow_virtual_network_access = "true"
 }
 
+# Peering from the AKS agent VNet to the pagoPA VPN VNet
 resource "azurerm_virtual_network_peering" "aks_to_pagopa" {
   name                         = "AksToPagoPa"
   resource_group_name          = "${var.aks_rg_name}"
@@ -174,8 +180,82 @@ resource "azurerm_virtual_network_peering" "aks_to_pagopa" {
   allow_virtual_network_access = "true"
 }
 
-# TODO: create lb VM in default subnet with STATIC IP = vpn_nat_ip
+#
+# Network security rules for AKS agent nodes
+#
+
+# Allow inbound TCP from the VPN-pagoPA loadbalancer to pods:{aks_nodeport}
+resource "azurerm_network_security_rule" "inbound_pagopa" {
+  name                        = "inbound_pagopa"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "${local.aks_nodeport}"
+  source_address_prefix       = "${local.vpn_loadbalancer_ip}/32"
+  destination_address_prefix  = "${var.aks_nodes_cidr}"
+  resource_group_name         = "${var.aks_rg_name}"
+  network_security_group_name = "${var.aks_nsg_name}"
+}
+
+# Allow outbound TCP from the aks pods to port {vpn_loadbalancer_inbound_port} of VPN-pagoPA loadbalancer
+resource "azurerm_network_security_rule" "outbound_pagopa" {
+  name                        = "outbound_pagopa"
+  priority                    = 110
+  direction                   = "Outbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "${local.vpn_loadbalancer_inbound_port}"
+  source_address_prefix       = "${var.aks_nodes_cidr}"
+  destination_address_prefix  = "${local.vpn_loadbalancer_ip}/32"
+  resource_group_name         = "${var.aks_rg_name}"
+  network_security_group_name = "${var.aks_nsg_name}"
+}
+
+#
+# Network security rules for the VPN load balancer
+#
+
+
+# Allow outbound TCP from the VPN-pagoPA loadbalancer to pods:{aks_nodeport}
+# resource "azurerm_network_security_rule" "outbound_aks" {
+#   name                        = "outbound_aks"
+#   priority                    = 110
+#   direction                   = "Outbound"
+#   access                      = "Allow"
+#   protocol                    = "Tcp"
+#   source_port_range           = "*"
+#   destination_port_range      = "${local.aks_nodeport}"
+#   source_address_prefix       = "${local.vpn_loadbalancer_ip}/32"
+#   destination_address_prefix  = "${var.aks_cluster_cidr}"
+#   resource_group_name         = ""
+#   network_security_group_name = ""
+# }
+
+
+# Allow inbound TCP from the aks pods to port {vpn_loadbalancer_inbound_port} of VPN-pagoPA loadbalancer
+# resource "azurerm_network_security_rule" "inbound_aks" {
+#   name                        = "inbound_aks"
+#   priority                    = 110
+#   direction                   = "Inbound"
+#   access                      = "Allow"
+#   protocol                    = "Tcp"
+#   source_port_range           = "*"
+#   destination_port_range      = "${local.vpn_loadbalancer_inbound_port}"
+#   source_address_prefix       = "${var.aks_cluster_cidr}"
+#   destination_address_prefix  = "${local.vpn_loadbalancer_ip}/32"
+#   resource_group_name         = ""
+#   network_security_group_name = ""
+# }
+
+
+# TODO: create lb VM in default subnet with STATIC IP = vpn_loadbalancer_ip
 # TODO: add rules to VM network security group:
-# - allow inbound any from 10.240.0.0/24
+# - allow inbound 80 from 10.240.0.0/24
 # - allow outbound 30100 to 10.240.0.0/24
+
+
+# TODO: add deny rules for free traffic between VNets
 

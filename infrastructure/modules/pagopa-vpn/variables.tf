@@ -54,3 +54,13 @@ variable "aks_vnet_name" {
   type        = "string"
   description = "The name of the VNet created by AKS"
 }
+
+variable "aks_nsg_name" {
+  type        = "string"
+  description = "The name of the network security group created by AKS"
+}
+
+variable "aks_nodes_cidr" {
+  type        = "string"
+  description = "The CIDR of the AKS agent nodes"
+}

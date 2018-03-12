@@ -912,6 +912,8 @@ module "pagopa_vpn" {
   aks_rg_name                  = "${module.kubernetes.aks_rg_name}"
   aks_vnet_id                  = "${module.kubernetes.aks_vnet_id}"
   aks_vnet_name                = "${module.kubernetes.aks_vnet_name}"
+  aks_nsg_name                 = "${module.kubernetes.aks_nsg_name}"
+  aks_nodes_cidr               = "${module.kubernetes.aks_nodes_cidr}"
 }
 
 output "pagopa_vpn_public_ip_ip" {

@@ -32,6 +32,15 @@ locals {
   # Name of admin user on the loadbalancer VM
   loadbalancer_vm_admin_user = "admin-user"
 
+  # Loadbalancer playbook repository name
+  loadbalancer_playbook_repo_name = "digital-citizenship-ansible-playbooks"
+
+  # loadbalancer playbook archive URL
+  loadbalancer_playbook_url = "https://github.com/teamdigitale/${local.loadbalancer_playbook_repo_name}/archive"
+
+  # loadbalancer playbook archive version
+  loadbalancer_playbook_version = "0.0.1"
+
   # Precompute resource names based on naming convention
   virtual_network_name                    = "${var.azurerm_resource_name_prefix}-ppa-vpn-vnet-${var.environment_short}"
   local_network_gateway_name              = "${var.azurerm_resource_name_prefix}-ppa-vpn-site-network-${var.environment_short}"
@@ -273,8 +282,8 @@ resource "azurerm_virtual_machine_extension" "lb_vm_ext" {
 
   settings = <<SETTINGS
     {
-      "fileUris": ["https://raw.githubusercontent.com/Microsoft/dotnet-core-sample-templates/master/dotnet-core-music-linux/scripts/config-music.sh"],
-      "commandToExecute": "./config-music.sh",
+      "fileUris": ["${local.loadbalancer_playbook_url}/v${local.loadbalancer_playbook_version}.zip"],
+      "commandToExecute": "sudo apt-get install unzip && unzip v${local.loadbalancer_playbook_version}.zip && cd ${local.loadbalancer_playbook_repo_name}-${local.loadbalancer_playbook_version}/pagopa_lb_vm && ./run.sh",
       "timestamp": 1
     }
 SETTINGS

@@ -41,7 +41,7 @@ spec:
         - name: "SAML_CALLBACK_URL"
           value: "https://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"
         - name: "SAML_ISSUER"
-          value: "https://app-backend.cd.italia.it"
+          value: "https://spid.agid.gov.it/cd"
         - name: "API_KEY"
           valueFrom:
             secretKeyRef:

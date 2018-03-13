@@ -1,0 +1,50 @@
+#
+# The pagopa-backend
+#
+---
+#
+# Deploy the pods
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pagopa-backend
+  namespace: default
+  labels:
+    app: pagopa-backend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      name: pagopa-backend
+      namespace: default
+      labels:
+        app: pagopa-backend
+    spec:
+      containers:
+      - image: "nginxdemos/hello:0.2"
+        name: pagopa-backend
+        ports:
+        - name: http-port
+          containerPort: 80
+---
+#
+# A service exposing the pagopa-backend to the cluster.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: pagopa-backend
+  namespace: default
+spec:
+  selector:
+    app: pagopa-backend
+  ports:
+    - protocol: TCP
+      port: 30010

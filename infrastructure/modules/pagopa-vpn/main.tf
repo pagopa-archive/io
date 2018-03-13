@@ -27,12 +27,20 @@ locals {
   aks_nodeport = "30010"
 
   # We need at leat VpnGw1 SKU (the Basic SKU doesn't support custom IPSec policy)
-  vpn_sku                                 = "VpnGw1"
+  vpn_sku = "VpnGw1"
+
+  # Name of admin user on the loadbalancer VM
+  loadbalancer_vm_admin_user = "admin-user"
+
+  # Precompute resource names based on naming convention
   virtual_network_name                    = "${var.azurerm_resource_name_prefix}-ppa-vpn-vnet-${var.environment_short}"
   local_network_gateway_name              = "${var.azurerm_resource_name_prefix}-ppa-vpn-site-network-${var.environment_short}"
   public_ip_name                          = "${var.azurerm_resource_name_prefix}-ppa-vpn-public-ip-${var.environment_short}"
   virtual_network_gateway_name            = "${var.azurerm_resource_name_prefix}-ppa-vpn-gw-${var.environment_short}"
   virtual_network_gateway_connection_name = "${var.azurerm_resource_name_prefix}-ppa-vpn-conn-${var.environment_short}"
+  loadbalancer_nsg_name                   = "${var.azurerm_resource_name_prefix}-ppa-lb-nsg-${var.environment_short}"
+  loadbalancer_interface_name             = "${var.azurerm_resource_name_prefix}-ppa-lb-if-${var.environment_short}"
+  loadbalancer_vm_name                    = "${var.azurerm_resource_name_prefix}-ppa-lb-vm-${var.environment_short}"
 }
 
 resource "azurerm_virtual_network" "default" {
@@ -159,20 +167,124 @@ resource "azurerm_subnet" "default" {
 }
 
 #
+# Load balancer VM
+#
+
+resource "azurerm_network_security_group" "lb_nsg" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
+  name                = "${local.loadbalancer_nsg_name}"
+  location            = "${var.resource_group_location}"
+  resource_group_name = "${var.resource_group_name}"
+
+  tags {
+    environment = "${var.environment}"
+  }
+}
+
+resource "azurerm_network_interface" "lb_interface" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
+  name                = "${local.loadbalancer_interface_name}"
+  location            = "${var.resource_group_location}"
+  resource_group_name = "${var.resource_group_name}"
+
+  network_security_group_id = "${azurerm_network_security_group.lb_nsg.id}"
+
+  ip_configuration {
+    name                          = "staticip"
+    subnet_id                     = "${azurerm_subnet.default.id}"
+    private_ip_address_allocation = "static"
+    private_ip_address            = "${local.vpn_loadbalancer_ip}"
+  }
+
+  tags {
+    environment = "${var.environment}"
+  }
+}
+
+resource "azurerm_virtual_machine" "lb_vm" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
+  name                  = "${local.loadbalancer_vm_name}"
+  location              = "${var.resource_group_location}"
+  resource_group_name   = "${var.resource_group_name}"
+  network_interface_ids = ["${azurerm_network_interface.lb_interface.id}"]
+
+  # This VM will be mostly idle, we can use a burstable type
+  # https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes-general#b-series
+  vm_size = "Standard_B1s"
+
+  # Uncomment this line to delete the OS disk automatically when deleting the VM
+  # delete_os_disk_on_termination = true
+
+
+  # Uncomment this line to delete the data disks automatically when deleting the VM
+  # delete_data_disks_on_termination = true
+
+  storage_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04-LTS"
+    version   = "latest"
+  }
+  storage_os_disk {
+    name              = "osdisk1"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+  os_profile {
+    computer_name  = "lb1"
+    admin_username = "${local.loadbalancer_vm_admin_user}"
+  }
+  os_profile_linux_config {
+    disable_password_authentication = true
+
+    ssh_keys = [
+      {
+        path     = "/home/${local.loadbalancer_vm_admin_user}/.ssh/authorized_keys"
+        key_data = "${var.lb_ssh_key}"
+      },
+    ]
+  }
+  tags {
+    environment = "${var.environment}"
+  }
+}
+
+#
 # Peerings between the VPN virtual network and the AKS virtual network
 #
 
 # Peering from the pagoPA VPN VNet to the AKS agent VNet
 resource "azurerm_virtual_network_peering" "pagopa_to_aks" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
   name                         = "PagoPaToAks"
   resource_group_name          = "${var.resource_group_name}"
   virtual_network_name         = "${azurerm_virtual_network.default.name}"
   remote_virtual_network_id    = "${var.aks_vnet_id}"
   allow_virtual_network_access = "true"
+
+  # NOTE: due to an issue with the Azure provider, once the two mutual
+  # peerings gets created, on the next run it will attempt to recreate this
+  # one due to the changed (computed) value of remote_virtual_network_id
+  # We can safely ignore changes to remote_virtual_network_id.
+  lifecycle {
+    ignore_changes = ["remote_virtual_network_id"]
+  }
 }
 
 # Peering from the AKS agent VNet to the pagoPA VPN VNet
 resource "azurerm_virtual_network_peering" "aks_to_pagopa" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
   name                         = "AksToPagoPa"
   resource_group_name          = "${var.aks_rg_name}"
   virtual_network_name         = "${var.aks_vnet_name}"
@@ -186,6 +298,9 @@ resource "azurerm_virtual_network_peering" "aks_to_pagopa" {
 
 # Allow inbound TCP from the VPN-pagoPA loadbalancer to pods:{aks_nodeport}
 resource "azurerm_network_security_rule" "inbound_pagopa" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
   name                        = "inbound_pagopa"
   priority                    = 110
   direction                   = "Inbound"
@@ -201,6 +316,9 @@ resource "azurerm_network_security_rule" "inbound_pagopa" {
 
 # Allow outbound TCP from the aks pods to port {vpn_loadbalancer_inbound_port} of VPN-pagoPA loadbalancer
 resource "azurerm_network_security_rule" "outbound_pagopa" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
   name                        = "outbound_pagopa"
   priority                    = 110
   direction                   = "Outbound"
@@ -218,44 +336,41 @@ resource "azurerm_network_security_rule" "outbound_pagopa" {
 # Network security rules for the VPN load balancer
 #
 
-
 # Allow outbound TCP from the VPN-pagoPA loadbalancer to pods:{aks_nodeport}
-# resource "azurerm_network_security_rule" "outbound_aks" {
-#   name                        = "outbound_aks"
-#   priority                    = 110
-#   direction                   = "Outbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = "*"
-#   destination_port_range      = "${local.aks_nodeport}"
-#   source_address_prefix       = "${local.vpn_loadbalancer_ip}/32"
-#   destination_address_prefix  = "${var.aks_cluster_cidr}"
-#   resource_group_name         = ""
-#   network_security_group_name = ""
-# }
+resource "azurerm_network_security_rule" "outbound_aks" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
 
+  name                        = "outbound_aks"
+  priority                    = 110
+  direction                   = "Outbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "${local.aks_nodeport}"
+  source_address_prefix       = "${local.vpn_loadbalancer_ip}/32"
+  destination_address_prefix  = "${var.aks_nodes_cidr}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.lb_nsg.name}"
+}
 
 # Allow inbound TCP from the aks pods to port {vpn_loadbalancer_inbound_port} of VPN-pagoPA loadbalancer
-# resource "azurerm_network_security_rule" "inbound_aks" {
-#   name                        = "inbound_aks"
-#   priority                    = 110
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = "*"
-#   destination_port_range      = "${local.vpn_loadbalancer_inbound_port}"
-#   source_address_prefix       = "${var.aks_cluster_cidr}"
-#   destination_address_prefix  = "${local.vpn_loadbalancer_ip}/32"
-#   resource_group_name         = ""
-#   network_security_group_name = ""
-# }
+resource "azurerm_network_security_rule" "inbound_aks" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
 
-
-# TODO: create lb VM in default subnet with STATIC IP = vpn_loadbalancer_ip
-# TODO: add rules to VM network security group:
-# - allow inbound 80 from 10.240.0.0/24
-# - allow outbound 30100 to 10.240.0.0/24
-
+  name                        = "inbound_aks"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "${local.vpn_loadbalancer_inbound_port}"
+  source_address_prefix       = "${var.aks_nodes_cidr}"
+  destination_address_prefix  = "${local.vpn_loadbalancer_ip}/32"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.lb_nsg.name}"
+}
 
 # TODO: add deny rules for free traffic between VNets
 

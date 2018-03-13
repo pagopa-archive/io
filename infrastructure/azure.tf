@@ -914,6 +914,7 @@ module "pagopa_vpn" {
   aks_vnet_name                = "${module.kubernetes.aks_vnet_name}"
   aks_nsg_name                 = "${module.kubernetes.aks_nsg_name}"
   aks_nodes_cidr               = "${module.kubernetes.aks_nodes_cidr}"
+  lb_ssh_key                   = "${local.azurerm_kubernetes_admin_ssh_publickey}"
 }
 
 output "pagopa_vpn_public_ip_ip" {

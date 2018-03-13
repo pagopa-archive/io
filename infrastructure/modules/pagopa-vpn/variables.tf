@@ -64,3 +64,8 @@ variable "aks_nodes_cidr" {
   type        = "string"
   description = "The CIDR of the AKS agent nodes"
 }
+
+variable "lb_ssh_key" {
+  type        = "string"
+  description = "The SSH key for the admin user of the loadbalancer VM"
+}

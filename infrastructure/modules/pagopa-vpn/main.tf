@@ -36,10 +36,10 @@ locals {
   loadbalancer_playbook_repo_name = "digital-citizenship-ansible-playbooks"
 
   # loadbalancer playbook archive URL
-  loadbalancer_playbook_url = "https://github.com/teamdigitale/${local.loadbalancer_playbook_repo_name}/archive"
+  loadbalancer_playbook_url = "https://raw.githubusercontent.com/teamdigitale/${local.loadbalancer_playbook_repo_name}"
 
   # loadbalancer playbook archive version
-  loadbalancer_playbook_version = "0.0.3"
+  loadbalancer_playbook_version = "0.0.10"
 
   # Precompute resource names based on naming convention
   virtual_network_name                    = "${var.azurerm_resource_name_prefix}-ppa-vpn-vnet-${var.environment_short}"
@@ -282,8 +282,8 @@ resource "azurerm_virtual_machine_extension" "lb_vm_ext" {
 
   settings = <<SETTINGS
     {
-      "fileUris": ["${local.loadbalancer_playbook_url}/v${local.loadbalancer_playbook_version}.zip"],
-      "commandToExecute": "apt-get install unzip; unzip v${local.loadbalancer_playbook_version}.zip; cd ${local.loadbalancer_playbook_repo_name}-${local.loadbalancer_playbook_version}/pagopa_lb_vm; chmod a+x run.sh; ls -la; ./run.sh",
+      "fileUris": ["${local.loadbalancer_playbook_url}/v${local.loadbalancer_playbook_version}/pagopa_lb_vm/run.sh"],
+      "commandToExecute": "./run.sh",
       "timestamp": 1
     }
 SETTINGS

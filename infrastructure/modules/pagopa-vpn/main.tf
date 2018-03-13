@@ -41,6 +41,7 @@ locals {
   loadbalancer_nsg_name                   = "${var.azurerm_resource_name_prefix}-ppa-lb-nsg-${var.environment_short}"
   loadbalancer_interface_name             = "${var.azurerm_resource_name_prefix}-ppa-lb-if-${var.environment_short}"
   loadbalancer_vm_name                    = "${var.azurerm_resource_name_prefix}-ppa-lb-vm-${var.environment_short}"
+  loadbalancer_vm_ext_name                = "${var.azurerm_resource_name_prefix}-ppa-lb-vm-ext-${var.environment_short}"
 }
 
 resource "azurerm_virtual_network" "default" {
@@ -251,6 +252,33 @@ resource "azurerm_virtual_machine" "lb_vm" {
       },
     ]
   }
+  tags {
+    environment = "${var.environment}"
+  }
+}
+
+# Provision the VM by running a custom script
+# Increase the value of "timestamp" for force the script to run again
+resource "azurerm_virtual_machine_extension" "lb_vm_ext" {
+  # only create when enable == "true"
+  count = "${var.enable == "true" ? 1 : 0}"
+
+  name                 = "${local.loadbalancer_vm_ext_name}"
+  location             = "${var.resource_group_location}"
+  resource_group_name  = "${var.resource_group_name}"
+  virtual_machine_name = "${azurerm_virtual_machine.lb_vm.name}"
+  publisher            = "Microsoft.OSTCExtensions"
+  type                 = "CustomScriptForLinux"
+  type_handler_version = "1.2"
+
+  settings = <<SETTINGS
+    {
+      "fileUris": ["https://raw.githubusercontent.com/Microsoft/dotnet-core-sample-templates/master/dotnet-core-music-linux/scripts/config-music.sh"],
+      "commandToExecute": "./config-music.sh",
+      "timestamp": 1
+    }
+SETTINGS
+
   tags {
     environment = "${var.environment}"
   }

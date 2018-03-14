@@ -33,6 +33,14 @@ spec:
         ports:
         - name: http-port
           containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: "/"
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 5
 ---
 #
 # A service exposing the pagopa-backend to the cluster.

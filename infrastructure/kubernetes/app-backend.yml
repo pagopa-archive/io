@@ -47,6 +47,8 @@ spec:
             secretKeyRef:
               name: app-backend-secrets
               key: api_key
+        - name: "REDIS_URL"
+          value: "redis://localhost"
         volumeMounts:
           - name: certs
             mountPath: "/usr/src/app/certs"

@@ -55,7 +55,7 @@ spec:
             readOnly: true
         livenessProbe:
           httpGet:
-            path: "/ping"
+            path: "/"
             port: 80
           initialDelaySeconds: 30
           timeoutSeconds: 5

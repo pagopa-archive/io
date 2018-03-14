@@ -43,8 +43,10 @@ metadata:
   name: pagopa-backend
   namespace: default
 spec:
+  type: NodePort
   selector:
     app: pagopa-backend
   ports:
     - protocol: TCP
-      port: 30010
+      port: 80
+      nodePort: 30010

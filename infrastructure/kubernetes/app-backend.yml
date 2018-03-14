@@ -42,6 +42,8 @@ spec:
           value: "https://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"
         - name: "SAML_ISSUER"
           value: "https://spid.agid.gov.it/cd"
+        - name: "SAML_ATTRIBUTE_CONSUMING_SERVICE_INDEX"
+          value: "0"
         - name: "API_KEY"
           valueFrom:
             secretKeyRef:

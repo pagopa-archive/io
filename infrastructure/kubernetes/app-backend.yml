@@ -28,7 +28,7 @@ spec:
         app: app-backend
     spec:
       containers:
-      - image: "teamdigitale/italia-backend:v0.0.6"
+      - image: "teamdigitale/italia-backend:v0.0.9"
         name: app-backend
         ports:
         - name: http-port
@@ -55,14 +55,14 @@ spec:
           - name: certs
             mountPath: "/usr/src/app/certs"
             readOnly: true
-        livenessProbe:
-          httpGet:
-            path: "/ping"
-            port: 80
-          initialDelaySeconds: 30
-          timeoutSeconds: 5
-          periodSeconds: 10
-          failureThreshold: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: "/"
+        #     port: 80
+        #   initialDelaySeconds: 30
+        #   timeoutSeconds: 5
+        #   periodSeconds: 10
+        #   failureThreshold: 5
       - image: wodby/redis:4.0
         name: redis
         ports:

@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 1.2.0"
+  version = "~> 1.3.0"
 }
 
 provider "random" {
@@ -184,6 +184,11 @@ variable "azurerm_kubernetes_agent_vm_size" {
 variable "ARM_CLIENT_SECRET" {
   type        = "string"
   description = "The client secret of the service principal"
+}
+
+variable "azurerm_dns_main_zone" {
+  type        = "string"
+  description = "The domain used by Digital Citizenship subsystems"
 }
 
 # PagoPA VPN
@@ -838,6 +843,16 @@ resource "null_resource" "azurerm_apim_api" {
       "--apim_include_products"))
     }"
   }
+}
+
+# DNS Zone
+
+resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
+  name                = "${var.azurerm_dns_main_zone}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+
+  # This resource must exist only in the "production" environment
+  count = "${var.environment == "production" ? 1 : 0}"
 }
 
 # Azure Container Service (Kubernetes)

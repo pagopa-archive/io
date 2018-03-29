@@ -852,7 +852,7 @@ resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
 
   # This resource must exist only in the "production" environment
-  enable = "${var.environment == "production" ? "true" : "false"}"
+  count = "${var.environment == "production" ? 0 : 1}"
 }
 
 # Azure Container Service (Kubernetes)

@@ -850,6 +850,9 @@ resource "null_resource" "azurerm_apim_api" {
 resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
   name                = "${var.azurerm_dns_main_zone}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+
+  # This resource must exist only in the "production" environment
+  enable = "${var.environment == "production" ? "true" : "false"}"
 }
 
 # Azure Container Service (Kubernetes)

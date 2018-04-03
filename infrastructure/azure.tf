@@ -154,19 +154,19 @@ variable "azurerm_azure_portal_ips" {
   description = "The IPs of the Azure admin portal"
 }
 
-# This should be passed bya ENV var TF_VAR_SENDGRID_KEY
+# This should be passed by ENV var TF_VAR_SENDGRID_KEY
 variable "SENDGRID_KEY" {
   type        = "string"
   description = "The API key for the SendGrid service"
 }
 
-# This should be passed bya ENV var TF_VAR_MAILUP_USERNAME
+# This should be passed by ENV var TF_VAR_MAILUP_USERNAME
 variable "MAILUP_USERNAME" {
   type        = "string"
   description = "Username for the MailUp SMTP+ service"
 }
 
-# This should be passed bya ENV var TF_VAR_MAILUP_SECRET
+# This should be passed by ENV var TF_VAR_MAILUP_SECRET
 variable "MAILUP_SECRET" {
   type        = "string"
   description = "Password for the MailUp SMTP+ service"
@@ -880,8 +880,9 @@ resource "null_resource" "azurerm_apim_api" {
   }
 }
 
-## DNS Zone
-
+#
+# DNS Zone
+#
 resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
   name                = "${var.azurerm_dns_main_zone}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
@@ -910,8 +911,9 @@ resource "azurerm_dns_cname_record" "azurerm_dns_main_zone_dkim" {
   ttl                 = 3600
 }
 
-## Azure Container Service (Kubernetes)
-
+#
+# Azure Container Service (Kubernetes)
+#
 locals {
   # The ssh public key for the admin account on the k8s nodes is read from the
   # file stored in the "files" directory and named after the value of the

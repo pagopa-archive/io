@@ -160,6 +160,23 @@ variable "SENDGRID_KEY" {
   description = "The API key for the SendGrid service"
 }
 
+# This should be passed bya ENV var TF_VAR_MAILUP_USERNAME
+variable "MAILUP_USERNAME" {
+  type        = "string"
+  description = "Username for the MailUp SMTP+ service"
+}
+
+# This should be passed bya ENV var TF_VAR_MAILUP_SECRET
+variable "MAILUP_SECRET" {
+  type        = "string"
+  description = "Password for the MailUp SMTP+ service"
+}
+
+variable "default_sender_email" {
+  type        = "string"
+  description = "Default sender email address"
+}
+
 variable "azurerm_kubernetes_admin_username" {
   type        = "string"
   description = "The username of the admin account on the Kubernetes nodes"
@@ -186,9 +203,21 @@ variable "ARM_CLIENT_SECRET" {
   description = "The client secret of the service principal"
 }
 
+# DNS configuration for the default email provider
+
 variable "azurerm_dns_main_zone" {
   type        = "string"
   description = "The domain used by Digital Citizenship subsystems"
+}
+
+variable "azurerm_dns_main_zone_spf1" {
+  type        = "string"
+  description = "Default email provider spf1 DNS record"
+}
+
+variable "azurerm_dns_main_zone_dkim" {
+  type        = "map"
+  description = "Default email provider dkim DNS records"
 }
 
 # PagoPA VPN
@@ -507,6 +536,12 @@ resource "azurerm_function_app" "azurerm_function_app" {
     "SCM_USE_FUNCPACK_BUILD" = "1"
 
     "MESSAGE_CONTAINER_NAME" = "${azurerm_storage_blob.azurerm_message_blob.name}"
+
+    "MAILUP_USERNAME" = "${var.MAILUP_USERNAME}"
+
+    "MAILUP_SECRET" = "${var.MAILUP_SECRET}"
+
+    "MAIL_FROM_DEFAULT" = "${var.default_sender_email}"
   }
 
   connection_string = [
@@ -845,7 +880,7 @@ resource "null_resource" "azurerm_apim_api" {
   }
 }
 
-# DNS Zone
+## DNS Zone
 
 resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
   name                = "${var.azurerm_dns_main_zone}"
@@ -855,7 +890,27 @@ resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
   count = "${var.environment == "production" ? 1 : 0}"
 }
 
-# Azure Container Service (Kubernetes)
+# default email provider txt spf1 dns record
+resource "azurerm_dns_txt_record" "azurerm_dns_main_zone_spf1" {
+  count               = "${var.environment == "production" ? 1 : 0}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+  zone_name           = "${azurerm_dns_zone.azurerm_dns_main_zone.name}"
+  name                = "@"
+  record              = "${var.azurerm_dns_main_zone_spf1}"
+  ttl                 = 3600
+}
+
+# default email provider cname dkim dns records
+resource "azurerm_dns_cname_record" "azurerm_dns_main_zone_dkim" {
+  count               = "${var.environment == "production" ? length(keys(var.azurerm_dns_main_zone_dkim)) : 0}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+  zone_name           = "${azurerm_dns_zone.azurerm_dns_main_zone.name}"
+  name                = "${element(keys(var.azurerm_dns_main_zone_dkim), count.index)}"
+  record              = "${lookup(var.azurerm_dns_main_zone_dkim, element(keys(var.azurerm_dns_main_zone_dkim), count.index))}"
+  ttl                 = 3600
+}
+
+## Azure Container Service (Kubernetes)
 
 locals {
   # The ssh public key for the admin account on the k8s nodes is read from the

@@ -27,7 +27,7 @@ It is therefore necessary to implement a custom retry policy to schedule message
 The following possibilities, to delay message processing, have been considered:
 
   1. Switching from Storage Queues to [ServiceBus](https://docs.microsoft.com/en-us/azure/service-bus/):
-  that allows to schedule messages at specified point in time bue [there are some known issues] (https://github.com/Azure/Azure-Functions/issues/454#issuecomment-324785962) that suggest to avoid this approach. Moreover the ServiceBus is more expensive
+  that allows to schedule messages at specified point in time bue [there are some known issues](https://github.com/Azure/Azure-Functions/issues/454#issuecomment-324785962) that suggest to avoid this approach. Moreover the ServiceBus is more expensive
   and has less storage capability than Storage Queues.
   1. Using [Durable Functions](https://docs.microsoft.com/en-us/azure/azure-functions/durable-functions-overview#language-support): this is [only supported
   in .NET environment](https://github.com/Azure/azure-functions-durable-extension/issues/13#issuecomment-359448481).
@@ -46,7 +46,7 @@ The implemented strategy, that uses the [SDK method `updateMessage()`](http://az
 
 ## Consequences
 
-All message handler should call [`retryMessageEnqueue()`](https://github.com/teamdigitale/digital-citizenship-functions/blob/86a5c5a6acce49221a0c6a5fb9faaeb84efa9510/lib/utils/azure_queues.ts#L71)
+All message handler should call [`updateMessageVisibilityTimeout()`](https://github.com/teamdigitale/digital-citizenship-functions/blob/master/lib/utils/azure_queues.ts#L88)
 in the message processing code; the function catches errors and schedules retries.
 
 Messages that cause processing failures won't be sent to poison queues anymore

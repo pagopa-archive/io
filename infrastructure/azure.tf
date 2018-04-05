@@ -898,8 +898,11 @@ resource "azurerm_dns_txt_record" "azurerm_dns_main_zone_spf1" {
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
   zone_name           = "${azurerm_dns_zone.azurerm_dns_main_zone.name}"
   name                = "@"
-  record              = "${var.azurerm_dns_main_zone_spf1}"
   ttl                 = 3600
+
+  record {
+    value = "${var.azurerm_dns_main_zone_spf1}"
+  }
 }
 
 # default email provider cname dkim dns records

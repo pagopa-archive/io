@@ -154,12 +154,6 @@ variable "azurerm_azure_portal_ips" {
   description = "The IPs of the Azure admin portal"
 }
 
-# This should be passed by ENV var TF_VAR_SENDGRID_KEY
-variable "SENDGRID_KEY" {
-  type        = "string"
-  description = "The API key for the SendGrid service"
-}
-
 # This should be passed by ENV var TF_VAR_MAILUP_USERNAME
 variable "MAILUP_USERNAME" {
   type        = "string"
@@ -556,14 +550,6 @@ resource "azurerm_function_app" "azurerm_function_app" {
       type  = "Custom"
       value = "https://${azurerm_cosmosdb_account.azurerm_cosmosdb.name}.documents.azure.com:443/"
     },
-    {
-      # [#152800384] - TODO: change the following value
-      # when we'll migrate to production service
-      name = "SENDGRID_KEY"
-
-      type  = "Custom"
-      value = "${var.SENDGRID_KEY}"
-    },
   ]
 }
 
@@ -663,7 +649,6 @@ resource "null_resource" "azurerm_app_service_portal" {
       "ts-node ${var.app_service_portal_provisioner}",
       "--environment ${var.environment}",
       "--azurerm_resource_group ${azurerm_resource_group.azurerm_resource_group.name}",
-      "--azurerm_functionapp ${azurerm_function_app.azurerm_function_app.name}",
       "--azurerm_apim ${local.azurerm_apim_name}",
       "--apim_configuration_path ${var.apim_configuration_path}",
       "--azurerm_app_service_portal ${azurerm_app_service.azurerm_app_service_portal.name}",

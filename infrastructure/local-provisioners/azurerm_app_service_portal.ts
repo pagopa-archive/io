@@ -45,7 +45,6 @@ import {
 const TaskParams = t.interface({
   environment: t.string,
   azurerm_resource_group: t.string,
-  azurerm_functionapp: t.string,
   azurerm_apim: t.string,
   azurerm_cosmosdb: t.string,
   azurerm_documentdb: t.string,
@@ -199,9 +198,6 @@ const argv = yargs
     string: true
   })
   .option("azurerm_resource_group", {
-    string: true
-  })
-  .option("azurerm_functionapp", {
     string: true
   })
   .option("azurerm_apim", {

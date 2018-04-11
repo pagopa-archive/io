@@ -233,6 +233,13 @@ azure-arm-eventhub@^1.1.0-preview:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
 
+azure-arm-notificationhubs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/azure-arm-notificationhubs/-/azure-arm-notificationhubs-1.1.0.tgz#09ce8584fbca3e4ec8e144b70abcb2983ef2f1f0"
+  dependencies:
+    ms-rest "^2.2.2"
+    ms-rest-azure "^2.3.3"
+
 azure-arm-storage@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/azure-arm-storage/-/azure-arm-storage-3.1.0.tgz#2f06831fa5217e927597e4389036c1648fd97041"

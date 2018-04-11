@@ -143,6 +143,11 @@ variable "azurerm_apim_eventhub_rule" {
   description = "EventHub rule for API management"
 }
 
+variable "azurerm_notification_hub_sku" {
+  type        = "string"
+  description = "SKU (tier) of the Notification HUB"
+}
+
 variable "azurerm_shared_address_space_cidr" {
   default     = "100.64.0.0/10"
   description = "Azure internal network CIDR"
@@ -263,6 +268,10 @@ variable "apim_configuration_path" {
   description = "Path of the (json) file that contains the configuration settings for the API management resource"
 }
 
+variable "notification_hub_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_notification_hub.ts"
+}
+
 variable "cosmosdb_iprange_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_cosmosdb_iprange.ts"
 }
@@ -293,6 +302,8 @@ locals {
   azurerm_apim_name                        = "${var.azurerm_resource_name_prefix}-apim-${var.environment_short}"
   azurerm_eventhub_ns_name                 = "${var.azurerm_resource_name_prefix}-eventhub-ns-${var.environment_short}"
   azurerm_apim_eventhub_name               = "${var.azurerm_resource_name_prefix}-apim-eventhub-${var.environment_short}"
+  azurerm_notification_hub                 = "${var.azurerm_resource_name_prefix}-notificationhub-${var.environment_short}"
+  azurerm_notification_hub_ns              = "${var.azurerm_resource_name_prefix}-notificationhubns-${var.environment_short}"
   azurerm_kubernetes_name                  = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
   azurerm_kubernetes_public_ip_name        = "${var.azurerm_resource_name_prefix}-k8s-ip-${var.environment_short}"
 }
@@ -761,6 +772,26 @@ resource "azurerm_eventhub_authorization_rule" "azurerm_apim_eventhub_rule" {
   listen              = true
   send                = true
   manage              = false
+}
+
+# Notification Hub for push notifications
+# TODO: set up services credentials
+resource "null_resource" "azurerm_notification_hub" {
+  triggers = {
+    azurerm_resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+    provisioner_version         = "1"
+  }
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.notification_hub_provisioner}",
+      "--location ${lower(replace(var.location, " ", ""))}",
+      "--azurerm_resource_group ${azurerm_resource_group.azurerm_resource_group.name}",
+      "--azurerm_notification_hub_sku ${var.azurerm_notification_hub_sku}",
+      "--azurerm_notification_hub_ns ${local.azurerm_notification_hub_ns}",
+      "--azurerm_notification_hub ${local.azurerm_notification_hub}"))
+    }"
+  }
 }
 
 # API management

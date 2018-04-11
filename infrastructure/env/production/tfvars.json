@@ -7,5 +7,6 @@
   "app_service_portal_post_logout_url": "https://developer.cd.italia.it/",
   "azurerm_apim_sku": "Developer",
   "azurerm_kubernetes_agent_count": 5,
-  "azurerm_kubernetes_agent_vm_size": "Standard_D3"
+  "azurerm_kubernetes_agent_vm_size": "Standard_D3",
+  "azurerm_notification_hub_sku": "Standard"
 }

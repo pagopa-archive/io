@@ -28,7 +28,11 @@ const ApimParams = t.interface({
   azurerm_resource_group: t.string,
   azurerm_notification_hub: t.string,
   azurerm_notification_hub_ns: t.string,
-  azurerm_notification_hub_sku: t.string
+  azurerm_notification_hub_sku: t.union([
+    t.literal("Free"),
+    t.literal("Basic"),
+    t.literal("Standard")
+  ])
 });
 
 type ApimParams = t.TypeOf<typeof ApimParams>;

@@ -505,8 +505,11 @@ resource "azurerm_function_app" "azurerm_function_app" {
     always_on = true
   }
 
+  # Do not set "AzureWebJobsDashboard" to disable builtin logging
+  # see https://docs.microsoft.com/en-us/azure/azure-functions/functions-monitoring#disable-built-in-logging
+
   app_settings = {
-    # "AzureWebJobsStorage" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"  # "AzureWebJobsDashboard" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"
+    # "AzureWebJobsStorage" = "${azurerm_storage_account.azurerm_functionapp_storage_account.primary_connection_string}"
 
     "COSMOSDB_NAME" = "${local.azurerm_cosmosdb_documentdb_name}"
 
@@ -538,7 +541,6 @@ resource "azurerm_function_app" "azurerm_function_app" {
 
     "MAIL_FROM_DEFAULT" = "${var.default_sender_email}"
   }
-
   connection_string = [
     {
       name  = "COSMOSDB_KEY"

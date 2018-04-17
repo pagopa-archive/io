@@ -32,7 +32,16 @@ const ApimParams = t.interface({
     t.literal("Free"),
     t.literal("Basic"),
     t.literal("Standard")
-  ])
+  ]),
+  notification_hub_apns_app_id: t.string,
+  notification_hub_apns_name: t.string,
+  notification_hub_apns_endpoint: t.union([
+    t.literal("https://api.development.push.apple.com:443/3/device"),
+    t.literal("https://api.push.apple.com:443/3/device")
+  ]),
+  notification_hub_apns_key: t.string,
+  notification_hub_apns_key_id: t.string,
+  notification_hub_gcm_key: t.string
 });
 
 type ApimParams = t.TypeOf<typeof ApimParams>;
@@ -53,7 +62,6 @@ export const run = async (params: ApimParams) => {
       namespaceType: "NotificationHub",
       enabled: true,
       sku: {
-        // "Basic", "Free", "Standard"
         name: params.azurerm_notification_hub_sku
       }
     }
@@ -63,16 +71,36 @@ export const run = async (params: ApimParams) => {
     throw new Error("Cannot create NotificationHub namespace");
   }
 
+  const creds = Object.assign(
+    {},
+    params.notification_hub_apns_key
+      ? {
+          apnsCredential: {
+            endpoint: params.notification_hub_apns_endpoint,
+            appId: params.notification_hub_apns_app_id,
+            appName: params.notification_hub_apns_name,
+            keyId: params.notification_hub_apns_key_id,
+            token: params.notification_hub_apns_key
+          }
+        }
+      : {},
+    params.notification_hub_gcm_key
+      ? {
+          gcmCredential: {
+            googleApiKey: params.notification_hub_gcm_key
+          }
+        }
+      : {}
+  );
+
   return notificationHubClient.notificationHubs.createOrUpdate(
     params.azurerm_resource_group,
     namespace.name,
     params.azurerm_notification_hub,
     {
+      ...creds,
       location: params.location,
-      // apnsCredential
-      // gcmCredential
       sku: {
-        // "Basic", "Free", "Standard"
         name: params.azurerm_notification_hub_sku
       }
     }
@@ -94,6 +122,26 @@ const argv = yargs
     string: true
   })
   .option("azurerm_notification_hub_sku", {
+    string: true
+  })
+  // iOS
+  .option("notification_hub_apns_app_id", {
+    string: true
+  })
+  .option("notification_hub_apns_name", {
+    string: true
+  })
+  .option("notification_hub_apns_key", {
+    string: true
+  })
+  .option("notification_hub_apns_key_id", {
+    string: true
+  })
+  .option("notification_hub_apns_endpoint", {
+    string: true
+  })
+  // Android
+  .option("notification_hub_gcm_key", {
     string: true
   })
   .help().argv;

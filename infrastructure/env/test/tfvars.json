@@ -8,5 +8,8 @@
   "azurerm_apim_sku": "Standard",
   "azurerm_kubernetes_agent_count": 3,
   "azurerm_kubernetes_agent_vm_size": "Standard_D2",
-  "azurerm_notification_hub_sku": "Free"
+  "azurerm_notification_hub_sku": "Free",
+  "notification_hub_apns_name": "it.teamdigitale.app.Italia",
+  "notification_hub_apns_app_id": "4RV73SN38W",
+  "notification_hub_apns_endpoint": "https://api.development.push.apple.com:443/3/device"
 }

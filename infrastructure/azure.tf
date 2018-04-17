@@ -143,9 +143,44 @@ variable "azurerm_apim_eventhub_rule" {
   description = "EventHub rule for API management"
 }
 
+# Notification HUB
+
 variable "azurerm_notification_hub_sku" {
   type        = "string"
   description = "SKU (tier) of the Notification HUB"
+}
+
+variable "notification_hub_apns_app_id" {
+  type        = "string"
+  description = "APNS application Id"
+}
+
+variable "notification_hub_apns_name" {
+  type        = "string"
+  description = "APNS name"
+}
+
+variable "notification_hub_apns_endpoint" {
+  type        = "string"
+  description = "APNS endpoint (test or sandbox)"
+}
+
+# This should be passed by ENV var TF_VAR_NOTIFICATION_HUB_APNS_KEY
+variable "NOTIFICATION_HUB_APNS_KEY" {
+  type        = "string"
+  description = "APNS Key"
+}
+
+# This should be passed by ENV var TF_VAR_NOTIFICATION_HUB_APNS_KEY_ID
+variable "NOTIFICATION_HUB_APNS_KEY_ID" {
+  type        = "string"
+  description = "APNS key Id"
+}
+
+# This should be passed by ENV var TF_VAR_NOTIFICATION_HUB_GCM_KEY
+variable "NOTIFICATION_HUB_GCM_KEY" {
+  type        = "string"
+  description = "GCM Key"
 }
 
 variable "azurerm_shared_address_space_cidr" {
@@ -791,6 +826,12 @@ resource "null_resource" "azurerm_notification_hub" {
       "--azurerm_resource_group ${azurerm_resource_group.azurerm_resource_group.name}",
       "--azurerm_notification_hub_sku ${var.azurerm_notification_hub_sku}",
       "--azurerm_notification_hub_ns ${local.azurerm_notification_hub_ns}",
+      "--notification_hub_apns_app_id ${var.notification_hub_apns_app_id}",
+      "--notification_hub_apns_name ${var.notification_hub_apns_name}",
+      "--notification_hub_apns_endpoint ${var.notification_hub_apns_endpoint}",
+      "--notification_hub_apns_key ${var.NOTIFICATION_HUB_APNS_KEY}",
+      "--notification_hub_apns_key_id ${var.NOTIFICATION_HUB_APNS_KEY_ID}",
+      "--notification_hub_gcm_key ${var.NOTIFICATION_HUB_GCM_KEY}",
       "--azurerm_notification_hub ${local.azurerm_notification_hub}"))
     }"
   }

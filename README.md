@@ -377,8 +377,8 @@ ARM_CLIENT_ID=XXXXXXX-XXXX-XXXX-XXX-XXXXXXXXX
 ARM_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXX=
 ARM_TENANT_ID=XXXXXXX-XXXXX-XXXX-XXXX-XXXXXXXXXXX
 
-# -------- Ask the project administrator for the values 
-# -------- of the following values / credentials
+# -------- Ask the project administrator for
+# -------- the values of the following credentials
 
 # Client credentials for dev-portal ADB2C App
 TF_VAR_DEV_PORTAL_CLIENT_ID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX

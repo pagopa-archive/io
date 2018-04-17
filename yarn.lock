@@ -1087,9 +1087,9 @@ cycle@1.0.x:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
 
-"danger-plugin-digitalcitizenship@https://github.com/teamdigitale/danger-plugin-digitalcitizenship#v0.0.2":
-  version "0.0.1"
-  resolved "https://github.com/teamdigitale/danger-plugin-digitalcitizenship#e0ec127cde017b9e9a86308985aeb0adb7c93bd9"
+danger-plugin-digitalcitizenship@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/danger-plugin-digitalcitizenship/-/danger-plugin-digitalcitizenship-0.1.0.tgz#14eb9bfad12cafe192b299218eb601ad4b8acd56"
   dependencies:
     pivotaljs "^1.0.3"
 

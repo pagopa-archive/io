@@ -165,19 +165,19 @@ variable "notification_hub_apns_endpoint" {
   description = "APNS endpoint (test or sandbox)"
 }
 
-# This should be passed by ENV var NOTIFICATION_HUB_APNS_KEY
+# This should be passed by ENV var TF_VAR_NOTIFICATION_HUB_APNS_KEY
 variable "NOTIFICATION_HUB_APNS_KEY" {
   type        = "string"
   description = "APNS Key"
 }
 
-# This should be passed by ENV var TF_VARS_NOTIFICATION_HUB_APNS_KEY_ID
+# This should be passed by ENV var TF_VAR_NOTIFICATION_HUB_APNS_KEY_ID
 variable "NOTIFICATION_HUB_APNS_KEY_ID" {
   type        = "string"
   description = "APNS key Id"
 }
 
-# This should be passed by ENV var TF_VARS_NOTIFICATION_HUB_GCM_KEY
+# This should be passed by ENV var TF_VAR_NOTIFICATION_HUB_GCM_KEY
 variable "NOTIFICATION_HUB_GCM_KEY" {
   type        = "string"
   description = "GCM Key"

@@ -35,6 +35,9 @@ const ApimParams = t.interface({
   ]),
   notification_hub_apns_app_id: t.string,
   notification_hub_apns_name: t.string,
+  // test (sandbox) and production endpoints for APNS
+  // see https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingwithAPNs.html
+  // they require different api keys
   notification_hub_apns_endpoint: t.union([
     t.literal("https://api.development.push.apple.com:443/3/device"),
     t.literal("https://api.push.apple.com:443/3/device")

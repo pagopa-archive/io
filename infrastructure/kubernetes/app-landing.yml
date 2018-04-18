@@ -28,7 +28,7 @@ spec:
         app: app-landing
     spec:
       containers:
-      - image: "teamdigitale/italia-landing:website-v19"
+      - image: "teamdigitale/italia-landing:website-v27"
         name: app-landing
         ports:
         - name: http-port

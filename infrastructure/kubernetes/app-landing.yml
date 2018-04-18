@@ -13,7 +13,7 @@ metadata:
   labels:
     app: app-landing
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -28,7 +28,7 @@ spec:
         app: app-landing
     spec:
       containers:
-      - image: "teamdigitale/italia-landing:website-v27"
+      - image: "teamdigitale/italia-landing:website-v35"
         name: app-landing
         ports:
         - name: http-port

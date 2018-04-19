@@ -50,9 +50,9 @@
   version "6.0.92"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.92.tgz#e7f721ae282772e12ba2579968c00d9cce422c5d"
 
-"@types/readline-sync@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@types/readline-sync/-/readline-sync-1.4.2.tgz#516b5f4f250534062b6bb08ae8367a088dcf739f"
+"@types/readline-sync@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@types/readline-sync/-/readline-sync-1.4.3.tgz#eac55a39d5a349912062c9e5216cd550c07fd9c8"
 
 "@types/request@^2.0.3":
   version "2.0.8"

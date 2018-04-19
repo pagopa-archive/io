@@ -37,12 +37,12 @@ import {
  * that represents values that *change* between different deploying environments.
  */
 const ApimParams = t.interface({
-  environment: t.string,
-  azurerm_resource_group: t.string,
+  apim_configuration_path: t.string,
   azurerm_apim: t.string,
   azurerm_apim_eventhub: t.string,
-  apim_configuration_path: t.string,
-  azurerm_apim_eventhub_connstr: t.string
+  azurerm_apim_eventhub_connstr: t.string,
+  azurerm_resource_group: t.string,
+  environment: t.string
 });
 
 type ApimParams = t.TypeOf<typeof ApimParams>;

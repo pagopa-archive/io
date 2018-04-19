@@ -33,13 +33,13 @@ import {
 } from "../../lib/config";
 
 const ApimParams = t.interface({
-  environment: t.string,
-  azurerm_resource_group: t.string,
-  azurerm_apim: t.string,
-  apim_configuration_path: t.string,
-  adb2c_tenant_id: t.string,
   adb2c_portal_client_id: t.string,
-  adb2c_portal_client_secret: t.string
+  adb2c_portal_client_secret: t.string,
+  adb2c_tenant_id: t.string,
+  apim_configuration_path: t.string,
+  azurerm_apim: t.string,
+  azurerm_resource_group: t.string,
+  environment: t.string
 });
 
 type ApimParams = t.TypeOf<typeof ApimParams>;

@@ -14,12 +14,12 @@ import { isRight } from "fp-ts/lib/Either";
 const SERVICE_ID_SUFFIX = "-0000000000000000";
 
 export const ServicePayload = t.strict({
-  serviceName: t.string,
+  authorizedCIDRs: t.readonlyArray(t.string),
+  authorizedRecipients: t.readonlyArray(t.string),
   departmentName: t.string,
   organizationName: t.string,
   serviceId: t.string,
-  authorizedRecipients: t.readonlyArray(t.string),
-  authorizedCIDRs: t.readonlyArray(t.string)
+  serviceName: t.string
 });
 
 export type ServicePayload = t.TypeOf<typeof ServicePayload>;

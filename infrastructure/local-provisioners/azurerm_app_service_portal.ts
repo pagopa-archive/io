@@ -43,14 +43,14 @@ import {
 } from "../../lib/config";
 
 const TaskParams = t.interface({
-  environment: t.string,
-  azurerm_resource_group: t.string,
-  azurerm_apim: t.string,
-  azurerm_cosmosdb: t.string,
-  azurerm_documentdb: t.string,
   apim_configuration_path: t.string,
+  azurerm_apim: t.string,
   azurerm_app_service_portal: t.string,
-  azurerm_cosmosdb_key: t.string
+  azurerm_cosmosdb: t.string,
+  azurerm_cosmosdb_key: t.string,
+  azurerm_documentdb: t.string,
+  azurerm_resource_group: t.string,
+  environment: t.string
 });
 
 type TaskParams = t.TypeOf<typeof TaskParams>;
@@ -138,8 +138,8 @@ const createOrUpdareAdminApiUser = async (
     {
       authorizedCIDRs: [],
       authorizedRecipients: [],
-      organizationName: "IT",
       departmentName: "AgID",
+      organizationName: "IT",
       serviceId,
       serviceName: "Digital Citizenship"
     }

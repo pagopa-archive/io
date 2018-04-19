@@ -7,12 +7,12 @@ import { getObjectFromJson } from "../../lib/config";
 import { checkEnvironment } from "../../lib/environment";
 
 const TaskParams = t.interface({
-  azurerm_resource_group: t.string,
-  azurerm_documentdb: t.string,
   azurerm_cosmosdb: t.string,
-  azurerm_cosmosdb_key: t.string,
   azurerm_cosmosdb_collection: t.string,
-  azurerm_cosmosdb_collection_pk: t.string
+  azurerm_cosmosdb_collection_pk: t.string,
+  azurerm_cosmosdb_key: t.string,
+  azurerm_documentdb: t.string,
+  azurerm_resource_group: t.string
 });
 export type TaskParams = t.TypeOf<typeof TaskParams>;
 

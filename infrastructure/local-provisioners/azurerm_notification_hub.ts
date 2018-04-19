@@ -24,8 +24,6 @@ import { getObjectFromJson } from "../../lib/config";
  * that represents values that *change* between different deploying environments.
  */
 const ApimParams = t.interface({
-  location: t.string,
-  azurerm_resource_group: t.string,
   azurerm_notification_hub: t.string,
   azurerm_notification_hub_ns: t.string,
   azurerm_notification_hub_sku: t.union([
@@ -33,8 +31,9 @@ const ApimParams = t.interface({
     t.literal("Basic"),
     t.literal("Standard")
   ]),
+  azurerm_resource_group: t.string,
+  location: t.string,
   notification_hub_apns_app_id: t.string,
-  notification_hub_apns_name: t.string,
   // test (sandbox) and production endpoints for APNS
   // see https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingwithAPNs.html
   // they require different api keys
@@ -44,6 +43,7 @@ const ApimParams = t.interface({
   ]),
   notification_hub_apns_key: t.string,
   notification_hub_apns_key_id: t.string,
+  notification_hub_apns_name: t.string,
   notification_hub_gcm_key: t.string
 });
 
@@ -61,9 +61,9 @@ export const run = async (params: ApimParams) => {
     params.azurerm_resource_group,
     params.azurerm_notification_hub_ns,
     {
+      enabled: true,
       location: params.location,
       namespaceType: "NotificationHub",
-      enabled: true,
       sku: {
         name: params.azurerm_notification_hub_sku
       }
@@ -79,9 +79,9 @@ export const run = async (params: ApimParams) => {
     params.notification_hub_apns_key
       ? {
           apnsCredential: {
-            endpoint: params.notification_hub_apns_endpoint,
             appId: params.notification_hub_apns_app_id,
             appName: params.notification_hub_apns_name,
+            endpoint: params.notification_hub_apns_endpoint,
             keyId: params.notification_hub_apns_key_id,
             token: params.notification_hub_apns_key
           }

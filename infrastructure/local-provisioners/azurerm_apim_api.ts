@@ -39,13 +39,13 @@ import { getFunctionsInfo } from "../../lib/task_utils";
  * that represents values that *change* between different deploying environments.
  */
 const ApimParams = t.interface({
-  environment: t.string,
-  azurerm_resource_group: t.string,
-  azurerm_apim: t.string,
   apim_configuration_path: t.string,
-  azurerm_functionapp: t.string,
+  apim_include_policies: t.boolean,
   apim_include_products: t.boolean,
-  apim_include_policies: t.boolean
+  azurerm_apim: t.string,
+  azurerm_functionapp: t.string,
+  azurerm_resource_group: t.string,
+  environment: t.string
 });
 
 type ApimParams = t.TypeOf<typeof ApimParams>;

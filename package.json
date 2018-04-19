@@ -27,7 +27,7 @@
     "@types/documentdb": "^1.10.2",
     "@types/dotenv": "^4.0.2",
     "@types/node": "^6.0.0",
-    "@types/readline-sync": "^1.4.2",
+    "@types/readline-sync": "^1.4.3",
     "@types/request": "^2.0.3",
     "@types/shelljs": "^0.7.4",
     "@types/tmp": "^0.0.33",

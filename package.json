@@ -50,7 +50,7 @@
     "env-cmd": "^7.0.0",
     "fp-ts": "^0.6.4",
     "gh-pages": "^1.0.0",
-    "io-ts": "^0.9.5",
+    "io-ts": "^1.0.5",
     "io-ts-reporters": "^0.0.20",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.0",

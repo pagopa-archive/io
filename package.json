@@ -34,7 +34,7 @@
     "@types/winston": "^2.3.8",
     "@types/yargs": "^10.0.1",
     "azure-arm-apimanagement": "^1.0.0-preview",
-    "azure-arm-appinsights": "^1.0.0-preview",
+    "azure-arm-appinsights": "^1.2.1-preview",
     "azure-arm-cosmosdb": "^1.0.0-preview",
     "azure-arm-eventhub": "^1.1.0-preview",
     "azure-arm-notificationhubs": "^1.1.0",

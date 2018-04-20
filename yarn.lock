@@ -1339,15 +1339,16 @@ diff@^3.2.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.1.tgz#aa8567a6eed03c531fc89d3f711cd0e5259dec75"
 
-documentdb@^1.12.2:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.1.tgz#1a4716c0b38a40daf375dc9a4b2a2beb4e26294a"
+documentdb@^1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.2.tgz#26928fd03cd695f3111f32fe8323aa27e10cf5c7"
   dependencies:
     big-integer "^1.6.25"
     binary-search-bounds "2.0.3"
     int64-buffer "^0.1.9"
     priorityqueuejs "1.0.0"
     semaphore "1.0.5"
+    tunnel "0.0.5"
     underscore "1.8.3"
 
 dom-serializer@0, dom-serializer@~0.1.0:
@@ -3183,7 +3184,7 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
-tunnel@~0.0.2:
+tunnel@0.0.5, tunnel@~0.0.2:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.5.tgz#d1532254749ed36620fcd1010865495a1fa9d0ae"
 

@@ -15,7 +15,7 @@ import * as winston from "winston";
 
 import { traverse } from "fp-ts/lib/Array";
 import { Either, either, fromPredicate, left, right } from "fp-ts/lib/Either";
-import { ValidationError } from "io-ts";
+import { Errors, Validation } from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 
 // read environment variables from .env file
@@ -79,24 +79,24 @@ export const ResourcesConfiguration = t.interface({
   location: t.string
 });
 
-export type IResourcesConfiguration = t.TypeOf<typeof ResourcesConfiguration>;
+export type ResourcesConfiguration = t.TypeOf<typeof ResourcesConfiguration>;
 
-export const getObjectFromJson = <S, A>(
-  type: t.Type<S, A>,
-  json: S
+export const getObjectFromJson = <A>(
+  type: t.Type<A>,
+  json: t.mixed
 ): Either<Error, A> => {
-  return t.validate(json, type).fold(
+  return type.decode(json).fold(
     // tslint:disable-next-line:readonly-array
-    (l: ValidationError[]) => left(new Error(failure(l).join())),
+    (l: Errors) => left(new Error(failure(l).join())),
     (r: A) => right(r)
   );
 };
 
-export const getObjectFromString = <A, B>(type: t.Type<A, B>, s: string) =>
+export const getObjectFromString = <A>(type: t.Type<A>, s: string) =>
   getObjectFromJson(type, JSON.parse(s));
 
 // Get a typed javascript object (json) from file
-export const getObjectFromFile = <A, B>(type: t.Type<A, B>, filePath: string) =>
+export const getObjectFromFile = <A>(type: t.Type<A>, filePath: string) =>
   fromPredicate(
     (p: string) => !!fs.existsSync(p),
     p => new Error(`File ${p} not found`)
@@ -117,14 +117,17 @@ export const readConfig = (
   // tslint:disable-next-line:array-type readonly-array
   ...files: string[]
 ): // tslint:disable-next-line:readonly-array
-Either<t.ValidationError[], IResourcesConfiguration> => {
-  const config = traverse(either)(getMapFromFile, [
-    // Get Common Terraform configuration from JSON
-    path.join(...CONF_DIR, "common", TF_VARS_FILE_NAME),
-    // Get environment specific Terraform configuration from JSON
-    path.join(...CONF_DIR, environment, TF_VARS_FILE_NAME),
-    ...files
-  ])
+Validation<ResourcesConfiguration> => {
+  const config = traverse(either)(
+    [
+      // Get Common Terraform configuration from JSON
+      path.join(...CONF_DIR, "common", TF_VARS_FILE_NAME),
+      // Get environment specific Terraform configuration from JSON
+      path.join(...CONF_DIR, environment, TF_VARS_FILE_NAME),
+      ...files
+    ],
+    getMapFromFile
+  )
     // Merge configuration files
     .fold(
       (l: Error) => {
@@ -144,5 +147,5 @@ Either<t.ValidationError[], IResourcesConfiguration> => {
     throw new Error("Aborted.");
   }
 
-  return t.validate(config, ResourcesConfiguration);
+  return ResourcesConfiguration.decode(config);
 };

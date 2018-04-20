@@ -33,12 +33,13 @@ import * as tmp from "tmp";
 import * as url from "url";
 
 import { left } from "fp-ts/lib/Either";
+
 import * as replaceInFiles from "replace-in-file";
 import {
   CONF_DIR,
   getObjectFromJson,
-  IResourcesConfiguration,
-  readConfig
+  readConfig,
+  ResourcesConfiguration
 } from "../../lib/config";
 
 // tslint:disable-next-line:no-object-mutation
@@ -80,7 +81,7 @@ const addDays = (date: Date, days: number) => {
  */
 const replaceVariables = (
   tmpDirName: string,
-  config: IResourcesConfiguration,
+  config: ResourcesConfiguration,
   params: ApimParams
 ) => {
   const templateFiles = path.join(
@@ -149,7 +150,7 @@ const setupConfigurationFromGit = async (
   apiClient: apiManagementClient,
   scmUrl: string,
   configurationDirectoryPath: string,
-  config: IResourcesConfiguration,
+  config: ResourcesConfiguration,
   params: ApimParams
 ) => {
   winston.info("Get API management Git repository credentials");
@@ -248,7 +249,7 @@ const getPropsFromFunctions = async (
  */
 const createOrUpdateApiManagementService = async (
   apiClient: apiManagementClient,
-  config: IResourcesConfiguration,
+  config: ResourcesConfiguration,
   params: ApimParams
 ) => {
   winston.info(
@@ -272,7 +273,7 @@ export const run = async (params: ApimParams) => {
   const config = readConfig(
     params.environment,
     path.join(...CONF_DIR, ...params.apim_configuration_path.split("/"))
-  ).getOrElse(errs => {
+  ).getOrElseL(errs => {
     throw new Error(
       "Error parsing configuration:\n\n" + reporter(left(errs) as any)
     );

@@ -31,7 +31,7 @@ export function createOrUpdateService(
   servicePayload: ServicePayload
 ): Promise<RetrievedDocument> {
   return new Promise((resolve, reject) => {
-    const errorOrService = t.validate(servicePayload, ServicePayload);
+    const errorOrService = ServicePayload.decode(servicePayload);
     if (isRight(errorOrService)) {
       return errorOrService.map(service => {
         return client.upsertDocument(

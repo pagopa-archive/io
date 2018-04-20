@@ -54,6 +54,14 @@
   version "6.0.92"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.92.tgz#e7f721ae282772e12ba2579968c00d9cce422c5d"
 
+"@types/node@^8.0.47", "@types/node@^8.9.4":
+  version "8.10.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.9.tgz#b507a74a7d3eddc74a17dc35fd40d8f45dde0d6c"
+
+"@types/node@^9.4.6":
+  version "9.6.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.6.tgz#439b91f9caf3983cad2eef1e11f6bedcbf9431d2"
+
 "@types/readline-sync@^1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@types/readline-sync/-/readline-sync-1.4.3.tgz#eac55a39d5a349912062c9e5216cd550c07fd9c8"
@@ -95,6 +103,12 @@
   dependencies:
     "@types/node" "*"
 
+"@types/uuid@^3.4.3":
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.3.tgz#121ace265f5569ce40f4f6d0ff78a338c732a754"
+  dependencies:
+    "@types/node" "*"
+
 "@types/winston@^2.3.8":
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/@types/winston/-/winston-2.3.8.tgz#88964f45ecb5ed1feb4bfb38a24316bee8bf8768"
@@ -131,6 +145,20 @@ adal-node@^0.1.17:
     underscore ">= 1.3.1"
     xmldom ">= 0.1.x"
     xpath.js "~1.0.5"
+
+adal-node@^0.1.27:
+  version "0.1.28"
+  resolved "https://registry.yarnpkg.com/adal-node/-/adal-node-0.1.28.tgz#468c4bb3ebbd96b1270669f4b9cba4e0065ea485"
+  dependencies:
+    "@types/node" "^8.0.47"
+    async ">=0.6.0"
+    date-utils "*"
+    jws "3.x.x"
+    request ">= 2.52.0"
+    underscore ">= 1.3.1"
+    uuid "^3.1.0"
+    xmldom ">= 0.1.x"
+    xpath.js "~1.1.0"
 
 ajv@^4.9.1:
   version "4.11.8"
@@ -249,12 +277,12 @@ azure-arm-apimanagement@^1.0.0-preview:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
 
-azure-arm-appinsights@^1.0.0-preview:
-  version "1.0.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-appinsights/-/azure-arm-appinsights-1.0.0-preview.tgz#72e543587d017927621e43b3bd111d96927942be"
+azure-arm-appinsights@^1.2.1-preview:
+  version "1.2.1-preview"
+  resolved "https://registry.yarnpkg.com/azure-arm-appinsights/-/azure-arm-appinsights-1.2.1-preview.tgz#4ee89f568f83675d685e0a6391f850596a12d6e7"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.2"
+    ms-rest-azure "^2.5.5"
 
 azure-arm-cosmosdb@^1.0.0-preview:
   version "1.0.0-preview"
@@ -277,9 +305,9 @@ azure-arm-notificationhubs@^1.1.0:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
 
-azure-arm-storage@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/azure-arm-storage/-/azure-arm-storage-3.1.0.tgz#2f06831fa5217e927597e4389036c1648fd97041"
+azure-arm-storage@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/azure-arm-storage/-/azure-arm-storage-3.2.0.tgz#7a11b3603c8d81302b75e2283e2c2c89bd686960"
   dependencies:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
@@ -1339,15 +1367,16 @@ diff@^3.2.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.1.tgz#aa8567a6eed03c531fc89d3f711cd0e5259dec75"
 
-documentdb@^1.12.2:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.1.tgz#1a4716c0b38a40daf375dc9a4b2a2beb4e26294a"
+documentdb@^1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.2.tgz#26928fd03cd695f3111f32fe8323aa27e10cf5c7"
   dependencies:
     big-integer "^1.6.25"
     binary-search-bounds "2.0.3"
     int64-buffer "^0.1.9"
     priorityqueuejs "1.0.0"
     semaphore "1.0.5"
+    tunnel "0.0.5"
     underscore "1.8.3"
 
 dom-serializer@0, dom-serializer@~0.1.0:
@@ -1395,7 +1424,7 @@ dotenv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
-duplexer@~0.1.1:
+duplexer@^0.1.1, duplexer@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
@@ -1929,6 +1958,10 @@ is-buffer@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
 
+is-buffer@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
+
 is-builtin-module@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-builtin-module/-/is-builtin-module-1.0.0.tgz#540572d34f7ac3119f8f76c30cbc1b1e037affbe"
@@ -2325,6 +2358,10 @@ moment@^2.14.1, moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
+moment@^2.20.1, moment@^2.21.0:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+
 ms-rest-azure@^2.3.3:
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/ms-rest-azure/-/ms-rest-azure-2.3.5.tgz#46969bc046fecca8d9834cae225ddbd9b5caac8b"
@@ -2336,6 +2373,18 @@ ms-rest-azure@^2.3.3:
     moment "^2.18.1"
     ms-rest "^2.2.2"
     uuid "^3.1.0"
+
+ms-rest-azure@^2.5.5:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/ms-rest-azure/-/ms-rest-azure-2.5.5.tgz#0ce9db24b5e715a8fa2d04e850c2c72da5d774ca"
+  dependencies:
+    "@types/node" "^9.4.6"
+    "@types/uuid" "^3.4.3"
+    adal-node "^0.1.27"
+    async "2.6.0"
+    moment "^2.20.1"
+    ms-rest "^2.3.2"
+    uuid "^3.2.1"
 
 ms-rest@^2.2.2:
   version "2.2.2"
@@ -2352,6 +2401,22 @@ ms-rest@^2.2.2:
     through "~2.3.4"
     tunnel "~0.0.2"
     uuid "^3.0.1"
+
+ms-rest@^2.3.2:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/ms-rest/-/ms-rest-2.3.3.tgz#5a7dc7713cfc4baf334cde2b2580275b5de7ca77"
+  dependencies:
+    "@types/node" "^8.9.4"
+    "@types/request" "^2.47.0"
+    "@types/uuid" "^3.4.3"
+    duplexer "^0.1.1"
+    is-buffer "^1.1.6"
+    is-stream "^1.1.0"
+    moment "^2.21.0"
+    request "^2.83.0"
+    through "^2.3.8"
+    tunnel "0.0.5"
+    uuid "^3.2.1"
 
 ms@2.0.0:
   version "2.0.0"
@@ -2758,7 +2823,7 @@ replace-in-file@^3.0.0:
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
 
-request@^2.55.0, request@^2.85.0:
+request@^2.55.0, request@^2.83.0, request@^2.85.0:
   version "2.85.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa"
   dependencies:
@@ -3069,7 +3134,7 @@ taffydb@2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.7.2.tgz#7bf8106a5c1a48251b3e3bc0a0e1732489fd0dc8"
 
-through@2, through@~2.3, through@~2.3.1, through@~2.3.4:
+through@2, through@^2.3.8, through@~2.3, through@~2.3.1, through@~2.3.4:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
@@ -3177,7 +3242,7 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
-tunnel@~0.0.2:
+tunnel@0.0.5, tunnel@~0.0.2:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.5.tgz#d1532254749ed36620fcd1010865495a1fa9d0ae"
 
@@ -3214,6 +3279,10 @@ util-deprecate@~1.0.1:
 uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
+
+uuid@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
 v8flags@^3.0.0:
   version "3.0.1"
@@ -3315,6 +3384,10 @@ xmlbuilder@0.4.3:
 xpath.js@~1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/xpath.js/-/xpath.js-1.0.7.tgz#7e94627f541276cbc6a6b02b5d35e9418565b3e4"
+
+xpath.js@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/xpath.js/-/xpath.js-1.1.0.tgz#3816a44ed4bb352091083d002a383dd5104a5ff1"
 
 xtend@~4.0.1:
   version "4.0.1"

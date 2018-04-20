@@ -46,13 +46,13 @@
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.1.tgz#b683eb60be358304ef146f5775db4c0e3696a550"
 
-"@types/node@*", "@types/node@^8.0.25":
+"@types/node@*", "@types/node@^9.6.6":
+  version "9.6.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.6.tgz#439b91f9caf3983cad2eef1e11f6bedcbf9431d2"
+
+"@types/node@^8.0.25":
   version "8.0.31"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.31.tgz#d9af61093cf4bfc9f066ca34de0175012cfb0ce9"
-
-"@types/node@^6.0.0":
-  version "6.0.92"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.92.tgz#e7f721ae282772e12ba2579968c00d9cce422c5d"
 
 "@types/readline-sync@^1.4.3":
   version "1.4.3"

@@ -30,13 +30,13 @@ import { IPRule } from "azure-arm-storage/lib/models";
 import { IpSecurityRestriction } from "azure-arm-website/lib/models";
 
 const TaskParams = t.interface({
-  azurerm_resource_group: t.string,
-  azurerm_functionapp: t.string,
-  azurerm_storage_account: t.string,
-  azurerm_functionapp_storage_account: t.string,
-  azurerm_cosmosdb: t.string,
-  azurerm_apim: t.string,
   azure_portal_ips: t.string,
+  azurerm_apim: t.string,
+  azurerm_cosmosdb: t.string,
+  azurerm_functionapp: t.string,
+  azurerm_functionapp_storage_account: t.string,
+  azurerm_resource_group: t.string,
+  azurerm_storage_account: t.string,
   restrict_storage_access: t.boolean
 });
 
@@ -197,7 +197,7 @@ export const run = async (params: TaskParams) => {
   }
 
   // 2. CosmosDB: restrict access to Functions IP
-  const cosmosDbClient = new CosmosDBManagementClient(
+  const cosmosDbClient = new CosmosDBManagementClient.CosmosDBManagementClient(
     loginCreds.creds as any,
     loginCreds.subscriptionId
   );
@@ -218,7 +218,7 @@ export const run = async (params: TaskParams) => {
           (cosmosdb.ipRangeFilter || "").split(",")
         ]
           .reduce((a, b) => a.concat(b), [])
-          .filter(ip => ip !== "")
+          .filter((ip: string) => ip !== "")
       )
     ).join(",");
 

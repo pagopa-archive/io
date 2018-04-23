@@ -27,7 +27,7 @@ export const run = async (params: IRunParams) => {
   const loginCreds = await login();
 
   // CosmosDB: restrict access to Functions IP
-  const cosmosDbClient = new CosmosDBManagementClient(
+  const cosmosDbClient = new CosmosDBManagementClient.CosmosDBManagementClient(
     loginCreds.creds as any,
     loginCreds.subscriptionId
   );

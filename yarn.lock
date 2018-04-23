@@ -284,12 +284,12 @@ azure-arm-appinsights@^1.2.1-preview:
     ms-rest "^2.3.2"
     ms-rest-azure "^2.5.5"
 
-azure-arm-cosmosdb@^1.0.0-preview:
-  version "1.0.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-cosmosdb/-/azure-arm-cosmosdb-1.0.0-preview.tgz#5cd88ff3cb3e3403f6c99f56abd522a69a88d7e8"
+azure-arm-cosmosdb@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/azure-arm-cosmosdb/-/azure-arm-cosmosdb-1.1.2.tgz#deae44b4bfcebe835102c4212f841941ab765cc4"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.2"
+    ms-rest-azure "^2.5.5"
 
 azure-arm-eventhub@^1.1.0-preview:
   version "1.1.0-preview"

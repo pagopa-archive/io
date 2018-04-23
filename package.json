@@ -36,7 +36,7 @@
     "azure-arm-apimanagement": "^1.0.0-preview",
     "azure-arm-appinsights": "^1.2.1-preview",
     "azure-arm-cosmosdb": "^1.1.2",
-    "azure-arm-eventhub": "^1.1.0-preview",
+    "azure-arm-eventhub": "^1.3.0",
     "azure-arm-notificationhubs": "^1.1.0",
     "azure-arm-storage": "^3.2.0",
     "azure-arm-website": "^2.0.0-preview",

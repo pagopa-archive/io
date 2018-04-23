@@ -291,12 +291,12 @@ azure-arm-cosmosdb@^1.1.2:
     ms-rest "^2.3.2"
     ms-rest-azure "^2.5.5"
 
-azure-arm-eventhub@^1.1.0-preview:
-  version "1.1.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-eventhub/-/azure-arm-eventhub-1.1.0-preview.tgz#908b08a7d84bc3baea65891c8c3b46144beef17c"
+azure-arm-eventhub@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/azure-arm-eventhub/-/azure-arm-eventhub-1.3.0.tgz#75626239352b3c689d98de84d69d8dd85fa8622d"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.2"
+    ms-rest-azure "^2.5.5"
 
 azure-arm-notificationhubs@^1.1.0:
   version "1.1.0"

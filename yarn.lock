@@ -284,12 +284,12 @@ azure-arm-appinsights@^1.2.1-preview:
     ms-rest "^2.3.2"
     ms-rest-azure "^2.5.5"
 
-azure-arm-cosmosdb@^1.0.0-preview:
-  version "1.0.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-cosmosdb/-/azure-arm-cosmosdb-1.0.0-preview.tgz#5cd88ff3cb3e3403f6c99f56abd522a69a88d7e8"
+azure-arm-cosmosdb@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/azure-arm-cosmosdb/-/azure-arm-cosmosdb-1.1.2.tgz#deae44b4bfcebe835102c4212f841941ab765cc4"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.2"
+    ms-rest-azure "^2.5.5"
 
 azure-arm-eventhub@^1.3.0:
   version "1.3.0"
@@ -1185,9 +1185,9 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-cross-env@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.1.1.tgz#b6d8ab97f304c0f71dae7277b75fe424c08dfa74"
+cross-env@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.1.4.tgz#f61c14291f7cc653bb86457002ea80a04699d022"
   dependencies:
     cross-spawn "^5.1.0"
     is-windows "^1.0.0"
@@ -2642,9 +2642,9 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
 
-prettier@^1.7.0:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.8.2.tgz#bff83e7fd573933c607875e5ba3abbdffb96aeb8"
+prettier@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.12.1.tgz#c1ad20e803e7749faf905a409d2367e06bbe7325"
 
 priorityqueuejs@1.0.0:
   version "1.0.0"
@@ -3333,9 +3333,9 @@ which@^1.2.9:
   dependencies:
     isexe "^2.0.0"
 
-winston@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/winston/-/winston-2.4.0.tgz#808050b93d52661ed9fb6c26b3f0c826708b0aee"
+winston@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/winston/-/winston-2.4.2.tgz#3ca01f763116fc48db61053b7544e750431f8db0"
   dependencies:
     async "~1.0.0"
     colors "1.0.x"

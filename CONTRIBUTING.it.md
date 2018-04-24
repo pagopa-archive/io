@@ -34,7 +34,9 @@ sarà possibile raggiungere alti standard che riguardano:
 Quel che segue è un insieme di linee guida per poter contribuire
 all'evoluzione delle componenti che costituiscono il frontend
 (App mobile) e il backend (API) di Cittadinanza Digitale,
-scrivendo codice o integrando la documentazione.
+scrivendo codice o integrando la documentazione,
+nonché una descrizione della metodologia di lavoro
+che vuol esser trasparente (e possibilmente esemplare :wink:).
 
 ## Come segnalare un bug o proporre una feature
 

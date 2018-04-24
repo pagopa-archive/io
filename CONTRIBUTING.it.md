@@ -7,7 +7,7 @@ sono benvenuti contributi, suggerimenti e richieste di nuove caratteristiche.
 
 Sebbene lo scopo precipuo sia fornire un servizio ai Cittadini,
 tra gli obiettivi del progetto si pone quello di fornire alle Amministrazioni
-e ai loro fornitori software "pronto da utilizzare", un prezioso strumento
+e ai loro fornitori software "pronto da utilizzare": un prezioso strumento
 che faciliti l'integrazione con le "[piattaforme abilitanti
 ](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)" previste dal
 [piano triennale per l'informatica nella PA](https://pianotriennale-ict.italia.it/).

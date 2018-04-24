@@ -29,8 +29,7 @@ scrivendo codice o integrando la documentazione.
 
 ## Come segnalare un bug o proporre una feature
 
-Se hai domande o proposte ti suggeriamo di condividerle sul forum dedicato,
-nella sezione dedicata:
+Se hai domande o proposte ti suggeriamo di condividerle sul forum nella sezione dedicata:
 
 https://forum.italia.it/
 
@@ -434,8 +433,8 @@ prima di chiudere una issue.
 Se hai domande su uno specifico componente puoi contattare i maintainer su Slack o
 menzionarli nelle issue su Pivotal Tracker (riceveranno una notifica automatica).
 
-Trovi l'elenco dei maintainer di ogni progetto
-nel file `AUTHORS.md` contenuto nel relativo repository.
+Trovi l'elenco dei maintainer nel file `AUTHORS.md`
+contenuto nei repository di ogni progetto.
 
 # Letture e riferimenti
 

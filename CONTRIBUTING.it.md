@@ -7,7 +7,7 @@ sono benvenuti contributi, suggerimenti e richieste di nuove caratteristiche.
 
 Sebbene lo scopo precipuo sia fornire un servizio ai Cittadini,
 tra gli obiettivi del progetto si pone fornire alle Amministrazioni
-e ai loro fornitori software pronto da utilizzare
+e ai loro fornitori software "pronto da utilizzare"
 che faciliti l'integrazione con le "[piattaforme abilitanti
 ](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)" previste dal
 [piano triennale per l'informatica nella PA](https://pianotriennale-ict.italia.it/).
@@ -21,6 +21,14 @@ ma vuol porsi come un'implementazione di riferimento per l'integrazione con i so
 * [PagoPA](http://www.agid.gov.it/agenda-digitale/pubblica-amministrazione/pagamenti-elettronici)
 * [ANPR](https://www.anpr.interno.it/portale/)
 * [Sistema di avvisi e notifiche di cortesia](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)
+
+A tale scopo è importante l'aiuto di tutti.
+Solo tramite un processo di miglioramento continuo
+sarà possibile raggiungere alti standard che riguardano:
+
+* la qualità del software e della documentazione a corredo
+* la sicurezza delle componenti del sistema
+* un'esperienza utente efficace e soddisfacente
 
 Quel che segue è un insieme di linee guida per poter contribuire
 all'evoluzione delle componenti che costituiscono il frontend

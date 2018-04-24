@@ -17,9 +17,10 @@ e del [riuso](https://lg-acquisizione-e-riuso-software-per-la-pa.readthedocs.io/
 così come proposto nella community di [developers.italia.it](https://developers.italia.it/it/progetti),
 ma vuol porsi come implementazione di riferimento per l'integrazione con i sotto-sistemi:
 
-* [SPID](https://www.spid.gov.it/)
-* [PagoPA](http://www.agid.gov.it/agenda-digitale/pubblica-amministrazione/pagamenti-elettronici)
-* [ANPR](https://www.anpr.interno.it/portale/)
+* [SPID](https://www.spid.gov.it/), il Sistema Pubblico di Identità Digitale
+* [PagoPA](http://www.agid.gov.it/agenda-digitale/pubblica-amministrazione/pagamenti-elettronici),
+  il sistema dei pagamenti a tutte le Pubbliche Amministrarzioni
+* [ANPR](https://www.anpr.interno.it/portale/), l'Anagrafe Nazionale della Popolazione Residente
 * [Sistema di avvisi e notifiche di cortesia](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)
 
 A tale scopo è importante l'aiuto di tutti !  

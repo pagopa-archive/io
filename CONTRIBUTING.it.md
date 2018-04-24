@@ -15,7 +15,7 @@ che faciliti l'integrazione con le "[piattaforme abilitanti
 Cittadinanza Digitale, pertanto, non solo abbraccia il paradigma open source
 e del [riuso](https://lg-acquisizione-e-riuso-software-per-la-pa.readthedocs.io/it/latest/)
 così come proposto nella community di [developers.italia.it](https://developers.italia.it/it/progetti),
-ma vuol porsi come un'implementazione di riferimento per l'integrazione con i sotto-sistemi:
+ma vuol porsi come implementazione di riferimento per l'integrazione con i sotto-sistemi:
 
 * [SPID](https://www.spid.gov.it/)
 * [PagoPA](http://www.agid.gov.it/agenda-digitale/pubblica-amministrazione/pagamenti-elettronici)

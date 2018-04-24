@@ -22,7 +22,7 @@ ma vuol porsi come implementazione di riferimento per l'integrazione con i sotto
 * [ANPR](https://www.anpr.interno.it/portale/)
 * [Sistema di avvisi e notifiche di cortesia](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)
 
-A tale scopo è importante l'aiuto di tutti.
+A tale scopo è importante l'aiuto di tutti !  
 Solo tramite un processo di miglioramento continuo
 sarà possibile raggiungere alti standard che riguardano:
 

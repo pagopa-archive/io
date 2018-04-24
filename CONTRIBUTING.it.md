@@ -29,7 +29,8 @@ sarà possibile raggiungere alti standard che riguardano:
 
 * la qualità del software e della documentazione a corredo
 * la sicurezza delle componenti del sistema
-* un'esperienza utente efficace e soddisfacente
+* un'esperienza utente efficace e soddisfacente, che segua i principi
+  sulla progettazione dei servizi dettati da [designers.italia.it](https://designers.italia.it)
 
 Quel che segue è un insieme di linee guida per poter contribuire
 all'evoluzione delle componenti che costituiscono il frontend

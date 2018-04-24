@@ -12,8 +12,7 @@ scrivendo codice o integrando la documentazione.
 
 ## Come segnalare un bug o proporre una feature
 
-Se hai domande o proposte ti suggeriamo di condividerle sul forum dedicato,
-nella sezione dedicata:
+Se hai domande o proposte ti suggeriamo di condividerle sul forum nella sezione dedicata:
 
 https://forum.italia.it/
 

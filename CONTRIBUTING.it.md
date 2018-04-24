@@ -2,8 +2,25 @@
 
 Grazie per l'interesse mostrato nei confronti del progetto ! 🎉
 
-Cittadinanza Digitale è un progetto open source:
+Cittadinanza Digitale è un progetto aperto a tutti:
 sono benvenuti contributi, suggerimenti e richieste di nuove caratteristiche.
+
+Sebbene lo scopo precipuo sia fornire un servizio ai Cittadini,
+tra gli obiettivi del progetto si pone fornire alle Amministrazioni
+e ai loro fornitori software pronto da utilizzare
+che faciliti l'integrazione con le "[piattaforme abilitanti
+](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)" previste dal
+[piano triennale per l'informatica nella PA](https://pianotriennale-ict.italia.it/).
+
+Cittadinanza Digitale, pertanto, non solo abbraccia il paradigma open source
+e del [riuso](https://lg-acquisizione-e-riuso-software-per-la-pa.readthedocs.io/it/latest/)
+così come proposto nella community di [developers.italia.it](https://developers.italia.it/it/progetti),
+ma vuol porsi come un'implementazione di riferimento per l'integrazione con i sotto-sistemi:
+
+* [SPID](https://www.spid.gov.it/)
+* [PagoPA](http://www.agid.gov.it/agenda-digitale/pubblica-amministrazione/pagamenti-elettronici)
+* [ANPR](https://www.anpr.interno.it/portale/)
+* [Sistema di avvisi e notifiche di cortesia](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)
 
 Quel che segue è un insieme di linee guida per poter contribuire
 all'evoluzione delle componenti che costituiscono il frontend

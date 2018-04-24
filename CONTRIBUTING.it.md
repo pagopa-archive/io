@@ -5,7 +5,7 @@ Grazie per l'interesse mostrato nei confronti del progetto ! 🎉
 Cittadinanza Digitale è un progetto aperto a tutti:
 sono benvenuti contributi, suggerimenti e richieste di nuove caratteristiche.
 
-Sebbene lo scopo precipuo sia fornire un servizio ai Cittadini,
+Sebbene lo scopo precipuo sia erogare un servizio per i Cittadini,
 tra gli obiettivi del progetto si pone quello di fornire alle Amministrazioni
 e ai loro fornitori software "pronto da utilizzare": un prezioso strumento
 che faciliti l'integrazione con le "[piattaforme abilitanti

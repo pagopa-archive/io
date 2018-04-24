@@ -21,10 +21,10 @@ ma vuol porsi come implementazione di riferimento per l'integrazione con i sotto
 * [PagoPA](http://www.agid.gov.it/agenda-digitale/pubblica-amministrazione/pagamenti-elettronici),
   il sistema dei pagamenti a tutte le Pubbliche Amministrarzioni
 * [ANPR](https://www.anpr.interno.it/portale/), l'Anagrafe Nazionale della Popolazione Residente
-* [Sistema di avvisi e notifiche di cortesia](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)
+* il [Sistema di avvisi e notifiche di cortesia](https://pianotriennale-ict.italia.it/piattaforme-abilitanti/)
 
-A tale scopo è importante l'aiuto di tutti !  
-Solo tramite un processo di miglioramento continuo
+A tale scopo è importante l'aiuto di tutti:
+solo tramite un processo di miglioramento continuo
 sarà possibile raggiungere alti standard che riguardano:
 
 * la qualità del software e della documentazione a corredo

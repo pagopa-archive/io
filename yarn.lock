@@ -270,12 +270,12 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-azure-arm-apimanagement@^1.0.0-preview:
-  version "1.0.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-apimanagement/-/azure-arm-apimanagement-1.0.0-preview.tgz#160df742a9243f9f2af8d78c68c139e94e1968e6"
+azure-arm-apimanagement@^2.1.1-preview:
+  version "2.1.1-preview"
+  resolved "https://registry.yarnpkg.com/azure-arm-apimanagement/-/azure-arm-apimanagement-2.1.1-preview.tgz#a836e6e19819806d77b9c06a2be1b9d4165ce46a"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.2"
+    ms-rest-azure "^2.5.5"
 
 azure-arm-appinsights@^1.2.1-preview:
   version "1.2.1-preview"

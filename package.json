@@ -32,7 +32,7 @@
     "@types/shelljs": "^0.7.4",
     "@types/tmp": "^0.0.33",
     "@types/winston": "^2.3.8",
-    "@types/yargs": "^10.0.1",
+    "@types/yargs": "^11.0.0",
     "azure-arm-apimanagement": "^1.0.0-preview",
     "azure-arm-appinsights": "^1.2.1-preview",
     "azure-arm-cosmosdb": "^1.1.2",

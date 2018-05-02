@@ -21,7 +21,7 @@ import { getObjectFromJson } from "../../lib/config";
 
 import { checkEnvironment } from "../../lib/environment";
 
-import apiManagementClient = require("azure-arm-apimanagement");
+import apiManagementClient from "azure-arm-apimanagement";
 import CosmosDBManagementClient = require("azure-arm-cosmosdb");
 import storageManagementClient = require("azure-arm-storage");
 import webSiteManagementClient = require("azure-arm-website");
@@ -103,11 +103,13 @@ export const run = async (params: TaskParams) => {
     params.azurerm_apim
   );
 
-  if (!Array.isArray(apim.staticIps)) {
+  if (!Array.isArray(apim.publicIPAddresses)) {
     throw new Error("Cannot get API management IPs");
   }
 
-  const apimIPs = apim.staticIps;
+  // use privateIPAddresses in case the API management
+  // gets deployed into an internal VNET
+  const apimIPs = apim.publicIPAddresses;
   winston.info("Api management IPs: " + apimIPs.join(","));
 
   // 1. Storage Account(s): restrict access to Functions IP

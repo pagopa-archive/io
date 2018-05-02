@@ -49,9 +49,9 @@ export const run = async (params: IRunParams) => {
 
   if (cosmosdb.failoverPolicies) {
     winston.info(
-      `Updating CosmosDB ipRangeFilter: [${cosmosdb.ipRangeFilter}] => [${
-        ipRangeFilter
-      }]`
+      `Updating CosmosDB ipRangeFilter: [${
+        cosmosdb.ipRangeFilter
+      }] => [${ipRangeFilter}]`
     );
 
     // This ovverrides unset parameters

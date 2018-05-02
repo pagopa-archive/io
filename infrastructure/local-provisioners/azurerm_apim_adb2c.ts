@@ -17,7 +17,7 @@ import * as t from "io-ts";
 import * as path from "path";
 import * as winston from "winston";
 
-import apiManagementClient = require("azure-arm-apimanagement");
+import apiManagementClient from "azure-arm-apimanagement";
 import yargs = require("yargs");
 
 import { left } from "fp-ts/lib/Either";

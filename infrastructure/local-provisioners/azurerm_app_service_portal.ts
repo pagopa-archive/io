@@ -29,7 +29,7 @@ import { checkEnvironment } from "../../lib/environment";
 import { IUserData, updateApimUser } from "../../lib/apim_user";
 import { createOrUpdateService } from "../../lib/service";
 
-import apiManagementClient = require("azure-arm-apimanagement");
+import apiManagementClient from "azure-arm-apimanagement";
 import webSiteManagementClient = require("azure-arm-website");
 
 import { DocumentClient, UriFactory } from "documentdb";

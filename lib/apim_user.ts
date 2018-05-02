@@ -3,7 +3,7 @@
  */
 // tslint:disable:no-console
 
-import apiManagementClient = require("azure-arm-apimanagement");
+import apiManagementClient from "azure-arm-apimanagement";
 
 import {
   SubscriptionContract,

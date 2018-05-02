@@ -31,8 +31,8 @@ import webSiteManagementClient = require("azure-arm-website");
 import { getObjectFromJson } from "../../lib/config";
 
 const TaskParams = t.interface({
-  azurerm_resource_group: t.string,
-  azurerm_functionapp: t.string
+  azurerm_functionapp: t.string,
+  azurerm_resource_group: t.string
 });
 
 type TaskParams = t.TypeOf<typeof TaskParams>;

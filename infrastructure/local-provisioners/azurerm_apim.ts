@@ -24,7 +24,7 @@ import { getFunctionsInfo } from "../../lib/task_utils";
 
 import { checkEnvironment } from "../../lib/environment";
 
-import apiManagementClient = require("azure-arm-apimanagement");
+import apiManagementClient from "azure-arm-apimanagement";
 import webSiteManagementClient = require("azure-arm-website");
 
 import * as path from "path";

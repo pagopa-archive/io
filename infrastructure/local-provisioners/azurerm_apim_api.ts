@@ -17,7 +17,7 @@ import * as t from "io-ts";
 import * as path from "path";
 import * as winston from "winston";
 
-import apiManagementClient = require("azure-arm-apimanagement");
+import apiManagementClient from "azure-arm-apimanagement";
 import webSiteManagementClient = require("azure-arm-website");
 import yargs = require("yargs");
 
@@ -84,9 +84,9 @@ const setupOpenapi = (
 ) => {
   return Promise.all(
     config.apim_apis.map(async apiEntry => {
-      const contentValue = `${backendUrl}${apiEntry.api.specsPath}?code=${
-        masterKey
-      }`;
+      const contentValue = `${backendUrl}${
+        apiEntry.api.specsPath
+      }?code=${masterKey}`;
 
       winston.info(
         `Adding API from URL: ${backendUrl}${apiEntry.api.specsPath}`
@@ -142,8 +142,9 @@ const setupOpenapi = (
           {
             policyContent
           },
-          // If-Match: *
-          "*"
+          {
+            ifMatch: "*"
+          }
         );
       } else {
         winston.warn(

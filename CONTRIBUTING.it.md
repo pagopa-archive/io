@@ -235,7 +235,6 @@ ed, eventualmente, se vi sono impedimenti bloccanti.
 I membri del team sono invitati a partecipare
 ai Google Hangout pianificati con cadenza settimanale:
 
-* [API notifiche e preferenze](https://hangouts.google.com/hangouts/_/teamdigitale.governo.it/cittdig-sprint): ogni lunedi alle 11:00 (GMT+1)
 * [App mobile, frontend e backend](https://hangouts.google.com/hangouts/_/teamdigitale.governo.it/cd-product-qa): ogni martedi alle 10:00 (GMT+1)
 
 Durante gli Hangout vengono condivise le informazioni

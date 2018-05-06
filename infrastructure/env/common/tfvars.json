@@ -2,6 +2,7 @@
   "azurerm_resource_name_prefix": "agid",
   "azurerm_adb2c_policy": "B2C_1_SignUpIn",
   "azurerm_storage_queue_emailnotifications": "emailnotifications",
+  "azurerm_storage_queue_webhooknotifications": "webhooknotifications",
   "azurerm_storage_queue_createdmessages": "createdmessages",
   "azurerm_cosmosdb_collections": {
     "messages": "fiscalCode",
@@ -11,7 +12,8 @@
     "message-status": "messageId",
     "services": "serviceId"
   },
-  "app_service_portal_git_repo": "https://github.com/teamdigitale/digital-citizenship-onboarding",
+  "app_service_portal_git_repo":
+    "https://github.com/teamdigitale/digital-citizenship-onboarding",
   "azurerm_apim_eventhub_rule": "apim-eventhub-rule",
   "azurerm_kubernetes_admin_username": "k8s-admin",
   "azurerm_kubernetes_admin_ssh_publickey_file": "k8s_admin_key.pub",
@@ -19,7 +21,7 @@
   "azurerm_dns_main_zone": "io.italia.it",
   "azurerm_dns_main_zone_spf1": "v=spf1 include:musv.com ~all",
   "azurerm_dns_main_zone_dkim": {
-    "ml01._domainkey": "ml01.dkim.musvc.com.", 
-    "ml02._domainkey": "ml02.dkim.musvc.com." 
+    "ml01._domainkey": "ml01.dkim.musvc.com.",
+    "ml02._domainkey": "ml02.dkim.musvc.com."
   }
 }

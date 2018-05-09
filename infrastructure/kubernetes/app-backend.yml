@@ -28,29 +28,43 @@ spec:
         app: app-backend
     spec:
       containers:
-      - image: "teamdigitale/italia-backend:v0.0.15"
+      - image: "teamdigitale/italia-backend:v0.0.17"
         name: app-backend
         ports:
         - name: http-port
           containerPort: 80
         env:
-        - name: "NODE_ENV"
-          value: "production"
+        - name: "ALLOW_NOTIFY_IP_SOURCE_RANGE"
+          value: "0.0.0.0/0"
         - name: "API_URL"
           value: "https://agid-apim-test.azure-api.net/api/v1"
+        - name: "API_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: app-backend-secrets
+              key: api_key
+        - name: "AZURE_NH_ENDPOINT"
+          valueFrom:
+            secretKeyRef:
+              name: app-backend-secrets
+              key: azure_nh_endpoint
+        - name: "AZURE_NH_HUB_NAME"
+          value: "agid-notificationhub-test"
+        - name: "NODE_ENV"
+          value: "production"
+        - name: "PRE_SHARED_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: app-backend-secrets
+              key: pre_shared_key
+        - name: "REDIS_URL"
+          value: "redis://localhost"
         - name: "SAML_CALLBACK_URL"
           value: "https://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"
         - name: "SAML_ISSUER"
           value: "https://spid.agid.gov.it/cd"
         - name: "SAML_ATTRIBUTE_CONSUMING_SERVICE_INDEX"
           value: "0"
-        - name: "API_KEY"
-          valueFrom:
-            secretKeyRef:
-              name: app-backend-secrets
-              key: api_key
-        - name: "REDIS_URL"
-          value: "redis://localhost"
         volumeMounts:
           - name: certs
             mountPath: "/usr/src/app/certs"

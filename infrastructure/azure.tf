@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 1.3.0"
+  version = "~> 1.4.0"
 }
 
 provider "random" {
@@ -487,9 +487,9 @@ resource "azurerm_cosmosdb_account" "azurerm_cosmosdb" {
     consistency_level = "Session"
   }
 
-  failover_policy {
-    location = "${var.cosmosdb_failover_location}"
-    priority = 0
+  geo_location {
+    location          = "${var.cosmosdb_failover_location}"
+    failover_priority = 0
   }
 
   # ip_range_filter = "${azurerm_function_app.azurerm_function_app.outbound_ip_addresses}"

@@ -143,6 +143,17 @@ variable "DEV_PORTAL_EXT_CLIENT_SECRET" {
   description = "Client secret of the application used by the digital citizenship onboarding procedure"
 }
 
+variable "webhook_channel_url" {
+  type        = "string"
+  description = "URL to contact when sending notifications to the webhook (without the secret token)"
+}
+
+# TF_VAR_WEBHOOK_CHANNEL_URL_TOKEN
+variable "WEBHOOK_CHANNEL_URL_TOKEN" {
+  type        = "string"
+  description = "Secret token to use with webhook_channel_url"
+}
+
 variable "azurerm_apim_eventhub_rule" {
   type        = "string"
   description = "EventHub rule for API management"
@@ -597,6 +608,8 @@ resource "azurerm_function_app" "azurerm_function_app" {
     "MAILUP_SECRET" = "${var.MAILUP_SECRET}"
 
     "MAIL_FROM_DEFAULT" = "${var.default_sender_email}"
+
+    "WEBHOOK_CHANNEL_URL" = "${var.webhook_channel_url}${var.WEBHOOK_CHANNEL_URL_TOKEN}"
   }
   connection_string = [
     {

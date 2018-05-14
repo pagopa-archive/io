@@ -3,13 +3,18 @@
   "environment_short": "test",
   "location": "West Europe",
   "cosmosdb_failover_location": "North Europe",
-  "app_service_portal_post_login_url": "https://agid-apim-test.portal.azure-api.net/developer",
-  "app_service_portal_post_logout_url": "https://agid-apim-test.portal.azure-api.net/",
+  "app_service_portal_post_login_url":
+    "https://agid-apim-test.portal.azure-api.net/developer",
+  "app_service_portal_post_logout_url":
+    "https://agid-apim-test.portal.azure-api.net/",
   "azurerm_apim_sku": "Standard",
   "azurerm_kubernetes_agent_count": 3,
   "azurerm_kubernetes_agent_vm_size": "Standard_D2",
   "azurerm_notification_hub_sku": "Free",
   "notification_hub_apns_name": "it.teamdigitale.app.Italia",
   "notification_hub_apns_app_id": "4RV73SN38W",
-  "notification_hub_apns_endpoint": "https://api.development.push.apple.com:443/3/device"
+  "notification_hub_apns_endpoint":
+    "https://api.development.push.apple.com:443/3/device",
+  "webhook_channel_url":
+    "https://app-backend.k8s.test.cd.teamdigitale.it/api/v1/notify?token="
 }

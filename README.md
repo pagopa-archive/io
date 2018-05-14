@@ -49,26 +49,26 @@ This repository is configured for Nat Pryce's
 
 Here's the decisions we taken so far:
 
-| ADR | Title                                                                                                                        | PR (discussion)                                                      |
-| --- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| 1   | [Record architecture decisions](architecture/decisions/0001-record-architecture-decisions.md)                                |                                                                      |
-| 2   | [Use OpenAPI to define the API specs](architecture/decisions/0002-use-openapi-to-defined-the-api-specs.md)                   | [PR#3](https://github.com/teamdigitale/digital-citizenship/pull/3)   |
-| 3   | [Follow a cloud native design principle](architecture/decisions/0003-follow-a-cloud-native-design-principle.md)              | [PR#4](https://github.com/teamdigitale/digital-citizenship/pull/4)   |
-| 4   | [Minimize lock-in to a particular cloud provider or feature](architecture/decisions/0004-minimize-cloud-lock-in.md)          | [PR#5](https://github.com/teamdigitale/digital-citizenship/pull/5)   |
-| 5   | [We chose Microsoft Azure as our primary cloud provider](architecture/decisions/0005-we-chose-our-primary-cloud-provider.md) | [PR#6](https://github.com/teamdigitale/digital-citizenship/pull/6)   |
-| 6   | [Choice of primary key for citizen data](architecture/decisions/0006-choice-of-primary-key-for-citizen-data.md)              | [PR#9](https://github.com/teamdigitale/digital-citizenship/pull/9)   |
-| 7   | [Choice of Azure region](architecture/decisions/0007-choice-of-azure-region.md)                                              | [PR#11](https://github.com/teamdigitale/digital-citizenship/pull/11) |
-| 8   | [Choice of backend language](architecture/decisions/0008-choice-of-backend-language.md)                                      | [PR#12](https://github.com/teamdigitale/digital-citizenship/pull/12) |
-| 9   | [We choose a CosmosDB API](architecture/decisions/0009-we-choose-a-cosmosdb-api.md)                                          | [PR#13](https://github.com/teamdigitale/digital-citizenship/pull/13) |
-| 10  | [We select an Azure app hosting service](architecture/decisions/0010-we-select-an-azure-app-hosting-service.md)              | [PR#27](https://github.com/teamdigitale/digital-citizenship/pull/27) |
-| 11  | [We chose a different CosmosDB API](architecture/decisions/0011-we-chose-a-different-cosmosdb-api.md)                        | [PR#28](https://github.com/teamdigitale/digital-citizenship/pull/28) |
-| 12  | [We chose a retry strategy in case of processing errors](architecture/decisions/0012-we-chose-a-retry-strategy.md)           | [PR#48](https://github.com/teamdigitale/digital-citizenship/pull/48) |
-| 13  | [We decide how to expose the app backend to the internet](architecture/decisions/0013-we-decide-how-to-expose-the-app-backend-to-the-internet.md)                                                                                    | [PR#52](https://github.com/teamdigitale/digital-citizenship/pull/52) |
+| ADR | Title                                                                                                                                             | PR (discussion)                                                      |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 1   | [Record architecture decisions](architecture/decisions/0001-record-architecture-decisions.md)                                                     |                                                                      |
+| 2   | [Use OpenAPI to define the API specs](architecture/decisions/0002-use-openapi-to-defined-the-api-specs.md)                                        | [PR#3](https://github.com/teamdigitale/digital-citizenship/pull/3)   |
+| 3   | [Follow a cloud native design principle](architecture/decisions/0003-follow-a-cloud-native-design-principle.md)                                   | [PR#4](https://github.com/teamdigitale/digital-citizenship/pull/4)   |
+| 4   | [Minimize lock-in to a particular cloud provider or feature](architecture/decisions/0004-minimize-cloud-lock-in.md)                               | [PR#5](https://github.com/teamdigitale/digital-citizenship/pull/5)   |
+| 5   | [We chose Microsoft Azure as our primary cloud provider](architecture/decisions/0005-we-chose-our-primary-cloud-provider.md)                      | [PR#6](https://github.com/teamdigitale/digital-citizenship/pull/6)   |
+| 6   | [Choice of primary key for citizen data](architecture/decisions/0006-choice-of-primary-key-for-citizen-data.md)                                   | [PR#9](https://github.com/teamdigitale/digital-citizenship/pull/9)   |
+| 7   | [Choice of Azure region](architecture/decisions/0007-choice-of-azure-region.md)                                                                   | [PR#11](https://github.com/teamdigitale/digital-citizenship/pull/11) |
+| 8   | [Choice of backend language](architecture/decisions/0008-choice-of-backend-language.md)                                                           | [PR#12](https://github.com/teamdigitale/digital-citizenship/pull/12) |
+| 9   | [We choose a CosmosDB API](architecture/decisions/0009-we-choose-a-cosmosdb-api.md)                                                               | [PR#13](https://github.com/teamdigitale/digital-citizenship/pull/13) |
+| 10  | [We select an Azure app hosting service](architecture/decisions/0010-we-select-an-azure-app-hosting-service.md)                                   | [PR#27](https://github.com/teamdigitale/digital-citizenship/pull/27) |
+| 11  | [We chose a different CosmosDB API](architecture/decisions/0011-we-chose-a-different-cosmosdb-api.md)                                             | [PR#28](https://github.com/teamdigitale/digital-citizenship/pull/28) |
+| 12  | [We chose a retry strategy in case of processing errors](architecture/decisions/0012-we-chose-a-retry-strategy.md)                                | [PR#48](https://github.com/teamdigitale/digital-citizenship/pull/48) |
+| 13  | [We decide how to expose the app backend to the internet](architecture/decisions/0013-we-decide-how-to-expose-the-app-backend-to-the-internet.md) | [PR#52](https://github.com/teamdigitale/digital-citizenship/pull/52) |
 
 ### Azure infrastructure
 
-**WARNING: the following instructions may not be up to date, please ask 
-a project maintainer before attempting to setup or update the 
+**WARNING: the following instructions may not be up to date, please ask
+a project maintainer before attempting to setup or update the
 infrastructure.**
 
 The
@@ -76,7 +76,7 @@ The
 drectory contains scripts and Terraform configuration to deploy the
 infrastructure on the Azure cloud.
 
-All the infrastructure related configuration files are stored under the `infrastructure` directory. 
+All the infrastructure related configuration files are stored under the `infrastructure` directory.
 
 #### Environments
 
@@ -140,9 +140,9 @@ attributes relative to the user account.
 Go to the ADB2C blade in the Azure portal, then select "User attributes" and add
 the following custom attributes (type is always "String"):
 
-1. Organization
-1. Department
-1. Service
+1.  Organization
+1.  Department
+1.  Service
 
 #### Step 3 - Add and configure an ADB2C Sign-in / Sign-up policy
 
@@ -202,7 +202,7 @@ Finally, you need to register (create) the Developer Portal ADB2C Applications:
 
 [instructions on how to create an ADB2C application](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-app-registration)
 
-1. Register an ADB2C Application `dev-portal-app`
+1.  Register an ADB2C Application `dev-portal-app`
 
 Set the return URL of this application to:\
 `https://${apim}.portal.azure-api.net/signin-aad`
@@ -217,7 +217,7 @@ TF_VAR_DEV_PORTAL_CLIENT_ID=<Application Id>
 TF_VAR_DEV_PORTAL_CLIENT_SECRET=<Application Key>
 ```
 
-2. Register an ADB2C Application `dev-portal-ext`
+2.  Register an ADB2C Application `dev-portal-ext`
 
 Set the return URL of this application to:\
 https://`${PORTAL}`.azurewebsites.net/auth/openid/return
@@ -256,9 +256,9 @@ purposes when deploying to a test resource group).
 
 #### Steps to create and configure Azure resources
 
-1. Ask the Azure subscription administrator for the credentials of the
-  [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
-  used to let Terraform and the automated setup tools authenticate to Azure.
+1.  Ask the Azure subscription administrator for the credentials of the
+    [Active Directory Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects)
+    used to let Terraform and the automated setup tools authenticate to Azure.
 
 Set up the following enviroment variables:
 
@@ -270,8 +270,8 @@ TF_VAR_ARM_CLIENT_SECRET=<same value as ARM_CLIENT_SECRET>
 ARM_TENANT_ID=<Active Directory domain Id>
 ```
 
-2. Check your [enviroment configuration](#example-environment-configuration)
-   then run:
+2.  Check your [enviroment configuration](#example-environment-configuration)
+    then run:
 
 ```
 yarn infrastructure:deploy
@@ -313,10 +313,10 @@ the services through the
 are supposed to be run from command line using the relative npm (or yarn)
 script:
 
-| Command                          | Task                                                                                                                  |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------|
-| `yarn deploy:functions:sync`     | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts)                       |
-| `yarn resources:security:ip`     | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)                                 |
+| Command                      | Task                                                                                            |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- |
+| `yarn deploy:functions:sync` | [Deploy Functions code from the GitHub repository](./infrastructure/tasks/15-functions_sync.ts) |
+| `yarn resources:security:ip` | [Setup IP restrictions to access resources](./infrastructure/tasks/70-ip_security.ts)           |
 
 ### Finishing the installation
 
@@ -346,14 +346,14 @@ settings.
 To activate Managed Service Identity and assign the needed role to the App
 Service:
 
-1. Navigate to the Azure Portal App Service blade (for the Web App Service
-   ${config.azurerm_app_service_portal}) -> Managed Service Identity -> Register
-   with Azure Active Directory -> set the value to 'On'.
+1.  Navigate to the Azure Portal App Service blade (for the Web App Service
+    ${config.azurerm_app_service_portal}) -> Managed Service Identity -> Register
+    with Azure Active Directory -> set the value to 'On'.
 
-1. Navigate to the Azure Portal API management blade -> Access Control (IAM) ->
-   Add the registered Web application as a "Contributor".
+1.  Navigate to the Azure Portal API management blade -> Access Control (IAM) ->
+    Add the registered Web application as a "Contributor".
 
-1. Restart the Web App Service.
+1.  Restart the Web App Service.
 
 ## Example environment configuration
 
@@ -397,6 +397,8 @@ TF_VAR_NOTIFICATION_HUB_GCM_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 TF_VAR_NOTIFICATION_HUB_APNS_KEY_ID="XXXXXXXXXXX"
 TF_VAR_NOTIFICATION_HUB_APNS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
+# Secret token that is appended to the Webhook URL (API backend)
+TF_VAR_WEBHOOK_CHANNEL_URL_TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
 ## Example output

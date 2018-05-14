@@ -151,7 +151,7 @@ variable "webhook_channel_url" {
 # TF_VAR_WEBHOOK_CHANNEL_URL_TOKEN
 variable "WEBHOOK_CHANNEL_URL_TOKEN" {
   type        = "string"
-  description = "Secret token to use with webhook_channel_url"
+  description = "Secret token that is appended to the webhook_channel_url"
 }
 
 variable "azurerm_apim_eventhub_rule" {

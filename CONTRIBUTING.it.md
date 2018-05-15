@@ -46,7 +46,7 @@ Se hai domande o proposte ti suggeriamo di condividerle sul forum nella sezione 
 https://forum.italia.it/
 
 In alternativa puoi trovarci su Slack nel
-[canale #io-devel di developers.italia.it](https://slack.developers.italia.it/).
+[canale #io-pa di developers.italia.it](https://slack.developers.italia.it/).
 
 # Risorse
 

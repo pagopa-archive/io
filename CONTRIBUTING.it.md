@@ -461,6 +461,8 @@ contenuto nei repository di ogni progetto.
 
 # Letture e riferimenti
 
+* [The Two Pillars of JavaScript Part 1: How to Escape the 7th Circle of Hell](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3)
+* [The Two Pillars of JavaScript Part 2: Functional Programming](https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4)
 * [A Functional Programmer’s Introduction
   to JavaScript](https://medium.com/javascript-scene/a-functional-programmers-introduction-to-javascript-composing-software-d670d14ede30)
 * [Functional TypeScript: Either vs Validation](https://medium.com/@gcanti/functional-typescript-either-vs-validation-66c52f28ce1f)

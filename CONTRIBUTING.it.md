@@ -214,6 +214,10 @@ i maintainer dei sotto-progetti, oltre a coloro che si occupano
 di aspetti non direttamente legati allo sviluppo
 (_product management_, esperienza utente (_UX_), coordinamento).
 
+Il canale `#io-pa` è invece dedicato al supporto per
+fornitori e tecnici delle Pubbliche Amministrazioni
+aderenti al servizio.
+
 Alcune regole per le discussioni in chat:
 
 * usa i [thread](https://get.slack.help/hc/en-us/articles/115000769927-Message-threads)
@@ -230,14 +234,14 @@ ai messaggi ogni giorno, anche in maniera sintentica, in modo
 da comunicare al resto del team le attività svolte, ancora da svolgere
 ed, eventualmente, se vi sono impedimenti bloccanti.
 
-## Weekly meeting: Google Hangout
+## Weekly meeting: Google Meet
 
 I membri del team sono invitati a partecipare
-ai Google Hangout pianificati con cadenza settimanale:
+ai Google Meet pianificati con cadenza settimanale:
 
-* [App mobile, frontend e backend](https://hangouts.google.com/hangouts/_/teamdigitale.governo.it/cd-product-qa): ogni martedi alle 10:00 (GMT+1)
+* [App mobile, frontend e backend](https://meet.google.com/xdd-mryo-bfe): ogni martedi alle 10:15 (GMT+1)
 
-Durante gli Hangout vengono condivise le informazioni
+Durante le conferenze vengono condivise le informazioni
 con i maintaner di progetto in modo da pianificare
 le attività per la settimana e prendere decisioni
 sulle questioni ancora aperte.

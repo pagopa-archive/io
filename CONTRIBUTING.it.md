@@ -409,6 +409,14 @@ L'evoluzione dei componenti avviene integrando nuovo codice tramite
     di almeno uno di loro (o risolvi eventuali altri richieste)
 1.  la PR viene approvata ed integrata nel codice
 
+#### Buone pratiche per le PR
+
+1.  una PR corrisponde a una e una sola storia su Pivotal
+1.  una PR implementa un'unica feature (o *chore*)
+1.  se i primi due punti sono difficili da ottenere, considera di aggiungere storie e ripianificarle
+1.  quando effettui una PR scrivi una descrizione che aiuti i reviewer a tener traccia di *tutti* i cambiamenti
+1.  aggiungi dei commenti inline al codice che non è auto-esplicativo
+
 ### Code review
 
 Se devi effettuare una review puoi far riferimento ai principi espressi in  

@@ -272,18 +272,22 @@ Alcune buone pratiche da applicare durante la stesura del codice
 risultano tuttavia trasversali ai diversi progetti:
 
 * non utilizzare classi se non assolutamente necessario; tieni separati dati (strutture) e comportamenti (funzioni)
+* utilizza sempre [tipi strutturati](https://github.com/gcanti/io-ts): non passare in input alle funzioni dati non strutturati
+  (es. JSON o request.Express)
+* utilizza [tagged types](https://blog.mariusschulz.com/2016/11/03/typescript-2-0-tagged-union-types) e
+  [tipi algebrici](https://stackoverflow.com/questions/33915459/algebraic-data-types-in-typescript) al posto delle classi
+* utilizza [discriminated unions](http://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions) al posto   
+  dell'ereditarietà
 * privilegia strutture immutabili: usa `const` al posto di `let`, `map` / `filter` al posto dei cicli `for` o `while`,
   [spread operator](https://davidwalsh.name/merge-objects) al posto di assegnamenti diretti, etc.
-* se usi le classi non fornire metodi _setter_: fa in modo che i membri siano readonly
+* se usi le classi non fornire metodi _setter_: fa in modo che tutti i membri siano readonly
 * privilegia l'utilizzo di [funzioni "pure"](https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c)
-* utilizza [Option](https://tech.evojam.com/2016/02/22/practical-intro-to-monads-in-javascript/) ed evita i check su `null` / `undefined`
-* per gestire gli errori utilizza [Either](https://tech.evojam.com/2016/03/21/practical-intro-to-monads-in-javascript-either/)
-  al posto delle Eccezioni
-* utilizza i [tipi](https://github.com/gcanti/io-ts): non passare dati non strutturati (es. JSON) in input alle funzioni
-* utilizza [tagged types](https://blog.mariusschulz.com/2016/11/03/typescript-2-0-tagged-union-types) e
-  [tipi algebrici](https://stackoverflow.com/questions/33915459/algebraic-data-types-in-typescript)
+* utilizza [Option](https://tech.evojam.com/2016/02/22/practical-intro-to-monads-in-javascript/) ed evita i check
+  su `null` / `undefined`
+* per gestire gli errori ritorna degli [Either](https://tech.evojam.com/2016/03/21/practical-intro-to-monads-in-javascript-either/)
+  al posto di lanciare Eccezioni
 
-Per il codice Typescript utilizziamo:
+Per il codice Typescript utilizza ovunque possibile:
 
 * [italia-ts-commons](https://github.com/teamdigitale/italia-ts-commons) per la definizione dei
   tipi personalizzati (NonEmptyString, DateFromString, EmailString, etc.)
@@ -414,8 +418,9 @@ L'evoluzione dei componenti avviene integrando nuovo codice tramite
 1.  una PR corrisponde a una e una sola storia su Pivotal
 1.  una PR implementa un'unica feature (o *chore*)
 1.  se i primi due punti sono difficili da ottenere, considera di aggiungere storie e ripianificarle
+1.  la probabilità che una PR venga rigettata è direttamente proporzionale alla complessità e lunghezza del codice che contiene
 1.  quando effettui una PR scrivi una descrizione che aiuti i reviewer a tener traccia di *tutti* i cambiamenti
-1.  aggiungi dei commenti inline al codice che non è auto-esplicativo
+1.  aggiungi sempre dei commenti inline a tutto il codice che non è auto-esplicativo
 
 ### Code review
 
@@ -461,6 +466,7 @@ contenuto nei repository di ogni progetto.
 
 # Letture e riferimenti
 
+* [Mostly adequate guide to Functional Programming (in javascript)](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/)
 * [The Two Pillars of JavaScript Part 1: How to Escape the 7th Circle of Hell](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3)
 * [The Two Pillars of JavaScript Part 2: Functional Programming](https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4)
 * [A Functional Programmer’s Introduction

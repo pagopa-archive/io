@@ -276,7 +276,7 @@ risultano tuttavia trasversali ai diversi progetti:
   (es. JSON o request.Express)
 * utilizza [tagged types](https://blog.mariusschulz.com/2016/11/03/typescript-2-0-tagged-union-types) e
   [tipi algebrici](https://stackoverflow.com/questions/33915459/algebraic-data-types-in-typescript) al posto delle classi
-* utilizza [discriminated unions](http://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions) al posto   
+* utilizza [discriminated unions](http://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions) al posto 
   dell'ereditarietà
 * privilegia strutture immutabili: usa `const` al posto di `let`, `map` / `filter` al posto dei cicli `for` o `while`,
   [spread operator](https://davidwalsh.name/merge-objects) al posto di assegnamenti diretti, etc.

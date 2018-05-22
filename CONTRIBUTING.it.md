@@ -42,11 +42,10 @@ che vuol esser trasparente (e possibilmente esemplare :wink:).
 ## Come segnalare un bug o proporre una feature
 
 Se hai domande o proposte ti suggeriamo di condividerle sul forum nella sezione dedicata:
-
-https://forum.italia.it/
+https://forum.italia.it/c/progetto-io/
 
 In alternativa puoi trovarci su Slack nel
-[canale #io-pa di developers.italia.it](https://slack.developers.italia.it/).
+canale [#io-pa](https://slack.developers.italia.it/) di developers.italia.it.
 
 # Risorse
 

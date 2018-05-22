@@ -286,6 +286,9 @@ risultano tuttavia trasversali ai diversi progetti:
   su `null` / `undefined`
 * per gestire gli errori ritorna degli [Either](https://tech.evojam.com/2016/03/21/practical-intro-to-monads-in-javascript-either/)
   al posto di lanciare Eccezioni
+* utilizza le `Promise` al posto delle callback per il codice asincrono. limita l'utilizzo delle callback all'interazione con 
+  librerie esistenti
+* considera l'utilizzo di `async` / `await` al posto di `then` se può rendere il codice più leggibile
 
 Per il codice Typescript utilizza ovunque possibile:
 

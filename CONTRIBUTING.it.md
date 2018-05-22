@@ -290,7 +290,7 @@ risultano tuttavia trasversali ai diversi progetti:
   librerie esistenti
 * considera l'utilizzo di `async` / `await` al posto di `then` se può rendere il codice più leggibile
 
-Per il codice Typescript utilizza ovunque possibile:
+Per il codice Typescript utilizza:
 
 * [italia-ts-commons](https://github.com/teamdigitale/italia-ts-commons) per la definizione dei
   tipi personalizzati (NonEmptyString, DateFromString, EmailString, etc.)

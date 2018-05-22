@@ -13,7 +13,7 @@ metadata:
   labels:
     app: app-landing
 spec:
-  replicas: 2
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:

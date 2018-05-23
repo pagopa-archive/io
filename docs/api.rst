@@ -94,4 +94,4 @@ Microsoft, è possibile generare client in C#, Go, Java, Node.js,
 TypeScript, Python, Ruby and PHP.
 
 `Specifiche OpenAPI per l’iniziativa di Cittadinanza
-Digitale <https://developer.cd.italia.it/docs/services/digital-citizenship-api/export?DocumentFormat=Swagger>`__
+Digitale <https://teamdigitale.github.io/digital-citizenship/api/public.html>`__

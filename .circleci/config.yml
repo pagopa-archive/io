@@ -34,4 +34,4 @@ jobs:
 
 
       # Run DangerJS
-      - run: yarn danger ci
+      - run: '[ -z "$DANGER_GITHUB_API_TOKEN" ] || yarn danger ci'

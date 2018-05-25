@@ -42,11 +42,10 @@ che vuol esser trasparente (e possibilmente esemplare :wink:).
 ## Come segnalare un bug o proporre una feature
 
 Se hai domande o proposte ti suggeriamo di condividerle sul forum nella sezione dedicata:
-
-https://forum.italia.it/
+https://forum.italia.it/c/progetto-io/
 
 In alternativa puoi trovarci su Slack nel
-[canale #io-pa di developers.italia.it](https://slack.developers.italia.it/).
+canale [#io-pa](https://slack.developers.italia.it/) di developers.italia.it.
 
 # Risorse
 
@@ -286,8 +285,11 @@ risultano tuttavia trasversali ai diversi progetti:
   su `null` / `undefined`
 * per gestire gli errori ritorna degli [Either](https://tech.evojam.com/2016/03/21/practical-intro-to-monads-in-javascript-either/)
   al posto di lanciare Eccezioni
+* utilizza le `Promise` al posto delle callback per il codice asincrono. limita l'utilizzo delle callback all'interazione con 
+  librerie esistenti
+* considera l'utilizzo di `async` / `await` al posto di `then` se può rendere il codice più leggibile
 
-Per il codice Typescript utilizza ovunque possibile:
+Per il codice Typescript utilizza:
 
 * [italia-ts-commons](https://github.com/teamdigitale/italia-ts-commons) per la definizione dei
   tipi personalizzati (NonEmptyString, DateFromString, EmailString, etc.)

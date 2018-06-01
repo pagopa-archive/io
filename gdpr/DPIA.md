@@ -31,28 +31,28 @@ complementare o alternativo agli altri canali digitali già utilizzati dagli
 Enti Erogatori, attraverso cui gli enti stessi metteranno a disposizione
 dell’utente le funzioni descritte in seguito e relative ai propri servizi.
 
-CD, infatti, attraverso un’unica piattaforma applicativa consente al cittadino
-di interagire con le amministrazioni italiane, centrali e locali, e con gli
-Enti Erogatori per l’erogazione di specifici servizi digitali dagli stessi
-forniti. CD, pertanto, assume un duplice valore in quanto, da un lato, offre ai
-soggetti pubblici una serie di funzioni che tradizionalmente sono comuni a
-tutti i servizi digitali e, dall’altro, offre agli utenti cittadini uno
+CD infatti, attraverso un’unica piattaforma applicativa, consente al cittadino
+di interagire con le amministrazioni italiane, centrali, locali e con
+tutti gli Enti erogatori di servizi digitali. 
+CD assume pertanto un duplice valore: da un lato abilita i
+soggetti pubblici a utilizzare una serie di funzioni comuni a
+tutti i servizi digitali, dall’altro offre agli utenti cittadini uno
 strumento unico per fruire di queste stesse funzioni.
 
-CD nella sua funzione di punto di accesso, permette all’utente di accedere
-facilmente ed in modalità aggregata alle proprie informazioni ed ai servizi
+CD, nella sua funzione di punto di accesso, permette all’utente di accedere
+facilmente e in modalità aggregata alle proprie informazioni e ai servizi
 digitali che lo riguardano, indipendentemente da quali siano gli Enti Erogatori
 di suo specifico interesse. CD non si sostituisce in alcun modo agli Enti
-Erogatori, che rimangono pertanto titolari delle informazioni in loro possesso,
+Erogatori che rimangono pertanto titolari delle informazioni in loro possesso,
 dei relativi trattamenti di dati personali e dell’erogazione dei relativi
 servizi, che restano nella loro disponibilità esclusiva. Per questo CD si
-configura semplicemente con un canale supplementare funzionale affinché
-l’utente possa raggiungere, più facilmente e in modalità più razionalizzata, le
-informazioni e i servizi degli Enti Erogatori.
+configura semplicemente come un canale supplementare che permette agli
+utenti di raggiungere - più facilmente e in modalità più razionalizzata - 
+le informazioni e i servizi degli Enti Erogatori.
 
 Ferma ogni possibile implementazione nel tempo da parte della Presidenza del
-Consiglio dei Ministri di altre funzionalità, allo stato attuale,
-l’applicazione di CD si compone di 5 sezioni principali, che corrispondono a
+Consiglio dei Ministri di altre funzionalità, allo stato attuale
+l’applicazione di CD si compone di 5 sezioni principali che corrispondono a
 cinque funzioni base comuni a molti servizi digitali:
 
 * Messaggi;
@@ -62,7 +62,7 @@ cinque funzioni base comuni a molti servizi digitali:
 * profilo.
 
 L’utente, previo l’opportuno download dell’applicazione in un dispositivo
-compatibile, potrà accedere ai servizi, autenticandosi tramite SPID. Disporre
+compatibile, potrà accedere ai servizi autenticandosi tramite SPID. Disporre
 di un account SPID valido sarà quindi condizione necessaria e sufficiente per
 utilizzare CD.
 
@@ -122,7 +122,7 @@ di metadati che consentono una corretta indicizzazione e ricerca sul documento,
 come descritto nelle specifiche tecniche di CD per le quali si rinvia
 all’allegato tecnico.
 
-I documenti, ad esempio i certificati, che non sono disponibili potranno essere
+I documenti (ad esempio: certificati) che non sono disponibili potranno essere
 richiesti direttamente dall’utente all’interno di CD, a condizione che il
 processo di definizione delle caratteristiche del documento stesso consentano
 una esperienza d’uso semplice e adatta ad un dispositivo mobile.
@@ -167,7 +167,7 @@ essere definite dell’utente:
   (interrogabile).
 
 A ciascun Ente Erogatore sarà chiesto di fornire un insieme base di
-informazioni che comporranno una scheda ente, ed un equivalente insieme di
+informazioni che comporranno una scheda ente e un equivalente insieme di
 informazioni base per ciascuno dei servizi che usano le funzioni di CD. Queste
 informazioni potranno essere esposte in CD all’interno di una sezione dedicata
 a ciascun ente/servizio, collegata alle preferenze di quel servizio stesso.
@@ -204,14 +204,15 @@ complementari di identificazione e sicurezza quali PIN o, se abilitati
 dall’utente sul proprio dispositivo, strumenti di identificazione biometrica, e
 potrà interrompere la sessione attualmente attiva sull’applicazione (logout).
 
-Nella sezione profilo l’utente potrà vedere le proprie informazioni anagrafiche,
-messe a disposizione dell’utente tramite un’integrazione con ANPR, a condizione
+Nella sezione profilo l’utente potrà vedere le proprie informazioni anagrafiche
+messegli a disposizione tramite un’integrazione con ANPR, a condizione
 che il Comune di residenza dell’utente sia già subentrato in ANPR.
 
-Nella sezione profilo l’utente potrà inoltre verificare i termini e condizioni
-d’uso del servizio in vigore, consultare le informative sul trattamento dei
-dati personali degli Enti Erogatori e una breve informativa relativa a CD,
-chiedere la sospensione dell’account o la completa cancellazione dello stesso.
+Nella sezione profilo l’utente potrà inoltre: 
+
+* verificare i termini e condizioni d’uso del servizio in vigore;
+* consultare le informative sul trattamento dei dati personali degli Enti Erogatori e una breve informativa relativa a CD;
+* chiedere la sospensione dell’account o la completa cancellazione dello stesso.
 
 ## Motivazioni alla base della valutazione d'impatto
 

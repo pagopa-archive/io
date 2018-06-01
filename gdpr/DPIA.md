@@ -31,10 +31,9 @@ complementare o alternativo agli altri canali digitali già utilizzati dagli
 Enti Erogatori, attraverso cui gli enti stessi metteranno a disposizione
 dell’utente le funzioni descritte in seguito e relative ai propri servizi.
 
-CD, infatti, attraverso un’unica piattaforma applicativa, consente al cittadino
+CD infatti, attraverso un’unica piattaforma applicativa, consente al cittadino
 di interagire con le amministrazioni italiane, centrali, locali e con
 tutti gli Enti erogatori di servizi digitali. 
-
 CD assume pertanto un duplice valore: da un lato abilita i
 soggetti pubblici a utilizzare una serie di funzioni comuni a
 tutti i servizi digitali, dall’altro offre agli utenti cittadini uno

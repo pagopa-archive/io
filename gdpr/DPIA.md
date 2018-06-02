@@ -268,6 +268,8 @@ messaggi di CD è equiparabile ad un servizio di email transazionale.[^mailup]
 
 ### Invio di messaggi a destinatari non ancora censiti
 
+![diagram1](diagrams/diagram1.svg)
+
 ~~~{.plantuml caption="Your first program"}
 Alice -> Bob: Authentication Request
 Bob --> Alice: Authentication Response

@@ -1,11 +1,18 @@
 
 #
-# For diagrams needs plantuml + https://github.com/timofurrer/pandoc-plantuml-filter
+# For diagrams you need to install plantuml
 #
+
+PUML_FILES := $(shell find diagrams/*.puml -type f)
+DIAGRAM_FILES = $(patsubst %.puml, %.svg, $(PUML_FILES))
 
 all: DPIA.pdf
 
-DPIA.pdf: DPIA.md template.tex Makefile
+%.svg: %.puml
+	echo Converting $<
+	plantuml -tsvg $<
+
+DPIA.pdf: DPIA.md template.tex Makefile $(DIAGRAM_FILES)
 	pandoc \
 		-N \
 		--template=template.tex \
@@ -13,9 +20,7 @@ DPIA.pdf: DPIA.md template.tex Makefile
 		--variable sansfont="Helvetica" \
 		--variable monofont="Menlo" \
 		--variable fontsize=12pt \
-		--variable version=2.0 \
 		$< \
 		--pdf-engine=xelatex \
 		--toc \
-		--filter pandoc-plantuml \
 		-o $@

@@ -3,16 +3,20 @@
 # For diagrams you need to install plantuml
 #
 
+MAIN_TARGET = DPIA.pdf
+
 PUML_FILES := $(shell find diagrams/*.puml -type f)
 DIAGRAM_FILES = $(patsubst %.puml, %.svg, $(PUML_FILES))
 
-all: DPIA.pdf
+all: $(MAIN_TARGET)
+
+clean:
+	rm -f $(MAIN_TARGET) $(DIAGRAM_FILES)
 
 %.svg: %.puml
-	echo Converting $<
 	plantuml -tsvg $<
 
-DPIA.pdf: DPIA.md template.tex Makefile $(DIAGRAM_FILES)
+%.pdf: %.md template.tex Makefile $(DIAGRAM_FILES)
 	pandoc \
 		-N \
 		--template=template.tex \
@@ -24,3 +28,5 @@ DPIA.pdf: DPIA.md template.tex Makefile $(DIAGRAM_FILES)
 		--pdf-engine=xelatex \
 		--toc \
 		-o $@
+
+.PHONY: clean

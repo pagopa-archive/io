@@ -33,7 +33,7 @@ dell’utente le funzioni descritte in seguito e relative ai propri servizi.
 
 CD infatti, attraverso un’unica piattaforma applicativa, consente al cittadino
 di interagire con le amministrazioni italiane, centrali, locali e con
-tutti gli Enti erogatori di servizi digitali. 
+tutti gli Enti erogatori di servizi digitali.
 CD assume pertanto un duplice valore: da un lato abilita i
 soggetti pubblici a utilizzare una serie di funzioni comuni a
 tutti i servizi digitali, dall’altro offre agli utenti cittadini uno
@@ -47,7 +47,7 @@ Erogatori che rimangono pertanto titolari delle informazioni in loro possesso,
 dei relativi trattamenti di dati personali e dell’erogazione dei relativi
 servizi, che restano nella loro disponibilità esclusiva. Per questo CD si
 configura semplicemente come un canale supplementare che permette agli
-utenti di raggiungere - più facilmente e in modalità più razionalizzata - 
+utenti di raggiungere - più facilmente e in modalità più razionalizzata -
 le informazioni e i servizi degli Enti Erogatori.
 
 Ferma ogni possibile implementazione nel tempo da parte della Presidenza del
@@ -208,7 +208,7 @@ Nella sezione profilo l’utente potrà vedere le proprie informazioni anagrafic
 messegli a disposizione tramite un’integrazione con ANPR, a condizione
 che il Comune di residenza dell’utente sia già subentrato in ANPR.
 
-Nella sezione profilo l’utente potrà inoltre: 
+Nella sezione profilo l’utente potrà inoltre:
 
 * verificare i termini e condizioni d’uso del servizio in vigore;
 * consultare le informative sul trattamento dei dati personali degli Enti Erogatori e una breve informativa relativa a CD;
@@ -268,15 +268,18 @@ messaggi di CD è equiparabile ad un servizio di email transazionale.[^mailup]
 
 ### Invio di messaggi a destinatari non ancora censiti
 
-![diagram1](diagrams/diagram1.svg)
+#### Scenario in cui l'Ente ha censito l'indirizzo email del destinatario
 
-~~~{.plantuml caption="Your first program"}
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+In questo scenario (Figura \ref{figura1}), il cittadino si è precedentemente accreditato
+presso il servizio dell'ente che intende inviare il messaggio. Il cittadino ha
+quindi fornito il proprio indirizzo email ed ha acconsentito l'ente ad essere
+contattato per comunicazioni inerenti al servizio d'interesse.
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-~~~
+![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura1}](diagrams/messaggio-default_email-noprofile.svg){ width=80% }
+
+#### Scenario in cui l'Ente non ha censito l'indirizzo email del destinatario
+
+![Non c'è modo di contattare il destinatario, il messaggio viene scartato](diagrams/messaggio-noprofile.svg){ width=80% }
 
 ### Invio di messaggi a destinatari censiti
 

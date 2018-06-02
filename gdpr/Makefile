@@ -11,7 +11,7 @@ DIAGRAM_FILES = $(patsubst %.puml, %.svg, $(PUML_FILES))
 all: $(MAIN_TARGET)
 
 clean:
-	rm -f $(MAIN_TARGET) $(DIAGRAM_FILES)
+	rm $(MAIN_TARGET)
 
 %.svg: %.puml
 	plantuml -tsvg $<
@@ -29,4 +29,4 @@ clean:
 		--toc \
 		-o $@
 
-.PHONY: clean
+.PRECIOUS: %.svg

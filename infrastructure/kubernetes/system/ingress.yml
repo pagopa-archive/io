@@ -75,6 +75,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: nginx-ingress-controller
+  namespace: default
   labels:
     k8s-app: nginx-ingress-controller
 spec:
@@ -87,6 +88,7 @@ spec:
       labels:
         app: nginx-ingress-controller
     spec:
+      serviceAccountName: nginx-ingress-serviceaccount
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.10.2
@@ -177,6 +179,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ingress-nginx-service
+  namespace: default
 spec:
   # The LoadBalancer resource will be automatically created by Azure, allocating
   # a public IP address, in case you need a specific IP address you should

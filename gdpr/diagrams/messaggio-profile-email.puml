@@ -23,7 +23,7 @@ cloud "Fornitore email\n" {
 ente --> apimessaggi : (1) CF, messaggio
 
 dbpreferenze -up-> apipreferenze
-apipreferenze -> apimessaggi : (2) email, casella messaggi
+apipreferenze -> apimessaggi : (2) email
 
 apimessaggi -right-> txemail : (3) email, messaggio
 

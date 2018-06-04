@@ -267,6 +267,7 @@ Preferenza            Provenienza         Pubblica?     Uso
 Lingue preferite      APP                 SI            UI e messaggi multilingua
 Casella dei messaggi  APP                 NO            Messaggi
 Notifiche push        APP                 NO            Messaggi
+Servizi abilitati     APP                 NO            Messaggi
 Indirizzo email       SPID                NO            Messaggi
 
 ### Creazione del profilo \label{scenario-creazione-profilo}
@@ -401,22 +402,84 @@ I seguenti scenari non sono mutuamente esclusivi e possono concretizzarsi
 contemporaneamente all'invio di un messaggio, a seconda delle preferenze
 espresse dal cittadino.
 
-TODO -> optout
+A tutti gli scenari viene applicato un filtro alla ricezione del messaggio che
+verifica che il servizio mittente sia stato abilitato dal cittadino (preferenza
+_Servizi abilitati_). Nel caso in cui il servizio non sia stato abilitato dal
+cittadino, il messaggio viene scartato immediatamente.
 
 #### Scenario in cui il cittadino ha abilitato la casella dei messaggi
+
+Nel caso in cui il cittadino abbia abilitato la casella dei messaggi nelle
+proprie preferenze, avvengono i seguenti passaggi
+(Figura \ref{figura-messaggio-profile-inbox}):
+
+1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
+   codice fiscale del cittadino.
+2. Il servizio messaggi recupera le preferenze del cittadino destinatario.
+3. Tra le preferenze troverà l'abilitazione della casella dei messaggi e
+   procederà quindi a salvare il contenuto del messaggio nel database dei
+   messaggi.
+4. Quando il cittadino apre l'app nella schermata dei Messaggi, l'app farà una
+   richiesta per ottenere il contenuto dei messaggi al backend dell'app.
+5. Il backend dell'app farà a sua volta una richiesta al servizio Messaggi,
+   ottenendo il contenuto dei messaggi ed il relativo mittente.
+6. Il cittadino visualizza il contenuto dei messaggi nell'app.
+
+Si noti che i passi 4-6 possono avvenire in un momento diverso rispetto
+all'invio del messaggio da parte del servizio.
 
 ![Quando la casella dei messaggi è abilitata, il contenuto del messaggio viene salvato nel database dei messaggi\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg){ width=100% }
 
 #### Scenario in cui il cittadino ha abilitato l'invio di email
 
+Nel caso in cui il cittadino abbia abilitato il canale email nelle
+proprie preferenze, avvengono i seguenti passaggi
+(Figura \ref{figura-messaggio-profile-email}):
+
+1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
+   codice fiscale del cittadino.
+2. Il servizio messaggi recupera le preferenze del cittadino destinatario,
+   tra le quali troverà l'abilitazione alla notifica via email con
+   associato l'indirizzo email su cui il cittadino vuole essere contattato.
+3. Il servizio Messaggi invia il messaggio all'indirizzo email traimte uno dei
+   servizi di invio email transazionale a disposizione.
+4. Il servizio di invio email transazionali recapita il messaggio nella casella
+   di posta elettronica del cittadino.
+5. Il cittadino visualizza il contenuto del messaggi nel suo client di posta
+   elettronica.
+
 ![Quando il cittadino ha abilitato l'invio di email, il messaggio viene recapitato all'indirizzo impostato nelle preferenze\label{figura-messaggio-profile-email}](diagrams/messaggio-profile-email.svg){ width=100% }
 
 #### Scenario in cui il cittadino ha abilitato l'invio di notifiche push all'app
 
+Nel caso in cui il cittadino abbia abilitato l'invio di notifiche push nelle
+proprie preferenze, avvengono i seguenti passaggi
+(Figura \ref{figura-messaggio-profile-push}):
+
+1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
+   codice fiscale del cittadino.
+2. Il servizio messaggi recupera le preferenze del cittadino destinatario.
+3. Tra le preferenze troverà l'abilitazione della casella dei messaggi e delle
+   notifiche push[^preferenze-notifiche-casella] e procederà quindi a salvare
+   il contenuto del messaggio nel database dei messaggi.
+4. Il servizio Messaggi invierà una notifica al backend dell'app, avvertendolo
+   che è necessario inviare una notifica push all'app perché un nuovo messaggio
+   è disponibile nella casella dei messaggi.
+5. Il backend dell'app istruisce il servizio di invio di notifiche push ad
+   inviare una notifica push all'app associata alla hash del codice fiscale[^notifica-hash-cf].
+6. Il servizio di notifica push invia una notifica all'app.[^notifica-ios-android]
+7. Alla ricezione della notifica, quando il cittadino apre l'app, l'app farà una
+   richiesta per ottenere il contenuto dei messaggi al backend dell'app. Il backend dell'app farà a sua volta una richiesta al servizio Messaggi,
+   ottenendo il contenuto dei messaggi ed il relativo mittente.
+8. Il cittadino visualizza il contenuto dei messaggi nell'app.
+
 ![Quando il cittadino ha abilitato l'invio di notifiche push all'app, l'app viene risvegliata da una notifica che genera una lettura della casella dei messaggi\label{figura-messaggio-profile-push}](diagrams/messaggio-profile-push.svg){ width=100% }
 
+[^preferenze-notifiche-casella]: L'invio delle notifiche push sull'app richiede che sia abilitata la casella dei messaggi, per permettere all'app di recuperare il contenuto del messaggio (che non viene inviato tramite la notifica push).
 
+[^notifica-hash-cf]: Utilizziamo la hash del codice fiscale in modo che il dato in chiaro del codice fiscale del cittadino non venga salvato nel database del servizio di invio notifiche push (in questo modo il codice fiscale viene pseudoanonimizzato).
 
+[^notifica-ios-android]: La notifica viene inoltrata ai servizi di notifica di Google o di Apple a seconda della tipologia di device su cui è stata installata l'app.
 
 \pagebreak
 

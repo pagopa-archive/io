@@ -48,7 +48,7 @@
     "cross-env": "^5.1.4",
     "cross-var": "^1.1.0",
     "danger": "^3.1.7",
-    "danger-plugin-digitalcitizenship": "^0.2.0",
+    "danger-plugin-digitalcitizenship": "^0.3.1",
     "documentdb": "^1.14.2",
     "dotenv": "^4.0.0",
     "env-cmd": "^7.0.0",

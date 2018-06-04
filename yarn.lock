@@ -305,9 +305,9 @@ azure-arm-notificationhubs@^1.1.0:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
 
-azure-arm-storage@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/azure-arm-storage/-/azure-arm-storage-3.2.0.tgz#7a11b3603c8d81302b75e2283e2c2c89bd686960"
+azure-arm-storage@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/azure-arm-storage/-/azure-arm-storage-5.0.0.tgz#58a05599d2ea2e3aca9f264ab40da78f9005f72f"
   dependencies:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"

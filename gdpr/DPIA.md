@@ -250,6 +250,43 @@ Explain how information will be obtained, used, and retained – there may be se
 * how information will be obtained, used, and retained
 * You should also say how many individuals are likely to be affected
 
+## Funzionalità preferenze
+
+Questa funzionalità ha lo scopo di gestire le preferenze del
+cittadino all'interno di CD. Le preferenze associate ad ogni cittadino
+(Tabella \ref{tabella-preferenze}) guidano
+molte delle logiche implementate in CD.
+Infine alcune preferenze (dette pubbliche) vengono
+condivise con gli Enti Erogatori allo scopo di essere utilizzate per la
+personalizzazione dei servizi forniti da essi.
+
+Table: preferenze associate al cittadino \label{tabella-preferenze}
+
+Preferenza            Provenienza         Pubblica?     Uso
+-----------           ------------        ----------    ----
+Lingue preferite      APP                 SI            UI e messaggi multilingua
+Casella dei messaggi  APP                 NO            Messaggi
+Notifiche push        APP                 NO            Messaggi
+Indirizzo email       SPID                NO            Messaggi
+
+### Creazione del profilo \label{scenario-creazione-profilo}
+
+La creazione del profilo del cittadino (che contiene le preferenze), avviene
+al primo accesso del cittadino all'APP tramite SPID.
+
+Il flusso di creazione del profilo (Figura \ref{figura-profilo-creazione}) è il seguente:
+
+1. Il cittadino apre l'APP e inizia il processo di autenticazione SPID
+2. L'APP redirige il cittadino sull'IdP prescelto e il cittadino inserisce
+   le credenziali di accesso.
+3. Ad autenticazione avvenuta, l'IdP invia gli attributi SPID al backend
+   dell'APP (che nel flusso di autenticazione SPID svolge il ruolo di
+   _service provider_.
+4. Il backend dell'APP invia gli attributi SPID alle API di gestione preferenze
+   di CD, che li salva nel database delle preferenze.
+
+![Flusso di creazione del profilo del cittadino al primo accesso\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg){ width=100% }
+
 ## Funzionalità Messaggi
 
 La funzionalità Messaggi fornisce il servizio che permette agli Enti Erogatori
@@ -259,8 +296,8 @@ Le comunicazioni di cortesia sono sempre inviate ad uno specifico cittadino
 (identificato tramite codice fiscale) e scaturiscono da una pregressa
 relazione individuale tra l'Ente e il cittadino. Da queste comunicazioni sono
 quindi escluse comunicazioni non personali (_broadcast_). Si veda l'allegato
-tecnico per alcuni [esempi](#esempi-messaggi) di tipologie di messaggi coperte
-da questo servizio.
+tecnico per alcuni esempi di tipologie di messaggi coperte
+da questo servizio (Tabella \ref{tabella-esempi-messaggi}).
 
 Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 
@@ -271,7 +308,7 @@ Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 * **Contenuto** del messaggio.
 * **Indirizzo email** del cittadino a cui inviare la comunicazione (opzionale,
   da usare nel caso il cittadino non abbia già un profilo su CD, vedere
-  \ref{scenario-messaggio-default_email-noprofile}).
+  § \ref{scenario-messaggio-default_email-noprofile}).
 * **Data** associata al messaggio (opzionale, nel caso si tratti di una
   scadenza).
 * **Identificativo Unico di Versamento** (opzionale, nel caso si tratti di un
@@ -301,6 +338,9 @@ un servizio di email transazionale.[^cosa-email-transazionale]
 
 ### Invio di messaggi a cittadini senza un profilo CD
 
+Nei seguenti scenari, il cittadino destinatario del messaggio non si è ancora
+iscritto al servizio di Cittadinanza Digitale.
+
 #### Scenario in cui il cittadino ha fornito all'Ente il proprio indirizzo email \label{scenario-messaggio-default_email-noprofile}
 
 In questo scenario (Figura \ref{figura-messaggio-default_email-noprofile}), il
@@ -327,11 +367,32 @@ Il flusso dati è il seguente:
 
 ![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg){ width=100% }
 
-#### Scenario in cui l'Ente non ha censito l'indirizzo email del destinatario
+#### Scenario in cui il cittadino non ha fornito all'Ente il proprio indirizzo email
 
-![Non c'è modo di contattare il destinatario, il messaggio viene scartato](diagrams/messaggio-noprofile.svg){ width=80% }
+In questo scenario (Figura \ref{figura-messaggio-noprofile}), il
+cittadino non si è precedentemente accreditato presso il servizio dell'ente che
+intende inviare il messaggio. Il servizio quindi tenta di inviare il messaggio
+tramite il servizio Messaggi fornendo solo il codice fiscale del destinatario,
+contando sul fatto che il destinatario possa aver espresso delle preferenze di
+contatto nel suo profilo di CD. In questo caso però, il cittadino destinatario
+del messaggio non si è ancora iscritto al servizio di Cittadinanza Digitale,
+quindi il messaggio viene ignorato.
 
-### Invio di messaggi a destinatari censiti
+1. Il servizio dell'Ente Erogatore invia (tramite le API Messaggi) il messaggio
+   da recapitare al cittadino.
+2. L'API messaggi, non avendo preferenze di contatto per il cittadino
+   destinatario, ignora il messaggio.
+
+![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg){ width=80% }
+
+### Invio di messaggi a cittadini con un profilo CD
+
+Quando il cittadino accede per la prima volta, attraverso SPID, all'app di CD,
+viene creato un profilo di preferenze dentro CD associato al codice fiscale del
+cittadino (§ \ref{scenario-creazione-profilo}). Gli scenari seguenti assumono
+quindi l'esistenza di un profilo con le preferenze del cittadino.
+
+
 
 \pagebreak
 
@@ -439,6 +500,8 @@ Ensure that the steps recommended by the PIA are implemented.
 # Allegato tecnico {-}
 
 ## Esempi di comunicazioni gestibili dal servizio Messaggi {#esempi-messaggi .unnumbered}
+
+Table: Esempi di messaggi personalizzati \label{tabella-esempi-messaggi}
 
 Ente Erogatore                Oggetto
 ---------------               --------

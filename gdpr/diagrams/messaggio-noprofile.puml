@@ -1,7 +1,7 @@
 @startuml
 
-rectangle Ente {
-  agent "Servizio\npresso\nente" as ente
+rectangle "Ente Erogatore" {
+  agent "Servizio" as ente
 }
 
 rectangle "Cittadinanza Digitale" {
@@ -10,10 +10,10 @@ rectangle "Cittadinanza Digitale" {
 
 :Cittadino: as cittadino
 
-ente --> apimessaggi : messaggio,\nCF
+ente --> apimessaggi : (1) CF, messaggio
 
 note right of apimessaggi
-  L'API Messaggi di Cittadinanza Digitale
+  (2) L'API Messaggi di Cittadinanza Digitale
   non ha modo di contattare il cittadino
   per cui il messaggio viene ignorato ed
   eliminato.

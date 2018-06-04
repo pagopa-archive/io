@@ -1,0 +1,30 @@
+@startuml
+
+:Cittadino: as cittadino
+
+agent "IdP SPID" as idp
+
+agent "App CD" as app
+
+rectangle "Cittadinanza Digitale" {
+  agent "Backend CD" as backend
+
+  agent "API Preferenze" as apipreferenze
+
+  database "Preferenze" as dbpreferenze
+}
+
+
+cittadino -> app : (1) primo accesso
+
+app .up.> idp : (2) autenticazione SPID
+
+cittadino -up-> idp : (2) email, password
+
+idp -> backend : (3) CF, nome, cognome, email
+
+backend -down-> apipreferenze : (4) CF, email,\ncasella messaggi=SI,\nnotifiche push=SI
+
+apipreferenze -right-> dbpreferenze
+
+@enduml

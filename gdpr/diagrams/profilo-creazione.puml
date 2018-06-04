@@ -14,6 +14,9 @@ rectangle "Cittadinanza Digitale" {
   database "Preferenze" as dbpreferenze
 }
 
+cloud "Servizio notifiche push" {
+  agent "API notifiche push" as apinotifiche
+}
 
 cittadino -> app : (1) primo accesso
 
@@ -26,5 +29,9 @@ idp -> backend : (3) CF, nome, cognome, email
 backend -down-> apipreferenze : (4) CF, email,\ncasella messaggi=SI,\nnotifiche push=SI
 
 apipreferenze -right-> dbpreferenze
+
+app -> backend : (5) ID installazione
+
+backend -right-> apinotifiche : (5) SHA256(CF),\nID installazione
 
 @enduml

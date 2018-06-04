@@ -1,0 +1,34 @@
+@startuml
+
+:Cittadino: as cittadino
+
+rectangle "Ente Erogatore" {
+  agent "Servizio" as ente
+}
+
+rectangle "Cittadinanza Digitale" {
+  agent "API Messaggi" as apimessaggi
+  agent "API Preferenze" as apipreferenze
+  database "Preferenze" as dbpreferenze
+}
+
+cloud "Servizio email\ntransazionale\n" {
+  agent "API email" as txemail
+}
+
+cloud "Fornitore email\n" {
+  database "Casella email" as emailprovider
+}
+
+ente --> apimessaggi : (1) CF, messaggio
+
+dbpreferenze -up-> apipreferenze
+apipreferenze -> apimessaggi : (2) email, casella messaggi
+
+apimessaggi -right-> txemail : (3) email, messaggio
+
+txemail -> emailprovider : (4) email, messaggio
+
+emailprovider --> cittadino : (5) messaggio
+
+@enduml

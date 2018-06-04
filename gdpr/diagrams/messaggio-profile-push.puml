@@ -1,0 +1,42 @@
+@startuml
+
+:Cittadino: as cittadino
+
+agent "APP CD" as app
+
+rectangle "Ente Erogatore" {
+  agent "Servizio" as ente
+}
+
+rectangle "Cittadinanza Digitale" {
+  agent "API Messaggi" as apimessaggi
+  database "Messaggi" as dbmessaggi
+  agent "API Preferenze" as apipreferenze
+  database "Preferenze" as dbpreferenze
+  agent "Backend APP" as backend
+}
+
+cloud "Servizio notifiche push" {
+  agent "API notifiche push" as apinotifiche
+}
+
+ente -down-> apimessaggi : (1) CF, messaggio
+
+dbpreferenze -up-> apipreferenze
+apipreferenze -> apimessaggi : (2) email, casella messaggi\nnotifiche push
+
+apimessaggi -down-> dbmessaggi : (3) messaggio,\nmittente
+
+apimessaggi --> backend : (4) CF, messaggio,\nmittente
+
+backend -down-> apinotifiche : "(5) SHA256(CF)"
+
+apinotifiche -down-> app : "(6) ci sono nuovi\nmessaggi"
+
+backend -> app : "(7)  "
+
+apimessaggi -> backend : "(7) messaggio,\nmittente"
+
+app -down-> cittadino : "(8)"
+
+@enduml

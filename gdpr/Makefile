@@ -14,7 +14,13 @@ clean:
 	rm $(MAIN_TARGET)
 
 %.svg: %.puml
-	plantuml -tsvg $<
+	plantuml \
+		-tsvg \
+		-Sshadowing=false \
+		-SDefaultFontName=Helvetica \
+		-SDefaultFontSize=14 \
+		-SPadding=8 \
+		$<
 
 %.pdf: %.md template.tex Makefile $(DIAGRAM_FILES)
 	pandoc \

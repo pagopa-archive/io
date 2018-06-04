@@ -1,0 +1,32 @@
+@startuml
+
+:Cittadino: as cittadino
+
+agent "APP CD" as app
+
+rectangle "Ente Erogatore" {
+  agent "Servizio" as ente
+}
+
+rectangle "Cittadinanza Digitale" {
+  agent "API Messaggi" as apimessaggi
+  database "Messaggi" as dbmessaggi
+  agent "API Preferenze" as apipreferenze
+  database "Preferenze" as dbpreferenze
+  agent "Backend APP" as backend
+}
+
+ente -down-> apimessaggi : (1) CF, messaggio
+
+dbpreferenze -up-> apipreferenze
+apipreferenze -> apimessaggi : (2) email, casella messaggi
+
+apimessaggi -down-> dbmessaggi : (3) messaggio,\nmittente
+
+app <- backend : "(4) messaggio,\nmittente"
+
+apimessaggi -right-> backend : "(5) messaggio,\nmittente"
+
+app -down-> cittadino : "(6)"
+
+@enduml

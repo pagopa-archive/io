@@ -284,8 +284,13 @@ Il flusso di creazione del profilo (Figura \ref{figura-profilo-creazione}) è il
    _service provider_.
 4. Il backend dell'APP invia gli attributi SPID alle API di gestione preferenze
    di CD, che li salva nel database delle preferenze.
+5. L'app genera un identificativo di installazione univoco che viene comunicato
+   al servizio di invio delle _notifiche push_, associandolo alla hash _SHA256_
+   [^sha256] del codice fiscale del cittadino.
 
 ![Flusso di creazione del profilo del cittadino al primo accesso\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg){ width=100% }
+
+[^sha256]: <https://en.wikipedia.org/wiki/SHA-2>
 
 ## Funzionalità Messaggi
 
@@ -383,14 +388,33 @@ quindi il messaggio viene ignorato.
 2. L'API messaggi, non avendo preferenze di contatto per il cittadino
    destinatario, ignora il messaggio.
 
-![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg){ width=80% }
+![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg){ width=100% }
 
 ### Invio di messaggi a cittadini con un profilo CD
 
 Quando il cittadino accede per la prima volta, attraverso SPID, all'app di CD,
 viene creato un profilo di preferenze dentro CD associato al codice fiscale del
 cittadino (§ \ref{scenario-creazione-profilo}). Gli scenari seguenti assumono
-quindi l'esistenza di un profilo con le preferenze del cittadino.
+quindi l'esistenza di un profilo contente le preferenze del cittadino.
+
+I seguenti scenari non sono mutuamente esclusivi e possono concretizzarsi
+contemporaneamente all'invio di un messaggio, a seconda delle preferenze
+espresse dal cittadino.
+
+TODO -> optout
+
+#### Scenario in cui il cittadino ha abilitato la casella dei messaggi
+
+![Quando la casella dei messaggi è abilitata, il contenuto del messaggio viene salvato nel database dei messaggi\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg){ width=100% }
+
+#### Scenario in cui il cittadino ha abilitato l'invio di email
+
+![Quando il cittadino ha abilitato l'invio di email, il messaggio viene recapitato all'indirizzo impostato nelle preferenze\label{figura-messaggio-profile-email}](diagrams/messaggio-profile-email.svg){ width=100% }
+
+#### Scenario in cui il cittadino ha abilitato l'invio di notifiche push all'app
+
+![Quando il cittadino ha abilitato l'invio di notifiche push all'app, l'app viene risvegliata da una notifica che genera una lettura della casella dei messaggi\label{figura-messaggio-profile-push}](diagrams/messaggio-profile-push.svg){ width=100% }
+
 
 
 

@@ -32,7 +32,7 @@ Enti Erogatori, attraverso cui gli enti stessi metteranno a disposizione
 dell’utente le funzioni descritte in seguito e relative ai propri servizi.
 
 CD infatti, attraverso un’unica piattaforma applicativa, consente al cittadino
-di interagire con le amministrazioni italiane, centrali, locali e con
+d'interagire con le amministrazioni italiane, centrali, locali e con
 tutti gli Enti erogatori di servizi digitali.
 CD assume pertanto un duplice valore: da un lato abilita i
 soggetti pubblici a utilizzare una serie di funzioni comuni a
@@ -233,6 +233,8 @@ trattamento di dati su larga scala.[^largascala]
 
 [^largascala]: Cfr. _Linee guida sui responsabili della protezione dei dati (RPD)_ del WP29 - 16/EN WP 243.
 
+\pagebreak
+
 # Descrizione dei flussi informativi
 
 **TODO**
@@ -244,7 +246,21 @@ Explain how information will be obtained, used, and retained – there may be se
 1. People who will be using the information are consulted on the practical implications.
 1. Potential future uses of information are identified, even if they are not immediately necessary.
 
+* The collection, use and deletion of personal data should be described here
+* how information will be obtained, used, and retained
+* You should also say how many individuals are likely to be affected
+
 ## Funzionalità Messaggi
+
+La funzionalità Messaggi fornisce il servizio che permette agli Enti Erogatori
+di inviare comunicazioni di cortesia e avvisi di pagamento ai cittadini.
+Le comunicazioni di cortesia sono sempre inviate ad uno specifico cittadino
+(identificato tramite il suo codice fiscale) e scaturiscono da una pregressa
+relazione individuale tra l'Ente e il cittadino. Da queste comunicazioni sono
+quindi escluse comunicazioni non personali (_broadcast_). Si veda l'allegato
+tecnico per alcuni [esempi](#esempi-messaggi) di tipologie di messaggi coperte
+da questo servizio.
+
 
 La funzionalità Messaggi di CD implementa delle logiche di gestione del dato che
 variano a seconda della tipologia di messaggio e della configurazione delle
@@ -283,11 +299,15 @@ contattato per comunicazioni inerenti al servizio d'interesse.
 
 ### Invio di messaggi a destinatari censiti
 
+\pagebreak
+
 # Processo di analisi
 
 **TODO**
 Explain what practical steps you will take to ensure that you identify and address privacy risks. Who should be consulted, internally and externally? How will you carry out the consultation? You should link this to the relevant stages of your project management process.
 Consultation can be used at any stage of the PIA process.
+
+\pagebreak
 
 # Analisi dei rischi
 
@@ -317,6 +337,8 @@ Record the risks to individuals, including possible intrusions on privacy where 
 
 **TODO**
 
+\pagebreak
+
 # Soluzioni adottate
 
 **TODO**
@@ -343,6 +365,8 @@ is the risk eliminated, reduced, or accepted?
 
 is the final impact on individuals after implementing each solution a justified, compliant and proportionate response to the aims of the project?
 
+\pagebreak
+
 # Stato di approvazione
 
 **TODO**
@@ -360,6 +384,8 @@ Obtain appropriate signoff within the organisation.
 | Rischio | Soluzione | Approvata da |
 | ------- | --------- | ------------ |
 
+\pagebreak
+
 # Stato di implementazione
 
 **TODO**
@@ -373,3 +399,27 @@ Ensure that the steps recommended by the PIA are implemented.
 
 | Risultato da conseguire | Data prevista | Responsabile |
 | ----------------------- | ------------- | ------------ |
+
+\pagebreak
+
+# Allegato tecnico {-}
+
+## Esempi di comunicazioni gestibili dal servizio Messaggi {#esempi-messaggi .unnumbered}
+
+Ente Erogatore                Oggetto
+---------------               --------
+Agenzia delle Entrate         Notifiche di cortesia cartelle esattoriali
+Agenzia delle Entrate         Avvisi di cortesia scadenze
+Agenzia delle Entrate         Visure catastali
+Agenzia delle Entrate         Pagamento spese per immobili
+Agenzia delle Entrate         Accredito rimborsi
+Comune                        Avviso multa
+Comune                        Avviso TARI
+Comune                        Avviso scadenza rette scolastiche
+Comune                        Mense scolastiche
+Comune                        Scadenze documenti di identità
+Comune                        Scadenza tessera elettorale
+Ministero dei Trasporti       Scadenza revisione
+Ministero dei Trasporti       Punti patente
+Ministero dei Trasporti       Scadenza patente
+ACI                           Bollo Auto

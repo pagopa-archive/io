@@ -254,44 +254,78 @@ Explain how information will be obtained, used, and retained – there may be se
 
 La funzionalità Messaggi fornisce il servizio che permette agli Enti Erogatori
 di inviare comunicazioni di cortesia e avvisi di pagamento ai cittadini.
+
 Le comunicazioni di cortesia sono sempre inviate ad uno specifico cittadino
-(identificato tramite il suo codice fiscale) e scaturiscono da una pregressa
+(identificato tramite codice fiscale) e scaturiscono da una pregressa
 relazione individuale tra l'Ente e il cittadino. Da queste comunicazioni sono
 quindi escluse comunicazioni non personali (_broadcast_). Si veda l'allegato
 tecnico per alcuni [esempi](#esempi-messaggi) di tipologie di messaggi coperte
 da questo servizio.
 
+Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 
-La funzionalità Messaggi di CD implementa delle logiche di gestione del dato che
-variano a seconda della tipologia di messaggio e della configurazione delle
-preferenze del cittadino a cui è indirizzato lo stesso.
+* **Identificativo del servizio** che ha generato il messaggio (es. servizio
+  anagrafe).
+* **Codice Fiscale** del cittadino a cui recapitare il messaggio.
+* **Oggetto** del messaggio.
+* **Contenuto** del messaggio.
+* **Indirizzo email** del cittadino a cui inviare la comunicazione (opzionale,
+  da usare nel caso il cittadino non abbia già un profilo su CD, vedere
+  \ref{scenario-messaggio-default_email-noprofile}).
+* **Data** associata al messaggio (opzionale, nel caso si tratti di una
+  scadenza).
+* **Identificativo Unico di Versamento** (opzionale, nel caso si tratti di un
+  avviso di pagamento).
+
+Una volta ricevute queste informazioni, il servizio Messaggi di CD esegue delle
+logiche di gestione del dato che variano a seconda della tipologia di messaggio
+e della configurazione delle preferenze del cittadino a cui è indirizzato lo
+stesso.
 
 Possiamo innanzitutto classificare i possibili scenari in due macro gruppi:
 
 1. La gestione del messaggio quando il cittadino destinatario NON ha ancora
    effettuato il primo accesso all'applicazione di CD;
-1. La gestione del messaggio quando il cittadino destinatario ha già
-   effettuato il primo accesso all'applicazione di CD;
+1. La gestione del messaggio quando il cittadino destinatario ha già effettuato
+   il primo accesso all'applicazione di CD.
 
 Questa distinzione è importante poichè quando il cittadino non ha ancora
-effettuato il primo accesso all'applicazione di CD, la funzionalità di invio
-messaggi di CD è equiparabile ad un servizio di email transazionale.[^mailup]
+effettuato il primo accesso all'applicazione di CD, non esiste ancora un suo
+profilo nel sistema e la funzionalità di invio messaggi di CD è equiparabile ad
+un servizio di email transazionale.[^cosa-email-transazionale]
 
-[^mailup]: si veda per esempio il servizio
+[^cosa-email-transazionale]: si veda per esempio il servizio
   [MailUP](https://www.mailup.it/funzionalita/email/smtp/) usato da molte
   Pubbliche Amministrazioni per l'invio di avvisi di cortesia via email ai
   cittadini.
 
-### Invio di messaggi a destinatari non ancora censiti
+### Invio di messaggi a cittadini senza un profilo CD
 
-#### Scenario in cui l'Ente ha censito l'indirizzo email del destinatario
+#### Scenario in cui il cittadino ha fornito all'Ente il proprio indirizzo email \label{scenario-messaggio-default_email-noprofile}
 
-In questo scenario (Figura \ref{figura1}), il cittadino si è precedentemente accreditato
-presso il servizio dell'ente che intende inviare il messaggio. Il cittadino ha
-quindi fornito il proprio indirizzo email ed ha acconsentito l'ente ad essere
-contattato per comunicazioni inerenti al servizio d'interesse.
+In questo scenario (Figura \ref{figura-messaggio-default_email-noprofile}), il
+cittadino si è precedentemente accreditato presso il servizio dell'ente che
+intende inviare il messaggio. Il cittadino ha quindi fornito il proprio indirizzo
+email ed ha acconsentito l'ente a contattarlo per comunicazioni inerenti
+al servizio d'interesse.
 
-![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura1}](diagrams/messaggio-default_email-noprofile.svg){ width=80% }
+Il flusso dati è il seguente:
+
+1. Il cittadino fornisce all'Ente Erogatore il proprio indirizzo email.
+2. Quando il servizio dell'Ente Erogatore intende comunicare al cittadino,
+   recupera l'indirizzo email di recapito dal propdio database di contatti.
+3. Il servizio dell'Ente Erogatore invia (tramite le API Messaggi) il messaggio
+   da recapitare al cittadino, con associato l'indizzo email fornitogli.
+4. La logica delle API messaggi, non trovando le preferenze del cittadino nel
+   proprio database (siamo nello scenatio di cittadini senza profilo CD),
+   utilizza l'indirizzo email fornitogli dall'Ente Erogatore per recapitare
+   il messaggio via email tramite uno dei servizi di invio email transazionale
+   utilizzati da CD.
+5. Il servizio di invio email transazionale invia l'email con il messaggio al
+   fornitore email del cittadino.
+6. Il cittadino trova il messaggio nella sua casella di posta.
+
+![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg){ width=100% }
 
 #### Scenario in cui l'Ente non ha censito l'indirizzo email del destinatario
 

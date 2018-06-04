@@ -35,7 +35,14 @@ clusterissuer "letsencrypt-prod" created
 
 #### 2. Ingress
 
-Once certificate issuers are ready, you can configure the ingress:
+Once certificate issuers are ready, you can configure the ingress by creating
+the RBAC roles:
+
+```
+$ kubectl apply -f system/nginx-ingress-controller-rbac.yml
+```
+
+And by creating the services and the deployments:
 
 ```
 $ kubectl apply -f system/ingress.yml

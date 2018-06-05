@@ -256,19 +256,27 @@ Questa funzionalità ha lo scopo di gestire le preferenze del
 cittadino all'interno di CD. Le preferenze associate ad ogni cittadino
 (Tabella \ref{tabella-preferenze}) guidano
 molte delle logiche implementate in CD.
-Infine alcune preferenze (dette pubbliche) vengono
+Inoltre alcune preferenze (dette pubbliche) vengono
 condivise con gli Enti Erogatori allo scopo di essere utilizzate per la
 personalizzazione dei servizi forniti da essi.
 
-Table: preferenze associate al cittadino \label{tabella-preferenze}
+Table: preferenze associate al cittadino - le preferenze nella forma di domanda sono preferenze di abilitazione (booleani) \label{tabella-preferenze}
 
-Preferenza            Provenienza         Pubblica?     Uso
------------           ------------        ----------    ----
-Lingue preferite      APP                 SI            UI e messaggi multilingua
-Casella dei messaggi  APP                 NO            Messaggi
-Notifiche push        APP                 NO            Messaggi
-Servizi abilitati     APP                 NO            Messaggi
-Indirizzo email       SPID                NO            Messaggi
+Preferenza                Provenienza         Pubblica?     Uso
+-----------               ------------        ----------    ----
+Lingue preferite          APP                 SI            UI e messaggi multilingua
+Casella dei messaggi?     APP                 NO            Messaggi
+Notifiche push?           APP                 NO            Messaggi
+Servizi abilitati?        APP                 NO            Messaggi
+Indirizzo email           SPID                NO            Messaggi
+Storico accessi           Backend app         NO            Profilo
+
+Nel database delle preferenze vengono mantenute le informazioni descritte nella
+Tabella \ref{tabella-preferenze} per ogni cittadino che si registra a CD e fino
+a quando il cittadino non fa richiesta di rimozione dei suoi dati. Le preferenze
+sono associate al cittadino usando il codice fiscale[^cf-chiave-primaria] come chiave primaria.
+
+[^cf-chiave-primaria]: Potremmo anche usare la hash del codice fiscale.
 
 ### Creazione del profilo \label{scenario-creazione-profilo}
 
@@ -293,6 +301,19 @@ Il flusso di creazione del profilo (Figura \ref{figura-profilo-creazione}) è il
 
 [^sha256]: <https://en.wikipedia.org/wiki/SHA-2>
 
+### Lettura delle preferenze pubbliche da parte dell'ente
+
+Come descritto nella Tabella \ref{tabella-preferenze}, alcune preferenze vengono
+definite _pubbliche_ e vengono condivise con gli enti che ne fanno richiesta.
+Queste preferenze non contengono informazioni personali o sensibili ma sono
+assimilabili a indicazioni che il cittadino vuole condividere con gli enti per
+essere usate come base per la personalizzazione dei servizi digitali.
+
+Un servizio digitale fornito dall'ente al cittadino può interrogare le preferenze
+pubbliche del cittadino sulla base del codice fiscale dello stesso e usare
+quelle informazioni per fornire un servizio personalizzato, per esempio
+traducendo l'interfaccia del servizio sulla base della preferenza di lingua.
+
 ## Funzionalità Messaggi
 
 La funzionalità Messaggi fornisce il servizio che permette agli Enti Erogatori
@@ -312,7 +333,7 @@ Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 * **Codice Fiscale** del cittadino a cui recapitare il messaggio.
 * **Oggetto** del messaggio.
 * **Contenuto** del messaggio.
-* **Indirizzo email** del cittadino a cui inviare la comunicazione (opzionale,
+* **Indirizzo email di default** del cittadino a cui inviare la comunicazione (opzionale,
   da usare nel caso il cittadino non abbia già un profilo su CD, vedere
   § \ref{scenario-messaggio-default_email-noprofile}).
 * **Data** associata al messaggio (opzionale, nel caso si tratti di una
@@ -325,7 +346,7 @@ logiche di gestione del dato che variano a seconda della tipologia di messaggio
 e della configurazione delle preferenze del cittadino a cui è indirizzato lo
 stesso.
 
-Possiamo innanzitutto classificare i possibili scenari in due macro gruppi:
+Possiamo classificare i possibili scenari in due macro gruppi:
 
 1. La gestione del messaggio quando il cittadino destinatario NON ha ancora
    effettuato il primo accesso all'applicazione di CD;
@@ -409,9 +430,19 @@ cittadino, il messaggio viene scartato immediatamente.
 
 #### Scenario in cui il cittadino ha abilitato la casella dei messaggi
 
+La casella dei messaggi è un database che, se abilitato dal cittadino, archivia
+i messaggi inviati dagli enti al cittadino stesso. Un messaggio archiviato nella
+casella dei messaggi contiene i seguenti dati:
+
+* **Identificativo del servizio** che ha generato il messaggio.
+* **Oggetto** del messaggio.
+* **Contenuto** del messaggio.
+* **Data** associata al messaggio (se presente).
+* **Identificativo Unico di Versamento** (se presente).
+
 Nel caso in cui il cittadino abbia abilitato la casella dei messaggi nelle
-proprie preferenze, avvengono i seguenti passaggi
-(Figura \ref{figura-messaggio-profile-inbox}):
+proprie preferenze, all'invio di un messaggio da parte dell'ente avvengono i
+seguenti passaggi (Figura \ref{figura-messaggio-profile-inbox}):
 
 1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
    codice fiscale del cittadino.
@@ -466,7 +497,7 @@ proprie preferenze, avvengono i seguenti passaggi
    che è necessario inviare una notifica push all'app perché un nuovo messaggio
    è disponibile nella casella dei messaggi.
 5. Il backend dell'app istruisce il servizio di invio di notifiche push ad
-   inviare una notifica push all'app associata alla hash del codice fiscale[^notifica-hash-cf].
+   inviare una notifica push all'app associata alla hash del codice fiscale.[^notifica-hash-cf]
 6. Il servizio di notifica push invia una notifica all'app.[^notifica-ios-android]
 7. Alla ricezione della notifica, quando il cittadino apre l'app, l'app farà una
    richiesta per ottenere il contenuto dei messaggi al backend dell'app. Il backend dell'app farà a sua volta una richiesta al servizio Messaggi,

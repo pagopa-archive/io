@@ -514,6 +514,10 @@ proprie preferenze, avvengono i seguenti passaggi
 
 [^notifica-ios-android]: La notifica viene inoltrata ai servizi di notifica di Google o di Apple a seconda della tipologia di device su cui è stata installata l'app.
 
+## Funzionalità Pagamenti
+
+## Funzionalità Documenti
+
 \pagebreak
 
 # Processo di analisi
@@ -651,3 +655,50 @@ Ministero dei Trasporti       Scadenza revisione
 Ministero dei Trasporti       Punti patente
 Ministero dei Trasporti       Scadenza patente
 ACI                           Bollo Auto
+
+## Diagrammi architetturali {-}
+
+### Infrastruttura fisica {-}
+
+**TODO** datacenter, accesso fisico, ridondanza, interconnessione
+
+### Infrastruttura di sistema {-}
+
+**TODO** componenti cloud, IaaS, accessi di amministrazione
+
+### Infrastruttura di rete {-}
+
+**TODO** reti virtuali, firewall, routing, vpn, TLS
+
+### Infrastruttura di piattaforma {-}
+
+**TODO** functions, k8s, database, redis, code, API manager, aggregazione log e analisi, analytics app, servizi email transazionale
+
+### Infrastruttura applicativa {-}
+
+**TODO** componenti applicativi
+
+### Infrastruttura dati {-}
+
+**TODO** storage nell'app (device), storage backend (redis), cosmos (repliche), code
+policy di retention, backup, criptazione dei dati a riposo
+
+## Meccanismi di autenticazione tra le componenti {-}
+
+### Autenticazione app mobile {-}
+
+#### Atenticazione via SPID {-}
+
+#### Autenticazione via PIN e Biometrico {-}
+
+#### Autenticazione verso il backend {-}
+
+#### Invalidazione delle sessioni {-}
+
+### Autenticazione API CD {-}
+
+#### Verso gli Enti Erogatori {-}
+
+#### Verso il backend dell'app mobile {-}
+
+### Autenticazione pagoPA {-}

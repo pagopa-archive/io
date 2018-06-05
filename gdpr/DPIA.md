@@ -256,7 +256,7 @@ Explain how information will be obtained, used, and retained – there may be se
 
 Questa funzionalità ha lo scopo di gestire le preferenze del
 cittadino all'interno di CD. Le preferenze associate ad ogni cittadino
-(Tabella \ref{tabella-preferenze}) guidano
+(Tabella \vref{tabella-preferenze}) guidano
 molte delle logiche implementate in CD.
 Inoltre alcune preferenze (dette pubbliche) vengono
 condivise con gli Enti Erogatori allo scopo di essere utilizzate per la
@@ -274,7 +274,7 @@ Indirizzo email           SPID                NO            Messaggi
 Storico accessi           Backend app         NO            Profilo
 
 Nel database delle preferenze vengono mantenute le informazioni descritte nella
-Tabella \ref{tabella-preferenze} per ogni cittadino che si registra a CD e fino
+Tabella \vref{tabella-preferenze} per ogni cittadino che si registra a CD e fino
 a quando il cittadino non fa richiesta di rimozione dei suoi dati. Le preferenze
 sono associate al cittadino usando il codice fiscale[^cf-chiave-primaria] come chiave primaria.
 
@@ -285,7 +285,7 @@ sono associate al cittadino usando il codice fiscale[^cf-chiave-primaria] come c
 La creazione del profilo del cittadino (che contiene le preferenze), avviene
 al primo accesso del cittadino all'APP tramite SPID.
 
-Il flusso di creazione del profilo (Figura \ref{figura-profilo-creazione}) è il seguente:
+Il flusso di creazione del profilo (Figura \vref{figura-profilo-creazione}) è il seguente:
 
 1. Il cittadino apre l'APP e inizia il processo di autenticazione SPID
 2. L'APP redirige il cittadino sull'IdP prescelto e il cittadino inserisce
@@ -305,7 +305,7 @@ Il flusso di creazione del profilo (Figura \ref{figura-profilo-creazione}) è il
 
 ### Lettura delle preferenze pubbliche da parte dell'ente
 
-Come descritto nella Tabella \ref{tabella-preferenze}, alcune preferenze vengono
+Come descritto nella Tabella \vref{tabella-preferenze}, alcune preferenze vengono
 definite _pubbliche_ e vengono condivise con gli enti che ne fanno richiesta.
 Queste preferenze non contengono informazioni personali o sensibili ma sono
 assimilabili a indicazioni che il cittadino vuole condividere con gli enti per
@@ -326,7 +326,7 @@ Le comunicazioni di cortesia sono sempre inviate ad uno specifico cittadino
 relazione individuale tra l'Ente e il cittadino. Da queste comunicazioni sono
 quindi escluse comunicazioni non personali (_broadcast_). Si veda l'allegato
 tecnico per alcuni esempi di tipologie di messaggi coperte
-da questo servizio (Tabella \ref{tabella-esempi-messaggi}).
+da questo servizio (Tabella \vref{tabella-esempi-messaggi}).
 
 Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 
@@ -337,7 +337,7 @@ Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 * **Contenuto** del messaggio.
 * **Indirizzo email di default** del cittadino a cui inviare la comunicazione (opzionale,
   da usare nel caso il cittadino non abbia già un profilo su CD, vedere
-  § \ref{scenario-messaggio-default_email-noprofile}).
+  § \vref{scenario-messaggio-default_email-noprofile}).
 * **Data** associata al messaggio (opzionale, nel caso si tratti di una
   scadenza).
 * **Identificativo Unico di Versamento** (opzionale, nel caso si tratti di un
@@ -372,7 +372,7 @@ iscritto al servizio di Cittadinanza Digitale.
 
 #### Scenario in cui il cittadino ha fornito all'Ente il proprio indirizzo email \label{scenario-messaggio-default_email-noprofile}
 
-In questo scenario (Figura \ref{figura-messaggio-default_email-noprofile}), il
+In questo scenario (Figura \vref{figura-messaggio-default_email-noprofile}), il
 cittadino si è precedentemente accreditato presso il servizio dell'ente che
 intende inviare il messaggio. Il cittadino ha quindi fornito il proprio indirizzo
 email ed ha acconsentito l'ente a contattarlo per comunicazioni inerenti
@@ -398,7 +398,7 @@ Il flusso dati è il seguente:
 
 #### Scenario in cui il cittadino non ha fornito all'Ente il proprio indirizzo email
 
-In questo scenario (Figura \ref{figura-messaggio-noprofile}), il
+In questo scenario (Figura \vref{figura-messaggio-noprofile}), il
 cittadino non si è precedentemente accreditato presso il servizio dell'ente che
 intende inviare il messaggio. Il servizio quindi tenta di inviare il messaggio
 tramite il servizio Messaggi fornendo solo il codice fiscale del destinatario,
@@ -418,7 +418,7 @@ quindi il messaggio viene ignorato.
 
 Quando il cittadino accede per la prima volta, attraverso SPID, all'app di CD,
 viene creato un profilo di preferenze dentro CD associato al codice fiscale del
-cittadino (§ \ref{scenario-creazione-profilo}). Gli scenari seguenti assumono
+cittadino (§ \vref{scenario-creazione-profilo}). Gli scenari seguenti assumono
 quindi l'esistenza di un profilo contente le preferenze del cittadino.
 
 I seguenti scenari non sono mutuamente esclusivi e possono concretizzarsi
@@ -444,7 +444,7 @@ casella dei messaggi contiene i seguenti dati:
 
 Nel caso in cui il cittadino abbia abilitato la casella dei messaggi nelle
 proprie preferenze, all'invio di un messaggio da parte dell'ente avvengono i
-seguenti passaggi (Figura \ref{figura-messaggio-profile-inbox}):
+seguenti passaggi (Figura \vref{figura-messaggio-profile-inbox}):
 
 1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
    codice fiscale del cittadino.
@@ -467,7 +467,7 @@ all'invio del messaggio da parte del servizio.
 
 Nel caso in cui il cittadino abbia abilitato il canale email nelle
 proprie preferenze, avvengono i seguenti passaggi
-(Figura \ref{figura-messaggio-profile-email}):
+(Figura \vref{figura-messaggio-profile-email}):
 
 1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
    codice fiscale del cittadino.
@@ -487,7 +487,7 @@ proprie preferenze, avvengono i seguenti passaggi
 
 Nel caso in cui il cittadino abbia abilitato l'invio di notifiche push nelle
 proprie preferenze, avvengono i seguenti passaggi
-(Figura \ref{figura-messaggio-profile-push}):
+(Figura \vref{figura-messaggio-profile-push}):
 
 1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
    codice fiscale del cittadino.
@@ -514,9 +514,38 @@ proprie preferenze, avvengono i seguenti passaggi
 
 [^notifica-ios-android]: La notifica viene inoltrata ai servizi di notifica di Google o di Apple a seconda della tipologia di device su cui è stata installata l'app.
 
-## Funzionalità Pagamenti
+## Funzionalità Portafoglio
+
+La funzionalità _Portafoglio_ fornisce la possibilità di pagare tributi tramite
+gli strumenti di pagamento forniti da pagoPA.
+
+Nel contesto delle funzionalità di pagamento, consideriamo due macro flussi:
+
+* La gestione preferenze di pagamento del cittadino (es. aggiunta di una carta
+di credito).
+* Il flusso di pagamento (es. da un avviso di pagamento digitale).
+
+### Gestione preferenze di pagamento
+
+#### Riconciliazione profilo CD e profilo pagoPA
+
+### Pagamento
+
+#### Avvisi di pagamento digitali
+
+#### Avvisi di pagamento fisici
+
+#### Verifica e attualizzazione
+
+#### Transazione
+
+#### Ricevuta
 
 ## Funzionalità Documenti
+
+### Avviso disponibilità documento
+
+### Visualizzazione documento
 
 \pagebreak
 
@@ -687,11 +716,13 @@ policy di retention, backup, criptazione dei dati a riposo
 
 ### Autenticazione app mobile {-}
 
-#### Atenticazione via SPID {-}
+#### Autenticazione via SPID {-}
 
 #### Autenticazione via PIN e Biometrico {-}
 
-#### Autenticazione verso il backend {-}
+#### Autenticazione verso il backend dell'app {-}
+
+#### Autenticazione verso il Payment Manager PagoPA {-}
 
 #### Invalidazione delle sessioni {-}
 

@@ -237,6 +237,7 @@ trattamento di dati su larga scala.[^largascala]
 
 # Descrizione dei flussi informativi
 
+<!--
 **TODO**
 The collection, use and deletion of personal data should be described here and it may also be useful to refer to a flow diagram or another way of explaining data flows. You should also say how many individuals are likely to be affected by the project.
 
@@ -249,6 +250,7 @@ Explain how information will be obtained, used, and retained – there may be se
 * The collection, use and deletion of personal data should be described here
 * how information will be obtained, used, and retained
 * You should also say how many individuals are likely to be affected
+-->
 
 ## Funzionalità preferenze
 
@@ -516,13 +518,17 @@ proprie preferenze, avvengono i seguenti passaggi
 
 # Processo di analisi
 
+<!--
 **TODO**
 Explain what practical steps you will take to ensure that you identify and address privacy risks. Who should be consulted, internally and externally? How will you carry out the consultation? You should link this to the relevant stages of your project management process.
 Consultation can be used at any stage of the PIA process.
+-->
 
 \pagebreak
 
 # Analisi dei rischi
+
+<!--
 
 **TODO**
 Identify the key privacy risks and the associated compliance and corporate risks.
@@ -535,6 +541,7 @@ Record the risks to individuals, including possible intrusions on privacy where 
 1. The process helps an organisation to understand the likelihood
    and severity of privacy risks.
 1. An organisation is open with itself about risks and potential changes to a project.
+-->
 
 ## (Oggetto)
 
@@ -554,6 +561,7 @@ Record the risks to individuals, including possible intrusions on privacy where 
 
 # Soluzioni adottate
 
+<!--
 **TODO**
 Describe the actions you could take to reduce the risks, and any future steps which would be necessary (e.g. the production of new guidance or future security testing for systems).
 
@@ -565,6 +573,7 @@ Devise ways to reduce or eliminate privacy risks.
    overall privacy impact.
 1. The process takes into account the aims of the project and the impact on privacy.
 1. The process also records privacy risks which have been accepted as necessary for the project to continue.
+-->
 
 ## (Rischio)
 
@@ -582,6 +591,7 @@ is the final impact on individuals after implementing each solution a justified,
 
 # Stato di approvazione
 
+<!--
 **TODO**
 Who has approved the privacy risks involved in the project? What solutions need to be implemented?
 
@@ -593,6 +603,7 @@ Obtain appropriate signoff within the organisation.
    about the process.
 1. The PIA is approved at a level appropriate to the project.
 1. A PIA report or summary is made available to the appropriate stakeholders.
+-->
 
 | Rischio | Soluzione | Approvata da |
 | ------- | --------- | ------------ |
@@ -601,6 +612,7 @@ Obtain appropriate signoff within the organisation.
 
 # Stato di implementazione
 
+<!--
 **TODO**
 Who is responsible for integrating the PIA outcomes back into the project plan and updating any project management paperwork? Who is responsible for implementing the solutions that have been approved? Who is the contact for any privacy concerns which may arise in the future?
 
@@ -609,6 +621,7 @@ Ensure that the steps recommended by the PIA are implemented.
 1. Continue to use the PIA throughout the project lifecycle when appropriate.
 1. The implementation of privacy solutions is carried out and recorded.
 1. The PIA is referred to if the project is reviewed or expanded in the future.
+-->
 
 | Risultato da conseguire | Data prevista | Responsabile |
 | ----------------------- | ------------- | ------------ |

@@ -63,7 +63,7 @@
     "request": "^2.85.0",
     "shelljs": "^0.8.2",
     "tmp": "^0.0.33",
-    "ts-node": "^3.3.0",
+    "ts-node": "^6.1.0",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.12.0",
     "tslint-immutable": "^4.5.4",

@@ -59,7 +59,7 @@
     "npm-run-all": "^4.1.1",
     "prettier": "^1.12.1",
     "readline-sync": "^1.4.9",
-    "replace-in-file": "^3.0.0",
+    "replace-in-file": "^3.4.0",
     "request": "^2.85.0",
     "shelljs": "^0.8.2",
     "tmp": "^0.0.33",

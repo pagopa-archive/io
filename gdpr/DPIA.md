@@ -9,6 +9,12 @@ lang: it-IT
 mainlang: italian
 ---
 
+<!--
+TODO: punto di vista dell'ente (esempio: superficie di attacco quando
+l'ente esegue un invio massivo di messaggi)
+TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha un profilo)
+-->
+
 # Introduzione
 
 ## Cittadinanza Digitale
@@ -250,6 +256,7 @@ Explain how information will be obtained, used, and retained – there may be se
 * The collection, use and deletion of personal data should be described here
 * how information will be obtained, used, and retained
 * You should also say how many individuals are likely to be affected
+
 -->
 
 ## Funzionalità preferenze
@@ -308,13 +315,30 @@ Il flusso di creazione del profilo (Figura \vref{figura-profilo-creazione}) è i
 Come descritto nella Tabella \vref{tabella-preferenze}, alcune preferenze vengono
 definite _pubbliche_ e vengono condivise con gli enti che ne fanno richiesta.
 Queste preferenze non contengono informazioni personali o sensibili ma sono
-assimilabili a indicazioni che il cittadino vuole condividere con gli enti per
-essere usate come base per la personalizzazione dei servizi digitali.
+assimilabili a semplici indicazioni che il cittadino vuole condividere con gli
+enti per essere usate come base per la personalizzazione dei servizi digitali.
 
 Un servizio digitale fornito dall'ente al cittadino può interrogare le preferenze
 pubbliche del cittadino sulla base del codice fiscale dello stesso e usare
-quelle informazioni per fornire un servizio personalizzato, per esempio
-traducendo l'interfaccia del servizio sulla base della preferenza di lingua.
+le informazioni ottenute per fornire un servizio personalizzato, ad esempio
+traducendo l'interfaccia utente del servizio fornito al cittadino sulla base
+della preferenza di lingua.
+
+La funzione Preferenze può inoltre essere utilizzata dal servizio dell'ente
+per sapere se il cittadino non intende ricevere comunicazioni dal servizio.
+Questa verifica è richiesta all'ente, prima dell'invio di una comunicazione
+al cittadino attraverso la funzione Messaggi, secondo lo schema in Tabella
+\vref{table-verifica-optout}.
+
+Table: Verifica da parte del servizio del permesso di comunicare col cittadino \label{table-verifica-optout}
+
+Cit. iscritto a CD?       Opt-out al servizio?      Servizio può inviare messaggio?
+--------------------      ---------------------     --------------------------------
+NO                        /                         _Solo se censito indirizzo email_
+SI                        NO                        **SI**
+SI                        SI                        NO
+
+\pagebreak
 
 ## Funzionalità Messaggi
 
@@ -359,6 +383,11 @@ Questa distinzione è importante poichè quando il cittadino non ha ancora
 effettuato il primo accesso all'applicazione di CD, non esiste ancora un suo
 profilo nel sistema e la funzionalità di invio messaggi di CD è equiparabile ad
 un servizio di email transazionale.[^cosa-email-transazionale]
+
+Prima di inviare una comunicazione al cittadino tramite la funzionalità
+Messaggi, il servizio è tenuto a verificare la disponibilità del cittadino a
+ricevere la comunicazione (come descritto precedentemente nella Tabella
+\vref{table-verifica-optout}).
 
 [^cosa-email-transazionale]: si veda per esempio il servizio
   [MailUP](https://www.mailup.it/funzionalita/email/smtp/) usato da molte
@@ -514,6 +543,8 @@ proprie preferenze, avvengono i seguenti passaggi
 
 [^notifica-ios-android]: La notifica viene inoltrata ai servizi di notifica di Google o di Apple a seconda della tipologia di device su cui è stata installata l'app.
 
+\pagebreak
+
 ## Funzionalità Portafoglio
 
 La funzionalità _Portafoglio_ fornisce la possibilità di pagare tributi tramite
@@ -527,19 +558,82 @@ di credito).
 
 ### Gestione preferenze di pagamento
 
+Il flusso di pagamento prevede che il cittadino abbia preimpostati nel suo
+portafoglio dei metodi di pagamento validi (es. carta di credito) da poter
+utilizzare per effettuare il pagamento del tributo.
+
+Attualmente la funzionalità portafoglio è progettata per gestire pagamenti
+tramite carta di credito.
+
+Le informazioni sui metodi di pagamento vengono gestite attraverso la componente
+_Wallet_ di PagoPA che si occupa della gestione sicura delle informazioni
+sensibili (es. dati della carta di credito).
+
+#### Inserimento dati della carta di credito
+
+L'inserimento dei dati della carta dicredito nell'app avviene attraverso una
+componente applicativa (SDK) fornita e certificata da SIA SpA che permette di
+presentare all'utente una form di inserimento, che comunica in modo sicuro
+con il Wallet di PagoPA. I dati della carta di credito inseriti dall'utente
+vengono inviati direttamente al sistema PagoPA senza passare dal sistema di CD.
+
+Una volta salvati, i dati della carta di credito vengono associati ad un
+identificativo numerico non correlato con il numero di carta di credito
+(identificativo dello strumento di pagamento).
+
+L'identificativo dello strumento di pagamento viene fornito all'app e utilizzato
+nella scelta del metodo di pagamento durante il flusso di pagamento.
+
 #### Riconciliazione profilo CD e profilo pagoPA
+
+Le preferenze di pagamento gestite dal Wattet di PagoPA vengono associate ad
+un indirizzo email, si richiede quindi un meccanismo di riconciliazione tra
+i profili dei cittadini registrati sul Wallet e i cittadini che accedono
+all'app di CD.
+
+Questo meccanismo di riconciliazione si basa sull'indirizzo email fornito
+dal cittadino sotto forma di attributo SPID.
+
+Si delineano quindi due scenari in base alla presenza o meno di un profilo
+nel Wallet di PagoPA corrispondente all'email associata all'account SPID
+del cittadino.
+
+##### Profilo Wallet presente
+
+Nel caso sia presente nel Wallet, un profilo associato all'email del cittadino,
+le interazioni con il Wallet attraverso l'app verranno resistrate esattamente
+come se avvenissero da una qualsiasi app che integra l'SDK di PagoPA.
+
+Questo meccanismo permette al cittadino di riutilizzare il suo profilo PagoPA
+dall'APP IO in modo totalmente trasparente.
+
+##### Profilo Wallet non presente
+
+Nel caso non sia presente nel Wallet, un profilo associato all'email del cittadino,
+il Wallet provvederà a creare un nuovo profilo[^wallet-nuovo-profilo]
+all'inserimento del primo metodo di pagamento. Tutte le operazioni successive
+ricadono nel caso precedente.
+
+[^wallet-nuovo-profilo] Flusso ancora da formalizzare.
 
 ### Pagamento
 
+Il flusso di pagamento può scaturire da un avviso di pagamento digitale
+(ricevuto quindi attraverso la funzionalità Messaggi) o da un avviso di
+pagamento cartaceo (che fornisce un codice di pagamento numerico o tramite
+un QR code).
+
 #### Avvisi di pagamento digitali
 
-#### Avvisi di pagamento fisici
+#### Avvisi di pagamento cartaceo
 
 #### Verifica e attualizzazione
 
 #### Transazione
 
 #### Ricevuta
+
+\pagebreak
 
 ## Funzionalità Documenti
 
@@ -718,13 +812,30 @@ policy di retention, backup, criptazione dei dati a riposo
 
 #### Autenticazione via SPID {-}
 
+**TODO** flusso di autenticazione SPID/IDP/Backend
+
 #### Autenticazione via PIN e Biometrico {-}
+
+**TODO**
 
 #### Autenticazione verso il backend dell'app {-}
 
-#### Autenticazione verso il Payment Manager PagoPA {-}
+**TODO**
+
+#### Autenticazione verso il Payment Manager/Wallet PagoPA {-}
+
+L'app effettua delle chiamate direttamente alle API del Payment Manager/Wallet
+di PagoPA, per la gestione dei metodi di pagamento e delle transazioni.
+
+Queste chiamate devono contenere un token di autenticazione che permetta a
+PagoPA di identificare il cittadino e riconiliare la sua identitità con
+l'eventuale profilo già presente nel sistema PagoPA.
+
+**TODO** flusso
 
 #### Invalidazione delle sessioni {-}
+
+**TODO** flusso
 
 ### Autenticazione API CD {-}
 
@@ -733,3 +844,7 @@ policy di retention, backup, criptazione dei dati a riposo
 #### Verso il backend dell'app mobile {-}
 
 ### Autenticazione pagoPA {-}
+
+#### VPN
+
+**TODO**

@@ -786,6 +786,8 @@ Diagramma                   Figura
 Infrastruttura fisica       Figura \ref{figura-infrastruttura-fisica}
 Infrastruttura sistema      Figura \ref{figura-infrastruttura-sistema}
 Infrastruttura rete         Figura \ref{figura-infrastruttura-rete}
+Infrastruttura piattaforma  Figura \ref{figura-infrastruttura-piattaforma}
+Infrastruttura applicativa  Figura \ref{figura-infrastruttura-applicativa}
 
 ![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg){ width=100% }
 
@@ -793,13 +795,9 @@ Infrastruttura rete         Figura \ref{figura-infrastruttura-rete}
 
 ![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg){ width=100% }
 
-### Infrastruttura di piattaforma
+![Infrastruttura di piattaforma\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg){ width=100% }
 
-**TODO** functions, k8s, database, redis, code, API manager, aggregazione log e analisi, analytics app, servizi email transazionale
-
-### Infrastruttura applicativa
-
-**TODO** componenti applicativi
+![Infrastruttura di applicativa\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg){ width=100% }
 
 ### Infrastruttura dati
 

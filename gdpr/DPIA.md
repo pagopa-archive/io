@@ -755,9 +755,9 @@ Ensure that the steps recommended by the PIA are implemented.
 
 \pagebreak
 
-# Allegato tecnico {-}
+# Allegato tecnico
 
-## Esempi di comunicazioni gestibili dal servizio Messaggi {#esempi-messaggi .unnumbered}
+## Esempi di comunicazioni gestibili dal servizio Messaggi {#esempi-messaggi}
 
 Table: Esempi di messaggi personalizzati \label{tabella-esempi-messaggi}
 
@@ -779,50 +779,53 @@ Ministero dei Trasporti       Punti patente
 Ministero dei Trasporti       Scadenza patente
 ACI                           Bollo Auto
 
-## Diagrammi architetturali {-}
+## Diagrammi architetturali
 
-### Infrastruttura fisica {-}
+Diagramma                                           Descrizione
+----------                                          ------------
+Figura \ref{figura-infrastruttura-fisica}           Infrastruttura fisica
+Figura \ref{figura-infrastruttura-sistema}          Infrastruttura sistema
 
-![Datacenter, ridondanza, interconnessione\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg){ width=100% }
+![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg){ width=100% }
 
-### Infrastruttura di sistema {-}
+![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg){ width=100% }
 
-**TODO** componenti cloud, IaaS, accessi di amministrazione
-
-### Infrastruttura di rete {-}
+### Infrastruttura di rete
 
 **TODO** reti virtuali, firewall, routing, vpn, TLS
 
-### Infrastruttura di piattaforma {-}
+### Infrastruttura di piattaforma
 
 **TODO** functions, k8s, database, redis, code, API manager, aggregazione log e analisi, analytics app, servizi email transazionale
 
-### Infrastruttura applicativa {-}
+### Infrastruttura applicativa
 
 **TODO** componenti applicativi
 
-### Infrastruttura dati {-}
+### Infrastruttura dati
 
 **TODO** storage nell'app (device), storage backend (redis), cosmos (repliche), code
 policy di retention, backup, criptazione dei dati a riposo
 
-## Meccanismi di autenticazione tra le componenti {-}
+## Accesso ai dati e sicurezza
 
-### Autenticazione app mobile {-}
+### Meccanismi di autenticazione tra le componenti
 
-#### Autenticazione via SPID {-}
+#### Autenticazione app mobile
+
+##### Autenticazione via SPID
 
 **TODO** flusso di autenticazione SPID/IDP/Backend
 
-#### Autenticazione via PIN e Biometrico {-}
+##### Autenticazione via PIN e Biometrico
 
 **TODO**
 
-#### Autenticazione verso il backend dell'app {-}
+##### Autenticazione verso il backend dell'app
 
 **TODO**
 
-#### Autenticazione verso il Payment Manager/Wallet PagoPA {-}
+##### Autenticazione verso il Payment Manager/Wallet PagoPA
 
 L'app effettua delle chiamate direttamente alle API del Payment Manager/Wallet
 di PagoPA, per la gestione dei metodi di pagamento e delle transazioni.
@@ -833,18 +836,18 @@ l'eventuale profilo già presente nel sistema PagoPA.
 
 **TODO** flusso
 
-#### Invalidazione delle sessioni {-}
+##### Invalidazione delle sessioni
 
 **TODO** flusso
 
-### Autenticazione API CD {-}
+#### Autenticazione API CD
 
-#### Verso gli Enti Erogatori {-}
+##### Verso gli Enti Erogatori
 
-#### Verso il backend dell'app mobile {-}
+##### Verso il backend dell'app mobile
 
-### Autenticazione pagoPA {-}
+#### Autenticazione pagoPA
 
-#### VPN
+##### VPN
 
 **TODO**

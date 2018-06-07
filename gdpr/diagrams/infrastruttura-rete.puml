@@ -1,0 +1,101 @@
+@startuml
+
+actor Cittadino
+
+agent Smartphone
+
+cloud "Regione Azure" {
+  interface "IP kubernetes" as azureipk8s
+  interface "IP API gateway" as azureipapigw
+  interface "IP Functions" as azureipfunctions
+  interface "IP CosmosDB" as azureipcosmos
+  interface "IP Redis Cluster" as azureipredis
+
+  rectangle "VNet API Gateway" {
+    rectangle "Firewall" as azureapigwfw
+    agent "API Gateway" as azureapigateway
+  }
+
+  rectangle "VNet Functions" {
+    rectangle "Firewall" as azurefunctionsfw
+    node "API Messaggi" as apimessaggi
+  }
+
+  rectangle "VNet Kubernetes" {
+    rectangle "Firewall" as azurek8sfw
+    node "App backend" as appbackend
+    node "Pagopa proxy" as pagopaproxy
+  }
+
+  rectangle "VNet Pagopa VPN" {
+    rectangle "Firewall" as azurevpnfw
+    rectangle "VPN gateway" as azurevpngw
+  }
+
+  rectangle "VNet CosmosDB" {
+    rectangle "Firewall" as azurecosmosfw
+    database "CosmosDB" as dbcosmos
+  }
+
+  rectangle "VNet Redis cluster" {
+    rectangle "Firewall" as azureredisfw
+    database "Redis" as dbredis
+  }
+
+}
+
+cloud "PagoPA" {
+  interface "IP API Wallet" as pagopaipwallet
+  rectangle "Firewall" as pagopawalletfw
+  rectangle "VPN Gateway" as pagopavpngw
+  rectangle "Firewall" as pagopavpnfw
+  node "Wallet PagoPA" as pagopawallet
+  node "Nodo PagoPA" as pagopanodo
+}
+
+cloud "Ente" {
+  node "Server Servizio" as serviziovm
+}
+
+
+Cittadino .. Smartphone
+
+' Smartphone -> backend
+Smartphone --> azureipk8s
+azureipk8s -r-> azurek8sfw
+azurek8sfw -r-> appbackend
+appbackend -up-> azureipredis
+azureipredis -u-> azureredisfw
+azureredisfw -r-> dbredis
+appbackend -u-> pagopaproxy
+pagopaproxy -r-> azureipredis
+' pagopaproxy -> pagopa
+pagopaproxy <-u-> azurevpnfw
+azurevpnfw <-d-> azurevpngw
+azurevpngw <--> pagopavpngw
+
+' Smartphone -> pagopa
+Smartphone --> pagopaipwallet
+pagopaipwallet -d-> pagopawalletfw
+pagopawalletfw -u-> pagopawallet
+pagopawallet <-u-> pagopanodo
+pagopavpngw <-d-> pagopavpnfw
+pagopavpnfw <-d-> pagopanodo
+
+' Servizio ente / backend -> API GW
+serviziovm -down--> azureipapigw
+azureipapigw -d-> azureapigwfw
+azureapigwfw -l-> azureapigateway
+appbackend --> azureipapigw
+
+' API GW -> functions
+azureapigateway -d-> azureipfunctions
+azureipfunctions -r-> azurefunctionsfw
+azurefunctionsfw -r-> apimessaggi
+
+' Functions -> cosmos
+apimessaggi -d-> azureipcosmos
+azureipcosmos -r-> azurecosmosfw
+azurecosmosfw -l-> dbcosmos
+
+@enduml

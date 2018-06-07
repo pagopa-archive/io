@@ -10,6 +10,7 @@ cloud "Regione Azure" {
   interface "IP Functions" as azureipfunctions
   interface "IP CosmosDB" as azureipcosmos
   interface "IP Redis Cluster" as azureipredis
+  interface "IP Storage" as azureipstorage
 
   rectangle "VNet API Gateway" {
     rectangle "Firewall" as azureapigwfw
@@ -40,6 +41,11 @@ cloud "Regione Azure" {
   rectangle "VNet Redis cluster" {
     rectangle "Firewall" as azureredisfw
     database "Redis" as dbredis
+  }
+
+  rectangle "VNet storage" {
+    rectangle "Firewall" as azurestoragefw
+    database "Queue/Blob\nStorage" as dbstorage
   }
 
 }
@@ -94,8 +100,13 @@ azureipfunctions -r-> azurefunctionsfw
 azurefunctionsfw -r-> apimessaggi
 
 ' Functions -> cosmos
-apimessaggi -d-> azureipcosmos
-azureipcosmos -r-> azurecosmosfw
-azurecosmosfw -l-> dbcosmos
+apimessaggi -r-> azureipcosmos
+azureipcosmos -d-> azurecosmosfw
+azurecosmosfw -d-> dbcosmos
+
+' Functions -> storage
+apimessaggi -d-> azureipstorage
+azureipstorage -d-> azurestoragefw
+azurestoragefw -d-> dbstorage
 
 @enduml

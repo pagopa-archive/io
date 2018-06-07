@@ -781,18 +781,17 @@ ACI                           Bollo Auto
 
 ## Diagrammi architetturali
 
-Diagramma                                           Descrizione
-----------                                          ------------
-Figura \ref{figura-infrastruttura-fisica}           Infrastruttura fisica
-Figura \ref{figura-infrastruttura-sistema}          Infrastruttura sistema
+Diagramma                   Figura
+----------                  --------
+Infrastruttura fisica       Figura \ref{figura-infrastruttura-fisica}
+Infrastruttura sistema      Figura \ref{figura-infrastruttura-sistema}
+Infrastruttura rete         Figura \ref{figura-infrastruttura-rete}
 
 ![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg){ width=100% }
 
 ![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg){ width=100% }
 
-### Infrastruttura di rete
-
-**TODO** reti virtuali, firewall, routing, vpn, TLS
+![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg){ width=100% }
 
 ### Infrastruttura di piattaforma
 

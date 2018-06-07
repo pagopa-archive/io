@@ -18,15 +18,15 @@ rectangle "Cittadinanza Digitale" {
 
 ente -down-> apimessaggi : (1) CF, messaggio
 
-dbpreferenze -up-> apipreferenze
+dbpreferenze -u-> apipreferenze
 apipreferenze -> apimessaggi : (2) email, casella messaggi
 
-apimessaggi -down-> dbmessaggi : (3) messaggio,\nmittente
+apimessaggi -d-> dbmessaggi : (3) messaggio,\nmittente
 
 app <- backend : "(4) messaggio,\nmittente"
 
-apimessaggi -right-> backend : "(5) messaggio,\nmittente"
+apimessaggi -r-> backend : "(5) messaggio,\nmittente"
 
-app -down-> cittadino : "(6)"
+app -d-> cittadino : "(6)"
 
 @enduml

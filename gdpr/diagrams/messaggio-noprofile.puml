@@ -10,7 +10,7 @@ rectangle "Cittadinanza Digitale" {
 
 :Cittadino: as cittadino
 
-ente --> apimessaggi : (1) CF, messaggio
+ente -d-> apimessaggi : (1) CF, messaggio
 
 note right of apimessaggi
   (2) L'API Messaggi di Cittadinanza Digitale

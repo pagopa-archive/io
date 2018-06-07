@@ -8,7 +8,7 @@ rectangle "Ente Erogatore" {
   agent "Servizio" as ente
 }
 
-rectangle "Cittadinanza Digitale" {
+rectangle "Cittadinanza Digitale\n\n" {
   agent "API Messaggi" as apimessaggi
   database "Messaggi" as dbmessaggi
   agent "API Preferenze" as apipreferenze
@@ -22,21 +22,21 @@ cloud "Servizio notifiche push" {
 
 ente -down-> apimessaggi : (1) CF, messaggio
 
-dbpreferenze -up-> apipreferenze
-apipreferenze -> apimessaggi : (2) email, casella messaggi\nnotifiche push
+dbpreferenze -u-> apipreferenze
+apipreferenze -> apimessaggi : (2) email,\ncasella messaggi\nnotifiche push
 
-apimessaggi -down-> dbmessaggi : (3) messaggio,\nmittente
+apimessaggi -d-> dbmessaggi : (3) messaggio,\nmittente
 
-apimessaggi --> backend : (4) CF, messaggio,\nmittente
+apimessaggi -> backend : (4) CF, messaggio,\nmittente
 
-backend -down-> apinotifiche : "(5) SHA256(CF)"
+backend -d-> apinotifiche : "(5) SHA256(CF)"
 
-apinotifiche -down-> app : "(6) ci sono nuovi\nmessaggi"
+apinotifiche -d-> app : "(6) ci sono nuovi\nmessaggi"
 
 backend -> app : "(7)  "
 
 apimessaggi -> backend : "(7) messaggio,\nmittente"
 
-app -down-> cittadino : "(8)"
+app -d-> cittadino : "(8)"
 
 @enduml

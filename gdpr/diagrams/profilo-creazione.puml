@@ -20,18 +20,18 @@ cloud "Servizio notifiche push" {
 
 cittadino -> app : (1) primo accesso
 
-app .up.> idp : (2) autenticazione SPID
+app .u.> idp : (2) auth SPID
 
-cittadino -up-> idp : (2) email, password
+cittadino -u-> idp : (2) email,\npassword
 
 idp -> backend : (3) CF, nome, cognome, email
 
-backend -down-> apipreferenze : (4) CF, email,\ncasella messaggi=SI,\nnotifiche push=SI
+backend -d-> apipreferenze : (4) CF, email,\ncasella messaggi=SI,\nnotifiche push=SI
 
-apipreferenze -right-> dbpreferenze
+apipreferenze -r-> dbpreferenze
 
 app -> backend : (5) ID installazione
 
-backend -right-> apinotifiche : (5) SHA256(CF),\nID installazione
+backend -r-> apinotifiche : (5) SHA256(CF),\nID installazione
 
 @enduml

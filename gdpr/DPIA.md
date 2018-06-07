@@ -783,7 +783,7 @@ ACI                           Bollo Auto
 
 ### Infrastruttura fisica {-}
 
-**TODO** datacenter, accesso fisico, ridondanza, interconnessione
+![Datacenter, ridondanza, interconnessione\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg){ width=100% }
 
 ### Infrastruttura di sistema {-}
 

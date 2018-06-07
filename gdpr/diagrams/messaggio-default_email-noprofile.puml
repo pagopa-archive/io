@@ -25,10 +25,10 @@ emaildb -> ente : (2) CF, email
 
 ente -> apimessaggi : (3) CF, email, messaggio
 
-apimessaggi -down-> txemail : (4) email, messaggio
+apimessaggi -d-> txemail : (4) email, messaggio
 
-txemail -left-> emailprovider : (5) email, messaggio
+txemail -l-> emailprovider : (5) email, messaggio
 
-emailprovider -up-> cittadino : (6) messaggio
+emailprovider -u-> cittadino : (6) messaggio
 
 @enduml

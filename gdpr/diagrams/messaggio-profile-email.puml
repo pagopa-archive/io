@@ -22,13 +22,13 @@ cloud "Fornitore email\n" {
 
 ente --> apimessaggi : (1) CF, messaggio
 
-dbpreferenze -up-> apipreferenze
+dbpreferenze -u-> apipreferenze
 apipreferenze -> apimessaggi : (2) email
 
-apimessaggi -right-> txemail : (3) email, messaggio
+apimessaggi -right-> txemail : (3) email,\nmessaggio
 
-txemail -> emailprovider : (4) email, messaggio
+txemail -d-> emailprovider : (4) email,\nmessaggio
 
-emailprovider --> cittadino : (5) messaggio
+emailprovider -r-> cittadino : (5) messaggio
 
 @enduml

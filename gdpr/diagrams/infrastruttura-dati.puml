@@ -1,0 +1,130 @@
+@startuml
+
+rectangle Smartphone {
+  database db_smartphone [
+    <b>Storage</b>
+    ---
+    <i>persistente</i>
+    <i>non criptato</i>
+    ===
+
+    messaggi
+    transazioni
+    id_operazione
+    id_pagamento
+  ]
+
+  database db_smartphone_enc [
+    <b>Storage</b>
+    <b>criptato</b>
+    ---
+    <i>peristente</i>
+    <i>criptato</i>
+    ===
+
+    session_token
+    wallet_token
+  ]
+
+}
+
+rectangle "API Gateway" {
+  database db_apigw_clients [
+    <b>API Clients</b>
+    ---
+    <i>persistente</i>
+    <i>non criptato</i>
+    ===
+
+    api_token
+    auth_groups
+    service_id
+  ]
+}
+
+rectangle "App Backend" {
+  database db_backend_session [
+    <b>App Sessions</b>
+    ---
+    <i>persistente</i>
+    <i>criptato</i>
+    <i>geo-replicato</i>
+    ===
+
+    codice_fiscale
+    session_token
+    wallet_token
+    asserzione_spid
+  ]
+}
+
+rectangle "Pagopa Proxy" {
+  database db_pagopaproxy [
+    <b>IdPagamenti</b>
+    ---
+    <i>persistente</i>
+    <i>criptato</i>
+    <i>geo-replicato</i>
+    ===
+
+    id_operazione
+    id_pagamento
+  ]
+}
+
+rectangle "API CD" {
+
+  database db_messaggi [
+    <b>Messaggi</b>
+    ---
+    <i>persistente</i>
+    <i>criptato</i>
+    <i>geo-replicato</i>
+    ===
+
+    codice_fiscale
+    contenuto
+    id_unico_versamento?
+    id_servizio
+  ]
+
+  database db_profili [
+    <b>Profili</b>
+    ---
+    <i>persistente</i>
+    <i>criptato</i>
+    <i>geo-replicato</i>
+    ===
+
+    codice_fiscale
+    email
+    lingue_preferite
+    id_servizi_bloccati
+  ]
+
+  database db_servizi [
+    <b>Servizi</b>
+    ---
+    <i>persistente</i>
+    <i>criptato</i>
+    <i>geo-replicato</i>
+    ===
+
+    codice_fiscale
+    nome
+    pec
+  ]
+
+}
+
+db_smartphone <--> db_messaggi
+db_smartphone <--> db_servizi
+db_smartphone <-u-> db_pagopaproxy
+
+db_smartphone_enc <--> db_backend_session
+
+db_backend_session <--> db_profili
+
+db_apigw_clients <-u-> db_servizi
+
+@enduml

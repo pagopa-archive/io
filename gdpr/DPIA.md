@@ -306,7 +306,7 @@ Il flusso di creazione del profilo (Figura \vref{figura-profilo-creazione}) è i
    al servizio di invio delle _notifiche push_, associandolo alla hash _SHA256_
    [^sha256] del codice fiscale del cittadino.
 
-![Flusso di creazione del profilo del cittadino al primo accesso\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg){ width=100% }
+![Flusso di creazione del profilo del cittadino al primo accesso\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg)
 
 [^sha256]: <https://en.wikipedia.org/wiki/SHA-2>
 
@@ -423,7 +423,7 @@ Il flusso dati è il seguente:
    fornitore email del cittadino.
 6. Il cittadino trova il messaggio nella sua casella di posta.
 
-![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg){ width=100% }
+![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg)
 
 #### Scenario in cui il cittadino non ha fornito all'Ente il proprio indirizzo email
 
@@ -441,7 +441,7 @@ quindi il messaggio viene ignorato.
 2. L'API messaggi, non avendo preferenze di contatto per il cittadino
    destinatario, ignora il messaggio.
 
-![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg){ width=100% }
+![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg)
 
 ### Invio di messaggi a cittadini con un profilo CD
 
@@ -490,7 +490,7 @@ seguenti passaggi (Figura \vref{figura-messaggio-profile-inbox}):
 Si noti che i passi 4-6 possono avvenire in un momento diverso rispetto
 all'invio del messaggio da parte del servizio.
 
-![Quando la casella dei messaggi è abilitata, il contenuto del messaggio viene salvato nel database dei messaggi\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg){ width=100% }
+![Quando la casella dei messaggi è abilitata, il contenuto del messaggio viene salvato nel database dei messaggi\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg)
 
 #### Scenario in cui il cittadino ha abilitato l'invio di email
 
@@ -510,7 +510,7 @@ proprie preferenze, avvengono i seguenti passaggi
 5. Il cittadino visualizza il contenuto del messaggi nel suo client di posta
    elettronica.
 
-![Quando il cittadino ha abilitato l'invio di email, il messaggio viene recapitato all'indirizzo impostato nelle preferenze\label{figura-messaggio-profile-email}](diagrams/messaggio-profile-email.svg){ width=100% }
+![Quando il cittadino ha abilitato l'invio di email, il messaggio viene recapitato all'indirizzo impostato nelle preferenze\label{figura-messaggio-profile-email}](diagrams/messaggio-profile-email.svg)
 
 #### Scenario in cui il cittadino ha abilitato l'invio di notifiche push all'app
 
@@ -535,7 +535,7 @@ proprie preferenze, avvengono i seguenti passaggi
    ottenendo il contenuto dei messaggi ed il relativo mittente.
 8. Il cittadino visualizza il contenuto dei messaggi nell'app.
 
-![Quando il cittadino ha abilitato l'invio di notifiche push all'app, l'app viene risvegliata da una notifica che genera una lettura della casella dei messaggi\label{figura-messaggio-profile-push}](diagrams/messaggio-profile-push.svg){ width=100% }
+![Quando il cittadino ha abilitato l'invio di notifiche push all'app, l'app viene risvegliata da una notifica che genera una lettura della casella dei messaggi\label{figura-messaggio-profile-push}](diagrams/messaggio-profile-push.svg)
 
 [^preferenze-notifiche-casella]: L'invio delle notifiche push sull'app richiede che sia abilitata la casella dei messaggi, per permettere all'app di recuperare il contenuto del messaggio (che non viene inviato tramite la notifica push).
 
@@ -788,21 +788,19 @@ Infrastruttura sistema      Figura \ref{figura-infrastruttura-sistema}
 Infrastruttura rete         Figura \ref{figura-infrastruttura-rete}
 Infrastruttura piattaforma  Figura \ref{figura-infrastruttura-piattaforma}
 Infrastruttura applicativa  Figura \ref{figura-infrastruttura-applicativa}
+Infrastruttura dati  Figura \ref{figura-infrastruttura-dati}
 
-![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg){ width=100% }
+![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg)
 
-![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg){ width=100% }
+![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg)
 
-![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg){ width=100% }
+![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg)
 
-![Infrastruttura di piattaforma\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg){ width=100% }
+![Infrastruttura di piattaforma\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg)
 
-![Infrastruttura di applicativa\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg){ width=100% }
+![Infrastruttura applicativa\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg)
 
-### Infrastruttura dati
-
-**TODO** storage nell'app (device), storage backend (redis), cosmos (repliche), code
-policy di retention, backup, criptazione dei dati a riposo
+![Infrastruttura dati\label{figura-infrastruttura-dati}](diagrams/infrastruttura-dati.svg)
 
 ## Accesso ai dati e sicurezza
 

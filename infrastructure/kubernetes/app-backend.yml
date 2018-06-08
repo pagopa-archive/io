@@ -13,7 +13,7 @@ metadata:
   labels:
     app: app-backend
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -28,7 +28,7 @@ spec:
         app: app-backend
     spec:
       containers:
-      - image: "teamdigitale/italia-backend:v0.0.20"
+      - image: "teamdigitale/italia-backend:v0.0.21"
         name: app-backend
         ports:
         - name: http-port
@@ -58,7 +58,14 @@ spec:
               name: app-backend-secrets
               key: pre_shared_key
         - name: "REDIS_URL"
-          value: "redis://localhost"
+          value: "io-development.redis.cache.windows.net"
+        - name: "REDIS_PORT"
+          value: "6380"
+        - name: "REDIS_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: app-backend-secrets
+              key: redis_password
         - name: "SAML_CALLBACK_URL"
           value: "https://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"
         - name: "SAML_ISSUER"
@@ -77,18 +84,6 @@ spec:
         #   timeoutSeconds: 5
         #   periodSeconds: 10
         #   failureThreshold: 5
-      - image: wodby/redis:4.0
-        name: redis
-        ports:
-        - name: redis-port
-          containerPort: 6379
-        env:
-        - name: "REDIS_TIMEOUT"
-          value: "300"
-        - name: "REDIS_TCP_KEEPALIVE"
-          value: "60"
-        - name: "REDIS_MAXMEMORY"
-          value: "182m"
       volumes:
       - name: certs
         secret:

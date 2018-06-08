@@ -5,19 +5,21 @@
 
 MAIN_TARGET = DPIA.pdf
 
+DIAGRAM_EXT = svg
 PUML_FILES := $(shell find diagrams/*.puml -type f)
-DIAGRAM_FILES = $(patsubst %.puml, %.svg, $(PUML_FILES))
+DIAGRAM_FILES = $(patsubst %.puml, %.$(DIAGRAM_EXT), $(PUML_FILES))
 
 all: $(MAIN_TARGET)
 
 clean:
 	rm $(MAIN_TARGET)
 
-%.svg: %.puml
+%.$(DIAGRAM_EXT): %.puml
 	plantuml \
-		-tsvg \
+		-t$(DIAGRAM_EXT) \
 		-Sshadowing=false \
 		-SDefaultFontName=Helvetica \
+		-Sdpi=300 \
 		$<
 
 #		-SDefaultFontSize=14
@@ -36,4 +38,4 @@ clean:
 		--toc \
 		-o $@
 
-.PRECIOUS: %.svg
+.PRECIOUS: %.$(DIAGRAM_EXT)

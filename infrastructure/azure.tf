@@ -2,7 +2,7 @@
 # Set up environment variables before running this script (see README.md)
 
 provider "azurerm" {
-  version = "~> 1.4.0"
+  version = "~> 1.6.0"
 }
 
 provider "random" {
@@ -357,6 +357,8 @@ locals {
   azurerm_notification_hub_ns              = "${var.azurerm_resource_name_prefix}-notificationhubns-${var.environment_short}"
   azurerm_kubernetes_name                  = "${var.azurerm_resource_name_prefix}-k8s-${var.environment_short}"
   azurerm_kubernetes_public_ip_name        = "${var.azurerm_resource_name_prefix}-k8s-ip-${var.environment_short}"
+  azurerm_redis_cache_name                 = "${var.azurerm_resource_name_prefix}-redis-${var.environment_short}"
+  azurerm_redis_backup_name                = "${var.azurerm_resource_name_prefix}redisbck${var.environment_short}"
 }
 
 #
@@ -996,6 +998,58 @@ resource "azurerm_dns_cname_record" "azurerm_dns_main_zone_dkim" {
   name                = "${element(keys(var.azurerm_dns_main_zone_dkim), count.index)}"
   record              = "${lookup(var.azurerm_dns_main_zone_dkim, element(keys(var.azurerm_dns_main_zone_dkim), count.index))}"
   ttl                 = 3600
+}
+
+#
+# Redis cache
+#
+resource "azurerm_storage_account" "azurerm_redis_backup" {
+  name                = "${local.azurerm_redis_backup_name}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+  location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+
+  # see https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction#types-of-storage-accounts
+  account_tier = "Standard"
+
+  # see https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction#replication
+  account_replication_type  = "GRS"
+  enable_blob_encryption    = true
+  enable_https_traffic_only = true
+}
+
+resource "azurerm_redis_cache" "azurerm_redis_cache" {
+  name                = "${local.azurerm_redis_cache_name}"
+  location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+
+  # Possible values for Premium: n=1=6GB, 2=13Gb, 3=26GB, 4=53GB
+  capacity = 1
+
+  # Total capacity is shard_count * capacity in GB
+  shard_count = 1
+
+  enable_non_ssl_port = false
+
+  # see https://docs.microsoft.com/en-us/azure/redis-cache/cache-faq#what-redis-cache-offering-and-size-should-i-use
+  redis_configuration {
+    # Value in megabytes reserved for non-cache usage e.g. failover
+    maxmemory_reserved = 64
+    maxmemory_delta    = 64
+    maxmemory_policy   = "allkeys-lru"
+
+    # Values are: 15, 30, 60, 360, 720 and 1440 seconds
+    rdb_backup_frequency          = 360
+    rdb_backup_max_snapshot_count = 1
+    rdb_backup_enabled            = true
+
+    rdb_storage_connection_string = "${azurerm_storage_account.azurerm_redis_backup.primary_connection_string}"
+  }
+
+  # At the moment we need Premium tier even
+  # in the test environment to support clustering
+  family = "P"
+
+  sku_name = "Premium"
 }
 
 #

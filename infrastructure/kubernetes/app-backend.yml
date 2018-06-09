@@ -58,7 +58,7 @@ spec:
               name: app-backend-secrets
               key: pre_shared_key
         - name: "REDIS_URL"
-          value: "io-development.redis.cache.windows.net"
+          value: "agid-redis-test.redis.cache.windows.net"
         - name: "REDIS_PORT"
           value: "6380"
         - name: "REDIS_PASSWORD"

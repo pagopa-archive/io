@@ -60,7 +60,7 @@
     "prettier": "^1.13.5",
     "readline-sync": "^1.4.9",
     "replace-in-file": "^3.4.0",
-    "request": "^2.85.0",
+    "request": "^2.87.0",
     "shelljs": "^0.8.2",
     "tmp": "^0.0.33",
     "ts-node": "^6.1.0",

@@ -809,7 +809,7 @@ all'utente per sbloccare l'applicazione quando questa esce dal background.
 
 [^validita-sessione-backend]: La durata del token di sessione è configurabile sul backend dell'app e attualmente è impostata a 30 giorni.
 
-##### Autenticazione verso il backend dell'app
+##### Autenticazione verso il backend dell'app {#autenticazione-app-backend}
 
 L'app mantiene una sessione verso il backend creata al completamento con
 successo dell'autenticazione SPID ma scollegata dalla sessione SPID che
@@ -834,7 +834,7 @@ seguente:
    risponderà all'app che il _token_ non è più valido e l'app chiederà
    all'utente di autenticarsi nuovamente con SPID.
 
-##### Autenticazione verso il Payment Manager/Wallet PagoPA
+##### Autenticazione verso il Payment Manager/Wallet PagoPA {#autenticazione-app-wallet}
 
 L'app effettua delle chiamate direttamente alle API del Payment Manager/Wallet
 di PagoPA, per la gestione dei metodi di pagamento e delle transazioni.
@@ -843,11 +843,19 @@ Queste chiamate devono contenere un token di autenticazione che permetta a
 PagoPA di identificare il cittadino e riconiliare la sua identitità con
 l'eventuale profilo già presente nel sistema PagoPA.
 
-**TODO** flusso
+Il _token_ di autenticazione del Wallet ha lo stesso formato e segue lo stesso
+ciclo di vita del _token_ di autenticazione del backend dell'app
+(§ \ref{autenticazione-app-backend}).
 
-##### Invalidazione delle sessioni
+##### Invalidazione delle sessioni attive
 
-**TODO** flusso
+Per ottimizzare la privacy del cittadino, quando viene effettuata una nuova
+autenticazione SPID dall'app e contestualmente creata una nuova sessione
+(§ \ref{autenticazione-app-backend}), tutte le sessioni attive in quel momento
+vengono annullate (ivi comprese le sessioni verso il Wallet, § \ref{autenticazione-app-wallet}).
+
+Il meccanismo di invalidazione delle sessioni viene inoltre attivato quando
+un utente chiede la cancellazione del proprio account dalla piattaforma CD.
 
 #### Autenticazione API CD
 

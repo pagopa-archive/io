@@ -45,7 +45,7 @@
     "azure-arm-storage": "^3.2.0",
     "azure-arm-website": "^2.0.0-preview",
     "azure-storage": "^2.5.0",
-    "cross-env": "^5.1.4",
+    "cross-env": "^5.1.6",
     "cross-var": "^1.1.0",
     "danger": "^3.7.16",
     "danger-plugin-digitalcitizenship": "^0.3.1",

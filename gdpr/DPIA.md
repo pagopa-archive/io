@@ -779,46 +779,60 @@ Ministero dei Trasporti       Punti patente
 Ministero dei Trasporti       Scadenza patente
 ACI                           Bollo Auto
 
-## Diagrammi architetturali
-
-Diagramma                   Figura
-----------                  --------
-Infrastruttura fisica       Figura \ref{figura-infrastruttura-fisica}
-Infrastruttura sistema      Figura \ref{figura-infrastruttura-sistema}
-Infrastruttura rete         Figura \ref{figura-infrastruttura-rete}
-Infrastruttura piattaforma  Figura \ref{figura-infrastruttura-piattaforma}
-Infrastruttura applicativa  Figura \ref{figura-infrastruttura-applicativa}
-Infrastruttura dati  Figura \ref{figura-infrastruttura-dati}
-
-![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg)
-
-![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg)
-
-![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg)
-
-![Infrastruttura di piattaforma\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg)
-
-![Infrastruttura applicativa\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg)
-
-![Infrastruttura dati\label{figura-infrastruttura-dati}](diagrams/infrastruttura-dati.svg)
-
 ## Accesso ai dati e sicurezza
 
-### Meccanismi di autenticazione tra le componenti
+### Meccanismi di autenticazione
 
 #### Autenticazione app mobile
 
-##### Autenticazione via SPID
+Il cittadino viene identificato dall'app di CD attraverso una combinazione di Autenticazione SPID e codice PIN.
 
-**TODO** flusso di autenticazione SPID/IDP/Backend
+I passi di autenticazione all'apertura dell'app comprendono
+(Figura \vref{figura-flusso-autenticazione-app}):
+
+* Verifica di una sessione attiva e valida con il backend dell'app.
+* Autenticazione SPID Livello 2.
+* Verifica ed accettazione della versione più recente dei termini d'uso del servizio e delle privacy policy.
+* Impostazione e successiva verifica del codice PIN.
+
+![Autenciazione utente nell'app\label{figura-flusso-autenticazione-app}](diagrams/flusso-autenticazione-app.svg)
 
 ##### Autenticazione via PIN e Biometrico
 
-**TODO**
+Al fine di ottimizzare l'esperienza utente nell'applicazione mobile, al primo
+accesso viene richiesto all'utente di impostare un codice PIN (ed opzionalmente
+di configurare un codice di accesso biometrico se il dispositivo lo consente).
+
+Nel caso in cui la sessione di autenticazione verso il backend dell'app è
+ancora valida[^validita-sessione-backend], il codice PIN verrà richiesto
+all'utente per sbloccare l'applicazione quando questa esce dal background.
+
+[^validita-sessione-backend]: Attualmente la sessione viene considerata valida per un tempo di 30 giorni.
 
 ##### Autenticazione verso il backend dell'app
 
-**TODO**
+L'app mantiene una sessione verso il backend creata al completamento con
+successo dell'autenticazione SPID ma scollegata dalla sessione SPID che
+l'utente stabilisce con l'Identity Provider.
+
+Il flusso di autenticazione dell'app con il backend tramite la sessione è il
+seguente:
+
+1. L'utente inizia il processo di autenticazione SPID dall'interno dell'app.
+1. Il backend genera un _token_ di sessione (una stringa alfanumerica casuale)
+   e da inizio al flusso di autenticazione SPID tramite l'Identity Provider (IdP)
+   scelto dall'utente, associandolo al _token_ generato (Figura \vref{figura-flusso-autenticazione-app}).
+1. Al termine del flusso di autenticazione SPID, il backend riceve l'asserzione
+   SAML firmata dall'IdP e contente gli attributi SPID richiesti.
+1. Gli attributi richiesti vengono salvati in un database locale ed associati
+   al _token_ di sessione condiviso con l'app.
+1. L'app effettua una chiamata alle API del backend usando il _token_ di
+   sessione come meccanismo di autenticazione _bearer token_.
+1. Il backend recupera gli attributi associati al _token_ ed esegue l'operazione
+   richiesta, associandola all'utente SPID.
+1. Se il _token_ risulta creato da oltre 30 giorni, il backend risponderà
+   all'app che il _token_ non è più valido e l'app chiederà all'utente di
+   autenticarsi nuovamente con SPID.
 
 ##### Autenticazione verso il Payment Manager/Wallet PagoPA
 
@@ -846,3 +860,26 @@ l'eventuale profilo già presente nel sistema PagoPA.
 ##### VPN
 
 **TODO**
+
+## Diagrammi architetturali
+
+Diagramma                   Figura
+----------                  --------
+Infrastruttura fisica       Figura \vref{figura-infrastruttura-fisica}
+Infrastruttura sistema      Figura \vref{figura-infrastruttura-sistema}
+Infrastruttura rete         Figura \vref{figura-infrastruttura-rete}
+Infrastruttura piattaforma  Figura \vref{figura-infrastruttura-piattaforma}
+Infrastruttura applicativa  Figura \vref{figura-infrastruttura-applicativa}
+Infrastruttura dati         Figura \vref{figura-infrastruttura-dati}
+
+![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg)
+
+![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg)
+
+![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg)
+
+![Infrastruttura di piattaforma\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg)
+
+![Infrastruttura applicativa\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg)
+
+![Infrastruttura dati\label{figura-infrastruttura-dati}](diagrams/infrastruttura-dati.svg)

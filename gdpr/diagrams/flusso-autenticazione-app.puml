@@ -1,0 +1,43 @@
+@startuml
+
+|Utente non autenticato|
+
+start
+
+partition "Utente non autenticato" {
+  :L'utente apre l'app;
+
+  if (Sessione esistente?) then (si)
+    if (Sessione ancora valida?) then (si)
+    else (no)
+      :Richiesta inserimento PIN;
+      :Verifica PIN/
+    endif
+  else (no)
+    :App presenta schermata di benvenuto;
+    :Click su Login/
+    :Autenticazione SPID Livello 2/
+  endif
+}
+
+partition "Utente autenticato,\nnon ancora a bordo" {
+  while (\nNon ancora accettato ultima\nversione ToS e privacy?\n)
+    :Presenta ultima versione\nversione ToS e privacy;
+    :Acccetta/
+  endwhile
+}
+
+partition "Utente autenticato,\na bordo del servizio" {
+  if (Codice PIN impostato?) then (si)
+  else (no)
+    :Autenticazione SPID Livello 2/
+    :Schermata impostazione PIN;
+    :Imposta e conferma PIN/
+  endif
+}
+
+partition "Registrazione completata" {
+  stop
+}
+
+@enduml

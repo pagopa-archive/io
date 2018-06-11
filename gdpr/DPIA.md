@@ -819,13 +819,13 @@ Il flusso di autenticazione dell'app con il backend tramite la sessione è il
 seguente:
 
 1. L'utente inizia il processo di autenticazione SPID dall'interno dell'app.
-1. Il backend genera un _token_ di sessione (una stringa alfanumerica casuale)
-   e da inizio al flusso di autenticazione SPID tramite l'Identity Provider (IdP)
-   scelto dall'utente, associandolo al _token_ generato (Figura \vref{figura-flusso-autenticazione-app}).
+1. Il backend da inizio al flusso di autenticazione SPID tramite l'Identity Provider (IdP)
+   scelto dall'utente (Figura \vref{figura-flusso-autenticazione-app}).
 1. Al termine del flusso di autenticazione SPID, il backend riceve l'asserzione
    SAML firmata dall'IdP e contente gli attributi SPID richiesti.
 1. Gli attributi richiesti vengono salvati in un database locale ed associati
-   al _token_ di sessione condiviso con l'app.
+   al _token_ di sessione generato dal backend (una stringa alfanumerica casuale)
+   e condiviso con l'app.
 1. L'app effettua una chiamata alle API del backend usando il _token_ di
    sessione come meccanismo di autenticazione _bearer token_.
 1. Il backend recupera gli attributi associati al _token_ ed esegue l'operazione

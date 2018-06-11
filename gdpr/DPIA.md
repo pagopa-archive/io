@@ -807,7 +807,7 @@ Nel caso in cui la sessione di autenticazione verso il backend dell'app è
 ancora valida[^validita-sessione-backend], il codice PIN verrà richiesto
 all'utente per sbloccare l'applicazione quando questa esce dal background.
 
-[^validita-sessione-backend]: Attualmente la sessione viene considerata valida per un tempo di 30 giorni.
+[^validita-sessione-backend]: La durata del token di sessione è configurabile sul backend dell'app e attualmente è impostata a 30 giorni.
 
 ##### Autenticazione verso il backend dell'app
 
@@ -830,9 +830,9 @@ seguente:
    sessione come meccanismo di autenticazione _bearer token_.
 1. Il backend recupera gli attributi associati al _token_ ed esegue l'operazione
    richiesta, associandola all'utente SPID.
-1. Se il _token_ risulta creato da oltre 30 giorni, il backend risponderà
-   all'app che il _token_ non è più valido e l'app chiederà all'utente di
-   autenticarsi nuovamente con SPID.
+1. Se il _token_ risulta avere una vita superiore a quella limite, il backend
+   risponderà all'app che il _token_ non è più valido e l'app chiederà
+   all'utente di autenticarsi nuovamente con SPID.
 
 ##### Autenticazione verso il Payment Manager/Wallet PagoPA
 

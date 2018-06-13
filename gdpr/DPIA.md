@@ -781,9 +781,9 @@ ACI                           Bollo Auto
 
 ## Accesso ai dati e sicurezza
 
-### Meccanismi di autenticazione
+## Meccanismi di autenticazione
 
-#### Autenticazione app mobile
+### Autenticazione app mobile
 
 Il cittadino viene identificato dall'app di CD attraverso una combinazione di Autenticazione SPID e codice PIN.
 
@@ -797,7 +797,7 @@ I passi di autenticazione all'apertura dell'app comprendono
 
 ![Autenticazione utente nell'app\label{figura-flusso-autenticazione-app}](diagrams/flusso-autenticazione-app.svg)
 
-##### Autenticazione via PIN e Biometrico
+#### Autenticazione via PIN e Biometrico
 
 Al fine di ottimizzare l'esperienza utente nell'applicazione mobile, al primo
 accesso viene richiesto all'utente di impostare un codice PIN (ed opzionalmente
@@ -809,7 +809,7 @@ all'utente per sbloccare l'applicazione quando questa esce dal background.
 
 [^validita-sessione-backend]: La durata del token di sessione è configurabile sul backend dell'app e attualmente è impostata a 30 giorni.
 
-##### Autenticazione verso il backend dell'app {#autenticazione-app-backend}
+#### Autenticazione verso il backend dell'app {#autenticazione-app-backend}
 
 L'app mantiene una sessione verso il backend creata al completamento con
 successo dell'autenticazione SPID ma scollegata dalla sessione SPID che
@@ -840,20 +840,7 @@ seguente:
 
 [^autenticazione-bearer]: <https://swagger.io/docs/specification/authentication/bearer-authentication/>
 
-##### Autenticazione verso il Payment Manager/Wallet PagoPA {#autenticazione-app-wallet}
-
-L'app effettua delle chiamate direttamente alle API del Payment Manager/Wallet
-di PagoPA, per la gestione dei metodi di pagamento e delle transazioni.
-
-Queste chiamate devono contenere un token di autenticazione che permetta a
-PagoPA di identificare il cittadino e riconiliare la sua identitità con
-l'eventuale profilo già presente nel sistema PagoPA.
-
-Il _token_ di autenticazione del Wallet ha lo stesso formato [^token-sessione]
-e segue lo stesso ciclo di vita del _token_ di autenticazione del backend
-dell'app (§ \ref{autenticazione-app-backend}).
-
-##### Invalidazione delle sessioni attive
+#### Invalidazione delle sessioni attive
 
 Per ottimizzare la privacy del cittadino, quando viene effettuata una nuova
 autenticazione SPID dall'app e contestualmente creata una nuova sessione
@@ -864,7 +851,7 @@ Il meccanismo di invalidazione delle sessioni dell'app, viene inoltre attivato
 nel momento in cui un utente chiede la cancellazione del proprio account dalla
 piattaforma CD.
 
-#### Autenticazione API CD
+### Autenticazione API CD
 
 Tutti i servizi che interagiscono con le API di CD (inclusi i servizi forniti
 dagli Enti Erogatori ed il backend dell'applicazione mobile di CD) si accreditano
@@ -942,11 +929,37 @@ Backend dell'app        `ApiFullProfileRead`
 
 ![Autenticazione da parte del servizio verso le API di CD attraverso l'API Manager e da parte dell'API Manager le API di CD\label{figura-infrastruttura-apim}](diagrams/infrastruttura-apim.svg)
 
-#### Autenticazione pagoPA
+### Autenticazione pagoPA
 
-##### VPN
+#### Autenticazione del'app verso il Payment Manager/Wallet PagoPA {#autenticazione-app-wallet}
 
-**TODO**
+L'app effettua delle chiamate direttamente alle API del Payment Manager/Wallet
+di PagoPA, per la gestione dei metodi di pagamento e delle transazioni.
+
+Queste chiamate devono contenere un token di autenticazione che permetta a
+PagoPA di identificare il cittadino e riconiliare la sua identitità con
+l'eventuale profilo già presente nel sistema PagoPA.
+
+Il _token_ di autenticazione del Wallet ha lo stesso formato [^token-sessione]
+e segue lo stesso ciclo di vita del _token_ di autenticazione del backend
+dell'app (§ \ref{autenticazione-app-backend}).
+
+#### Autenticazione del backend dell'app verso il nodo PagoPA
+
+Per alcuni step del flusso di verifica di una posizione debitoria e di esecuzione
+della transazione di pagamento, l'applicazione mobile di CD interagisce con il
+Nodo PagoPA attraverso il proprio backend, che a sua volta si appoggia ad una
+componente, chiamata _pagopa-proxy_, che ha il compito di convertire ed
+instradare le richieste verso il Nodo PagoPA attraverso una VPN punto-punto
+(Figura \vref{figura-infrastruttura-pagopa}).
+
+L'interazione tra _pagopa-proxy_ e il Nodo PagoPA avviene tramite il protocollo
+SOAP. L'autenticazione tra le due componenti è garantita da:
+
+* A livello di rete, garantita dalla VPN punto-punto (criptata con chiave condivisa).
+* A livello applicativo, garantita da una chiave condivisa fornita nei messaggi SOAP.
+
+![Autenticazione del backend dell'app verso il nodo PagoPA\label{figura-infrastruttura-pagopa}](diagrams/infrastruttura-pagopa.svg)
 
 ## Diagrammi architetturali
 

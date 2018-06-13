@@ -67,46 +67,53 @@ cloud "Ente" {
 Cittadino .. Smartphone
 
 ' Smartphone -> backend
-Smartphone --> azureipk8s
-azureipk8s -r-> azurek8sfw
-azurek8sfw -r-> appbackend
-appbackend -up-> azureipredis
-azureipredis -u-> azureredisfw
-azureredisfw -r-> dbredis
-appbackend -u-> pagopaproxy
-pagopaproxy -r-> azureipredis
+Smartphone ==> azureipk8s
+azureipk8s =r=> azurek8sfw
+azurek8sfw .r.> appbackend
+appbackend =up=> azureipredis
+azureipredis =u=> azureredisfw
+azureredisfw =r=> dbredis
+appbackend .u.> pagopaproxy
+pagopaproxy =r=> azureipredis
 ' pagopaproxy -> pagopa
 pagopaproxy <-u-> azurevpnfw
 azurevpnfw <-d-> azurevpngw
-azurevpngw <--> pagopavpngw
+azurevpngw <==> pagopavpngw
 
 ' Smartphone -> pagopa
-Smartphone --> pagopaipwallet
-pagopaipwallet -d-> pagopawalletfw
-pagopawalletfw -u-> pagopawallet
-pagopawallet <-u-> pagopanodo
-pagopavpngw <-d-> pagopavpnfw
-pagopavpnfw <-d-> pagopanodo
+Smartphone ==> pagopaipwallet
+pagopaipwallet =d=> pagopawalletfw
+pagopawalletfw =u=> pagopawallet
+pagopawallet <=u=> pagopanodo
+pagopavpngw <=d=> pagopavpnfw
+pagopavpnfw <=d=> pagopanodo
 
 ' Servizio ente / backend -> API GW
-serviziovm -down--> azureipapigw
-azureipapigw -d-> azureapigwfw
-azureapigwfw -l-> azureapigateway
-appbackend --> azureipapigw
+serviziovm =down==> azureipapigw
+azureipapigw =d=> azureapigwfw
+azureapigwfw =l=> azureapigateway
+appbackend ==> azureipapigw
 
 ' API GW -> functions
-azureapigateway -d-> azureipfunctions
-azureipfunctions -r-> azurefunctionsfw
-azurefunctionsfw -r-> apimessaggi
+azureapigateway =d=> azureipfunctions
+azureipfunctions =r=> azurefunctionsfw
+azurefunctionsfw .r.> apimessaggi
 
 ' Functions -> cosmos
-apimessaggi -r-> azureipcosmos
-azureipcosmos -d-> azurecosmosfw
-azurecosmosfw -d-> dbcosmos
+apimessaggi =r=> azureipcosmos
+azureipcosmos =d=> azurecosmosfw
+azurecosmosfw =d=> dbcosmos
 
 ' Functions -> storage
-apimessaggi -d-> azureipstorage
-azureipstorage -d-> azurestoragefw
-azurestoragefw -d-> dbstorage
+apimessaggi =d=> azureipstorage
+azureipstorage =d=> azurestoragefw
+azurestoragefw =d=> dbstorage
+
+rectangle "legenda connessioni" {
+  card A
+  card B
+  A => B : criptata
+  A .> B : in chiaro
+}
 
 @enduml

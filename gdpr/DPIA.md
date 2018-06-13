@@ -795,7 +795,7 @@ I passi di autenticazione all'apertura dell'app comprendono
 * Verifica ed accettazione della versione più recente dei termini d'uso del servizio e delle privacy policy.
 * Impostazione e successiva verifica del codice PIN.
 
-![Autenciazione utente nell'app\label{figura-flusso-autenticazione-app}](diagrams/flusso-autenticazione-app.svg)
+![Autenticazione utente nell'app\label{figura-flusso-autenticazione-app}](diagrams/flusso-autenticazione-app.svg)
 
 ##### Autenticazione via PIN e Biometrico
 
@@ -824,15 +824,21 @@ seguente:
 1. Al termine del flusso di autenticazione SPID, il backend riceve l'asserzione
    SAML firmata dall'IdP e contente gli attributi SPID richiesti.
 1. Gli attributi richiesti vengono salvati in un database locale ed associati
-   al _token_ di sessione generato dal backend (una stringa alfanumerica casuale)
-   e condiviso con l'app.
+   al _token_ di sessione generato dal backend [^token-sessione] e condiviso con l'app.
 1. L'app effettua una chiamata alle API del backend usando il _token_ di
-   sessione come meccanismo di autenticazione _bearer token_.
+   sessione come meccanismo di autenticazione _bearer_.[^autenticazione-bearer]
 1. Il backend recupera gli attributi associati al _token_ ed esegue l'operazione
    richiesta, associandola all'utente SPID.
 1. Se il _token_ risulta avere una vita superiore a quella limite, il backend
    risponderà all'app che il _token_ non è più valido e l'app chiederà
    all'utente di autenticarsi nuovamente con SPID.
+
+[^token-sessione]: Il token di sessione è un numero casuale di 48 bytes
+  generato da un algoritmo crittografico di generazione di dati pseudo-casuali -
+  in particolaresi viene usata la funzione `randomBytes` della libreria `crypto`
+  di Nodejs (<https://nodejs.org/api/crypto.html>).
+
+[^autenticazione-bearer]: <https://swagger.io/docs/specification/authentication/bearer-authentication/>
 
 ##### Autenticazione verso il Payment Manager/Wallet PagoPA {#autenticazione-app-wallet}
 
@@ -843,25 +849,98 @@ Queste chiamate devono contenere un token di autenticazione che permetta a
 PagoPA di identificare il cittadino e riconiliare la sua identitità con
 l'eventuale profilo già presente nel sistema PagoPA.
 
-Il _token_ di autenticazione del Wallet ha lo stesso formato e segue lo stesso
-ciclo di vita del _token_ di autenticazione del backend dell'app
-(§ \ref{autenticazione-app-backend}).
+Il _token_ di autenticazione del Wallet ha lo stesso formato [^token-sessione]
+e segue lo stesso ciclo di vita del _token_ di autenticazione del backend
+dell'app (§ \ref{autenticazione-app-backend}).
 
 ##### Invalidazione delle sessioni attive
 
 Per ottimizzare la privacy del cittadino, quando viene effettuata una nuova
 autenticazione SPID dall'app e contestualmente creata una nuova sessione
 (§ \ref{autenticazione-app-backend}), tutte le sessioni attive in quel momento
-vengono annullate (ivi comprese le sessioni verso il Wallet, § \ref{autenticazione-app-wallet}).
+vengono annullate (comprese le sessioni verso il Wallet, § \ref{autenticazione-app-wallet}).
 
-Il meccanismo di invalidazione delle sessioni viene inoltre attivato quando
-un utente chiede la cancellazione del proprio account dalla piattaforma CD.
+Il meccanismo di invalidazione delle sessioni dell'app, viene inoltre attivato
+nel momento in cui un utente chiede la cancellazione del proprio account dalla
+piattaforma CD.
 
 #### Autenticazione API CD
 
-##### Verso gli Enti Erogatori
+Tutti i servizi che interagiscono con le API di CD (inclusi i servizi forniti
+dagli Enti Erogatori ed il backend dell'applicazione mobile di CD) si accreditano
+sul portale degli sviluppatori di CD [^portale-dev-cd] ottenendo delle
+credenziali (_chiave API_) per ogni servizio che viene registrato.
+L'autenticazione delle chiamate alle API di CD
+avviene quindi a livello di singolo servizio, permettendo a CD di applicare
+delle policy di _throttling_ e di quota d'uso a livello di singolo servizio e,
+in caso di abuso, disattivare l'accesso alle API da parte di un singolo servizio
+erogato dall'ente.
 
-##### Verso il backend dell'app mobile
+L'accesso alle API di CD da parte dei servizi viene intermediato dal servizio
+di _API Management_ (APIM) fornito da Azure [^apim-page] secondo il diagramma in
+Figura \vref{figura-infrastruttura-apim}:
+
+1. Il responsabile del servizio si accredita sul portale degli sviluppatori
+   ricevendo la _chiave API_ per il servizio registrato. La _chiave API_ viene generata dal servizio di _API Management_ al momento della registrazione.
+1. Il responsabile del servizio imposta la _chiave API_ nel servizio in modo
+   che venga utilizzata per effettuare le chiamate alle API di CD.
+1. Il servizio fornisce la _chiave API_ sotto forma di token di autenticazione
+   _bearer_ nelle chiamate API verso l'API gateway.
+1. L'API gateway valida la _chiave API_, raccogliendo l'identificativo del
+   servizio associato alla chiave e i ruoli associati.
+1. L'identificativo del servizio e i ruoli associati vengono passati insieme
+   alla richiesta originaria alle API di CD.
+
+L'APIM garantisce l'autenticazione di tutte le chiamate verso le API di CD e
+comunica alle API di CD i ruoli associati al singolo servizio, fornendo
+inoltre funzionalità di _throttling_, _rate limiting_ e _usage quota_.
+
+Nella fase di accreditamento, ad ogni servizio vengono associati dei ruoli (Tabella \vref{table-api-roles})
+che abilitano le operazioni fornite dalle API di CD. A seconda della tipologia
+di servizio, possono venire associati combinazioni di ruoli diversi, e quindi
+diverse funzionalità fornite dalle API di CD (Tabella \vref{table-api-service-roles}).
+
+Table: Ruoli relativi alle API di CD che vengono associati ai servizi accreditati.\label{table-api-roles}
+
+Ruolo                           Descrizione
+------                          ------------
+`ApiLimitedProfileRead`         Lettura delle preferenze di un cittadino
+`ApiFullProfileRead`            Lettura profilo completo di un cittadino
+`ApiProfileWrite`               Creazione/modifica profilo di un cittadino
+`ApiServiceRead`                Lettura degli attributi di un servizio
+`ApiServiceWrite`               Creazione/modifica di un servizio
+`ApiMessageRead`                Lettura messaggio inviato dal servizio
+`ApiMessageWrite`               Invio messaggio ad un cittadino
+`ApiLimitedMessageWrite`        Invio messaggio ad un cittadino autorizzato
+`ApiMessageWriteDefaultAddress` Invio messaggio fornendo indirizzo email
+`ApiMessageList`                Lettura casella messaggi di un cittadino
+
+Table: Conbinazione di ruoli associati alle diverse tipologie di servizi.\label{table-api-service-roles}
+
+--------------------------------------------------
+Tipologia servizio      Ruoli associati
+-------------------     --------------------------
+Servizio standard       `ApiLimitedProfileRead`
+                        `ApiMessageRead`
+
+Portale sviluppatori    `ApiServiceRead`
+                        `ApiServiceWrite`
+                        `ApiMessageWrite`[^role-limited-message-write]
+
+Backend dell'app        `ApiFullProfileRead`
+                        `ApiProfileWrite`
+                        `ApiServiceRead`
+                        `ApiMessageList`
+--------------------------------------------------
+
+[^portale-dev-cd]: <https://developer.cd.italia.it/>
+[^apim-page]: <https://docs.microsoft.com/it-it/azure/api-management/api-management-key-concepts>
+[^role-limited-message-write]: Durante la fase di test limitato del servizio,
+  invece del ruolo `ApiMessageWrite` viene associato il ruolo `ApiLimitedMessageWrite` che
+  limita il servizio all'invio di messaggi verso un insieme di cittadini pre-autorizzati,
+  tipicamente i responsabili dello sviluppo del servizio.
+
+![Autenticazione da parte del servizio verso le API di CD attraverso l'API Manager e da parte dell'API Manager le API di CD\label{figura-infrastruttura-apim}](diagrams/infrastruttura-apim.svg)
 
 #### Autenticazione pagoPA
 

@@ -443,7 +443,7 @@ quindi il messaggio viene ignorato.
 
 ![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg)
 
-### Invio di messaggi a cittadini con un profilo CD
+### Invio di messaggi a cittadini con un profilo CD {#invio-messaggio-profilo}
 
 Quando il cittadino accede per la prima volta, attraverso SPID, all'app di CD,
 viene creato un profilo di preferenze dentro CD associato al codice fiscale del
@@ -610,11 +610,11 @@ dall'APP IO in modo totalmente trasparente.
 ##### Profilo Wallet non presente
 
 Nel caso non sia presente nel Wallet, un profilo associato all'email del cittadino,
-il Wallet provvederà a creare un nuovo profilo[^wallet-nuovo-profilo]
+il Wallet provvederà a creare un nuovo profilo [^wallet-nuovo-profilo]
 all'inserimento del primo metodo di pagamento. Tutte le operazioni successive
 ricadono nel caso precedente.
 
-[^wallet-nuovo-profilo] Flusso ancora da formalizzare.
+[^wallet-nuovo-profilo]: Flusso ancora da formalizzare.
 
 ### Pagamento
 
@@ -623,11 +623,33 @@ Il flusso di pagamento può scaturire da un avviso di pagamento digitale
 pagamento cartaceo (che fornisce un codice di pagamento numerico o tramite
 un QR code).
 
-#### Avvisi di pagamento digitali
+#### Avvisi di pagamento digitali {#avvisi-pagamento-digitali}
+
+Per l'invio di un avviso di pagamento digitale ad un cittadino da parte di un
+servizio, viene usato il meccanismo dell'invio di un messaggio tramite l'API
+Messaggi di CD (§ \ref{invio-messaggio-profilo}). In questo caso, oltre
+all'oggetto ed al contenuto del messaggio vengono forniti dal servizio:
+
+* **Numero Avviso**: si tratta di un codice numerico che identifica
+  univocamente la posizione debitoria presso l'ente. [^pagopa-numero-avviso]
+* **Ammontare**: l'ammontare della posizione debitoria in centesimi di Euro.[^nota-ammontare-attualizzare]
+
+[^pagopa-numero-avviso]: Il numero avviso segue il formato
+  `<cifra ausiliaria (1n)>[<codice applicativo> (2n)]<codice IUV (15|17n)>` -
+  riferimento: <https://pagopa-specifichepagamenti.readthedocs.io/it/latest/_docs/Capitolo7.html>
+[^nota-ammontare-attualizzare]: L'ammontare viene visualizzato all'interno
+  dell'applicazione di CD insieme al messaggio e viene successivamente
+  attualizzato all'atto del pagamento (§ \ref{pagopa-verifica-attualizzazione}).
 
 #### Avvisi di pagamento cartaceo
 
-#### Verifica e attualizzazione
+Per quanto riguarda il pagamento di avvisi di pagamento cartacei, il cittadino
+potrà effettuare il pagamento leggendo il codice QR [^avviso-codice-qr] stampato sull'avviso o
+inserendo manualmente il Numero Avviso stampato anch'esso sull'avviso.
+
+[^avviso-codice-qr]: Il codice QR stampato sull'avviso contiene il Numero Avviso.
+
+#### Verifica e attualizzazione{#pagopa-verifica-attualizzazione}
 
 #### Transazione
 

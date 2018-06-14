@@ -4,7 +4,7 @@ subtitle: Valutazione d'impatto sulla protezione dei dati
 author:
 - Team per la Trasformazione Digitale
 - Agenzia per L'Italia Digitale
-date: 31 Maggio 2018
+date: 14 Giugno 2018
 lang: it-IT
 mainlang: italian
 ---

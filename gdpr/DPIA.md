@@ -801,8 +801,6 @@ Ministero dei Trasporti       Punti patente
 Ministero dei Trasporti       Scadenza patente
 ACI                           Bollo Auto
 
-## Accesso ai dati e sicurezza
-
 ## Meccanismi di autenticazione
 
 ### Autenticazione app mobile
@@ -982,6 +980,52 @@ SOAP. L'autenticazione tra le due componenti è garantita da:
 * A livello applicativo, garantita da una chiave condivisa fornita nei messaggi SOAP.
 
 ![Autenticazione del backend dell'app verso il nodo PagoPA\label{figura-infrastruttura-pagopa}](diagrams/infrastruttura-pagopa.svg)
+
+## Sicurezza
+
+### Meccanismi di controllo dell'accesso
+
+#### Accesso fisico ai server
+
+Tutti i datacenter Microsoft Azure implementano meccanismi di controllo della
+sicurezza allo stato dell'arte: sorveglianza 24x7x365, protezioni ambientali e
+perimetrali e policy di accesso estese a tutto il personale.
+
+Per maggiori dettagli si faccia riferimento al documento
+_Microsoft Azure Security Overview_. [^azure-security-overview]
+
+[^azure-security-overview]: <http://go.microsoft.com/?linkid=9740388>
+
+#### Accesso remoto ai sistemi
+
+Le macchine virtuali che erogano i servizi della piattaforma di CD, sono
+configurate per consentire l'accesso remoto tramite protocollo SSH e
+autenticazione a chiave pubblica. Le macchine virtuali non sono dotate di IP
+pubblico, per raggiungerle è necessario passare da un _bastion host_.[^bastion-host]
+
+[^bastion-host]: Un _bastion host_ è un computer specializzato nell'isolare una rete locale da una connessione internet pubblica, creando uno scudo che permette di proteggere la rete locale da attacchi esterni - <https://it.wikipedia.org/wiki/Bastion_host>
+
+#### Accesso alle risorse cloud
+
+CosmosDB
+  ~ L'accesso alle risorse _CosmosDB_ avviene tramite API REST, su protocollo HTTPS con firma HMAC derivata da un token segreto, generato alla creazione del database. Il token viene custodito nella configurazione applicativa delle API.[^accesso-cosmosdb]
+
+Redis cache
+  ~ L'accesso alle risorse _Redis cache_ avviene tramite protocollo Redis su trasporto TLS...
+
+Blob/Queue storage
+  ~ Definition 1
+
+Active Directory
+  ~ Definition 1
+
+[^accesso-cosmosdb]: <https://docs.microsoft.com/it-it/rest/api/cosmos-db/access-control-on-cosmosdb-resources>
+
+#### Accesso alla configurazione cloud
+
+### Trasporto dati
+
+### Verifica dell'integrità dei dati
 
 ## Diagrammi architetturali
 

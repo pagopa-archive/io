@@ -651,9 +651,34 @@ inserendo manualmente il Numero Avviso stampato anch'esso sull'avviso.
 
 #### Verifica e attualizzazione{#pagopa-verifica-attualizzazione}
 
+Il flusso di verifica ed attualizzazione dell'avviso di pagamento viene iniziato
+dall'app ogni volta che viene presentato l'ammontare attualizzato corrispondente
+all'avviso di pagamento (tipicamente questo avviene come primo passo del
+flusso di pagamento di un avviso).
+
+Questo flusso prevede l'interazione con il nodo PagoPA attraverso il backend
+dell'app secondo il diagramma in Figura \vref{figura-flusso-pagopa-verifica}.
+
+![Durante il flusso di verifica ed attualizzazione di un avviso di pagamento, l'app interagisce con il nodo PagoPA attraverso il backend.\label{figura-flusso-pagopa-verifica}](diagrams/flusso-pagopa-verifica.svg)
+
 #### Transazione
 
-#### Ricevuta
+Il flusso di pagamento viene iniziato dall'app ed è composto da due fasi
+distinte (Figura \vref{figura-flusso-pagopa-attiva}):
+
+* Passi 1-3: l'app interagisce con il nodo PagoPA attraverso il backend per ottenere
+  l'identificativo di pagamento associato all'avviso di pagamento.
+* Passo 4: l'app interagisce con il Wallet per eseguire la transazione di pagamento
+  a partire dall'identificativo ottenuto al passo precedente.
+
+![Durante il flusso di pagamento, l'app interagisce con il nodo PagoPA attraverso il backend per ottenere l'identificativo di pagamento corrispondente all'avviso di pagamento e successivamente interagisce con il Wallet per eseguire la transazione.\label{figura-flusso-pagopa-attiva}](diagrams/flusso-pagopa-attiva.svg)
+
+#### Ricevuta di pagamento
+
+Dopo che la transazione di pagamento dell'avviso viene ricevuta dal Wallet,
+l'app interagisce nuovamente con il Wallet per recuperare lo storico delle
+transazioni. Lo storico conterrà l'esito della transazione appena eseguita,
+sotto forma di ricevuta di pagamento da presentare al cittadino.
 
 \pagebreak
 
@@ -1023,9 +1048,20 @@ Active Directory
 
 #### Accesso alla configurazione cloud
 
+L'accesso alla configurazione cloud Azure avviene attraverso due meccanismi:
+
+* accesso interattivo alla dashboard Azure tramite account Microsoft (username e password)
+* accesso via script di configurazione automatizzato (Terraform) tramite meccanismo _service principal_.[^azure-service-principal]
+
+[^azure-service-principal]: <https://docs.microsoft.com/it-it/azure/azure-stack/azure-stack-create-service-principals>
+
 ### Trasporto dati
 
+**TODO**
+
 ### Verifica dell'integrità dei dati
+
+**TODO**
 
 ## Diagrammi architetturali
 

@@ -1032,10 +1032,10 @@ resource "azurerm_redis_cache" "azurerm_redis_cache" {
 
   # see https://docs.microsoft.com/en-us/azure/redis-cache/cache-faq#what-redis-cache-offering-and-size-should-i-use
   redis_configuration {
-    # Value in megabytes reserved for non-cache usage e.g. failover
-    maxmemory_reserved = 64
-    maxmemory_delta    = 64
-    maxmemory_policy   = "allkeys-lru"
+    # see https://www.terraform.io/docs/providers/azurerm/r/redis_cache.html#default-redis-configuration-values
+    maxmemory_reserved = 200
+    maxmemory_delta    = 200
+    maxmemory_policy   = "volatile-lru"
 
     # Values are: 15, 30, 60, 360, 720 and 1440 seconds
     rdb_backup_frequency          = 360
@@ -1044,6 +1044,8 @@ resource "azurerm_redis_cache" "azurerm_redis_cache" {
 
     rdb_storage_connection_string = "${azurerm_storage_account.azurerm_redis_backup.primary_connection_string}"
   }
+
+  subnet_id = "${module.kubernetes.aks_vnet_id}"
 
   # At the moment we need Premium tier even
   # in the test environment to support clustering

@@ -1,0 +1,37 @@
+@startuml
+
+:Cittadino: as cittadino
+
+agent "IdP SPID" as idp
+
+agent "App CD" as app
+
+rectangle "Cittadinanza Digitale" {
+  agent "Backend CD" as backend
+
+  agent "API Preferenze" as apipreferenze
+
+  database "Preferenze" as dbpreferenze
+}
+
+cloud "Servizio notifiche push" {
+  agent "API notifiche push" as apinotifiche
+}
+
+cittadino -> app : (1) primo accesso
+
+app .u.> idp : (2) auth SPID
+
+cittadino -u-> idp : (2) email,\npassword
+
+idp -> backend : (3) CF, nome, cognome, email
+
+backend -d-> apipreferenze : (4) CF, email,\ncasella messaggi=SI,\nnotifiche push=SI
+
+apipreferenze -r-> dbpreferenze
+
+app -> backend : (5) ID installazione
+
+backend -r-> apinotifiche : (5) SHA256(CF),\nID installazione
+
+@enduml

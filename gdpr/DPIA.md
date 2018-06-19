@@ -1021,7 +1021,7 @@ Blob/Queue storage
   ~ Le risorse Blob/Queue Storage, che contengono il contenuto dei messaggi inviati, vengono accedute su protocollo HTTPS  
   (cifratura in transito) fornendo un token segreto. Il token è custodito nella configurazione applicativa delle API.  
   Tutti i dati memorizzati negli storage sono automaticamente cifrati (cifratura a riposo).[^accesso-storage]  
-  Le risorse Blocb/Queue Storage sono dispiegate su una Azure Virtual Network (VNET) che fornisce l'isolamento dalla rete pubblica.
+  Le risorse Blob/Queue Storage sono dispiegate su una Azure Virtual Network (VNET) che fornisce l'isolamento dalla rete pubblica.
 
 API gateway (Azure API management)
   ~ L'API gateway è esposto direttamente su internet, raggiungibile tramite una URL che identifica la risorsa.  
@@ -1048,7 +1048,7 @@ Application Insights
   summenzionate per gli Azure Blob Storage. Solo gli amministratori del sistema possono accedere al contenuto dei log,
   previo login tramite 2FA sul portale di Azure.[^accesso-application-insights] 
   I componenti del sistema trasmettono i log ad AI tramite il protocollo HTTPS utilizzando un token segreto
-  ("instrumentation key") memorizzato nella configurazione applicativa di ogni componente.
+  (_instrumentation key_) memorizzato nella configurazione applicativa di ogni componente.
 
 [^accesso-cosmosdb]: <https://docs.microsoft.com/it-it/rest/api/cosmos-db/access-control-on-cosmosdb-resources>
 [^accesso-redis]: <https://docs.microsoft.com/it-it/azure/redis-cache/cache-overview>
@@ -1061,7 +1061,14 @@ Application Insights
 #### Accesso a service provider esterni ad Azure
 
 MailUp
-  ~ Definition 1
+  ~ Il service provider MailUp è utilizzato dalle API di notifica per l'invio delle email
+  agli iscritti all'applicazione di Cittadinanza Digitale. Le credenziali per l'accesso al servizio
+  (nome utente e password per l'accesso alle API) sono memorizzate nella configurazione applicativa delle Azure Functions.
+  Il traporto dei messaggi inviati avviene utilizzando il protocollo HTTPS fino ai server di MailUp
+  che ne effettuano il _dispatching_ tramite i server SMTP del service provider.[^accesso-mailup]
+  Le credenziali per l'accesso al portale di amministrazione di MailUp sono custodite da AgID.
+
+[^accesso-mailup]: <https://www.mailup.com/gdpr-infrastructure/>
 
 #### Accesso alla configurazione cloud
 

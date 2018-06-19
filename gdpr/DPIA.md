@@ -7,6 +7,8 @@ author:
 date: \today
 lang: it-IT
 mainlang: italian
+lot: true
+lof: true
 ---
 
 <!--
@@ -17,7 +19,53 @@ TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha u
 
 # Introduzione
 
-## Cittadinanza Digitale
+Questo documento è una valutazione dell'impatto sulla protezione dei dati (DPIA)
+che valuta il servizio di Cittadinanza Digitale che l'Agenzia per l'Italia
+Digitale vuole offrire ai cittadini ed alle Pubbliche Amministrazioni italiane.
+
+La DPIA è un'analisi delle attività di trattamento dei dati e copre i dettagli
+dell'attività di elaborazione degli stessi e una valutazione dei rischi
+associati al trattamento, comprese eventuali misure che devono essere adottate
+per mitigare tali rischi. Contiene anche la decisione sull'avvio di una
+consultazione preliminare con il _Data Protection Officer_ competente.
+
+La presente DPIA viene prodotta ai sensi dell'articolo 35 del GDPR - laddove il
+trattamento rischia di comportare un rischio elevato per i diritti e le libertà
+delle persone fisiche, il responsabile del trattamento effettua una
+valutazione dell'impatto dell'elaborazione prevista.
+
+Le valutazioni hanno valore per gli individui, le organizzazioni e la società.
+La presente DPIA valuta i rischi per la privacy personale e identifica le
+misure, le salvaguardie e i meccanismi esistenti per mitigare tali rischi.
+
+## Informazioni chiave
+
+* **Titolare dei dati**: Agenzia per l'Italia Digitale (AgID), in co-titolarità
+  con gli Enti Erogatori aderenti al servizio.
+* **Descrizione del progetto**: Questo documento di analisi d'impatto riguarda il
+  progetto di Cittadinanza Digitale descritto nel capitolo seguente.
+* **Soggetti oggetto del trattamento dei dati**: Pubbliche Amministrazioni Italiane
+  e Cittadini Italiani dotati di identità digitale (SPID).
+* **Tipologie di dati personali**: Le tipologie di dati trattati in questo progetto
+  includono informazioni personali quali nome, cognome, codice fiscale degli
+  utenti del servizio e contenuto dei messaggi e documenti inviati dalle
+  Pubbliche Amministrazioni ai cittadini - si faccia riferimento al §
+  \vref{descrizione-flussi-informativi} per l'elenco completo dei dati personali
+  trattati.
+* **Categorie speciali di dati trattati**: Nessuna.
+* **Soggetti che hanno accesso ai dati trattati**: I seguenti soggetti avranno
+  accesso ai dati trattati dal sistema:
+  * Soggetti gestori del servizio autorizzati.
+  * Cittadini aderenti al servizio, per quanto riguarda i propri dati SPID e i
+    dati ricevuto dai servizi erogati dagli Enti.
+  * Enti Erogatori al servizio, per quanto riguarda i dati inviati ai cittadini
+    e le preferenze condivise dai singoli cittadini con i servizi erogati
+    dall'Ente - si faccia riferimento al § \vref{descrizione-flussi-informativi}
+    per l'elenco completo dei soggetti coinvolti nel trattamento dei dati.
+
+\pagebreak
+
+# Il progetto Cittadinanza Digitale
 
 La Presidenza del Consiglio dei Ministri, in collaborazione con l’Agenzia per
 l’Italia Digitale, ha progettato e sviluppato un sistema applicativo che si
@@ -75,7 +123,7 @@ utilizzare CD.
 Si descrivono di seguito le sezioni principali di cui si compone CD, che
 corrispondono ad altrettante funzioni disponibili ai soggetti pubblici.
 
-### Servizio messaggi
+## Servizio messaggi
 
 La sezione messaggi consentirà all’utente di ricevere le comunicazioni a lui
 indirizzate da parte degli Enti Erogatori che utilizzano le api messe a
@@ -96,7 +144,7 @@ Per gli Enti Erogatori che aderiscono a CD sarà possibile interrogare un
 servizio per sapere se uno specifico cittadino ha attivato CD e se ha delle
 preferenze relative all’ente stesso.
 
-### Portafoglio
+## Portafoglio
 
 La sezione portafoglio, integrata con il Sistema pagoPA, consente di gestire le
 transazioni economiche fra il cittadino e lo stato, gestire i propri metodi di
@@ -113,7 +161,7 @@ dell’attivazione di CD.
 L’utente in CD potrà salvare e gestire i metodi di pagamento previsti dal
 sistema PagoPA.
 
-### Documenti
+## Documenti
 
 La sezione documenti consente all’utente di tenere raccolti e da lui
 organizzati dentro CD tutti i documenti che gli sono stati inviati o messi a
@@ -153,7 +201,7 @@ della Popolazione Residente), che consentirà di inoltrare la richiesta di un
 certificato anagrafico ai comuni già integrati con ANPR, ottenendo da essi il
 certificato richiesto direttamente con l’applicazione di CD.
 
-### Preferenze
+## Preferenze
 
 La sezione preferenze consente all’utente di impostare quelle scelte di
 carattere generale che risultano trasversali all’erogazione dei servizi da
@@ -192,7 +240,7 @@ Con riferimento alla selezione delle preferenze, appare opportuno segnalare che:
   l’invio da parte degli Enti Erogatori di un messaggio di notifica push sullo
   smartphone indicato dall’utente.
 
-### Profilo
+## Profilo
 
 La sezione Pprofilo, che sarà disponibile anche tramite browser web, consente
 all’utente di avere un riepilogo delle informazioni più tipicamente legate alla
@@ -220,9 +268,9 @@ Nella sezione profilo l’utente potrà inoltre:
 * consultare le informative sul trattamento dei dati personali degli Enti Erogatori e una breve informativa relativa a CD;
 * chiedere la sospensione dell’account o la completa cancellazione dello stesso.
 
-## Motivazioni alla base della valutazione d'impatto
+# Motivazioni alla base della valutazione d'impatto
 
-### Gestione di dati personali
+## Gestione di dati personali
 
 Tramite le funzionalità dei Messaggi e Documenti, la piattaforma informatica di
 CD tratterà documenti personali e messaggi di cortesia equiparabili a messaggi
@@ -231,7 +279,7 @@ la piattaforma informatica di CD tratterà metadati relativi ai servizi ed
 Enti Erogatori da cui un cittadino a ricevuto messaggi di cortesia e avvisi di
 pagamento.
 
-### Trattamento di dati su larga scala
+## Trattamento di dati su larga scala
 
 L'obiettivo di CD è quello di fornire un servizio a tutta la popolazione
 italiana dotata di account SPID. Si concretizza quindi lo scenario del
@@ -241,7 +289,7 @@ trattamento di dati su larga scala.[^largascala]
 
 \pagebreak
 
-# Descrizione dei flussi informativi
+# Descrizione dei flussi informativi {#descrizione-flussi-informativi}
 
 <!--
 **TODO**
@@ -269,16 +317,18 @@ Inoltre alcune preferenze (dette pubbliche) vengono
 condivise con gli Enti Erogatori allo scopo di essere utilizzate per la
 personalizzazione dei servizi forniti da essi.
 
-Table: preferenze associate al cittadino - le preferenze nella forma di domanda sono preferenze di abilitazione (booleani) \label{tabella-preferenze}
+Table: Preferenze associate al cittadino.\label{tabella-preferenze}
 
-Preferenza                Provenienza         Pubblica?     Uso
------------               ------------        ----------    ----
-Lingue preferite          APP                 SI            UI e messaggi multilingua
-Casella dei messaggi?     APP                 NO            Messaggi
-Notifiche push?           APP                 NO            Messaggi
-Servizi abilitati?        APP                 NO            Messaggi
-Indirizzo email           SPID                NO            Messaggi
-Storico accessi           Backend app         NO            Profilo
+Preferenza                            Provenienza         Pubblica?     Uso
+-----------                           ------------        ----------    ----
+Lingue preferite                      APP                 SI            UI e messaggi multilingua
+Casella dei messaggi?[^pref-bool]     APP                 NO            Messaggi
+Notifiche push?                       APP                 NO            Messaggi
+Servizi abilitati?                    APP                 NO            Messaggi
+Indirizzo email                       SPID                NO            Messaggi
+Storico accessi                       Backend app         NO            Profilo
+
+[^pref-bool]: Le preferenze nella forma di domanda sono preferenze di abilitazione (booleani).
 
 Nel database delle preferenze vengono mantenute le informazioni descritte nella
 Tabella \vref{tabella-preferenze} per ogni cittadino che si registra a CD e fino
@@ -306,7 +356,7 @@ Il flusso di creazione del profilo (Figura \vref{figura-profilo-creazione}) è i
    al servizio di invio delle _notifiche push_, associandolo alla hash _SHA256_
    [^sha256] del codice fiscale del cittadino.
 
-![Flusso di creazione del profilo del cittadino al primo accesso\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg)
+![Flusso di creazione del profilo del cittadino al primo accesso.\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg)
 
 [^sha256]: <https://en.wikipedia.org/wiki/SHA-2>
 
@@ -330,7 +380,7 @@ Questa verifica è richiesta all'ente, prima dell'invio di una comunicazione
 al cittadino attraverso la funzione Messaggi, secondo lo schema in Tabella
 \vref{table-verifica-optout}.
 
-Table: Verifica da parte del servizio del permesso di comunicare col cittadino \label{table-verifica-optout}
+Table: Verifica da parte del servizio del permesso di comunicare col cittadino.\label{table-verifica-optout}
 
 Cit. iscritto a CD?       Opt-out al servizio?      Servizio può inviare messaggio?
 --------------------      ---------------------     --------------------------------
@@ -423,7 +473,7 @@ Il flusso dati è il seguente:
    fornitore email del cittadino.
 6. Il cittadino trova il messaggio nella sua casella di posta.
 
-![Il servizio Messaggi di CD si comporta come un classico servizio di invio email transazionali\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg)
+![Flusso di invio messaggio quando l'Ente fornisce l'indirizzo email.\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg)
 
 #### Scenario in cui il cittadino non ha fornito all'Ente il proprio indirizzo email
 
@@ -441,7 +491,7 @@ quindi il messaggio viene ignorato.
 2. L'API messaggi, non avendo preferenze di contatto per il cittadino
    destinatario, ignora il messaggio.
 
-![L'indirizzo email del cittadino non viene fornito, il messaggio viene scartato\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg)
+![Flusso di in cui il messaggio non viene recapitato.\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg)
 
 ### Invio di messaggi a cittadini con un profilo CD {#invio-messaggio-profilo}
 
@@ -490,7 +540,7 @@ seguenti passaggi (Figura \vref{figura-messaggio-profile-inbox}):
 Si noti che i passi 4-6 possono avvenire in un momento diverso rispetto
 all'invio del messaggio da parte del servizio.
 
-![Quando la casella dei messaggi è abilitata, il contenuto del messaggio viene salvato nel database dei messaggi\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg)
+![Flusso di salvataggio del messaggio nel database dei messaggi.\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg)
 
 #### Scenario in cui il cittadino ha abilitato l'invio di email
 
@@ -510,7 +560,7 @@ proprie preferenze, avvengono i seguenti passaggi
 5. Il cittadino visualizza il contenuto del messaggi nel suo client di posta
    elettronica.
 
-![Quando il cittadino ha abilitato l'invio di email, il messaggio viene recapitato all'indirizzo impostato nelle preferenze\label{figura-messaggio-profile-email}](diagrams/messaggio-profile-email.svg)
+![Flusso di recapitato del messaggio all'indirizzo impostato nelle preferenze.\label{figura-messaggio-profile-email}](diagrams/messaggio-profile-email.svg)
 
 #### Scenario in cui il cittadino ha abilitato l'invio di notifiche push all'app
 
@@ -535,7 +585,7 @@ proprie preferenze, avvengono i seguenti passaggi
    ottenendo il contenuto dei messaggi ed il relativo mittente.
 8. Il cittadino visualizza il contenuto dei messaggi nell'app.
 
-![Quando il cittadino ha abilitato l'invio di notifiche push all'app, l'app viene risvegliata da una notifica che genera una lettura della casella dei messaggi\label{figura-messaggio-profile-push}](diagrams/messaggio-profile-push.svg)
+![Flusso di notifica push sull'app.\label{figura-messaggio-profile-push}](diagrams/messaggio-profile-push.svg)
 
 [^preferenze-notifiche-casella]: L'invio delle notifiche push sull'app richiede che sia abilitata la casella dei messaggi, per permettere all'app di recuperare il contenuto del messaggio (che non viene inviato tramite la notifica push).
 
@@ -651,9 +701,34 @@ inserendo manualmente il Numero Avviso stampato anch'esso sull'avviso.
 
 #### Verifica e attualizzazione{#pagopa-verifica-attualizzazione}
 
+Il flusso di verifica ed attualizzazione dell'avviso di pagamento viene iniziato
+dall'app ogni volta che viene presentato l'ammontare attualizzato corrispondente
+all'avviso di pagamento (tipicamente questo avviene come primo passo del
+flusso di pagamento di un avviso).
+
+Questo flusso prevede l'interazione con il nodo PagoPA attraverso il backend
+dell'app secondo il diagramma in Figura \vref{figura-flusso-pagopa-verifica}.
+
+![Flusso di verifica ed attualizzazione di un avviso di pagamento.\label{figura-flusso-pagopa-verifica}](diagrams/flusso-pagopa-verifica.svg)
+
 #### Transazione
 
-#### Ricevuta
+Il flusso di pagamento viene iniziato dall'app ed è composto da due fasi
+distinte (Figura \vref{figura-flusso-pagopa-attiva}):
+
+* Passi 1-3: l'app interagisce con il nodo PagoPA attraverso il backend per ottenere
+  l'identificativo di pagamento associato all'avviso di pagamento.
+* Passo 4: l'app interagisce con il Wallet per eseguire la transazione di pagamento
+  a partire dall'identificativo ottenuto al passo precedente.
+
+![Flusso di pagamento.\label{figura-flusso-pagopa-attiva}](diagrams/flusso-pagopa-attiva.svg)
+
+#### Ricevuta di pagamento
+
+Dopo che la transazione di pagamento dell'avviso viene ricevuta dal Wallet,
+l'app interagisce nuovamente con il Wallet per recuperare lo storico delle
+transazioni. Lo storico conterrà l'esito della transazione appena eseguita,
+sotto forma di ricevuta di pagamento da presentare al cittadino.
 
 \pagebreak
 
@@ -669,7 +744,10 @@ inserendo manualmente il Numero Avviso stampato anch'esso sull'avviso.
 
 <!--
 **TODO**
-Explain what practical steps you will take to ensure that you identify and address privacy risks. Who should be consulted, internally and externally? How will you carry out the consultation? You should link this to the relevant stages of your project management process.
+Explain what practical steps you will take to ensure that you identify and address privacy risks.
+Who should be consulted, internally and externally?
+How will you carry out the consultation?
+You should link this to the relevant stages of your project management process.
 Consultation can be used at any stage of the PIA process.
 -->
 
@@ -781,7 +859,7 @@ Ensure that the steps recommended by the PIA are implemented.
 
 ## Esempi di comunicazioni gestibili dal servizio Messaggi {#esempi-messaggi}
 
-Table: Esempi di messaggi personalizzati \label{tabella-esempi-messaggi}
+Table: Esempi di messaggi personalizzati.\label{tabella-esempi-messaggi}
 
 Ente Erogatore                Oggetto
 ---------------               --------
@@ -815,7 +893,7 @@ I passi di autenticazione all'apertura dell'app comprendono
 * Verifica ed accettazione della versione più recente dei termini d'uso del servizio e delle privacy policy.
 * Impostazione e successiva verifica del codice PIN.
 
-![Autenticazione utente nell'app\label{figura-flusso-autenticazione-app}](diagrams/flusso-autenticazione-app.svg)
+![Autenticazione utente nell'app.\label{figura-flusso-autenticazione-app}](diagrams/flusso-autenticazione-app.svg)
 
 #### Autenticazione via PIN e Biometrico
 
@@ -947,7 +1025,7 @@ Backend dell'app        `ApiFullProfileRead`
   limita il servizio all'invio di messaggi verso un insieme di cittadini pre-autorizzati,
   tipicamente i responsabili dello sviluppo del servizio.
 
-![Autenticazione da parte del servizio verso le API di CD attraverso l'API Manager e da parte dell'API Manager le API di CD\label{figura-infrastruttura-apim}](diagrams/infrastruttura-apim.svg)
+![Autenticazione da parte del servizio verso le API di CD.\label{figura-infrastruttura-apim}](diagrams/infrastruttura-apim.svg)
 
 ### Autenticazione pagoPA
 
@@ -979,7 +1057,7 @@ SOAP. L'autenticazione tra le due componenti è garantita da:
 * A livello di rete, garantita dalla VPN punto-punto (criptata con chiave condivisa).
 * A livello applicativo, garantita da una chiave condivisa fornita nei messaggi SOAP.
 
-![Autenticazione del backend dell'app verso il nodo PagoPA\label{figura-infrastruttura-pagopa}](diagrams/infrastruttura-pagopa.svg)
+![Autenticazione del backend dell'app verso il nodo PagoPA.\label{figura-infrastruttura-pagopa}](diagrams/infrastruttura-pagopa.svg)
 
 ## Sicurezza
 
@@ -1072,20 +1150,31 @@ MailUp
 
 #### Accesso alla configurazione cloud
 
+L'accesso alla configurazione cloud Azure avviene attraverso due meccanismi:
+
+* accesso interattivo alla dashboard Azure tramite account Microsoft (username e password)
+* accesso via script di configurazione automatizzato (Terraform) tramite meccanismo _service principal_.[^azure-service-principal]
+
+[^azure-service-principal]: <https://docs.microsoft.com/it-it/azure/azure-stack/azure-stack-create-service-principals>
+
 I sistemi informativi AgID amministrano la sottoscrizione Azure e possiedono le credenziali
 per accedere al portale di amministrazione con il massimo dei privilegi: creazione e rimozione delle risorse,
-accesso in lettura e scrittura ai dati. L'autenticazione, a due fattori, avviene tramite l'Active Directory AgID.
+accesso in lettura e scrittura ai dati. 
+
+L'autenticazione, a due fattori, avviene tramite l'Active Directory AgID.
 
 Gli account dei gestori della piattaforma (_contributor_, secondo la terminologia Azure)
 sono anch'essi impostati nell'AD AgID e richiedono autenticazione tramite 2FA.
 I _contributor_ possono accedere al portale di amministrazione e gestire in autonomia
-le risorse PaaS fornite da Azure. Al momento è inoltre presente un account condiviso
-(_service principal_) tra i contributors, che serve a effettuare operazioni automatiche
-per il dispiegamento dell'infrastruttura.
+le risorse PaaS fornite da Azure.
 
 ### Trasporto dati
 
+**TODO**
+
 ### Verifica dell'integrità dei dati
+
+**TODO**
 
 ## Diagrammi architetturali
 
@@ -1098,14 +1187,14 @@ Infrastruttura piattaforma  Figura \vref{figura-infrastruttura-piattaforma}
 Infrastruttura applicativa  Figura \vref{figura-infrastruttura-applicativa}
 Infrastruttura dati         Figura \vref{figura-infrastruttura-dati}
 
-![Infrastruttura fisica\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg)
+![Diagramma di infrastruttura fisica.\label{figura-infrastruttura-fisica}](diagrams/infrastruttura-fisica.svg)
 
-![Infrastruttura di sistema\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg)
+![Diagramma di infrastruttura di sistema.\label{figura-infrastruttura-sistema}](diagrams/infrastruttura-sistema.svg)
 
-![Infrastruttura di rete\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg)
+![Diagramma di infrastruttura di rete.\label{figura-infrastruttura-rete}](diagrams/infrastruttura-rete.svg)
 
-![Infrastruttura di piattaforma\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg)
+![Diagramma di infrastruttura di piattaforma.\label{figura-infrastruttura-piattaforma}](diagrams/infrastruttura-piattaforma.svg)
 
-![Infrastruttura applicativa\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg)
+![Diagramma di infrastruttura applicativa.\label{figura-infrastruttura-applicativa}](diagrams/infrastruttura-applicativa.svg)
 
-![Infrastruttura dati\label{figura-infrastruttura-dati}](diagrams/infrastruttura-dati.svg)
+![Diagramma di infrastruttura dati.\label{figura-infrastruttura-dati}](diagrams/infrastruttura-dati.svg)

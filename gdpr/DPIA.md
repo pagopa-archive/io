@@ -1072,11 +1072,16 @@ MailUp
 
 #### Accesso alla configurazione cloud
 
-Active Directory
-  ~ Definition 1
+I sistemi informativi AgID amministrano la sottoscrizione Azure e possiedono le credenziali
+per accedere al portale di amministrazione con il massimo dei privilegi: creazione e rimozione delle risorse,
+accesso in lettura e scrittura ai dati. L'autenticazione, a due fattori, avviene tramite l'Active Directory AgID.
 
-Portale di amministrazione Azure
-  ~ 
+Gli account dei gestori della piattaforma (_contributor_, secondo la terminologia Azure)
+sono anch'essi impostati nell'AD AgID e richiedono autenticazione tramite 2FA.
+I _contributor_ possono accedere al portale di amministrazione e gestire in autonomia
+le risorse PaaS fornite da Azure. Al momento è inoltre presente un account condiviso
+(_service principal_) tra i contributors, che serve a effettuare operazioni automatiche
+per il dispiegamento dell'infrastruttura.
 
 ### Trasporto dati
 

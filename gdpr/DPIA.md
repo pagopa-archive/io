@@ -751,9 +751,47 @@ You should link this to the relevant stages of your project management process.
 Consultation can be used at any stage of the PIA process.
 -->
 
+Nel processo di analisi, andiamo a valutare il rischio per le persone fisiche,
+(nel nostro caso i cittadini destinatari delle comunicazioni da parte degli
+Enti Erogatori di servizi).
+
+Altri rischi che si applicano all'organizzazione, ma che non incidono sulla
+privacy, sono fuori portata. Ciò che è nel campo di applicazione di questa
+analisi sono i rischi che potrebbero comportare danni fisici, materiali o
+immateriali all'interessato, comprese eventuali discriminazioni, danni alla
+reputazione, perdita di riservatezza dei dati protetti dal segreto professionale
+o qualsiasi altro significativo svantaggio economico o sociale.
+
+Nella nostra analisi, tutti i rischi sono associati ad una **probabilità**:
+
+Probabile
+  ~ Forte (alta) possibilità che lo scenario documentato possa
+  verificarsi. Di tanto in tanto si verificano rischi elevati, ad esempio guasti
+  alle apparecchiature in una situazione in cui non è prevista alcuna ridondanza.
+
+Possibile
+  ~ Possibilità media (neutra) che lo scenario documentato possa verificarsi.
+
+Improbabile
+  ~ Lo scenario è improbabile - non dovrebbe accadere più spesso di
+  una volta in un decennio o meno.
+
+Infine rischi sono anche associati ad un livello di **gravità**:
+
+Critica
+  ~ Vi è un danno significativo e reale a un gran numero di soggetti dei dati,
+  ad esempio una violazione dei dati su larga scala.
+
+Grave
+  ~ Vi è un danno significativo e reale a uno o un numero limitato di soggetti
+  dei dati o un danno minore a un gran numero di soggetti dei dati.
+
+Moderata
+  ~ Problema minore o procedurale che non comporta danni significativi.
+
 \pagebreak
 
-# Analisi dei rischi
+# Analisi dei rischi legati ai dati personali
 
 <!--
 
@@ -770,88 +808,97 @@ Record the risks to individuals, including possible intrusions on privacy where 
 1. An organisation is open with itself about risks and potential changes to a project.
 -->
 
-## (Oggetto)
+Prima di analizzare i rischi in dettaglio, dobbiamo considerare i possibili
+scenari di rischio alla privacy dal punto di vista del soggetto interessato.
 
-### Rischi per le persone
+Di seguito elenchiamo i possibili scenari, raggruppati per tipologia:
 
-**TODO**
+* Violazione di riservatezza o di integrità:
+  * Divulgazione di dati personali: un cittadino considererà le informazioni
+    trasmesse dagli Enti Erogatori come confidenziali e potrebbe essere in
+    difficoltà o subire danni alla reputazione se le informazioni
+    trapelassero impropriamente.
+  * Integrità dei dati personali: una cittadino sarebbe preoccupato se ricevesse
+    informazioni destinate ad un altro cittadino o se le informazioni indirizzate
+    a lui venissero modificate in modo improprio o errato.
+* Perdita o non disponibilità di dati personali:
+  * Perdita di dati personali: se un cittadino ricevesse delle informazioni da un
+    Ente e successivamente queste informazioni andassero perse, il cittadino
+    perderebbe fiducia nel servizio. Il cittadino sarebbe preoccupato che le
+    informazioni che gli Enti Erogatori gli inviano siano archiviate in modo
+    sicuro per tutto il tempo necessario.
+* Impossibilità di esercitare i diritti secondo la legge sulla protezione dei dati:
+  * Mancanza di capacità di esercitare i diritti previsti dalla legge sulla
+    protezione dei dati: una persona interessata ha molti diritti in base alla
+    legge sulla protezione dei dati e potrebbe essere preoccupata per esempio di
+    non essere in grado di ottenere copie dei propri dati personali.
+* Incorretta identificazione degli attori:
+  * Qualcuno effettua un pagamenti per una posizioni debitorie di cui non è
+    responsabile: ...
+  * Qualcuno invia una comunicazione per conto di un servizio: ...
 
-### Rischi di aderenza
-
-**TODO**
-
-### Rischi per l'organizzazione
-
-**TODO**
-
-\pagebreak
-
-# Soluzioni adottate
+Le seguenti sezioni trattano i rischi relativi a questi scenari.
 
 <!--
+### (Oggetto)
+
+* Probabilità: **TODO**
+* Gravità: **TODO**
+
+#### Natura del rischio
+
 **TODO**
-Describe the actions you could take to reduce the risks, and any future steps which would be necessary (e.g. the production of new guidance or future security testing for systems).
 
-Devise ways to reduce or eliminate privacy risks.
+#### Misure atte a mitigare o prevenire il rischio
 
-1. Assess the costs and benefits of each approach, looking at the
-   impact on privacy and the effect on the project outcomes.
-1. Refer back to the privacy risk register until satisfied with the
-   overall privacy impact.
-1. The process takes into account the aims of the project and the impact on privacy.
-1. The process also records privacy risks which have been accepted as necessary for the project to continue.
--->
+**TODO**
 
-## (Rischio)
-
-### Soluzione
-
-### Risultato
+##### Efficacia delle misure
 
 is the risk eliminated, reduced, or accepted?
 
-### Valutazione
+##### Stato di approvazione e implementazione
 
-is the final impact on individuals after implementing each solution a justified, compliant and proportionate response to the aims of the project?
+**TODO**
+
+-->
+
+## Rischi legati alla violazione di riservatezza o di integrità
+
+### Intercettazione del contenuto dei messaggi durante la trasmissione da parte degli Enti Erogatori verso le API di CD
+
+* Probabilità: **Possibile**
+* Gravità: **Grave**
+
+#### Natura del rischio
+
+Durante la trasmissione dei messaggi indirizzati ad un cittadino da da parte
+degli Enti Erogatori verso le API di CD, vi è la possibilità che il contenuto
+della trasmissione possa essere intercettato tramite tecniche di intercettazione
+passiva (_sniffing_[^sniffing]) o attacchi di tipo _man in the middle_.[^man-in-the-middle]
+
+[^sniffing]: <https://it.wikipedia.org/wiki/Sniffing>
+
+[^man-in-the-middle]: <https://it.wikipedia.org/wiki/Attacco_man_in_the_middle>
+
+#### Misure atte a mitigare o prevenire il rischio
+
+Tutte le trasmissioni verso le API di CD sono basate sul protocollo di trasporto
+di dati sicuro TLS 1.0 o superiore.[^transport-layer-security]
+
+[^transport-layer-security]: <https://it.wikipedia.org/wiki/Transport_Layer_Security>
+
+##### Efficacia delle misure
+
+Il rischio è stato eliminato.
+
+##### Stato di approvazione e implementazione
+
+Il protocollo TLS è implementato nelle API esposte dall'API Gateway (Figura \vref{figura-infrastruttura-rete}).
 
 \pagebreak
 
-# Stato di approvazione
-
-<!--
-**TODO**
-Who has approved the privacy risks involved in the project? What solutions need to be implemented?
-
-Obtain appropriate signoff within the organisation.
-
-1. Produce a PIA report, drawing on material produced earlier
-   during the PIA.
-1. Consider publishing the report or other relevant information
-   about the process.
-1. The PIA is approved at a level appropriate to the project.
-1. A PIA report or summary is made available to the appropriate stakeholders.
--->
-
-| Rischio | Soluzione | Approvata da |
-| ------- | --------- | ------------ |
-
-\pagebreak
-
-# Stato di implementazione
-
-<!--
-**TODO**
-Who is responsible for integrating the PIA outcomes back into the project plan and updating any project management paperwork? Who is responsible for implementing the solutions that have been approved? Who is the contact for any privacy concerns which may arise in the future?
-
-Ensure that the steps recommended by the PIA are implemented.
-
-1. Continue to use the PIA throughout the project lifecycle when appropriate.
-1. The implementation of privacy solutions is carried out and recorded.
-1. The PIA is referred to if the project is reviewed or expanded in the future.
--->
-
-| Risultato da conseguire | Data prevista | Responsabile |
-| ----------------------- | ------------- | ------------ |
+------
 
 \pagebreak
 

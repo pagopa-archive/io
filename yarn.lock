@@ -19,9 +19,9 @@
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.1.tgz#9794c69c8385d0192acc471a540d1f8e0d16218a"
 
-"@types/documentdb@^1.10.2":
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/@types/documentdb/-/documentdb-1.10.3.tgz#34e89310d73d61102b65ec596d64fe621128f0ee"
+"@types/documentdb@^1.10.4":
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/@types/documentdb/-/documentdb-1.10.4.tgz#f255f785c62a8d48792fd1d7776b02352741e7a0"
   dependencies:
     "@types/node" "*"
 

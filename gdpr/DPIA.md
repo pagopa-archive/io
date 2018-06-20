@@ -1133,18 +1133,67 @@ pubblico, per raggiungerle è necessario passare da un _bastion host_.[^bastion-
 #### Accesso alle risorse cloud
 
 CosmosDB
-  ~ L'accesso alle risorse _CosmosDB_ avviene tramite API REST, su protocollo HTTPS con firma HMAC derivata da un token segreto, generato alla creazione del database. Il token viene custodito nella configurazione applicativa delle API.[^accesso-cosmosdb]
+  ~ L'accesso alle risorse _CosmosDB_ avviene tramite API REST, su protocollo HTTPS con firma HMAC derivata da un token segreto,  
+  generato alla creazione del database. Il token viene custodito nella configurazione applicativa delle API.[^accesso-cosmosdb]
 
 Redis cache
-  ~ L'accesso alle risorse _Redis cache_ avviene tramite protocollo Redis su trasporto TLS...
+  ~ L'accesso alle risorse _Redis cache_ avviene tramite protocollo Redis su trasporto TLS. Per leggere/scrivere il contenuto  
+  della cache è necessario fornire una password (token segreto) durante la connessione TCP. Il token è custodito  
+  nella configurazione applicativa del backend dell'applicazione mobile.[^accesso-redis]  
+  Le risorse Redis sono dispiegate su una Azure Virtual Network (VNET) che fornisce l'isolamento dalla rete pubblica.
 
 Blob/Queue storage
-  ~ Definition 1
+  ~ Le risorse Blob/Queue Storage, che contengono il contenuto dei messaggi inviati, vengono accedute su protocollo HTTPS  
+  (cifratura in transito) fornendo un token segreto. Il token è custodito nella configurazione applicativa delle API.  
+  Tutti i dati memorizzati negli storage sono automaticamente cifrati (cifratura a riposo).[^accesso-storage]  
+  Le risorse Blob/Queue Storage sono dispiegate su una Azure Virtual Network (VNET) che fornisce l'isolamento dalla rete pubblica.
 
-Active Directory
-  ~ Definition 1
+API gateway (Azure API management)
+  ~ L'API gateway è esposto direttamente su internet, raggiungibile tramite una URL che identifica la risorsa.  
+  Per utilizzare le API è necessario ottenere un token (API key) dall'amministratore del sistema, durante
+  la procedura di onboarding di un nuovo servizio. Il dialogo con i client avviene tramite procotollo HTTPS.  
+  Il dialogo con il componente Functions avviene tramite una Azure Virtual Network (VNET)[^accesso-api-gateway].
+
+Functions
+  ~ Le Azure Functions rappresentano l'ambiente "Serverless" Azure e implementano la logica applicativa delle API 
+  di notifica a preferenze. Vengono accedute su protocollo HTTPS, fornendo un token segreto, unicamente tramite l'API gateway.
+  Il token è custodito nella configurazione applicativa dell'API gateway che si occupa di inoltrare le richieste
+  provenienti dall'esterno (internet) verso le Functions dispiegate su una Azure Virtual Network (VNET),
+  che fornisce quindi l'isolamento dalla rete pubblica.[^accesso-functions]
+
+Notification Hub
+  ~ L'endpoint del Notification Hub è esposto direttamente su internet.  
+  L'hub di notifica implementa uno schema di sicurezza denominato "firma di accesso condiviso" (SAS, Shared Access Signature).  
+  Il token di attivazione del Notification Hub è custodito nella configurazione applicativa del backend dell'App
+  e da questo utilizzato per l'invio delle notifiche push. L'app mobile non accede pertanto direttamente alle funzionalità del Notification Hub.
+
+Application Insights
+  ~ I log applicativi vengono aggregati utilizzando Azure Application Insights.  
+  I log sono memorizzati in un account di archiviazione, valgono pertanto le stesse considerazioni sulla sicurezza
+  summenzionate per gli Azure Blob Storage. Solo gli amministratori del sistema possono accedere al contenuto dei log,
+  previo login tramite 2FA sul portale di Azure.[^accesso-application-insights] 
+  I componenti del sistema trasmettono i log ad AI tramite il protocollo HTTPS utilizzando un token segreto
+  (_instrumentation key_) memorizzato nella configurazione applicativa di ogni componente.
 
 [^accesso-cosmosdb]: <https://docs.microsoft.com/it-it/rest/api/cosmos-db/access-control-on-cosmosdb-resources>
+[^accesso-redis]: <https://docs.microsoft.com/it-it/azure/redis-cache/cache-overview>
+[^accesso-storage]: <https://docs.microsoft.com/it-it/azure/storage/common/storage-security-guide>
+[^accesso-api-gateway]: <https://docs.microsoft.com/it-it/azure/api-management/api-management-using-with-vnet>
+[^accesso-functions]: <https://docs.microsoft.com/it-it/azure/azure-functions/functions-overview>
+[^accesso-notification-hub]: <https://docs.microsoft.com/it-it/azure/notification-hubs/notification-hubs-push-notification-security>
+[^accesso-application-insights]: <https://docs.microsoft.com/it-it/azure/application-insights/app-insights-resources-roles-access-control>
+
+#### Accesso a service provider esterni ad Azure
+
+MailUp
+  ~ Il service provider MailUp è utilizzato dalle API di notifica per l'invio delle email
+  agli iscritti all'applicazione di Cittadinanza Digitale. Le credenziali per l'accesso al servizio
+  (nome utente e password per l'accesso alle API) sono memorizzate nella configurazione applicativa delle Azure Functions.
+  Il traporto dei messaggi inviati avviene utilizzando il protocollo HTTPS fino ai server di MailUp
+  che ne effettuano il _dispatching_ tramite i server SMTP del service provider.[^accesso-mailup]
+  Le credenziali per l'accesso al portale di amministrazione di MailUp sono custodite da AgID.
+
+[^accesso-mailup]: <https://www.mailup.com/gdpr-infrastructure/>
 
 #### Accesso alla configurazione cloud
 
@@ -1154,6 +1203,17 @@ L'accesso alla configurazione cloud Azure avviene attraverso due meccanismi:
 * accesso via script di configurazione automatizzato (Terraform) tramite meccanismo _service principal_.[^azure-service-principal]
 
 [^azure-service-principal]: <https://docs.microsoft.com/it-it/azure/azure-stack/azure-stack-create-service-principals>
+
+I sistemi informativi AgID amministrano la sottoscrizione Azure e possiedono le credenziali
+per accedere al portale di amministrazione con il massimo dei privilegi: creazione e rimozione delle risorse,
+accesso in lettura e scrittura ai dati. 
+
+L'autenticazione, a due fattori, avviene tramite l'Active Directory AgID.
+
+Gli account dei gestori della piattaforma (_contributor_, secondo la terminologia Azure)
+sono anch'essi impostati nell'AD AgID e richiedono autenticazione tramite 2FA.
+I _contributor_ possono accedere al portale di amministrazione e gestire in autonomia
+le risorse PaaS fornite da Azure.
 
 ### Trasporto dati
 

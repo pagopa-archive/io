@@ -813,11 +813,12 @@ scenari di rischio alla privacy dal punto di vista del soggetto interessato.
 
 Di seguito elenchiamo i possibili scenari, raggruppati per tipologia:
 
-* Violazione di riservatezza o di integrità:
+* Violazione di riservatezza:
   * Divulgazione di dati personali: un cittadino considererà le informazioni
     trasmesse dagli Enti Erogatori come confidenziali e potrebbe essere in
     difficoltà o subire danni alla reputazione se le informazioni
     trapelassero impropriamente.
+* Violazione di integrità:
   * Integrità dei dati personali: una cittadino sarebbe preoccupato se ricevesse
     informazioni destinate ad un altro cittadino o se le informazioni indirizzate
     a lui venissero modificate in modo improprio o errato.
@@ -827,12 +828,12 @@ Di seguito elenchiamo i possibili scenari, raggruppati per tipologia:
     perderebbe fiducia nel servizio. Il cittadino sarebbe preoccupato che le
     informazioni che gli Enti Erogatori gli inviano siano archiviate in modo
     sicuro per tutto il tempo necessario.
-* Impossibilità di esercitare i diritti secondo la legge sulla protezione dei dati:
+* Impossibilità di esercitare i diritti secondo la legge sulla protezione dei dati personali:
   * Mancanza di capacità di esercitare i diritti previsti dalla legge sulla
     protezione dei dati: una persona interessata ha molti diritti in base alla
     legge sulla protezione dei dati e potrebbe essere preoccupata per esempio di
     non essere in grado di ottenere copie dei propri dati personali.
-* Incorretta identificazione degli attori:
+* Incorretta identificazione dei soggetti coinvolti nella trasmissione di dati personali:
   * Qualcuno effettua un pagamenti per una posizioni debitorie di cui non è
     responsabile: ...
   * Qualcuno invia una comunicazione per conto di un servizio: ...
@@ -842,37 +843,35 @@ Le seguenti sezioni trattano i rischi relativi a questi scenari.
 <!--
 ### (Oggetto)
 
-* Probabilità: **TODO**
-* Gravità: **TODO**
+Possibile ● Grave
 
-#### Natura del rischio
-
-**TODO**
-
-#### Misure atte a mitigare o prevenire il rischio
+**Natura del rischio**
 
 **TODO**
 
-##### Efficacia delle misure
+**Misure atte a mitigare o prevenire il rischio**
+
+**TODO**
+
+**Efficacia delle misure**
 
 is the risk eliminated, reduced, or accepted?
 
-##### Stato di approvazione e implementazione
+**Stato di approvazione e implementazione**
 
 **TODO**
 
 -->
 
-## Rischi legati alla violazione di riservatezza o di integrità
+## Rischi legati alla violazione di riservatezza di dati personali
 
-### Intercettazione del contenuto dei messaggi durante la trasmissione da parte degli Enti Erogatori verso le API di CD
+### Intercettazione dei dati nella trasmissione tra l'Ente Erogatore e l'API gateway di CD {#intercettazione-api-gw-cd}
 
-* Probabilità: **Possibile**
-* Gravità: **Grave**
+Possibile ● Grave
 
-#### Natura del rischio
+**Natura del rischio**
 
-Durante la trasmissione dei messaggi indirizzati ad un cittadino da da parte
+Durante la trasmissione dei messaggi indirizzati ad un cittadino da parte
 degli Enti Erogatori verso le API di CD, vi è la possibilità che il contenuto
 della trasmissione possa essere intercettato tramite tecniche di intercettazione
 passiva (_sniffing_[^sniffing]) o attacchi di tipo _man in the middle_.[^man-in-the-middle]
@@ -881,20 +880,105 @@ passiva (_sniffing_[^sniffing]) o attacchi di tipo _man in the middle_.[^man-in-
 
 [^man-in-the-middle]: <https://it.wikipedia.org/wiki/Attacco_man_in_the_middle>
 
-#### Misure atte a mitigare o prevenire il rischio
+**Misure atte a mitigare o prevenire il rischio**
 
 Tutte le trasmissioni verso le API di CD sono basate sul protocollo di trasporto
 di dati sicuro TLS 1.0 o superiore.[^transport-layer-security]
 
 [^transport-layer-security]: <https://it.wikipedia.org/wiki/Transport_Layer_Security>
 
-##### Efficacia delle misure
+**Efficacia delle misure**
 
 Il rischio è stato eliminato.
 
-##### Stato di approvazione e implementazione
+**Stato di approvazione e implementazione**
 
-Il protocollo TLS è implementato nelle API esposte dall'API Gateway (Figura \vref{figura-infrastruttura-rete}).
+Il protocollo TLS è implementato nelle trasmissioni verso l'API Gateway (Figura \vref{figura-infrastruttura-rete}).
+
+### Intercettazione dei dati nella trasmissione tra l'app e il backend dell'app 
+
+Probabile ● Grave
+
+**Natura del rischio**
+
+La medesima del rischio § \vref{intercettazione-api-gw-cd}.
+
+**Efficacia delle misure**
+
+Il rischio è stato eliminato.
+
+**Stato di approvazione e implementazione**
+
+Il protocollo TLS è implementato nelle trasmissioni verso il backend dell'app. (Figura \vref{figura-infrastruttura-rete}).
+
+### Intercettazione dei dati nella trasmissione tra l'app e le API Wallet di PagoPA
+
+Probabile ● Grave
+
+**Natura del rischio**
+
+La medesima del rischio § \vref{intercettazione-api-gw-cd}.
+
+**Efficacia delle misure**
+
+Il rischio è stato eliminato.
+
+**Stato di approvazione e implementazione**
+
+Il protocollo TLS è implementato nelle trasmissioni verso il Wallet PagoPA. (Figura \vref{figura-infrastruttura-rete}).
+
+### Intercettazione dei dati nella trasmissione tra il backend dell'app e il nodo PagoPA
+
+Probabile ● Critica
+
+**Natura del rischio**
+
+La medesima del rischio § \vref{intercettazione-api-gw-cd}.
+
+**Efficacia delle misure**
+
+Il rischio è stato eliminato.
+
+**Stato di approvazione e implementazione**
+
+Il backend dell'app e il nodo PagoPA comunicano attraverso un collegamento VPN
+punto-punto criptato con le migliori pratiche di sicurezza[^vpn-pagopa] (Figura \vref{figura-infrastruttura-rete}).
+
+[^vpn-pagopa]: algoritmo AES-256, chiave a 1024 bit, controllo d'integrità tramite hash SHA256 e _perfect forward secrecy_.
+
+### Intercettazione dei dati nella trasmissione tra il backend delle API di CD e il backend dell'app
+
+Probabile ● Critica
+
+**Natura del rischio**
+
+La medesima del rischio § \vref{intercettazione-api-gw-cd}.
+
+**Efficacia delle misure**
+
+Il rischio è stato eliminato.
+
+**Stato di approvazione e implementazione**
+
+Il protocollo TLS è implementato nelle trasmissioni verso il backend dell'app. (Figura \vref{figura-infrastruttura-rete}).
+
+\pagebreak
+
+## Rischi legati alla violazione di integrità di dati personali
+
+
+
+\pagebreak
+
+## Rischi legati alla perdita o non disponibilità di dati personali
+
+\pagebreak
+
+## Rischi legati all'impossibilità di esercitare i diritti secondo la legge sulla protezione dei dati personali
+
+\pagebreak
+
+## Rischi legati all'incorretta identificazione dei soggetti coinvolti nella trasmissione di dati personali
 
 \pagebreak
 
@@ -1133,45 +1217,45 @@ pubblico, per raggiungerle è necessario passare da un _bastion host_.[^bastion-
 #### Accesso alle risorse cloud
 
 CosmosDB
-  ~ L'accesso alle risorse _CosmosDB_ avviene tramite API REST, su protocollo HTTPS con firma HMAC derivata da un token segreto,  
+  ~ L'accesso alle risorse _CosmosDB_ avviene tramite API REST, su protocollo HTTPS con firma HMAC derivata da un token segreto,
   generato alla creazione del database. Il token viene custodito nella configurazione applicativa delle API.[^accesso-cosmosdb]
 
 Redis cache
-  ~ L'accesso alle risorse _Redis cache_ avviene tramite protocollo Redis su trasporto TLS. Per leggere/scrivere il contenuto  
-  della cache è necessario fornire una password (token segreto) durante la connessione TCP. Il token è custodito  
-  nella configurazione applicativa del backend dell'applicazione mobile.[^accesso-redis]  
+  ~ L'accesso alle risorse _Redis cache_ avviene tramite protocollo Redis su trasporto TLS. Per leggere/scrivere il contenuto
+  della cache è necessario fornire una password (token segreto) durante la connessione TCP. Il token è custodito
+  nella configurazione applicativa del backend dell'applicazione mobile.[^accesso-redis]
   Le risorse Redis sono dispiegate su una Azure Virtual Network (VNET) che fornisce l'isolamento dalla rete pubblica.
 
 Blob/Queue storage
-  ~ Le risorse Blob/Queue Storage, che contengono il contenuto dei messaggi inviati, vengono accedute su protocollo HTTPS  
-  (cifratura in transito) fornendo un token segreto. Il token è custodito nella configurazione applicativa delle API.  
-  Tutti i dati memorizzati negli storage sono automaticamente cifrati (cifratura a riposo).[^accesso-storage]  
+  ~ Le risorse Blob/Queue Storage, che contengono il contenuto dei messaggi inviati, vengono accedute su protocollo HTTPS
+  (cifratura in transito) fornendo un token segreto. Il token è custodito nella configurazione applicativa delle API.
+  Tutti i dati memorizzati negli storage sono automaticamente cifrati (cifratura a riposo).[^accesso-storage]
   Le risorse Blob/Queue Storage sono dispiegate su una Azure Virtual Network (VNET) che fornisce l'isolamento dalla rete pubblica.
 
 API gateway (Azure API management)
-  ~ L'API gateway è esposto direttamente su internet, raggiungibile tramite una URL che identifica la risorsa.  
+  ~ L'API gateway è esposto direttamente su internet, raggiungibile tramite una URL che identifica la risorsa.
   Per utilizzare le API è necessario ottenere un token (API key) dall'amministratore del sistema, durante
-  la procedura di onboarding di un nuovo servizio. Il dialogo con i client avviene tramite procotollo HTTPS.  
+  la procedura di onboarding di un nuovo servizio. Il dialogo con i client avviene tramite procotollo HTTPS.
   Il dialogo con il componente Functions avviene tramite una Azure Virtual Network (VNET)[^accesso-api-gateway].
 
 Functions
-  ~ Le Azure Functions rappresentano l'ambiente "Serverless" Azure e implementano la logica applicativa delle API 
+  ~ Le Azure Functions rappresentano l'ambiente "Serverless" Azure e implementano la logica applicativa delle API
   di notifica a preferenze. Vengono accedute su protocollo HTTPS, fornendo un token segreto, unicamente tramite l'API gateway.
   Il token è custodito nella configurazione applicativa dell'API gateway che si occupa di inoltrare le richieste
   provenienti dall'esterno (internet) verso le Functions dispiegate su una Azure Virtual Network (VNET),
   che fornisce quindi l'isolamento dalla rete pubblica.[^accesso-functions]
 
 Notification Hub
-  ~ L'endpoint del Notification Hub è esposto direttamente su internet.  
-  L'hub di notifica implementa uno schema di sicurezza denominato "firma di accesso condiviso" (SAS, Shared Access Signature).  
+  ~ L'endpoint del Notification Hub è esposto direttamente su internet.
+  L'hub di notifica implementa uno schema di sicurezza denominato "firma di accesso condiviso" (SAS, Shared Access Signature).[^accesso-notification-hub]
   Il token di attivazione del Notification Hub è custodito nella configurazione applicativa del backend dell'App
   e da questo utilizzato per l'invio delle notifiche push. L'app mobile non accede pertanto direttamente alle funzionalità del Notification Hub.
 
 Application Insights
-  ~ I log applicativi vengono aggregati utilizzando Azure Application Insights.  
+  ~ I log applicativi vengono aggregati utilizzando Azure Application Insights.
   I log sono memorizzati in un account di archiviazione, valgono pertanto le stesse considerazioni sulla sicurezza
   summenzionate per gli Azure Blob Storage. Solo gli amministratori del sistema possono accedere al contenuto dei log,
-  previo login tramite 2FA sul portale di Azure.[^accesso-application-insights] 
+  previo login tramite 2FA sul portale di Azure.[^accesso-application-insights]
   I componenti del sistema trasmettono i log ad AI tramite il protocollo HTTPS utilizzando un token segreto
   (_instrumentation key_) memorizzato nella configurazione applicativa di ogni componente.
 
@@ -1206,7 +1290,7 @@ L'accesso alla configurazione cloud Azure avviene attraverso due meccanismi:
 
 I sistemi informativi AgID amministrano la sottoscrizione Azure e possiedono le credenziali
 per accedere al portale di amministrazione con il massimo dei privilegi: creazione e rimozione delle risorse,
-accesso in lettura e scrittura ai dati. 
+accesso in lettura e scrittura ai dati.
 
 L'autenticazione, a due fattori, avviene tramite l'Active Directory AgID.
 

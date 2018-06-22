@@ -865,7 +865,7 @@ is the risk eliminated, reduced, or accepted?
 
 ## Rischi legati alla violazione di riservatezza di dati personali
 
-### Intercettazione dei dati nella trasmissione tra l'Ente Erogatore e l'API gateway di CD {#intercettazione-api-gw-cd}
+### Intercettazione della trasmissione tra le componenti esterne e interne {#intercettazione-api-gw-cd}
 
 Possibile ● Grave
 
@@ -882,8 +882,8 @@ passiva (_sniffing_[^sniffing]) o attacchi di tipo _man in the middle_.[^man-in-
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Tutte le trasmissioni verso le API di CD sono basate sul protocollo di trasporto
-di dati sicuro TLS 1.0 o superiore.[^transport-layer-security]
+Tutte le trasmissioni tra le componenti esterne e interne di Cittadinanza Digitale 
+vengono criptate con il protocollo di trasporto di dati TLS 1.0 o superiore.[^transport-layer-security]
 
 [^transport-layer-security]: <https://it.wikipedia.org/wiki/Transport_Layer_Security>
 
@@ -893,41 +893,15 @@ Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Il protocollo TLS è implementato nelle trasmissioni verso l'API Gateway (Figura \vref{figura-infrastruttura-rete}).
+Il protocollo TLS è implementato:
 
-### Intercettazione dei dati nella trasmissione tra l'app e il backend dell'app 
+* nelle trasmissioni verso l'API Gateway 
+* nelle trasmissioni verso il backend dell'app
+* nelle trasmissioni verso il Wallet PagoPA
 
-Probabile ● Grave
+Si faccia riferimento al diagramma architetturale in figura \vref{figura-infrastruttura-rete}.
 
-**Natura del rischio**
-
-La medesima del rischio § \vref{intercettazione-api-gw-cd}.
-
-**Efficacia delle misure**
-
-Il rischio è stato eliminato.
-
-**Stato di approvazione e implementazione**
-
-Il protocollo TLS è implementato nelle trasmissioni verso il backend dell'app. (Figura \vref{figura-infrastruttura-rete}).
-
-### Intercettazione dei dati nella trasmissione tra l'app e le API Wallet di PagoPA
-
-Probabile ● Grave
-
-**Natura del rischio**
-
-La medesima del rischio § \vref{intercettazione-api-gw-cd}.
-
-**Efficacia delle misure**
-
-Il rischio è stato eliminato.
-
-**Stato di approvazione e implementazione**
-
-Il protocollo TLS è implementato nelle trasmissioni verso il Wallet PagoPA. (Figura \vref{figura-infrastruttura-rete}).
-
-### Intercettazione dei dati nella trasmissione tra il backend dell'app e il nodo PagoPA
+### Intercettazione della trasmissione tra il backend dell'app e il nodo PagoPA
 
 Probabile ● Critica
 
@@ -946,27 +920,11 @@ punto-punto criptato con le migliori pratiche di sicurezza[^vpn-pagopa] (Figura 
 
 [^vpn-pagopa]: algoritmo AES-256, chiave a 1024 bit, controllo d'integrità tramite hash SHA256 e _perfect forward secrecy_.
 
-### Intercettazione dei dati nella trasmissione tra il backend delle API di CD e il backend dell'app
-
-Probabile ● Critica
-
-**Natura del rischio**
-
-La medesima del rischio § \vref{intercettazione-api-gw-cd}.
-
-**Efficacia delle misure**
-
-Il rischio è stato eliminato.
-
-**Stato di approvazione e implementazione**
-
-Il protocollo TLS è implementato nelle trasmissioni verso il backend dell'app. (Figura \vref{figura-infrastruttura-rete}).
-
 \pagebreak
 
 ## Rischi legati alla violazione di integrità di dati personali
 
-
+### 
 
 \pagebreak
 

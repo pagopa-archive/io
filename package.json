@@ -69,6 +69,6 @@
     "tslint-immutable": "^4.6.0",
     "tslint-plugin-prettier": "^1.2.0",
     "typescript": "^2.9.2",
-    "winston": "^2.4.2"
+    "winston": "^3.0.0"
   }
 }

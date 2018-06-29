@@ -813,12 +813,11 @@ scenari di rischio alla privacy dal punto di vista del soggetto interessato.
 
 Di seguito elenchiamo i possibili scenari, raggruppati per tipologia:
 
-* Violazione di riservatezza:
+* Violazione di riservatezza e integrità:
   * Divulgazione di dati personali: un cittadino considererà le informazioni
     trasmesse dagli Enti Erogatori come confidenziali e potrebbe essere in
     difficoltà o subire danni alla reputazione se le informazioni
     trapelassero impropriamente.
-* Violazione di integrità:
   * Integrità dei dati personali: una cittadino sarebbe preoccupato se ricevesse
     informazioni destinate ad un altro cittadino o se le informazioni indirizzate
     a lui venissero modificate in modo improprio o errato.
@@ -863,11 +862,17 @@ is the risk eliminated, reduced, or accepted?
 
 -->
 
-## Rischi legati alla violazione di riservatezza di dati personali
+## Rischi legati alla violazione di riservatezza e integrità di dati personali
 
-### Intercettazione della trasmissione tra le componenti esterne e interne {#intercettazione-api-gw-cd}
+Rischio                                 Probabilità   Gravità   Misure
+--------                                ------------  --------  -------
+\ref{r-intercettazione-api-gw-cd}       Possibile     Grave     Si
+\ref{r-intercettazione-be-pagopa}       Probabile     Critica   Si
+\ref{r-accesso-fisico}                  Improbabile   Critica   Si
+\ref{r-vulnerabilita}                   Improbabile   Critica   Si
+\ref{r-account-compromise}              Possibile     Critica   No
 
-Possibile ● Grave
+### Intercettazione della trasmissione tra le componenti esterne ed interne {#r-intercettazione-api-gw-cd}
 
 **Natura del rischio**
 
@@ -882,7 +887,7 @@ passiva (_sniffing_[^sniffing]) o attacchi di tipo _man in the middle_.[^man-in-
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Tutte le trasmissioni tra le componenti esterne e interne di Cittadinanza Digitale 
+Tutte le trasmissioni tra le componenti esterne e interne di Cittadinanza Digitale
 vengono criptate con il protocollo di trasporto di dati TLS 1.0 o superiore.[^transport-layer-security]
 
 [^transport-layer-security]: <https://it.wikipedia.org/wiki/Transport_Layer_Security>
@@ -895,19 +900,24 @@ Il rischio è stato eliminato.
 
 Il protocollo TLS è implementato:
 
-* nelle trasmissioni verso l'API Gateway 
+* nelle trasmissioni verso l'API Gateway
 * nelle trasmissioni verso il backend dell'app
 * nelle trasmissioni verso il Wallet PagoPA
 
 Si faccia riferimento al diagramma architetturale in figura \vref{figura-infrastruttura-rete}.
 
-### Intercettazione della trasmissione tra il backend dell'app e il nodo PagoPA
-
-Probabile ● Critica
+### Intercettazione della trasmissione tra il backend dell'app e il nodo PagoPA {#r-intercettazione-be-pagopa}
 
 **Natura del rischio**
 
 La medesima del rischio § \vref{intercettazione-api-gw-cd}.
+
+**Misure atte a mitigare o prevenire il rischio**
+
+Il backend dell'app e il nodo PagoPA comunicano attraverso un collegamento VPN
+punto-punto criptato con le migliori pratiche di sicurezza[^vpn-pagopa] (Figura \vref{figura-infrastruttura-rete}).
+
+[^vpn-pagopa]: algoritmo AES-256, chiave a 1024 bit, controllo d'integrità tramite hash SHA256 e _perfect forward secrecy_.
 
 **Efficacia delle misure**
 
@@ -915,20 +925,145 @@ Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Il backend dell'app e il nodo PagoPA comunicano attraverso un collegamento VPN
-punto-punto criptato con le migliori pratiche di sicurezza[^vpn-pagopa] (Figura \vref{figura-infrastruttura-rete}).
+Il collegamento VPN è attualmente attivo.
 
-[^vpn-pagopa]: algoritmo AES-256, chiave a 1024 bit, controllo d'integrità tramite hash SHA256 e _perfect forward secrecy_.
+### Accesso fisico ai dati archiviati nei server di Cittadinanza Digitale {#r-accesso-fisico}
 
-\pagebreak
+**Natura del rischio**
 
-## Rischi legati alla violazione di integrità di dati personali
+Un attore malevolo che abbia accesso fisico ai server di Cittadinanza Digitale
+dove risiedono i dati personali dei cittadini avrebbe la possibilità di
+estrarre i dati dai server, provocando un _data breach_.
 
-### 
+**Misure atte a mitigare o prevenire il rischio**
+
+Il software applicativo di backend di Cittadinanza Digitale viene eseguito su
+infrastruttura cloud Microsoft Azure.
+
+Tutti i datacenter Microsoft Azure implementano meccanismi di controllo della
+sicurezza allo stato dell'arte: sorveglianza 24x7x365, protezioni ambientali e
+perimetrali e policy di accesso estese a tutto il personale.
+
+Per maggiori dettagli si faccia riferimento al documento
+_Microsoft Azure Security Overview_. [^azure-security-overview]
+
+[^azure-security-overview]: <http://go.microsoft.com/?linkid=9740388>
+
+**Efficacia delle misure**
+
+Il rischio è stato ridotto.
+
+**Stato di approvazione e implementazione**
+
+Il software applicativo ed i dati sono attualmente ospitati nell'infrastruttura
+cloud Microsoft Azure.
+
+### Sfruttamento di vulnerabilità o malware per estrarre dati personali (_data breach_) {#r-vulnerabilita}
+
+**Natura del rischio**
+
+Vulnerabilità software, sistemi non aggiornati o malware possono essere sfruttati
+da un attore malevolo per ottenere un accesso non autorizzato ai sistemi ed
+estrarre dati personali di molti utenti (_data breach_).
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+TODO
+
+### Un account amministrativo dell'infrastruttura viene compromesso {#r-account-compromise}
+
+**Natura del rischio**
+
+Le credenziali di un account di administratore vengono compromesse (rivelate
+tramite forza bruta o ottenute con un attacco di phishing), garantendo
+l'accesso ai dati di tutti i cittadini presenti nell'infrastruttura applicativa.
+
+**Misure atte a mitigare o prevenire il rischio**
+
+* Training del personale su sicurezza e attachi di phishing
+* Limitare lo scope delle credenziali
+* Autenticazione multi-fattore
+
+**Efficacia delle misure**
+
+Il rischio è ridotto.
+
+**Stato di approvazione e implementazione**
+
+\fcolorbox{red}{white}{Attualmente nessuna misura è stata implementata}
 
 \pagebreak
 
 ## Rischi legati alla perdita o non disponibilità di dati personali
+
+Rischio                                 Probabilità   Gravità   Misure
+--------                                ------------  --------  -------
+\ref{r-data-loss}                       Improbabile   Grave     Parziali
+\ref{r-availability}                    Probabile     Moderata  Parziali
+
+### Perdita parziale o totale dei dati archiviati {#r-data-loss}
+
+**Natura del rischio**
+
+A causa di problemi all'hardware o al software dell'infrastruttura applicativa
+una porzione di dati personali potrebbe andare persa, in particolare:
+
+* Preferenze del cittadino
+* Messaggi ricevuti dalle pubbliche amministrazioni
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+Per quanto riguarda fault hardware:
+
+* Storage ridondato geograficamente
+
+Per quanto riguarda fault software:
+
+* repliche append-only
+* backup giornalieri offsite
+* restore test periodici
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+### Problemi software o di rete impediscono l'accesso ai dati {#r-availability}
+
+**Natura del rischio**
+
+La disponibilità dei servizi cloud infrastrutturali o la connettività di rete
+viene temporaneamente interrotta risultando in un disservizio e
+nell'impossibilità del cittadino di:
+
+* accedere ai propri dati
+* ricevere informazioni da parte degli Enti
+* effettuare pagamenti
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
 
 \pagebreak
 
@@ -1151,17 +1286,6 @@ SOAP. L'autenticazione tra le due componenti è garantita da:
 ## Sicurezza
 
 ### Meccanismi di controllo dell'accesso
-
-#### Accesso fisico ai server
-
-Tutti i datacenter Microsoft Azure implementano meccanismi di controllo della
-sicurezza allo stato dell'arte: sorveglianza 24x7x365, protezioni ambientali e
-perimetrali e policy di accesso estese a tutto il personale.
-
-Per maggiori dettagli si faccia riferimento al documento
-_Microsoft Azure Security Overview_. [^azure-security-overview]
-
-[^azure-security-overview]: <http://go.microsoft.com/?linkid=9740388>
 
 #### Accesso remoto ai sistemi
 

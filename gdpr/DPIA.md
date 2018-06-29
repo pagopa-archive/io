@@ -1008,6 +1008,7 @@ Rischio                                 Probabilità   Gravità   Misure
 --------                                ------------  --------  -------
 \ref{r-data-loss}                       Improbabile   Grave     Parziali
 \ref{r-availability}                    Probabile     Moderata  Parziali
+\ref{r-interruption}                    Probabile     Moderata  Parziali
 
 ### Perdita parziale o totale dei dati archiviati {#r-data-loss}
 
@@ -1033,6 +1034,10 @@ Per quanto riguarda fault software:
 * backup giornalieri offsite
 * restore test periodici
 
+* backup periodico del database tramite snapshot
+  di cosmosdb su un json nel blob storage
+* storage dei log delle transazioni effettuate dall'ultimo snapshot
+
 **Efficacia delle misure**
 
 TODO
@@ -1041,7 +1046,7 @@ TODO
 
 Implementazione parziale
 
-### Problemi software o di rete impediscono l'accesso ai dati {#r-availability}
+### Problemi software o di rete impediscono l'accesso ai dati o operazioni sui dati {#r-availability}
 
 **Natura del rischio**
 
@@ -1049,9 +1054,116 @@ La disponibilità dei servizi cloud infrastrutturali o la connettività di rete
 viene temporaneamente interrotta risultando in un disservizio e
 nell'impossibilità del cittadino di:
 
+Per il cittadino:
+
 * accedere ai propri dati
 * ricevere informazioni da parte degli Enti
 * effettuare pagamenti
+
+Per l'Ente:
+
+* inviare messaggi
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+* messaggi di alert in caso di downtime per ciascun ervizio PaaS utilizzato
+* architettura ridondata multi-region / multi-az
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+### Problemi software o di rete hanno l'effetto di interrompere o annullare le operazioni {#r-interruption}
+
+**Natura del rischio**
+
+Delle problematiche che possono sorgere durante un operazione effettuata dal
+cittadino o dall'Ente (es. guasto hardware, interruzioni di rete, guasto software) possono
+generare una perdita o una corruzione totale o parziale dei dati in transito e
+la conseguente interruzione dell'operazione, costringendo il cittadino o l'Ente
+a ripetere l'operazione.
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+\pagebreak
+
+## Rischi legati all'incorretta identificazione dei soggetti coinvolti nella trasmissione di dati personali
+
+Rischio                                 Probabilità   Gravità   Misure
+--------                                ------------  --------  -------
+\ref{r-service-id}                      Possibile     Critica   Parziali
+\ref{r-api-id}                          Possibile     Critica   Parziali
+\ref{r-cit-id}                          Possibile     Grave     Parziali
+
+### Un attore malevolo impersona un Ente inviando illecitamente dati ai cittadini o accedendo ai messaggi inviati dall'Ente {#r-service-id}
+
+**Natura del rischio**
+
+TODO
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+* cifratura end to end dei messaggi
+* restrizione sugli ip che possono accedere alle API
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+### Un attore malevolo impersona le API di CD, intercettando i dati personali dei cittadini {#r-api-id}
+
+**Natura del rischio**
+
+TODO
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+* autenticazione server tramite certificato
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+### Un attore malevolo impersona un cittadino accedendo ai suoi dati personali e compie operazioni a suo nome {#r-cit-id}
+
+**Natura del rischio**
+
+TODO
+
+Se un attore malevolo riesce ad impersonare un cittadino, potrà:
+
+* accedere a tutti i dati personali, email e preferenze del cittadino
+* accedere a tutti i messaggi ricevuti dal cittadino
+* effettuare pagamenti di avvisi (anche non indirizzati al cittadino) usando gli
+  strumenti di pagamento salvato dal cittadino
 
 **Misure atte a mitigare o prevenire il rischio**
 
@@ -1069,11 +1181,78 @@ Implementazione parziale
 
 ## Rischi legati all'impossibilità di esercitare i diritti secondo la legge sulla protezione dei dati personali
 
+Rischio                                 Probabilità   Gravità   Misure
+--------                                ------------  --------  -------
+\ref{r-cit-data}                        Improbabile   Moderata  Parziali
+\ref{r-processor-gdpr}                  Improbabile   Moderata  Parziali
+\ref{r-data-retention}                  Improbabile   Moderata  Parziali
+
+### Un cittadino non ha accesso a tutti i dati che CD ha raccolto su di lui {#r-cit-data}
+
+**Natura del rischio**
+
+TODO
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+### I dati personali sono elaborati da entità non GDPR-compliant {#r-processor-gdpr}
+
+**Natura del rischio**
+
+TODO
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+* CD compliant con GDPR
+* tutti service provider compliant
+
+(aggiungere tabella)
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
+### I dati personali sono archiviati oltre il tempo strettamente necessario {#r-data-retention}
+
+**Natura del rischio**
+
+TODO
+
+**Misure atte a mitigare o prevenire il rischio**
+
+TODO
+
+* policy data retention
+
+**Efficacia delle misure**
+
+TODO
+
+**Stato di approvazione e implementazione**
+
+Implementazione parziale
+
 \pagebreak
 
-## Rischi legati all'incorretta identificazione dei soggetti coinvolti nella trasmissione di dati personali
+## Rischio residuo
 
-\pagebreak
+TODO
 
 ------
 

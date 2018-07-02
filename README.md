@@ -1,4 +1,6 @@
 # Digital Citizenship
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship?ref=badge_shield)
+
 
 This is the main repository of the Digital Citizenship project, managed by
 [AgID](http://agid.gov.it) and the
@@ -543,3 +545,7 @@ $ az storage blob lease break \
 ```
 
 You can find further explanation about this process in [this article](https://social.msdn.microsoft.com/Forums/azure/en-US/d0df8205-c1f8-4da0-9391-460256092d34/how-to-remove-lease-so-i-can-delete-storage-account?forum=windowsazuredata).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship?ref=badge_large)

@@ -1,6 +1,4 @@
 # Digital Citizenship
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship?ref=badge_shield)
-
 
 This is the main repository of the Digital Citizenship project, managed by
 [AgID](http://agid.gov.it) and the
@@ -548,4 +546,5 @@ You can find further explanation about this process in [this article](https://so
 
 
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fteamdigitale%2Fdigital-citizenship?ref=badge_large)

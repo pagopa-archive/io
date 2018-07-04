@@ -28,7 +28,7 @@ spec:
         app: app-backend
     spec:
       containers:
-      - image: "teamdigitale/italia-backend:v0.0.23"
+      - image: "teamdigitale/italia-backend:v0.0.25"
         name: app-backend
         ports:
         - name: http-port
@@ -36,6 +36,10 @@ spec:
         env:
         - name: "ALLOW_NOTIFY_IP_SOURCE_RANGE"
           value: "0.0.0.0/0"
+        - name: "ALLOW_PAGOPA_IP_SOURCE_RANGE"
+          value: "0.0.0.0/0"
+        - name: "API_BASE_PATH"
+          value: "/api/v1"
         - name: "API_URL"
           value: "https://agid-apim-test.azure-api.net/api/v1"
         - name: "API_KEY"
@@ -43,6 +47,8 @@ spec:
             secretKeyRef:
               name: app-backend-secrets
               key: api_key
+        - name: "AUTHENTICATION_BASE_PATH"
+          value: ""
         - name: "AZURE_NH_ENDPOINT"
           valueFrom:
             secretKeyRef:
@@ -52,13 +58,15 @@ spec:
           value: "agid-notificationhub-test"
         - name: "NODE_ENV"
           value: "production"
+        - name: "PAGOPA_BASE_PATH"
+          value: "/pagopa/api/v1"
         - name: "PRE_SHARED_KEY"
           valueFrom:
             secretKeyRef:
               name: app-backend-secrets
               key: pre_shared_key
         - name: "REDIS_URL"
-          value: "agid-redis-test.redis.cache.windows.net"
+          value: "agid-redis-dev.redis.cache.windows.net"
         - name: "REDIS_PORT"
           value: "6380"
         - name: "REDIS_PASSWORD"

@@ -48,7 +48,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: app-backend-secrets
-              key: pagopa-token
+              key: pagopa_token
         - name: "REDIS_DB_URL"
           value: "agid-redis-dev.redis.cache.windows.net"
         - name: "REDIS_DB_PORT"

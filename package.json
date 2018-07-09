@@ -52,7 +52,7 @@
     "documentdb": "^1.14.4",
     "dotenv": "^6.0.0",
     "env-cmd": "^8.0.2",
-    "fp-ts": "^1.6.2",
+    "fp-ts": "^1.7.0",
     "gh-pages": "^1.2.0",
     "io-ts": "^1.1.5",
     "io-ts-reporters": "^0.0.20",

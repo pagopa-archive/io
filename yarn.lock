@@ -1705,9 +1705,9 @@ form-data@~2.3.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-fp-ts@^1.0.0, fp-ts@^1.0.1, fp-ts@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-1.6.2.tgz#21f3675262d35b507b6e854f68965979e125ff77"
+fp-ts@^1.0.0, fp-ts@^1.0.1, fp-ts@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-1.7.0.tgz#3d6a7ab2a541125e7089c2228acaa600b271a68f"
 
 from@~0:
   version "0.1.7"

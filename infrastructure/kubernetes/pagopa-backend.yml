@@ -47,7 +47,7 @@ spec:
         - name: "PAGOPA_TOKEN"
           valueFrom:
             secretKeyRef:
-              name: app-backend-secrets
+              name: pagopa-proxy
               key: pagopa_token
         - name: "REDIS_DB_URL"
           value: "agid-redis-dev.redis.cache.windows.net"
@@ -56,7 +56,7 @@ spec:
         - name: "REDIS_DB_PASSWORD"
           valueFrom:
             secretKeyRef:
-              name: app-backend-secrets
+              name: pagopa-proxy
               key: redis_password
         - name: "REDIS_USE_CLUSTER"
           value: "true"

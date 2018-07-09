@@ -691,7 +691,7 @@ resource "azurerm_app_service" "azurerm_app_service_portal" {
     ARM_RESOURCE_GROUP           = "${azurerm_resource_group.azurerm_resource_group.name}"
     ARM_APIM                     = "${local.azurerm_apim_name}"
     APIM_PRODUCT_NAME            = "starter"
-    APIM_USER_GROUPS             = "ApiLimitedMessageWrite,ApiInfoRead,ApiMessageRead"
+    APIM_USER_GROUPS             = "ApiLimitedMessageWrite,ApiInfoRead,ApiMessageRead,ApiLimitedProfileRead"
     ADMIN_API_URL                = "https://${local.azurerm_apim_name}.azure-api.net/"
     POST_LOGIN_URL               = "${var.app_service_portal_post_login_url}"
     POST_LOGOUT_URL              = "${var.app_service_portal_post_logout_url}"

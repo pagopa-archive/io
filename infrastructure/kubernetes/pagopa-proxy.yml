@@ -44,11 +44,11 @@ spec:
           value: "nd"
         - name: "PAGOPA_PORT"
           value: "80"
-        - name: "PAGOPA_TOKEN"
+        - name: "PAGOPA_PASSWORD"
           valueFrom:
             secretKeyRef:
               name: pagopa-proxy
-              key: pagopa_token
+              key: pagopa_password
         - name: "REDIS_DB_URL"
           value: "agid-redis-dev.redis.cache.windows.net"
         - name: "REDIS_DB_PORT"

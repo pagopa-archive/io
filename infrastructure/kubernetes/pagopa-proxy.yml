@@ -41,7 +41,7 @@ spec:
         - name: "PAGOPAPROXY_PORT"
           value: "80"
         - name: "PAGOPA_HOST"
-          value: "nd"
+          value: "http://pagopasoapservermock.eu-de.mybluemix.net"
         - name: "PAGOPA_PORT"
           value: "80"
         - name: "PAGOPA_PASSWORD"

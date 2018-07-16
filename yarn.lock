@@ -1396,9 +1396,9 @@ diff@^3.2.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.1.tgz#aa8567a6eed03c531fc89d3f711cd0e5259dec75"
 
-documentdb@^1.14.4:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.4.tgz#c96650ef07738fc72d0b841cf572cda64ac4a4c8"
+documentdb@^1.14.5:
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.5.tgz#356851f0aa5e7f18ae0ed202de0dd13b05b3f762"
   dependencies:
     big-integer "^1.6.25"
     binary-search-bounds "2.0.3"

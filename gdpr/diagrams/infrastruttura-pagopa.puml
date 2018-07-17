@@ -1,0 +1,17 @@
+@startuml
+
+agent "App" as app
+rectangle CD {
+  agent "Backend App" as backendapp
+  agent "PagoPA proxy" as pagopaproxy
+}
+rectangle PagoPA {
+  agent "Nodo PagoPA" as nodopagopa
+}
+
+app -> backendapp
+backendapp -> pagopaproxy
+pagopaproxy <--> nodopagopa : VPN
+
+
+@enduml

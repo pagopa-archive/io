@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="462px" preserveAspectRatio="none" style="width:873px;height:462px;" version="1.1" viewBox="0 0 873 462" width="873px" zoomAndPan="magnify"><defs/><g><!--cluster Ente Erogatore--><rect fill="#FFFFFF" height="67" style="stroke: #000000; stroke-width: 1.5;" width="118" x="328" y="16"/><text fill="#000000" font-family="Helvetica" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="102" x="336" y="28.7803">Ente Erogatore</text><!--cluster Cittadinanza Digitale--><rect fill="#FFFFFF" height="323" style="stroke: #000000; stroke-width: 1.5;" width="663" x="14" y="128"/><text fill="#000000" font-family="Helvetica" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="142" x="274.5" y="140.7803">Cittadinanza Digitale</text><!--entity ente--><rect fill="#FEFECE" height="34" style="stroke: #A80036; stroke-width: 1.5;" width="70" x="352" y="41"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="50" x="362" y="61.7803">Servizio</text><!--entity apimessaggi--><rect fill="#FEFECE" height="34" style="stroke: #A80036; stroke-width: 1.5;" width="107" x="333.5" y="153"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="343.5" y="173.7803">API Messaggi</text><!--entity dbmessaggi--><path d="M346.5,410 C346.5,400 387,400 387,400 C387,400 427.5,400 427.5,410 L427.5,433 C427.5,443 387,443 387,443 C387,443 346.5,443 346.5,433 L346.5,410 " fill="#FEFECE" style="stroke: #000000; stroke-width: 1.5;"/><path d="M346.5,410 C346.5,420 387,420 387,420 C387,420 427.5,420 427.5,410 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="61" x="356.5" y="434.7803">Messaggi</text><!--entity apipreferenze--><rect fill="#FEFECE" height="34" style="stroke: #A80036; stroke-width: 1.5;" width="116" x="22" y="153"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96" x="32" y="173.7803">API Preferenze</text><!--entity dbpreferenze--><path d="M35,410 C35,400 80,400 80,400 C80,400 125,400 125,410 L125,433 C125,443 80,443 80,443 C80,443 35,443 35,433 L35,410 " fill="#FEFECE" style="stroke: #000000; stroke-width: 1.5;"/><path d="M35,410 C35,420 80,420 80,420 C80,420 125,420 125,410 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="70" x="45" y="434.7803">Preferenze</text><!--entity backend--><rect fill="#FEFECE" height="34" style="stroke: #A80036; stroke-width: 1.5;" width="106" x="563" y="153"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="86" x="573" y="173.7803">Backend APP</text><!--entity cittadino--><ellipse cx="827" cy="272" fill="#FEFECE" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;"/><path d="M827,280 L827,307 M814,288 L840,288 M827,307 L814,322 M827,307 L840,322 " fill="#FEFECE" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="56" x="799" y="335.7803">Cittadino</text><!--entity app--><rect fill="#FEFECE" height="34" style="stroke: #A80036; stroke-width: 1.5;" width="71" x="791.5" y="153"/><text fill="#000000" font-family="Helvetica" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="51" x="801.5" y="173.7803">APP CD</text><!--link ente to apimessaggi--><path d="M387,75.0104 C387,94.4167 387,126.2247 387,147.6265 " fill="none" id="ente-apimessaggi" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="387,152.8295,391,143.8295,387,147.8295,383,143.8295,387,152.8295" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="107" x="388" y="116.0103">(1) CF, messaggio</text><!--link apipreferenze to dbpreferenze--><path d="M80,192.553 C80,240.6315 80,352.6622 80,399.8907 " fill="none" id="apipreferenze-dbpreferenze" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="80,187.2866,76,196.2866,80,192.2866,84,196.2866,80,187.2866" style="stroke: #A80036; stroke-width: 1.0;"/><!--link apipreferenze to apimessaggi--><path d="M138.1053,170 C192.5829,170 273.6198,170 328.2922,170 " fill="none" id="apipreferenze-apimessaggi" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="333.499,170,324.499,166,328.499,170,324.499,174,333.499,170" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="159" x="156.25" y="163.0103">(2) email, casella messaggi</text><!--link apimessaggi to dbmessaggi--><path d="M387,187.2866 C387,230.4187 387,343.0255 387,394.7791 " fill="none" id="apimessaggi-dbmessaggi" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="387,399.8907,391,390.8907,387,394.8907,383,390.8907,387,399.8907" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="86" x="388" y="297.5103">(3) messaggio,</text><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="47" x="407.5" y="310.5103">mittente</text><!--link app to backend--><path d="M786.1259,170 C752.813,170 705.516,170 669.2442,170 " fill="none" id="app-backend" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="791.3485,170,782.3485,166,786.3485,170,782.3485,174,791.3485,170" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="86" x="687.25" y="150.0103">(4) messaggio,</text><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="47" x="706.75" y="163.0103">mittente</text><!--link apimessaggi to backend--><path d="M440.6903,170 C475.7187,170 521.4437,170 557.4124,170 " fill="none" id="apimessaggi-backend" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="562.6461,170,553.6461,166,557.6461,170,553.6461,174,562.6461,170" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="86" x="458.75" y="150.0103">(5) messaggio,</text><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="47" x="478.25" y="163.0103">mittente</text><!--link app to cittadino--><path d="M827,187.0606 C827,204.6694 827,232.8573 827,256.7284 " fill="none" id="app-cittadino" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="827,261.7514,831,252.7514,827,256.7514,823,252.7514,827,261.7514" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Helvetica" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="15" x="828" y="228.0103">(6)</text><!--
+@startuml
+skinparamlocked shadowing false
+skinparamlocked DefaultFontName Helvetica
+
+:Cittadino: as cittadino
+
+agent "APP CD" as app
+
+rectangle "Ente Erogatore" {
+  agent "Servizio" as ente
+}
+
+rectangle "Cittadinanza Digitale" {
+  agent "API Messaggi" as apimessaggi
+  database "Messaggi" as dbmessaggi
+  agent "API Preferenze" as apipreferenze
+  database "Preferenze" as dbpreferenze
+  agent "Backend APP" as backend
+}
+
+ente -down-> apimessaggi : (1) CF, messaggio
+
+dbpreferenze -u-> apipreferenze
+apipreferenze -> apimessaggi : (2) email, casella messaggi
+
+apimessaggi -d-> dbmessaggi : (3) messaggio,\nmittente
+
+app <- backend : "(4) messaggio,\nmittente"
+
+apimessaggi -r-> backend : "(5) messaggio,\nmittente"
+
+app -d-> cittadino : "(6)"
+
+@enduml
+
+PlantUML version 1.2018.00(Thu Jan 04 20:42:56 CET 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 1.8.0_66-b17
+Operating System: Mac OS X
+OS Version: 10.13.4
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

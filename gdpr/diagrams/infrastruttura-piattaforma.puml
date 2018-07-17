@@ -1,0 +1,54 @@
+@startuml
+
+agent "ios/android" as Smartphone
+
+cloud "Azure" {
+
+  agent "API Gateway" as azureapigateway
+
+  node "Functions" as azurefunctions
+
+  node "Kubernetes (AKS)" as azureaks
+
+  rectangle "VPN gateway" as azurevpngw
+
+  rectangle "Notification Hubs" as notificationhubs
+
+  database "CosmosDB" as dbcosmos
+
+  database "Redis Cluster" as dbredis
+
+  database "Queue/Blob\nStorage" as dbstorage
+
+  database "Application\nInsights" as appinsights
+}
+
+node "PagoPA"
+
+agent "Servizio Ente" as servizio
+
+node MixPanel
+
+node MailUp
+
+Smartphone --> azureaks
+azureaks -d-> dbredis
+azureaks -> azureapigateway
+azureaks -u-> notificationhubs
+azureapigateway -> azurefunctions
+azurefunctions -l-> dbcosmos
+azurefunctions -d-> dbstorage
+azurefunctions --> azureaks
+azureaks <--> azurevpngw
+PagoPA <--> azurevpngw
+servizio -r-> azureapigateway
+
+Smartphone --> PagoPA
+
+notificationhubs -> Smartphone
+
+Smartphone -> MixPanel
+
+azurefunctions -d-> MailUp
+
+@enduml

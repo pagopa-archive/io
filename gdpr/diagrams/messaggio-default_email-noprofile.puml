@@ -1,0 +1,34 @@
+@startuml
+
+rectangle "Ente Erogatore" {
+  agent "Servizio" as ente
+  database "Email\ncensite\ndall'ente" as emaildb
+}
+
+rectangle "Cittadinanza Digitale" {
+  agent "API Messaggi" as apimessaggi
+}
+
+cloud "Servizio email\ntransazionale\n" {
+  agent "API email" as txemail
+}
+
+cloud "Fornitore email\n" {
+  database "Casella email" as emailprovider
+}
+
+:Cittadino: as cittadino
+
+cittadino -> emaildb : (1) CF, email
+
+emaildb -> ente : (2) CF, email
+
+ente -> apimessaggi : (3) CF, email, messaggio
+
+apimessaggi -d-> txemail : (4) email, messaggio
+
+txemail -l-> emailprovider : (5) email, messaggio
+
+emailprovider -u-> cittadino : (6) messaggio
+
+@enduml

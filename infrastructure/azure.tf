@@ -78,6 +78,11 @@ variable "azurerm_storage_queue_createdmessages" {
   description = "Name of the storage queue for created messages"
 }
 
+variable "azurerm_storage_queue_profileevents" {
+  type        = "string"
+  description = "Name of the storage queue for profile events (create / update)"
+}
+
 variable "azurerm_cosmosdb_collections" {
   type        = "map"
   description = "Name and partition keys of collections that must exist in the CosmosDB database"
@@ -455,6 +460,12 @@ resource "azurerm_storage_queue" "azurerm_storage_queue_createdmessages" {
   storage_account_name = "${azurerm_storage_account.azurerm_storage_account.name}"
 }
 
+resource "azurerm_storage_queue" "azurerm_storage_queue_profileevents" {
+  name                 = "${var.azurerm_storage_queue_profileevents}"
+  resource_group_name  = "${azurerm_resource_group.azurerm_resource_group.name}"
+  storage_account_name = "${azurerm_storage_account.azurerm_storage_account.name}"
+}
+
 ## BLOBS
 
 resource "azurerm_storage_blob" "azurerm_message_blob" {
@@ -613,6 +624,12 @@ resource "azurerm_function_app" "azurerm_function_app" {
     "MAIL_FROM_DEFAULT" = "${var.default_sender_email}"
 
     "WEBHOOK_CHANNEL_URL" = "${var.webhook_channel_url}${var.WEBHOOK_CHANNEL_URL_TOKEN}"
+
+    "PUBLIC_API_URL" = "https://${local.azurerm_apim_name}.azure-api.net/"
+
+    # API management API-Key (Ocp-Apim-Subscription-Key)
+    # set the value manually or with a local provisioner
+    "PUBLIC_API_KEY" = ""
   }
   connection_string = [
     {

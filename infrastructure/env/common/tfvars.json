@@ -4,6 +4,7 @@
   "azurerm_storage_queue_emailnotifications": "emailnotifications",
   "azurerm_storage_queue_webhooknotifications": "webhooknotifications",
   "azurerm_storage_queue_createdmessages": "createdmessages",
+  "azurerm_storage_queue_profileevents": "profileevents",
   "azurerm_cosmosdb_collections": {
     "messages": "fiscalCode",
     "profiles": "fiscalCode",

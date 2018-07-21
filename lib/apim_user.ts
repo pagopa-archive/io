@@ -37,7 +37,7 @@ export const userIdToSubscriptionId = (userId: string, productName: string) =>
     .digest("hex")
     .substring(0, 4)}`;
 
-const getExistingUser = async (
+export const getExistingUser = async (
   apiClient: apiManagementClient,
   userId: string,
   resourceGroup: string,

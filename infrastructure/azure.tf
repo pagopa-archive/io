@@ -319,6 +319,10 @@ variable "app_service_portal_provisioner" {
   default = "infrastructure/local-provisioners/azurerm_app_service_portal.ts"
 }
 
+variable "functionapp_apikey_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_functionapp_apikey.ts"
+}
+
 variable "apim_configuration_path" {
   default     = "common/apim.json"
   description = "Path of the (json) file that contains the configuration settings for the API management resource"
@@ -661,6 +665,30 @@ resource "null_resource" "azurerm_function_app_git" {
 
   provisioner "local-exec" {
     command = "ts-node ${var.website_git_provisioner} --resource-group-name ${azurerm_resource_group.azurerm_resource_group.name} --app-name ${azurerm_function_app.azurerm_function_app.name} --git-repo ${var.azurerm_functionapp_git_repo} --git-branch ${var.azurerm_functionapp_git_branch}"
+  }
+}
+
+resource "null_resource" "azurerm_function_app_apikey" {
+  triggers = {
+    azurerm_functionapp_id = "${azurerm_function_app.azurerm_function_app.id}"
+
+    # increment the following value when changing the provisioner script to
+    # trigger the re-execution of the script
+    # TODO: consider using the hash of the script content instead
+    provisioner_version = "1"
+  }
+
+  depends_on = ["null_resource.azurerm_app_service_portal"]
+
+  provisioner "local-exec" {
+    command = "${join(" ", list(
+      "ts-node ${var.functionapp_apikey_provisioner}",
+      "--environment ${var.environment}",
+      "--azurerm_resource_group ${azurerm_resource_group.azurerm_resource_group.name}",
+      "--azurerm_apim ${local.azurerm_apim_name}",
+      "--apim_configuration_path ${var.apim_configuration_path}",
+      "--azurerm_functionapp ${azurerm_function_app.azurerm_function_app.name}"))
+    }"
   }
 }
 
@@ -1083,9 +1111,10 @@ resource "azurerm_redis_cache" "azurerm_redis_cache" {
 
 # Virtual network needed to deploy redis cache
 resource "azurerm_virtual_network" "azurerm_redis_cache" {
-  name          = "${local.azurerm_redis_vnet_name}"
-  location      = "${azurerm_resource_group.azurerm_resource_group.location}"
-  address_space = ["10.230.0.0/16"]
+  name                = "${local.azurerm_redis_vnet_name}"
+  location            = "${azurerm_resource_group.azurerm_resource_group.location}"
+  resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"
+  address_space       = ["10.230.0.0/16"]
 
   tags {
     environment = "${var.environment}"

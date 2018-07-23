@@ -81,6 +81,7 @@ spec:
         - name: "SAML_ATTRIBUTE_CONSUMING_SERVICE_INDEX"
           value: "0"
         - name: "TOKEN_DURATION_IN_SECONDS"
+          # 30 days
           value: "2592000"
         volumeMounts:
           - name: certs

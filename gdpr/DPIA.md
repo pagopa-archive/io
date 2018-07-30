@@ -20,8 +20,7 @@ TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha u
 # Introduzione
 
 Questo documento è una valutazione dell'impatto sulla protezione dei dati (DPIA)
-che valuta il servizio di Cittadinanza Digitale che l'Agenzia per l'Italia
-Digitale vuole offrire ai cittadini ed alle Pubbliche Amministrazioni italiane.
+che valuta il servizio di Cittadinanza Digitale che la Presidenza del COnsiglio dei Ministri vuole offrire ai cittadini ed alle Pubbliche Amministrazioni italiane.
 
 La DPIA è un'analisi delle attività di trattamento dei dati e copre i dettagli
 dell'attività di elaborazione degli stessi e una valutazione dei rischi
@@ -48,7 +47,7 @@ misure, le salvaguardie e i meccanismi esistenti per mitigare tali rischi.
   e Cittadini Italiani dotati di identità digitale (SPID).
 * **Tipologie di dati personali**: Le tipologie di dati trattati in questo progetto
   includono informazioni personali quali nome, cognome, codice fiscale degli
-  utenti del servizio e contenuto dei messaggi e documenti inviati dalle
+  utenti del servizio e contenuto dei messaggi inviati dalle
   Pubbliche Amministrazioni ai cittadini - si faccia riferimento al §
   \vref{descrizione-flussi-informativi} per l'elenco completo dei dati personali
   trattati.
@@ -106,12 +105,11 @@ le informazioni e i servizi degli Enti Erogatori.
 
 Ferma ogni possibile implementazione nel tempo da parte della Presidenza del
 Consiglio dei Ministri di altre funzionalità, allo stato attuale
-l’applicazione di CD si compone di 5 sezioni principali che corrispondono a
+l’applicazione di CD si compone di 4 sezioni principali che corrispondono a
 cinque funzioni base comuni a molti servizi digitali:
 
 * Messaggi;
 * portafoglio;
-* documenti;
 * preferenze;
 * profilo.
 
@@ -161,45 +159,7 @@ dell’attivazione di CD.
 L’utente in CD potrà salvare e gestire i metodi di pagamento previsti dal
 sistema PagoPA.
 
-## Documenti
 
-La sezione documenti consente all’utente di tenere raccolti e da lui
-organizzati dentro CD tutti i documenti che gli sono stati inviati o messi a
-disposizione dagli Enti Erogatori.
-
-I documenti saranno filtrabili e ricercabili secondo una serie di parametri
-descritti dalle specifiche tecniche di CD, quali ad esempio data, tipologia,
-titolo, descrizione, etc.
-
-Gli Enti Erogatori dovranno mettere a disposizione, oltre al documento, il set
-di metadati che consentono una corretta indicizzazione e ricerca sul documento,
-come descritto nelle specifiche tecniche di CD per le quali si rinvia
-all’allegato tecnico.
-
-I documenti (ad esempio: certificati) che non sono disponibili potranno essere
-richiesti direttamente dall’utente all’interno di CD, a condizione che il
-processo di definizione delle caratteristiche del documento stesso consentano
-una esperienza d’uso semplice e adatta ad un dispositivo mobile.
-
-Gli Enti Erogatori dovranno semplificare il più possibile il processo di
-generazione del documento o del certificato, così da renderlo compatibile con la
-richiesta e la distribuzione tramite CD, e dovranno censire nel sistema CD i
-documenti che sono in grado di erogare attraverso il sistema stesso.
-
-Eventuali costi associati alla generazione di alcuni di questi documenti e
-certificati (come, ad esempio, marche da bollo e/o diritti di segreteria)
-potranno essere sostenuti direttamente attraverso le funzioni di pagamento
-disponibili nella sezione portafoglio di CD.
-
-Tutti i documenti erogati dagli Enti Erogatori devono essere in formato
-digitale, devono avere il set di metadati descritto nelle specifiche tecniche
-di CD, e devono essere resi disponibili, altresì, in modo da garantire per
-l’utente l’esperienza qui sopra descritta.
-
-A titolo di esempio, si segnala l’integrazione con ANPR (Anagrafe Nazionale
-della Popolazione Residente), che consentirà di inoltrare la richiesta di un
-certificato anagrafico ai comuni già integrati con ANPR, ottenendo da essi il
-certificato richiesto direttamente con l’applicazione di CD.
 
 ## Preferenze
 
@@ -214,11 +174,8 @@ essere definite dell’utente:
 
 * Lingua, da scegliere tra italiano, inglese o tedesco (interrogabile);
 * email personale dell’utente;
-* elenco dei servizi che l’utente può attivare e relativa modalità di recapito
-  da scegliere tra messaggio sull’applicazione mobile, notifica push sul
-  cellulare, messaggio email;
-* elezione, modifica o disattivazione del domicilio digitale dell’utente
-  (interrogabile).
+* email personale dell’utente;
+* elenco dei servizi che l’utente può attivare;
 
 A ciascun Ente Erogatore sarà chiesto di fornire un insieme base di
 informazioni che comporranno una scheda ente e un equivalente insieme di
@@ -242,7 +199,7 @@ Con riferimento alla selezione delle preferenze, appare opportuno segnalare che:
 
 ## Profilo
 
-La sezione Pprofilo, che sarà disponibile anche tramite browser web, consente
+La sezione Profilo, che sarà disponibile anche tramite browser web, consente
 all’utente di avere un riepilogo delle informazioni più tipicamente legate alla
 propria identità.
 
@@ -258,10 +215,6 @@ complementari di identificazione e sicurezza quali PIN o, se abilitati
 dall’utente sul proprio dispositivo, strumenti di identificazione biometrica, e
 potrà interrompere la sessione attualmente attiva sull’applicazione (logout).
 
-Nella sezione profilo l’utente potrà vedere le proprie informazioni anagrafiche
-messegli a disposizione tramite un’integrazione con ANPR, a condizione
-che il Comune di residenza dell’utente sia già subentrato in ANPR.
-
 Nella sezione profilo l’utente potrà inoltre:
 
 * verificare i termini e condizioni d’uso del servizio in vigore;
@@ -272,8 +225,8 @@ Nella sezione profilo l’utente potrà inoltre:
 
 ## Gestione di dati personali
 
-Tramite le funzionalità dei Messaggi e Documenti, la piattaforma informatica di
-CD tratterà documenti personali e messaggi di cortesia equiparabili a messaggi
+Tramite le funzionalità dei Messaggi, la piattaforma informatica di
+CD tratterà  messaggi di cortesia equiparabili a messaggi
 di posta elettronica. Inoltre, per quanto riguarda la funzionalità di Profilo,
 la piattaforma informatica di CD tratterà metadati relativi ai servizi ed
 Enti Erogatori da cui un cittadino a ricevuto messaggi di cortesia e avvisi di
@@ -326,6 +279,7 @@ Casella dei messaggi?[^pref-bool]     APP                 NO            Messaggi
 Notifiche push?                       APP                 NO            Messaggi
 Servizi abilitati?                    APP                 NO            Messaggi
 Indirizzo email                       SPID                NO            Messaggi
+Numero di telefono                    SPID                NO            Messaggi e pagamenti
 Storico accessi                       Backend app         NO            Profilo
 
 [^pref-bool]: Le preferenze nella forma di domanda sono preferenze di abilitazione (booleani).
@@ -522,7 +476,7 @@ casella dei messaggi contiene i seguenti dati:
 * **Identificativo Unico di Versamento** (se presente).
 
 Nel caso in cui il cittadino abbia abilitato la casella dei messaggi nelle
-proprie preferenze, all'invio di un messaggio da parte dell'ente avvengono i
+proprie preferenze (che è abilitata di default), all'invio di un messaggio da parte dell'ente avvengono i
 seguenti passaggi (Figura \vref{figura-messaggio-profile-inbox}):
 
 1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
@@ -636,7 +590,7 @@ nella scelta del metodo di pagamento durante il flusso di pagamento.
 
 #### Riconciliazione profilo CD e profilo pagoPA
 
-Le preferenze di pagamento gestite dal Wattet di PagoPA vengono associate ad
+Le preferenze di pagamento gestite dal Wallet di PagoPA vengono associate ad
 un indirizzo email, si richiede quindi un meccanismo di riconciliazione tra
 i profili dei cittadini registrati sul Wallet e i cittadini che accedono
 all'app di CD.
@@ -732,13 +686,6 @@ sotto forma di ricevuta di pagamento da presentare al cittadino.
 
 \pagebreak
 
-## Funzionalità Documenti
-
-### Avviso disponibilità documento
-
-### Visualizzazione documento
-
-\pagebreak
 
 # Processo di analisi
 

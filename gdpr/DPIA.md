@@ -20,7 +20,7 @@ TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha u
 # Introduzione
 
 Questo documento è una valutazione dell'impatto sulla protezione dei dati (DPIA)
-che valuta il servizio di Cittadinanza Digitale che la Presidenza del COnsiglio dei Ministri vuole offrire ai cittadini ed alle Pubbliche Amministrazioni italiane.
+che valuta il servizio di Cittadinanza Digitale che la Presidenza del Consiglio dei Ministri vuole offrire ai cittadini ed alle Pubbliche Amministrazioni italiane.
 
 La DPIA è un'analisi delle attività di trattamento dei dati e copre i dettagli
 dell'attività di elaborazione degli stessi e una valutazione dei rischi
@@ -174,8 +174,8 @@ essere definite dell’utente:
 
 * Lingua, da scegliere tra italiano, inglese o tedesco (interrogabile);
 * email personale dell’utente;
-* email personale dell’utente;
-* elenco dei servizi che l’utente può attivare;
+* telefono personale dell’utente;
+* elenco dei servizi che l’utente può disattivare;
 
 A ciascun Ente Erogatore sarà chiesto di fornire un insieme base di
 informazioni che comporranno una scheda ente e un equivalente insieme di
@@ -279,7 +279,7 @@ Casella dei messaggi?[^pref-bool]     APP                 NO            Messaggi
 Notifiche push?                       APP                 NO            Messaggi
 Servizi abilitati?                    APP                 NO            Messaggi
 Indirizzo email                       SPID                NO            Messaggi
-Numero di telefono                    SPID                NO            Messaggi e pagamenti
+Numero di telefono                    SPID                NO            Pagamenti
 Storico accessi                       Backend app         NO            Profilo
 
 [^pref-bool]: Le preferenze nella forma di domanda sono preferenze di abilitazione (booleani).
@@ -476,7 +476,7 @@ casella dei messaggi contiene i seguenti dati:
 * **Identificativo Unico di Versamento** (se presente).
 
 Nel caso in cui il cittadino abbia abilitato la casella dei messaggi nelle
-proprie preferenze (che è abilitata di default), all'invio di un messaggio da parte dell'ente avvengono i
+proprie preferenze (viene abilitata dall'app automaticamente durante il primo accesso), all'invio di un messaggio da parte dell'ente avvengono i
 seguenti passaggi (Figura \vref{figura-messaggio-profile-inbox}):
 
 1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al

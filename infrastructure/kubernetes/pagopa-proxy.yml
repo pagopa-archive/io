@@ -28,7 +28,7 @@ spec:
         app: pagopa-proxy
     spec:
       containers:
-      - image: "teamdigitale/italia-pagopa-proxy:v0.5.2"
+      - image: "teamdigitale/italia-pagopa-proxy:v0.5.3"
         name: pagopa-proxy
         ports:
         - name: http-port
@@ -41,9 +41,9 @@ spec:
         - name: "PAGOPAPROXY_PORT"
           value: "80"
         - name: "PAGOPA_HOST"
-          value: "http://pagopasoapservermock.eu-de.mybluemix.net"
+          value: "https://pagopasoapservermock.eu-de.mybluemix.net"
         - name: "PAGOPA_PORT"
-          value: "80"
+          value: "443"
         - name: "PAGOPA_PASSWORD"
           valueFrom:
             secretKeyRef:
@@ -62,7 +62,7 @@ spec:
           value: "true"
         livenessProbe:
           httpGet:
-            path: "/"
+            path: "/ping"
             port: 80
           initialDelaySeconds: 30
           timeoutSeconds: 5

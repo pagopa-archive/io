@@ -28,7 +28,7 @@ spec:
         app: pagopa-proxy
     spec:
       containers:
-      - image: "teamdigitale/italia-pagopa-proxy:v0.5.0"
+      - image: "teamdigitale/italia-pagopa-proxy:v0.5.2"
         name: pagopa-proxy
         ports:
         - name: http-port

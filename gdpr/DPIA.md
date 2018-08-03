@@ -935,7 +935,7 @@ l'accesso ai dati di tutti i cittadini presenti nell'infrastruttura applicativa.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-* Training del personale su sicurezza e attachi di phishing
+* Training del personale su sicurezza e attacchi di phishing
 * Limitare lo scope delle credenziali
 * Autenticazione multi-fattore
 

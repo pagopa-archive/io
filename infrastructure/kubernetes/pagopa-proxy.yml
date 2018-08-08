@@ -41,9 +41,11 @@ spec:
         - name: "PAGOPAPROXY_PORT"
           value: "80"
         - name: "PAGOPA_HOST"
-          value: "https://pagopasoapservermock.eu-de.mybluemix.net"
+          value: "http://10.250.1.182"
+        - name: "PAGOPA_HOST_HEADER"
+          value: "nodopa.te.sia.eu"
         - name: "PAGOPA_PORT"
-          value: "443"
+          value: "80"
         - name: "PAGOPA_PASSWORD"
           valueFrom:
             secretKeyRef:

@@ -141,7 +141,7 @@ adal-node@^0.1.17:
     xmldom ">= 0.1.x"
     xpath.js "~1.0.5"
 
-adal-node@^0.1.27:
+adal-node@^0.1.27, adal-node@^0.1.28:
   version "0.1.28"
   resolved "https://registry.yarnpkg.com/adal-node/-/adal-node-0.1.28.tgz#468c4bb3ebbd96b1270669f4b9cba4e0065ea485"
   dependencies:
@@ -325,12 +325,12 @@ azure-arm-storage@^3.2.0:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
 
-azure-arm-website@^2.0.0-preview:
-  version "2.0.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-website/-/azure-arm-website-2.0.0-preview.tgz#b7de39edd3bf2826e19673a5797c820f7e1ff341"
+azure-arm-website@^3.0.0-preview:
+  version "3.0.0-preview"
+  resolved "https://registry.yarnpkg.com/azure-arm-website/-/azure-arm-website-3.0.0-preview.tgz#bd441fd349d9e145a7c11170a355c642c133fd21"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.0"
+    ms-rest-azure "^2.5.0"
 
 azure-storage@^2.5.0:
   version "2.6.0"
@@ -2513,6 +2513,10 @@ moment@^2.20.1, moment@^2.21.0:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+
 ms-rest-azure@^2.3.3:
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/ms-rest-azure/-/ms-rest-azure-2.3.5.tgz#46969bc046fecca8d9834cae225ddbd9b5caac8b"
@@ -2524,6 +2528,16 @@ ms-rest-azure@^2.3.3:
     moment "^2.18.1"
     ms-rest "^2.2.2"
     uuid "^3.1.0"
+
+ms-rest-azure@^2.5.0:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/ms-rest-azure/-/ms-rest-azure-2.5.7.tgz#8d4a68ed938d21488ba6e66b4525fe2e8cbdfb2d"
+  dependencies:
+    adal-node "^0.1.28"
+    async "2.6.0"
+    moment "^2.22.2"
+    ms-rest "^2.3.2"
+    uuid "^3.2.1"
 
 ms-rest-azure@^2.5.5:
   version "2.5.5"
@@ -2552,6 +2566,19 @@ ms-rest@^2.2.2:
     through "~2.3.4"
     tunnel "~0.0.2"
     uuid "^3.0.1"
+
+ms-rest@^2.3.0:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/ms-rest/-/ms-rest-2.3.4.tgz#d4c3cbd52f442972e11b84bed0f62f60397cb1f1"
+  dependencies:
+    duplexer "^0.1.1"
+    is-buffer "^1.1.6"
+    is-stream "^1.1.0"
+    moment "^2.21.0"
+    request "^2.87.0"
+    through "^2.3.8"
+    tunnel "0.0.5"
+    uuid "^3.2.1"
 
 ms-rest@^2.3.2:
   version "2.3.3"

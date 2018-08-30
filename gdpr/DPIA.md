@@ -292,12 +292,14 @@ Storico accessi                       Backend app         NO            Profilo
 
 [^pref-bool]: Le preferenze espresse in forma di domanda sono preferenze di abilitazione (booleani).
 
-Nel database delle preferenze vengono mantenute, in forma non criptata, le informazioni descritte nella
+Nel database delle preferenze vengono mantenute, in forma criptata[^preferenze-criptate], le informazioni descritte nella
 Tabella \vref{tabella-preferenze} per ogni cittadino che si registra a CD.
 Le preferenze rimangono nel database fino
 a quando il cittadino non fa richiesta di rimozione dei suoi dati.
 Le preferenze
 sono associate al cittadino usando il codice fiscale come chiave primaria.
+
+[^preferenze-criptate]: Tramite meccanismo di _encryption at rest_.
 
 ### Creazione del profilo \label{scenario-creazione-profilo}
 
@@ -877,11 +879,22 @@ estrarre dati personali di molti utenti (_data breach_).
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Sono state adottati dei meccanismi di verifica automatizzata di potenziali voler abilità all'interno del codice prodotto e all'interno del codice delle librerie di terze parti utilizzate. Queste verifiche vengono effettuate automaticamente ad ogni modifica del codice applicativo tramite una serie di strumenti quali:
+Vengono adottati dei meccanismi di verifica automatizzata di potenziali vulnerabilità all'interno delle componenti software di CD e all'interno del codice delle librerie di terze parti utilizzate dalle componenti.
 
-Sempre tramite un sistema automatizzato tutte le dipendenze vero liberi esterne, vengono tenuti costantemente aggiornate per minimizzare la possibilità che contengono vulnerabilità.
+Queste verifiche, effettuate automaticamente ad ogni modifica del codice applicativo ed ad ogni aggiornamento delle librerie, vengono effettuate tramite una serie di strumenti quali:
+
+1. **Node Security**[^nodesecurity]: servizio di rilevamento automatico di vulnerabilità nelle librerie;
+1. **Code Climate**[^codeclimate]: servizio di _review_ del codice automatizzato che rileva problematiche di sicurezza e stabilità nel codice prodotto;
+1. **Codacy**[^codacy]: servizio di _review_ del codice automatizzato che rileva problematiche di sicurezza e stabilità nel codice prodotto;
+
+Inoltre, sempre tramite un sistema automatizzato (_DependaBot_[^dependabot]), tutte le liberie esterne vengono tenute costantemente aggiornate per minimizzare la possibilità che contengono vulnerabilità.
 
 Infine vengono pianificati ed effettuati dei penetration test periodici per far emergere eventuali problematiche di sicurezza a livello di sistema e a livello applicativo.
+
+[^nodesecurity]: <https://nodesecurity.io/>
+[^codeclimate]: <https://codeclimate.com/>
+[^codacy]: <https://www.codacy.com/>
+[^dependabot]: <https://dependabot.com/>
 
 **Efficacia delle misure**
 
@@ -889,7 +902,7 @@ Il rischio è stato ridotto.
 
 **Stato di approvazione e implementazione**
 
-le misure sono attualmente implementate.
+Le misure sono attualmente implementate.
 
 ### Un account amministrativo dell'infrastruttura viene compromesso {#r-account-compromise}
 
@@ -916,7 +929,7 @@ Il rischio è ridotto.
 
 **Stato di approvazione e implementazione**
 
-\fcolorbox{red}{white}{Attualmente nessuna misura è stata implementata}
+Le misure sono in fase di implementazione.
 
 \pagebreak
 
@@ -925,7 +938,6 @@ Il rischio è ridotto.
 Rischio                                 Probabilità   Gravità   Misure
 --------                                ------------  --------  -------
 \ref{r-data-loss}                       Improbabile   Grave     Parziali
-\ref{r-availability}                    Probabile     Moderata  Parziali
 \ref{r-interruption}                    Probabile     Moderata  Parziali
 
 ### Perdita parziale o totale dei dati archiviati {#r-data-loss}
@@ -940,62 +952,19 @@ una porzione di dati personali potrebbe andare persa, in particolare:
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Per ovviare a problematiche relative alla perdita dei dati causata da errori
+sulle componenti di archiviazione, è stato implementato un meccanismo di
+_storage_ dei dati ridondato geograficamente su due _datacenter_.
 
-Per quanto riguarda fault hardware:
-
-* Storage ridondato geograficamente
-
-Per quanto riguarda fault software:
-
-* repliche append-only
-* backup giornalieri offsite
-* restore test periodici
-
-* backup periodico del database tramite snapshot
-  di cosmosdb su un json nel blob storage
-* storage dei log delle transazioni effettuate dall'ultimo snapshot
+Per quanto riguarda invece eventuali problematiche software, vengono implementati meccanismi di backup automatizzato.
 
 **Efficacia delle misure**
 
-il rischio è stato eliminato
+Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
-
-### Problemi software o di rete impediscono l'accesso ai dati o operazioni sui dati {#r-availability}
-
-**Natura del rischio**
-
-La disponibilità dei servizi cloud infrastrutturali o la connettività di rete
-viene temporaneamente interrotta risultando in un disservizio e
-nell'impossibilità del cittadino di:
-
-Per il cittadino:
-
-* accedere ai propri dati
-* ricevere informazioni da parte degli Enti
-* effettuare pagamenti
-
-Per l'Ente:
-
-* inviare messaggi
-
-**Misure atte a mitigare o prevenire il rischio**
-
-TODO
-
-* messaggi di alert in caso di downtime per ciascun ervizio PaaS utilizzato
-* architettura ridondata multi-region / multi-az
-
-**Efficacia delle misure**
-
-Il rischio è stato ridotto
-
-**Stato di approvazione e implementazione**
-
-Implementazione parziale
+Misure in fase di implementazione.
 
 ### Problemi software o di rete hanno l'effetto di interrompere o annullare le operazioni {#r-interruption}
 
@@ -1009,15 +978,15 @@ a ripetere l'operazione.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Le misure atte a ridurre o eliminare questo rischio vengono implementate nel codice applicativo che intera di giudice con le funzionalità del weekend e implementa insieme di meccanismi di ritrovai su interfaccia idem potente, garantendo Che l'operazione venga eseguita correttamente anche in presenza di fault di rete o hardware
+Nel codice applicativo vengono implementati meccanismi di _retry_ su interfaccia idempotente, garantendo che ogni operazione venga eseguita correttamente, entro un tempo definito, anche in presenza di problemi di rete o hardware.
 
 **Efficacia delle misure**
 
-Il rischio è stato ridotto
+Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Implementazione completata
+Implementazione completata.
 
 \pagebreak
 
@@ -1037,36 +1006,39 @@ Le credenziali che permettono all'ente di inviare messaggi ai cittadini devono e
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Per l'imitare l'impatto sulla privacy in caso di compromissione delle
+credenziali dell'Ente, vengono implementati:
 
-* cifratura end to end dei messaggi
-* restrizione sugli ip che possono accedere alle API
+* Meccanismo di cifratura _end-to-end_ dei messaggi per prevenire la lettura del messaggi precedentemente inviati ad un cittadino.
+* Restrizione sugli indirizzi IP che possono effettuare chiamate alle API di CD con le credenziali dell'Ente, per prevenire che un terzo attore, anche in possesso delle credenziali, possa inviare messaggi per conto dell'Ente.
 
 **Efficacia delle misure**
 
-Il rischio è stato ridotto
+Il rischio è stato ridotto.
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
+Misure in fase di implementazione.
 
 ### Un attore malevolo impersona le API di CD, intercettando i dati personali dei cittadini {#r-api-id}
 
 **Natura del rischio**
 
-Tramite un attacco al alla infrastruttura DNS di un ente, è possibile creare un meccanismo di Men in the middle Che permette di intercettare i messaggi che l'ente in via al sistema di cittadinanza digitale.
+Tramite la compromisssione dell'infrastruttura di rete dell'Ente, è potenzialmente possibile implementare un attacco di tipo _man in the middle_[^attacco-mitm] che permette di intercettare i messaggi che l'Ente invia al sistema di CD.
+
+[^attacco-mitm]: <https://it.wikipedia.org/wiki/Attacco_man_in_the_middle>
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Tramite verifica dei certificati server da parte degli enti, lente e sicuro di comunicare con le Ipia e autentiche escludendo possibile attacchi di man in the middle
+Tramite verifica dei certificati del server API di CD da parte dell'Ente, l'Ente è sicuro di comunicare con le API di CD, escludendo possibile attacchi di _man in the middle_.
 
 **Efficacia delle misure**
 
-Rischio è stato eliminato
+Rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Implementazione pianificata
+Misure in fase di implementazione.
 
 ### Un attore malevolo impersona un cittadino accedendo ai suoi dati personali e compie operazioni a suo nome {#r-cit-id}
 
@@ -1083,15 +1055,15 @@ Se un attore malevolo riesce ad impersonare un cittadino, potrà:
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Per minimizzare il rischio di compromettere le proprie credenziali Speed, all'interno dell'applicazione io viene utilizzato un secondo fattore di autenticazione tramite codice personale identificativo pinna, o ove possibile anche tramite autenticazione biometrica
+Per minimizzare il rischio di compromissione delle credenziali SPID, all'interno dell'app di CD viene utilizzato un secondo fattore di autenticazione sotto forma di codice personale identificativo (PIN), o ove possibile anche tramite autenticazione biometrica fornita dallo smartphone.
 
 **Efficacia delle misure**
 
-Il rischio è stato ridotto
+Il rischio è stato ridotto.
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
+Misure in fase di implementazione.
 
 \pagebreak
 
@@ -1107,70 +1079,57 @@ Rischio                                 Probabilità   Gravità   Misure
 
 **Natura del rischio**
 
-Sei cittadino non ha accesso completo a tutte le informazioni relative adesso e gestite dal sistema egli non può esercitare i propri diritti di privacy secondo le norme di legge
+Se il cittadino non ha accesso completo a tutte le informazioni relative ad esso e gestite dal sistema di CD, egli non può esercitare i propri diritti di privacy secondo le norme di legge.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Grazie ad un pannello di controllo cittadino può verificare tutte le informazioni personali che sistema in possesso ed ha inoltre la possibilità di avere o tenerne una copia ed eliminarlo dal sistema
+Grazie ad un pannello di controllo personale, il cittadino può verificare tutte le informazioni personali che il sistema CD ha in suo possesso ed ha inoltre la possibilità di ottenerne una copia ed eliminarle dal sistema.
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato
+Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
+Misure in fase di implementazione.
 
 ### I dati personali sono elaborati da entità non GDPR-compliant {#r-processor-gdpr}
 
 **Natura del rischio**
 
-Il sistema per via della sua complessità utilizza componenti di terze parti e servizi esterni per implementare le funzionalità fornite al cittadino. Alcune informazioni personali o di no potrebbero dover essere elaborate da questi servizi di terzi ed è necessario che anche questi servizi terzi seguono le direttive GDPR per garantire la protezione dei dati personali del cittadino.
+Il sistema CD, per via della sua complessità, utilizza componenti di terze parti e servizi esterni per implementare alcune delle funzionalità fornite al cittadino.
+
+Alcune informazioni personali potrebbero dover essere elaborate da questi servizi di terzi ed è necessario che anche questi servizi terzi seguino le direttive GDPR per garantire la protezione dei dati personali del cittadino.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
-
-* CD compliant con GDPR
-* tutti service provider compliant
-
-(aggiungere tabella)
+Utilizzo esclusivo di servizi terzi che siano _GDPR compliant_.
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato
+Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
+Implementazione completa.
 
 ### I dati personali sono archiviati oltre il tempo strettamente necessario {#r-data-retention}
 
 **Natura del rischio**
 
-I dati personali del cittadino forniscono una crono storia delle sue attività che devono essere conservati per il tempo strettamente necessario e non oltre.
+I dati personali del cittadino forniscono una cronostoria delle sue attività e devono essere conservati per il tempo strettamente necessario all'erogazione del servizio e non oltre.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Viene definita una policy di data retention che garantisca la conservazione dei dati per la durata minima necessaria
-
-* policy data retention
+Viene definita una policy di _data retention_ che garantisca la conservazione dei dati per la durata minima necessaria all'erogazione del servizio.
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato
+Il rischio è stato eliminato.
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
-
-\pagebreak
-
-## Rischio residuo
-
-TODO
-
-------
+Misure in fase di implementazione.
 
 \pagebreak
 
@@ -1304,6 +1263,22 @@ che abilitano le operazioni fornite dalle API di CD. A seconda della tipologia
 di servizio, possono venire associati combinazioni di ruoli diversi, e quindi
 diverse funzionalità fornite dalle API di CD (Tabella \vref{table-api-service-roles}).
 
+#### Accreditamento con ruolo di test (_sandboxed_)
+
+Quando un servizio si accredita autonomamente sul portale delle API, riceve
+inizialmente solo il ruolo `ApiLimitedMessageWrite` che gli garantisce la
+possibilità di inviare messaggi ad un codice fiscale di test, generato in modo
+casuale per lo specifico servizio.
+
+Il codice fiscale di test, viene associato
+all'email utilizzata in fase di registrazione del servizio, permettendo di
+effetuare delle prove di invio dei messaggi (che vengono inviati all'email
+utilizzata in fase di registrazione).
+
+Una volta che l'integrazione con le API è completa e che il processo di
+onboarding formale sia stato completato, il servizio viene promosso ad un
+servizio _standard_, in grado di inviare messaggi a tutti i cittadini.
+
 Table: Ruoli relativi alle API di CD che vengono associati ai servizi accreditati.\label{table-api-roles}
 
 Ruolo                           Descrizione
@@ -1324,12 +1299,16 @@ Table: Conbinazione di ruoli associati alle diverse tipologie di servizi.\label{
 --------------------------------------------------
 Tipologia servizio      Ruoli associati
 -------------------     --------------------------
+Servizio _sandboxed_    `ApiLimitedMessageWrite`
+                        `ApiMessageRead`
+
 Servizio standard       `ApiLimitedProfileRead`
+                        `ApiMessageWrite`
                         `ApiMessageRead`
 
 Portale sviluppatori    `ApiServiceRead`
                         `ApiServiceWrite`
-                        `ApiMessageWrite`[^role-limited-message-write]
+                        `ApiMessageWrite`
 
 Backend dell'app        `ApiFullProfileRead`
                         `ApiProfileWrite`
@@ -1339,10 +1318,6 @@ Backend dell'app        `ApiFullProfileRead`
 
 [^portale-dev-cd]: <https://developer.cd.italia.it/>
 [^apim-page]: <https://docs.microsoft.com/it-it/azure/api-management/api-management-key-concepts>
-[^role-limited-message-write]: Durante la fase di test limitato del servizio,
-  invece del ruolo `ApiMessageWrite` viene associato il ruolo `ApiLimitedMessageWrite` che
-  limita il servizio all'invio di messaggi verso un insieme di cittadini pre-autorizzati,
-  tipicamente i responsabili dello sviluppo del servizio.
 
 ![Autenticazione da parte del servizio verso le API di CD.\label{figura-infrastruttura-apim}](diagrams/infrastruttura-apim.svg)
 

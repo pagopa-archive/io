@@ -857,7 +857,7 @@ Si faccia riferimento al diagramma architetturale in figura \vref{figura-infrast
 
 **Natura del rischio**
 
-La medesima del rischio § \vref{intercettazione-api-gw-cd}.
+La medesima del rischio § \vref{intercettazione-api-gw-cd}. <!-- FIXME: FIX REF -->
 
 **Misure atte a mitigare o prevenire il rischio**
 

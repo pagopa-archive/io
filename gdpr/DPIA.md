@@ -29,7 +29,7 @@ per mitigare tali rischi. Contiene anche la decisione sull'avvio di una
 consultazione preliminare con il _Data Protection Officer_ competente.
 
 La presente DPIA viene prodotta ai sensi dell'articolo 35 del GDPR - laddove il
-trattamento rischia di comportare un rischio elevato per i diritti e le libertà
+trattamento può comportare un rischio elevato per i diritti e le libertà
 delle persone fisiche, il responsabile del trattamento effettua una
 valutazione dell'impatto dell'elaborazione prevista.
 
@@ -39,8 +39,10 @@ misure, le salvaguardie e i meccanismi esistenti per mitigare tali rischi.
 
 ## Informazioni chiave
 
-* **Titolare dei dati**: Agenzia per l'Italia Digitale (AgID), in co-titolarità
-  con gli Enti Erogatori aderenti al servizio.
+* **Titolarità e responsabilità dei dati**: Gli Enti Erogatori aderenti al
+  servizio rimangono titolari dei dati personali, mentre l’Agenzia per
+  l’Italia Digitale (AgID) viene nominata responsabile degli stessi dagli
+  Enti.
 * **Descrizione del progetto**: Questo documento di analisi d'impatto riguarda il
   progetto di Cittadinanza Digitale descritto nel capitolo seguente.
 * **Soggetti oggetto del trattamento dei dati**: Pubbliche Amministrazioni Italiane
@@ -56,7 +58,7 @@ misure, le salvaguardie e i meccanismi esistenti per mitigare tali rischi.
   accesso ai dati trattati dal sistema:
   * Soggetti gestori del servizio autorizzati.
   * Cittadini aderenti al servizio, per quanto riguarda i propri dati SPID e i
-    dati ricevuto dai servizi erogati dagli Enti.
+    dati ricevuti dai servizi erogati dagli Enti.
   * Enti Erogatori al servizio, per quanto riguarda i dati inviati ai cittadini
     e le preferenze condivise dai singoli cittadini con i servizi erogati
     dall'Ente - si faccia riferimento al § \vref{descrizione-flussi-informativi}
@@ -109,9 +111,9 @@ l’applicazione di CD si compone di 4 sezioni principali che corrispondono a
 cinque funzioni base comuni a molti servizi digitali:
 
 * Messaggi;
-* portafoglio;
-* preferenze;
-* profilo.
+* Portafoglio;
+* Preferenze;
+* Profilo.
 
 L’utente, previo l’opportuno download dell’applicazione in un dispositivo
 compatibile, potrà accedere ai servizi autenticandosi tramite SPID. Disporre
@@ -123,28 +125,27 @@ corrispondono ad altrettante funzioni disponibili ai soggetti pubblici.
 
 ## Servizio messaggi
 
-La sezione messaggi consentirà all’utente di ricevere le comunicazioni a lui
-indirizzate da parte degli Enti Erogatori che utilizzano le api messe a
-disposizione da CD e dagli altri servizi collegati.
+La sezione messaggi consente all’utente di ricevere le comunicazioni a lui
+indirizzate da parte degli Enti Erogatori che utilizzano le API messe a
+disposizione da CD.
 
-L’utente potrà ordinare e/o filtrare i messaggi ricevuti sulla base di distinti
+L’utente può ordinare e/o filtrare i messaggi ricevuti sulla base di distinti
 parametri, quali, ad esempio, la data di invio del messaggio, l’identificativo
-del servizio oggetto del messaggio, l’oggetto indicato nel messaggio, etc.
+del servizio mittente del messaggio, l’oggetto indicato nel messaggio, etc.
 Altri metadati ed altre funzioni di ricerca/ordinamento potranno essere
 integrate nelle successive versioni di CD.
 
 L’utente, se lo desidera, potrà beneficiare di ulteriori funzionalità collegate,
 quali la possibilità di gestire le preferenze di recapito per uno specifico
 servizio, condividere con terzi il messaggio, ricevere degli avvisi in merito
-alla scadenza del messaggio, etc.
+alla scadenza legata al messaggio (nel caso, per esempio, di avvisi di pagamento), etc.
 
-Per gli Enti Erogatori che aderiscono a CD sarà possibile interrogare un
-servizio per sapere se uno specifico cittadino ha attivato CD e se ha delle
-preferenze relative all’ente stesso.
+Per gli Enti Erogatori che aderiscono a CD è possibile interrogare un
+servizio per sapere se uno specifico cittadino ha attivato CD e se ha espresso delle preferenze relative all’ente stesso (per esempio nel caso in cui il cittadino non voglia più ricevere messaggi dall'ente).
 
 ## Portafoglio
 
-La sezione portafoglio, integrata con il Sistema pagoPA, consente di gestire le
+La sezione portafoglio, integrata con il sistema PagoPA[^pagopa-home], consente di gestire le
 transazioni economiche fra il cittadino e lo stato, gestire i propri metodi di
 pagamento preferiti e di avere a disposizione la lista delle transazioni già
 eseguite, al pari delle più comuni applicazioni per i servizi di home banking.
@@ -159,23 +160,28 @@ dell’attivazione di CD.
 L’utente in CD potrà salvare e gestire i metodi di pagamento previsti dal
 sistema PagoPA.
 
+Tutti i dati relativi ai metodi di pagamento e alle transazioni e operazioni
+di pagamento effettuate vengono mantenuti all'interno del sistema PagoPA.
 
+[^pagopa-home]: <https://www.agid.gov.it/it/piattaforme/pagopa>
 
 ## Preferenze
 
 La sezione preferenze consente all’utente di impostare quelle scelte di
 carattere generale che risultano trasversali all’erogazione dei servizi da
-parte della pubblica amministrazione. Alcune di queste scelte, una volta
+parte della pubblica amministrazione e verranno usate da CD per personalizzare il servizio erogato al cittadino.
+
+Alcune di queste scelte, una volta
 inserite dall’utente potranno essere interrogate e utilizzate in tempo reale
 dagli Enti Erogatori che aderiscono a CD.
 
 Di seguito, si riportano a titolo di esempio alcune preferenze che potranno
 essere definite dell’utente:
 
-* Lingua, da scegliere tra italiano, inglese o tedesco (interrogabile);
-* email personale dell’utente;
-* telefono personale dell’utente;
-* elenco dei servizi che l’utente può disattivare;
+* Lingua preferita (interrogabile dagli Enti);
+* email personale dell’utente (non interrogabile dagli Enti);
+* telefono personale dell’utente (non interrogabile dagli Enti);
+* elenco dei servizi che l’utente può disattivare (non interrogabile dagli Enti);
 
 A ciascun Ente Erogatore sarà chiesto di fornire un insieme base di
 informazioni che comporranno una scheda ente e un equivalente insieme di
@@ -183,54 +189,56 @@ informazioni base per ciascuno dei servizi che usano le funzioni di CD. Queste
 informazioni potranno essere esposte in CD all’interno di una sezione dedicata
 a ciascun ente/servizio, collegata alle preferenze di quel servizio stesso.
 
-Con riferimento alla selezione delle preferenze, appare opportuno segnalare che:
+Con riferimento alla selezione delle preferenze, appare opportuno segnalare che, nel contesto dell'invio di un messaggio al cittadino da parte di un Ente:
 
-* La selezione da parte dell’utente del servizio di inbox, determina l’invio
-  da parte degli Enti Erogatori di un messaggio di notifica al cittadino che
-  genera la presenza del messaggio nella schermata Messaggi dell’applicazione
-  mobile di CD sullo smartphone dell’utente;
-* la selezione da parte dell’utente del servizio di ricezione via email,
-  determina l’invio da parte degli Enti Erogatori di un messaggio di notifica
-  al cittadino che genera una email ricevuta nella casella di posta indicata
-  dall’utente;
-* la selezione da parte dell’utente del servizio di notifica push, determina
-  l’invio da parte degli Enti Erogatori di un messaggio di notifica push sullo
-  smartphone indicato dall’utente.
+* L'abilitazione della preferenza _inbox_ per il servizio mittente,
+  genera l'archiviazione del messaggio nella casella del cittadino e la visualizzazione del messaggio nella schermata Messaggi dell’app
+  di CD;
+* l'abilitazione della preferenza di ricezione via _email_ per il servizio mittente,
+  determina l’invio del contenuto del messaggio via email verso l'indirizzo di posta elettronica indicato dall’utente[^email-default-spid];
+* l'abilitazione della preferenza di _notifica push_per il servizio mittente, determina
+  l’invio di un messaggio di notifica push sullo
+  smartphone su cui è installata l'app di CD.
+
+[^email-default-spid]: L'indirizzo email viene inizialmente impostato all'indirizzo email proveniente dagli attributi SPID.
 
 ## Profilo
 
-La sezione Profilo, che sarà disponibile anche tramite browser web, consente
-all’utente di avere un riepilogo delle informazioni più tipicamente legate alla
-propria identità.
+La sezione Profilo[^profilo-web-mobile], consente
+all’utente di avere un riepilogo delle informazioni più tipicamente legate alla propria identità SPID.
 
 In questa sezione, infatti, l’utente potrà accedere e
-verificare i dati anagrafici acquisiti da CD tramite il login effettuato con
+verificare i dati anagrafici acquisiti da CD tramite l'accesso effettuato con
 SPID.
 
 L’eventuale aggiornamento di dati anagrafici in CD non verrà propagato agli
-Identity Provider SPID.
+Identity Provider SPID ed avrà effetto solo all'interno di CD.
 
 Nella stessa sezione Profilo l’utente potrà gestire eventuali strumenti
 complementari di identificazione e sicurezza quali PIN o, se abilitati
-dall’utente sul proprio dispositivo, strumenti di identificazione biometrica, e
-potrà interrompere la sessione attualmente attiva sull’applicazione (logout).
+dall’utente sul proprio dispositivo, strumenti di identificazione biometrica.
 
-Nella sezione profilo l’utente potrà inoltre:
+L'utente potrà inoltre visualizzare uno storico degli accessi ed interrompere la sessione attualmente attiva sull’applicazione (logout).
+
+Infine, nella sezione profilo l’utente potrà:
 
 * verificare i termini e condizioni d’uso del servizio in vigore;
 * consultare le informative sul trattamento dei dati personali degli Enti Erogatori e una breve informativa relativa a CD;
 * chiedere la sospensione dell’account o la completa cancellazione dello stesso.
 
+[^profilo-web-mobile]: Il pannello di controllo del profilo utente sarà disponibile anche tramite browser web per consentirne l'utilizzo anche nel caso in cui l'app mobile non sia più accessibile.
+
+\pagebreak
+
 # Motivazioni alla base della valutazione d'impatto
 
 ## Gestione di dati personali
 
-Tramite le funzionalità dei Messaggi, la piattaforma informatica di
-CD tratterà  messaggi di cortesia equiparabili a messaggi
-di posta elettronica. Inoltre, per quanto riguarda la funzionalità di Profilo,
+Tramite la funzionalità _Messaggi_, la piattaforma informatica di
+CD tratterà messaggi di cortesia equiparabili a messaggi
+di posta elettronica. Inoltre, per quanto riguarda la funzionalità di _Profilo_,
 la piattaforma informatica di CD tratterà metadati relativi ai servizi ed
-Enti Erogatori da cui un cittadino a ricevuto messaggi di cortesia e avvisi di
-pagamento.
+Enti Erogatori da cui un cittadino ha ricevuto messaggi di cortesia e avvisi di pagamento.
 
 ## Trattamento di dati su larga scala
 
@@ -266,13 +274,13 @@ Questa funzionalità ha lo scopo di gestire le preferenze del
 cittadino all'interno di CD. Le preferenze associate ad ogni cittadino
 (Tabella \vref{tabella-preferenze}) guidano
 molte delle logiche implementate in CD.
-Inoltre alcune preferenze (dette pubbliche) vengono
+Inoltre alcune preferenze (dette condivise) vengono
 condivise con gli Enti Erogatori allo scopo di essere utilizzate per la
 personalizzazione dei servizi forniti da essi.
 
 Table: Preferenze associate al cittadino.\label{tabella-preferenze}
 
-Preferenza                            Provenienza         Pubblica?     Uso
+Preferenza                            Provenienza         Condivisa?    Uso
 -----------                           ------------        ----------    ----
 Lingue preferite                      APP                 SI            UI e messaggi multilingua
 Casella dei messaggi?[^pref-bool]     APP                 NO            Messaggi
@@ -282,14 +290,14 @@ Indirizzo email                       SPID                NO            Messaggi
 Numero di telefono                    SPID                NO            Pagamenti
 Storico accessi                       Backend app         NO            Profilo
 
-[^pref-bool]: Le preferenze nella forma di domanda sono preferenze di abilitazione (booleani).
+[^pref-bool]: Le preferenze espresse in forma di domanda sono preferenze di abilitazione (booleani).
 
-Nel database delle preferenze vengono mantenute le informazioni descritte nella
-Tabella \vref{tabella-preferenze} per ogni cittadino che si registra a CD e fino
-a quando il cittadino non fa richiesta di rimozione dei suoi dati. Le preferenze
-sono associate al cittadino usando il codice fiscale[^cf-chiave-primaria] come chiave primaria.
-
-[^cf-chiave-primaria]: Potremmo anche usare la hash del codice fiscale.
+Nel database delle preferenze vengono mantenute, in forma non criptata, le informazioni descritte nella
+Tabella \vref{tabella-preferenze} per ogni cittadino che si registra a CD.
+Le preferenze rimangono nel database fino
+a quando il cittadino non fa richiesta di rimozione dei suoi dati.
+Le preferenze
+sono associate al cittadino usando il codice fiscale come chiave primaria.
 
 ### Creazione del profilo \label{scenario-creazione-profilo}
 
@@ -303,42 +311,44 @@ Il flusso di creazione del profilo (Figura \vref{figura-profilo-creazione}) è i
    le credenziali di accesso.
 3. Ad autenticazione avvenuta, l'IdP invia gli attributi SPID al backend
    dell'APP (che nel flusso di autenticazione SPID svolge il ruolo di
-   _service provider_.
+   _service provider_).
 4. Il backend dell'APP invia gli attributi SPID alle API di gestione preferenze
-   di CD, che li salva nel database delle preferenze.
+   di CD, che li salva nel database delle preferenze (Tabella \vref{tabella-preferenze}).
 5. L'app genera un identificativo di installazione univoco che viene comunicato
    al servizio di invio delle _notifiche push_, associandolo alla hash _SHA256_
-   [^sha256] del codice fiscale del cittadino.
+   [^sha256] del codice fiscale del cittadino[^hash-notification-hub].
 
 ![Flusso di creazione del profilo del cittadino al primo accesso.\label{figura-profilo-creazione}](diagrams/profilo-creazione.svg)
 
 [^sha256]: <https://en.wikipedia.org/wiki/SHA-2>
 
-### Lettura delle preferenze pubbliche da parte dell'ente
+[^hash-notification-hub]: Le notifiche push sono inviate ad un servizio esterno (Azure Notification Hub) che mantiene l'associazione tra l'installazione dell'app e il cittadino - è stato deciso di utilizzare la hash del CF come identificativo per evitare di salvare i CF dei cittadini su un sistema esterno.
+
+### Lettura delle preferenze condivise da parte dell'ente
 
 Come descritto nella Tabella \vref{tabella-preferenze}, alcune preferenze vengono
-definite _pubbliche_ e vengono condivise con gli enti che ne fanno richiesta.
+definite _condivise_, essendo condivise con gli Enti che ne fanno richiesta.
 Queste preferenze non contengono informazioni personali o sensibili ma sono
 assimilabili a semplici indicazioni che il cittadino vuole condividere con gli
 enti per essere usate come base per la personalizzazione dei servizi digitali.
 
 Un servizio digitale fornito dall'ente al cittadino può interrogare le preferenze
-pubbliche del cittadino sulla base del codice fiscale dello stesso e usare
+condivise del cittadino sulla base del codice fiscale dello stesso e usare
 le informazioni ottenute per fornire un servizio personalizzato, ad esempio
 traducendo l'interfaccia utente del servizio fornito al cittadino sulla base
 della preferenza di lingua.
 
 La funzione Preferenze può inoltre essere utilizzata dal servizio dell'ente
-per sapere se il cittadino non intende ricevere comunicazioni dal servizio.
+per sapere se il cittadino non intende ricevere comunicazioni dal servizio (_opt-out_).
 Questa verifica è richiesta all'ente, prima dell'invio di una comunicazione
-al cittadino attraverso la funzione Messaggi, secondo lo schema in Tabella
+al cittadino attraverso la funzione _Messaggi_, secondo lo schema in Tabella
 \vref{table-verifica-optout}.
 
 Table: Verifica da parte del servizio del permesso di comunicare col cittadino.\label{table-verifica-optout}
 
-Cit. iscritto a CD?       Opt-out al servizio?      Servizio può inviare messaggio?
+Citt. iscritto a CD?      Opt-out al servizio?      Servizio può inviare messaggio?
 --------------------      ---------------------     --------------------------------
-NO                        /                         _Solo se censito indirizzo email_
+NO                        /                         NO
 SI                        NO                        **SI**
 SI                        SI                        NO
 
@@ -346,13 +356,15 @@ SI                        SI                        NO
 
 ## Funzionalità Messaggi
 
-La funzionalità Messaggi fornisce il servizio che permette agli Enti Erogatori
+La funzionalità _Messaggi_ fornisce il servizio che permette agli Enti Erogatori
 di inviare comunicazioni di cortesia e avvisi di pagamento ai cittadini.
 
 Le comunicazioni di cortesia sono sempre inviate ad uno specifico cittadino
-(identificato tramite codice fiscale) e scaturiscono da una pregressa
+(identificato tramite CF) e scaturiscono da una pregressa
 relazione individuale tra l'Ente e il cittadino. Da queste comunicazioni sono
-quindi escluse comunicazioni non personali (_broadcast_). Si veda l'allegato
+quindi escluse comunicazioni non personali (_broadcast_).
+
+Si veda l'allegato
 tecnico per alcuni esempi di tipologie di messaggi coperte
 da questo servizio (Tabella \vref{tabella-esempi-messaggi}).
 
@@ -363,11 +375,7 @@ Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 * **Codice Fiscale** del cittadino a cui recapitare il messaggio.
 * **Oggetto** del messaggio.
 * **Contenuto** del messaggio.
-* **Indirizzo email di default** del cittadino a cui inviare la comunicazione (opzionale,
-  da usare nel caso il cittadino non abbia già un profilo su CD, vedere
-  § \vref{scenario-messaggio-default_email-noprofile}).
-* **Data** associata al messaggio (opzionale, nel caso si tratti di una
-  scadenza).
+* **Data di scadenza** associata al messaggio (opzionale, nel caso si tratti di una scadenza).
 * **Identificativo Unico di Versamento** (opzionale, nel caso si tratti di un
   avviso di pagamento).
 
@@ -380,79 +388,36 @@ Possiamo classificare i possibili scenari in due macro gruppi:
 
 1. La gestione del messaggio quando il cittadino destinatario NON ha ancora
    effettuato il primo accesso all'applicazione di CD;
-1. La gestione del messaggio quando il cittadino destinatario ha già effettuato
-   il primo accesso all'applicazione di CD.
+1. La gestione del messaggio quando il cittadino destinatario ha già
+   effettuato il primo accesso all'applicazione di CD.
 
 Questa distinzione è importante poichè quando il cittadino non ha ancora
 effettuato il primo accesso all'applicazione di CD, non esiste ancora un suo
-profilo nel sistema e la funzionalità di invio messaggi di CD è equiparabile ad
-un servizio di email transazionale.[^cosa-email-transazionale]
+profilo nel sistema ed il messaggio non può essere recapitato.
 
-Prima di inviare una comunicazione al cittadino tramite la funzionalità
+### Invio di messaggi a cittadini senza un profilo CD {#invio-messaggio-noprofilo}
+
+Per escludere questo scenario[^messaggio-ignorato], prima di inviare una comunicazione al cittadino tramite la funzionalità
 Messaggi, il servizio è tenuto a verificare la disponibilità del cittadino a
 ricevere la comunicazione (come descritto precedentemente nella Tabella
 \vref{table-verifica-optout}).
 
-[^cosa-email-transazionale]: si veda per esempio il servizio
-  [MailUP](https://www.mailup.it/funzionalita/email/smtp/) usato da molte
-  Pubbliche Amministrazioni per l'invio di avvisi di cortesia via email ai
-  cittadini.
-
-### Invio di messaggi a cittadini senza un profilo CD
-
-Nei seguenti scenari, il cittadino destinatario del messaggio non si è ancora
-iscritto al servizio di Cittadinanza Digitale.
-
-#### Scenario in cui il cittadino ha fornito all'Ente il proprio indirizzo email \label{scenario-messaggio-default_email-noprofile}
-
-In questo scenario (Figura \vref{figura-messaggio-default_email-noprofile}), il
-cittadino si è precedentemente accreditato presso il servizio dell'ente che
-intende inviare il messaggio. Il cittadino ha quindi fornito il proprio indirizzo
-email ed ha acconsentito l'ente a contattarlo per comunicazioni inerenti
-al servizio d'interesse.
-
-Il flusso dati è il seguente:
-
-1. Il cittadino fornisce all'Ente Erogatore il proprio indirizzo email.
-2. Quando il servizio dell'Ente Erogatore intende comunicare al cittadino,
-   recupera l'indirizzo email di recapito dal propdio database di contatti.
-3. Il servizio dell'Ente Erogatore invia (tramite le API Messaggi) il messaggio
-   da recapitare al cittadino, con associato l'indizzo email fornitogli.
-4. La logica delle API messaggi, non trovando le preferenze del cittadino nel
-   proprio database (siamo nello scenatio di cittadini senza profilo CD),
-   utilizza l'indirizzo email fornitogli dall'Ente Erogatore per recapitare
-   il messaggio via email tramite uno dei servizi di invio email transazionale
-   utilizzati da CD.
-5. Il servizio di invio email transazionale invia l'email con il messaggio al
-   fornitore email del cittadino.
-6. Il cittadino trova il messaggio nella sua casella di posta.
-
-![Flusso di invio messaggio quando l'Ente fornisce l'indirizzo email.\label{figura-messaggio-default_email-noprofile}](diagrams/messaggio-default_email-noprofile.svg)
-
-#### Scenario in cui il cittadino non ha fornito all'Ente il proprio indirizzo email
-
-In questo scenario (Figura \vref{figura-messaggio-noprofile}), il
-cittadino non si è precedentemente accreditato presso il servizio dell'ente che
-intende inviare il messaggio. Il servizio quindi tenta di inviare il messaggio
-tramite il servizio Messaggi fornendo solo il codice fiscale del destinatario,
-contando sul fatto che il destinatario possa aver espresso delle preferenze di
-contatto nel suo profilo di CD. In questo caso però, il cittadino destinatario
-del messaggio non si è ancora iscritto al servizio di Cittadinanza Digitale,
-quindi il messaggio viene ignorato.
-
-1. Il servizio dell'Ente Erogatore invia (tramite le API Messaggi) il messaggio
-   da recapitare al cittadino.
-2. L'API messaggi, non avendo preferenze di contatto per il cittadino
-   destinatario, ignora il messaggio.
-
-![Flusso di in cui il messaggio non viene recapitato.\label{figura-messaggio-noprofile}](diagrams/messaggio-noprofile.svg)
+[^messaggio-ignorato]: Nel caso in cui il servizio non effettuasse questo controllo ed invierebbe comunque il messaggio alle API di CD, il messaggio verrebbe ignorato.
 
 ### Invio di messaggi a cittadini con un profilo CD {#invio-messaggio-profilo}
 
 Quando il cittadino accede per la prima volta, attraverso SPID, all'app di CD,
-viene creato un profilo di preferenze dentro CD associato al codice fiscale del
+viene creato un _profilo di preferenze_ associato al codice fiscale del
 cittadino (§ \vref{scenario-creazione-profilo}). Gli scenari seguenti assumono
 quindi l'esistenza di un profilo contente le preferenze del cittadino.
+
+Il _profilo di preferenze_ contiene le preferenze espresse dal cittadino
+relative alle modalità (canali) con cui vuole essere contattato da uno
+specifico servizio erogato dall'Ente quando questo invia un messaggio.
+
+Le preferenze legate all'invio dei messaggi da parte dei servizi mittenti
+hanno un significato di _opt-out_, ovvero sono abilitate di _default_ e il
+cittadino può decidere di disabilitarle. Il cittadino può quindi esprimere una preferenza di _opt-out_ per uno specifico servizio, relativamente ad uno specifico canale di comunicazione o per tutti i canali di comunicazione.
 
 I seguenti scenari non sono mutuamente esclusivi e possono concretizzarsi
 contemporaneamente all'invio di un messaggio, a seconda delle preferenze
@@ -461,38 +426,38 @@ espresse dal cittadino.
 A tutti gli scenari viene applicato un filtro alla ricezione del messaggio che
 verifica che il servizio mittente sia stato abilitato dal cittadino (preferenza
 _Servizi abilitati_). Nel caso in cui il servizio non sia stato abilitato dal
-cittadino, il messaggio viene scartato immediatamente.
+cittadino, il messaggio viene ignorato.
 
 #### Scenario in cui il cittadino ha abilitato la casella dei messaggi
 
-La casella dei messaggi è un database che, se abilitato dal cittadino, archivia
-i messaggi inviati dagli enti al cittadino stesso. Un messaggio archiviato nella
-casella dei messaggi contiene i seguenti dati:
+La _casella dei messaggi_ (o _inbox_) è un database che archivia
+i messaggi inviati dagli enti al cittadino stesso. Un messaggio archiviato nella casella dei messaggi contiene i seguenti dati:
 
-* **Identificativo del servizio** che ha generato il messaggio.
+* **Identificativo del servizio** mittente del messaggio.
 * **Oggetto** del messaggio.
 * **Contenuto** del messaggio.
-* **Data** associata al messaggio (se presente).
-* **Identificativo Unico di Versamento** (se presente).
+* **Data di scadenza** associata al messaggio (opzionale).
+* **Identificativo Unico di Versamento** (opzionale).
 
-Nel caso in cui il cittadino abbia abilitato la casella dei messaggi nelle
-proprie preferenze (viene abilitata dall'app automaticamente durante il primo accesso), all'invio di un messaggio da parte dell'ente avvengono i
+All'invio di un messaggio da parte dell'ente avvengono i
 seguenti passaggi (Figura \vref{figura-messaggio-profile-inbox}):
 
-1. Il servizio dell'ente invia al servizio messaggi un messaggio associato al
+1. Il servizio dell'ente invia al servizio _Messaggi_ un messaggio associato al
    codice fiscale del cittadino.
-2. Il servizio messaggi recupera le preferenze del cittadino destinatario.
+2. Il servizio _Messaggi_ recupera le preferenze del cittadino destinatario.
 3. Tra le preferenze troverà l'abilitazione della casella dei messaggi e
-   procederà quindi a salvare il contenuto del messaggio nel database dei
-   messaggi.
+   procederà quindi a salvare il contenuto del messaggio nella casella dei messaggi del cittadino.
 4. Quando il cittadino apre l'app nella schermata dei Messaggi, l'app farà una
-   richiesta per ottenere il contenuto dei messaggi al backend dell'app.
+   richiesta per ottenere il contenuto della casella dei messaggi al backend dell'app.
 5. Il backend dell'app farà a sua volta una richiesta al servizio Messaggi,
-   ottenendo il contenuto dei messaggi ed il relativo mittente.
+   ottenendo il contenuto della casella dei messaggi.
 6. Il cittadino visualizza il contenuto dei messaggi nell'app.
 
-Si noti che i passi 4-6 possono avvenire in un momento diverso rispetto
-all'invio del messaggio da parte del servizio.
+Si noti che i passi 1-3 e i passi 4-6 possono avvenire in momenti diversi (l'ente invia un messaggio al cittadino, che lo visualizza dopo qualche ora o giorni).
+
+Infine, la preferenza relativa alla _casella dei messaggi_ ha priorità sugli
+altri canali (_email_ e _notifiche push_), ovvero se la casella dei messaggi
+viene disabilitata per uno specifico servizio, verranno disabilitati anche gli altri canali.
 
 ![Flusso di salvataggio del messaggio nel database dei messaggi.\label{figura-messaggio-profile-inbox}](diagrams/messaggio-profile-inbox.svg)
 
@@ -507,7 +472,7 @@ proprie preferenze, avvengono i seguenti passaggi
 2. Il servizio messaggi recupera le preferenze del cittadino destinatario,
    tra le quali troverà l'abilitazione alla notifica via email con
    associato l'indirizzo email su cui il cittadino vuole essere contattato.
-3. Il servizio Messaggi invia il messaggio all'indirizzo email traimte uno dei
+3. Il servizio Messaggi invia il messaggio all'indirizzo email tramite uno dei
    servizi di invio email transazionale a disposizione.
 4. Il servizio di invio email transazionali recapita il messaggio nella casella
    di posta elettronica del cittadino.
@@ -556,9 +521,9 @@ gli strumenti di pagamento forniti da pagoPA.
 
 Nel contesto delle funzionalità di pagamento, consideriamo due macro flussi:
 
-* La gestione preferenze di pagamento del cittadino (es. aggiunta di una carta
+1. La gestione preferenze di pagamento del cittadino (es. aggiunta di una carta
 di credito).
-* Il flusso di pagamento (es. da un avviso di pagamento digitale).
+1. Il flusso di pagamento (es. da un avviso di pagamento digitale).
 
 ### Gestione preferenze di pagamento
 
@@ -582,8 +547,8 @@ con il Wallet di PagoPA. I dati della carta di credito inseriti dall'utente
 vengono inviati direttamente al sistema PagoPA senza passare dal sistema di CD.
 
 Una volta salvati, i dati della carta di credito vengono associati ad un
-identificativo numerico non correlato con il numero di carta di credito
-(identificativo dello strumento di pagamento).
+identificativo numerico distinto dal numero di carta di credito
+(detto _identificativo dello strumento di pagamento_).
 
 L'identificativo dello strumento di pagamento viene fornito all'app e utilizzato
 nella scelta del metodo di pagamento durante il flusso di pagamento.
@@ -595,8 +560,8 @@ un indirizzo email, si richiede quindi un meccanismo di riconciliazione tra
 i profili dei cittadini registrati sul Wallet e i cittadini che accedono
 all'app di CD.
 
-Questo meccanismo di riconciliazione si basa sull'indirizzo email fornito
-dal cittadino sotto forma di attributo SPID.
+Questo meccanismo di riconciliazione si basa sulla comparazione dell'indirizzo email fornito
+dal cittadino attraverso il suo profilo SPID.
 
 Si delineano quindi due scenari in base alla presenza o meno di un profilo
 nel Wallet di PagoPA corrispondente all'email associata all'account SPID
@@ -605,20 +570,18 @@ del cittadino.
 ##### Profilo Wallet presente
 
 Nel caso sia presente nel Wallet, un profilo associato all'email del cittadino,
-le interazioni con il Wallet attraverso l'app verranno resistrate esattamente
+le interazioni con il Wallet attraverso l'app verranno registrate esattamente
 come se avvenissero da una qualsiasi app che integra l'SDK di PagoPA.
 
 Questo meccanismo permette al cittadino di riutilizzare il suo profilo PagoPA
-dall'APP IO in modo totalmente trasparente.
+dall'app CD in modo totalmente trasparente.
 
 ##### Profilo Wallet non presente
 
 Nel caso non sia presente nel Wallet, un profilo associato all'email del cittadino,
-il Wallet provvederà a creare un nuovo profilo [^wallet-nuovo-profilo]
+il Wallet provvederà a creare un nuovo profilo
 all'inserimento del primo metodo di pagamento. Tutte le operazioni successive
 ricadono nel caso precedente.
-
-[^wallet-nuovo-profilo]: Flusso ancora da formalizzare.
 
 ### Pagamento
 
@@ -685,7 +648,6 @@ transazioni. Lo storico conterrà l'esito della transazione appena eseguita,
 sotto forma di ricevuta di pagamento da presentare al cittadino.
 
 \pagebreak
-
 
 # Processo di analisi
 
@@ -857,7 +819,7 @@ Si faccia riferimento al diagramma architetturale in figura \vref{figura-infrast
 
 **Natura del rischio**
 
-La medesima del rischio § \vref{intercettazione-api-gw-cd}. <!-- FIXME: FIX REF -->
+La medesima del rischio § \vref{r-intercettazione-api-gw-cd}.
 
 **Misure atte a mitigare o prevenire il rischio**
 
@@ -915,15 +877,19 @@ estrarre dati personali di molti utenti (_data breach_).
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Sono state adottati dei meccanismi di verifica automatizzata di potenziali voler abilità all'interno del codice prodotto e all'interno del codice delle librerie di terze parti utilizzate. Queste verifiche vengono effettuate automaticamente ad ogni modifica del codice applicativo tramite una serie di strumenti quali:
+
+Sempre tramite un sistema automatizzato tutte le dipendenze vero liberi esterne, vengono tenuti costantemente aggiornate per minimizzare la possibilità che contengono vulnerabilità.
+
+Infine vengono pianificati ed effettuati dei penetration test periodici per far emergere eventuali problematiche di sicurezza a livello di sistema e a livello applicativo.
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato ridotto.
 
 **Stato di approvazione e implementazione**
 
-TODO
+le misure sono attualmente implementate.
 
 ### Un account amministrativo dell'infrastruttura viene compromesso {#r-account-compromise}
 
@@ -935,9 +901,14 @@ l'accesso ai dati di tutti i cittadini presenti nell'infrastruttura applicativa.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-* Training del personale su sicurezza e attacchi di phishing
-* Limitare lo scope delle credenziali
-* Autenticazione multi-fattore
+Per ridurre il rischio di una compromissione delle credenziali di accesso alle
+risorse cloud, vengono intraprese le seguenti misure:
+
+1. Adeguato addestramento del personale su sicurezza e attacchi di phishing.
+1. Limitazione dell'accesso alle risorse e dati delle singole credenziali al minimo indispensabile.
+1. Abilitazione dell'autenticazione multi-fattore basata su token.[^no-2fa-sms]
+
+[^no-2fa-sms]: L'autenticazione multifattore basata su token è ritenuta più sicura dell'autenticazione basata su SMS: <https://www.schneier.com/blog/archives/2016/08/nist_is_no_long.html>.
 
 **Efficacia delle misure**
 
@@ -987,7 +958,7 @@ Per quanto riguarda fault software:
 
 **Efficacia delle misure**
 
-TODO
+il rischio è stato eliminato
 
 **Stato di approvazione e implementazione**
 
@@ -1020,7 +991,7 @@ TODO
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato ridotto
 
 **Stato di approvazione e implementazione**
 
@@ -1038,15 +1009,15 @@ a ripetere l'operazione.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Le misure atte a ridurre o eliminare questo rischio vengono implementate nel codice applicativo che intera di giudice con le funzionalità del weekend e implementa insieme di meccanismi di ritrovai su interfaccia idem potente, garantendo Che l'operazione venga eseguita correttamente anche in presenza di fault di rete o hardware
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato ridotto
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
+Implementazione completata
 
 \pagebreak
 
@@ -1062,7 +1033,7 @@ Rischio                                 Probabilità   Gravità   Misure
 
 **Natura del rischio**
 
-TODO
+Le credenziali che permettono all'ente di inviare messaggi ai cittadini devono essere conservate in modo sicuro poiché queste credenziali permettono a chiunque, potenzialmente, di identificarsi come servizio.
 
 **Misure atte a mitigare o prevenire il rischio**
 
@@ -1073,7 +1044,7 @@ TODO
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato ridotto
 
 **Stato di approvazione e implementazione**
 
@@ -1083,27 +1054,25 @@ Implementazione parziale
 
 **Natura del rischio**
 
-TODO
+Tramite un attacco al alla infrastruttura DNS di un ente, è possibile creare un meccanismo di Men in the middle Che permette di intercettare i messaggi che l'ente in via al sistema di cittadinanza digitale.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
-
-* autenticazione server tramite certificato
+Tramite verifica dei certificati server da parte degli enti, lente e sicuro di comunicare con le Ipia e autentiche escludendo possibile attacchi di man in the middle
 
 **Efficacia delle misure**
 
-TODO
+Rischio è stato eliminato
 
 **Stato di approvazione e implementazione**
 
-Implementazione parziale
+Implementazione pianificata
 
 ### Un attore malevolo impersona un cittadino accedendo ai suoi dati personali e compie operazioni a suo nome {#r-cit-id}
 
 **Natura del rischio**
 
-TODO
+Questo tipo di attacco è legato al meccanismo di autenticazione SPID.
 
 Se un attore malevolo riesce ad impersonare un cittadino, potrà:
 
@@ -1114,11 +1083,11 @@ Se un attore malevolo riesce ad impersonare un cittadino, potrà:
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Per minimizzare il rischio di compromettere le proprie credenziali Speed, all'interno dell'applicazione io viene utilizzato un secondo fattore di autenticazione tramite codice personale identificativo pinna, o ove possibile anche tramite autenticazione biometrica
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato ridotto
 
 **Stato di approvazione e implementazione**
 
@@ -1138,15 +1107,15 @@ Rischio                                 Probabilità   Gravità   Misure
 
 **Natura del rischio**
 
-TODO
+Sei cittadino non ha accesso completo a tutte le informazioni relative adesso e gestite dal sistema egli non può esercitare i propri diritti di privacy secondo le norme di legge
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Grazie ad un pannello di controllo cittadino può verificare tutte le informazioni personali che sistema in possesso ed ha inoltre la possibilità di avere o tenerne una copia ed eliminarlo dal sistema
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato eliminato
 
 **Stato di approvazione e implementazione**
 
@@ -1156,7 +1125,7 @@ Implementazione parziale
 
 **Natura del rischio**
 
-TODO
+Il sistema per via della sua complessità utilizza componenti di terze parti e servizi esterni per implementare le funzionalità fornite al cittadino. Alcune informazioni personali o di no potrebbero dover essere elaborate da questi servizi di terzi ed è necessario che anche questi servizi terzi seguono le direttive GDPR per garantire la protezione dei dati personali del cittadino.
 
 **Misure atte a mitigare o prevenire il rischio**
 
@@ -1169,7 +1138,7 @@ TODO
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato eliminato
 
 **Stato di approvazione e implementazione**
 
@@ -1179,17 +1148,17 @@ Implementazione parziale
 
 **Natura del rischio**
 
-TODO
+I dati personali del cittadino forniscono una crono storia delle sue attività che devono essere conservati per il tempo strettamente necessario e non oltre.
 
 **Misure atte a mitigare o prevenire il rischio**
 
-TODO
+Viene definita una policy di data retention che garantisca la conservazione dei dati per la durata minima necessaria
 
 * policy data retention
 
 **Efficacia delle misure**
 
-TODO
+Il rischio è stato eliminato
 
 **Stato di approvazione e implementazione**
 

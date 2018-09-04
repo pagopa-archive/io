@@ -1,6 +1,6 @@
 ---
 title: Cittadinanza Digitale
-subtitle: Valutazione d'impatto sulla protezione dei dati
+subtitle: Valutazione d'impatto sulla protezione dei dati nella fase sperimentale
 author:
 - Team per la Trasformazione Digitale
 - Agenzia per L'Italia Digitale
@@ -368,7 +368,7 @@ quindi escluse comunicazioni non personali (_broadcast_).
 
 Durante la fase sperimentale, il cittadino, all'atto dell'iscrizione a CD, darà
 il consenso alla ricezione di messaggi da parte dei servizi elencati in
-Tabella \vref{tabella-servizi-fase-sperimentale}). Successivamente, tramite il
+Tabella \vref{tabella-servizi-fase-sperimentale}. Successivamente, tramite il
 meccainismo di _opt-out_ (descritto in § \vref{meccanismo-optout}) il cittadino
 potrà disabilitare la ricezione dei messaggi provenienti da uno specifico
 servizio.

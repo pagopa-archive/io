@@ -366,9 +366,12 @@ Le comunicazioni di cortesia sono sempre inviate ad uno specifico cittadino
 relazione individuale tra l'Ente e il cittadino. Da queste comunicazioni sono
 quindi escluse comunicazioni non personali (_broadcast_).
 
-Si veda l'allegato
-tecnico per alcuni esempi di tipologie di messaggi coperte
-da questo servizio (Tabella \vref{tabella-esempi-messaggi}).
+Durante la fase sperimentale, il cittadino, all'atto dell'iscrizione a CD, darà
+il consenso alla ricezione di messaggi da parte dei servizi elencati in
+Tabella \vref{tabella-servizi-fase-sperimentale}). Successivamente, tramite il
+meccainismo di _opt-out_ (descritto in § \vref{meccanismo-optout}) il cittadino
+potrà disabilitare la ricezione dei messaggi provenienti da uno specifico
+servizio.
 
 Quando l'Ente Erogatore invia un messaggio, comunica a CD i seguenti dati:
 
@@ -419,7 +422,9 @@ specifico servizio erogato dall'Ente quando questo invia un messaggio.
 
 Le preferenze legate all'invio dei messaggi da parte dei servizi mittenti
 hanno un significato di _opt-out_, ovvero sono abilitate di _default_ e il
-cittadino può decidere di disabilitarle. Il cittadino può quindi esprimere una preferenza di _opt-out_ per uno specifico servizio, relativamente ad uno specifico canale di comunicazione o per tutti i canali di comunicazione.
+cittadino può decidere di disabilitarle. Il cittadino può quindi esprimere una
+preferenza di _opt-out_ per uno specifico servizio, relativamente ad uno
+specifico canale di comunicazione o per tutti i canali di comunicazione.
 
 I seguenti scenari non sono mutuamente esclusivi e possono concretizzarsi
 contemporaneamente all'invio di un messaggio, a seconda delle preferenze
@@ -514,12 +519,37 @@ proprie preferenze, avvengono i seguenti passaggi
 
 [^notifica-ios-android]: La notifica viene inoltrata ai servizi di notifica di Google o di Apple a seconda della tipologia di device su cui è stata installata l'app.
 
+#### Meccanismo di opt-out \label{meccanismo-optout}
+
+Il meccanismo di _opt-out_ consente al cittadino di esprimere le preferenze
+relative alla ricezione di messaggi provenienti da uno specifico servizio.
+
+Tramite il pannello di controllo in Figura \vref{figura-app-preferenza-servizio}, il cittadino può esprimere le
+seguenti combinazioni di preferenze di ricezione del messaggio:
+
+Casella messaggi    Email     Notifica push
+-----------------   ------    --------------
+ON                  ON        ON
+ON                  OFF       ON
+ON                  ON        OFF
+ON                  OFF       OFF
+OFF                 OFF       OFF
+
+![Schermata di preferenza del singolo servizio con le preferenze di casella, email e notifica abilitate.\label{figura-app-preferenza-servizio}](images/app_preferenze_optout.png){width=50%}
+
 \pagebreak
 
 ## Funzionalità Portafoglio
 
 La funzionalità _Portafoglio_ fornisce la possibilità di pagare tributi tramite
-gli strumenti di pagamento forniti da pagoPA.
+gli strumenti di pagamento forniti da PagoPA. L'applicazione comunica
+direttamente con i sistemi di PagoPA sia per quando riguarda operazioni di
+pagamento sia per quanto riguarda l'interazione con il profilo utente in cui
+viene registrato lo storico delle transazioni.
+
+Grazie al processo di riconciliazione del profilo descritto di seguito, se
+un cittadino, che già possiede un'utenza PagoPA, accede all'app di CD, ritroverà
+nell'app i metodi di pagamento e le transazioni effettuate fino a quel momento.
 
 Nel contesto delle funzionalità di pagamento, consideriamo due macro flussi:
 
@@ -581,7 +611,7 @@ dall'app CD in modo totalmente trasparente.
 ##### Profilo Wallet non presente
 
 Nel caso non sia presente nel Wallet, un profilo associato all'email del cittadino,
-il Wallet provvederà a creare un nuovo profilo
+il Wallet PagoPA provvederà a creare un nuovo profilo
 all'inserimento del primo metodo di pagamento. Tutte le operazioni successive
 ricadono nel caso precedente.
 
@@ -648,6 +678,28 @@ Dopo che la transazione di pagamento dell'avviso viene ricevuta dal Wallet,
 l'app interagisce nuovamente con il Wallet per recuperare lo storico delle
 transazioni. Lo storico conterrà l'esito della transazione appena eseguita,
 sotto forma di ricevuta di pagamento da presentare al cittadino.
+
+### Storico delle transazioni
+
+L'app di CD permette al cittadino di visualizzare lo storico delle transazioni
+effettuate tramite PagoPA (Figura \vref{figura-app-portafoglio-home}). Per ogni
+transazione effettuata, i seguenti dati vengono recuperati dai sistemi di PagoPA:
+
+* data della transazione
+* descrizione
+* ammontare
+* commissioni
+* codice univoco pagamento
+
+Tramite il _codice univoco pagamento_ l'app può riconciliare la transazione con
+il relativo messaggio di pagamento (nel caso in cui la transazione sia scaturita da
+un messaggio indirizzato al cittadino). In questo caso l'app sarà in grado di
+visualizzare anche le informazioni dell'ente che ha richiesto il pagamento
+(Figura \vref{figura-app-portafoglio-transazione-dettaglio}).
+
+![Storico delle transazioni.\label{figura-app-portafoglio-home}](images/app_portafoglio_home.png){width=50%}
+
+![Dettaglio di una transazione.\label{figura-app-portafoglio-transazione-dettaglio}](images/app_portafoglio_transazione_dettaglio.png){width=50%}
 
 \pagebreak
 
@@ -1135,27 +1187,78 @@ Misure in fase di implementazione.
 
 # Allegato tecnico
 
-## Esempi di comunicazioni gestibili dal servizio Messaggi {#esempi-messaggi}
+## Elenco di Enti e Servizi disponibili al cittadino {#servizi-fase-sperimentale}
 
-Table: Esempi di messaggi personalizzati.\label{tabella-esempi-messaggi}
+Durante la fase sperimentale, i cittadini che sottoscriveranno il servizio
+accetteranno la ricezione di messaggi da parte degli enti e servizi elencati
+nella Tabella \ref{tabella-servizi-fase-sperimentale}.
 
-Ente Erogatore                Oggetto
----------------               --------
-Agenzia delle Entrate         Notifiche di cortesia cartelle esattoriali
-Agenzia delle Entrate         Avvisi di cortesia scadenze
-Agenzia delle Entrate         Visure catastali
-Agenzia delle Entrate         Pagamento spese per immobili
-Agenzia delle Entrate         Accredito rimborsi
-Comune                        Avviso multa
-Comune                        Avviso TARI
-Comune                        Avviso scadenza rette scolastiche
-Comune                        Mense scolastiche
-Comune                        Scadenze documenti di identità
-Comune                        Scadenza tessera elettorale
-Ministero dei Trasporti       Scadenza revisione
-Ministero dei Trasporti       Punti patente
-Ministero dei Trasporti       Scadenza patente
-ACI                           Bollo Auto
+Il cittadino potrà, in qualsiasi momento, decidere di
+disabilitare (_opt-out_) o riabilitare la ricezione di messaggi da parte di ogni
+servizio elencato secondo le modalità descritte in § \ref{meccanismo-optout}.
+
+Table: Elenco degli Enti e Servizi disponibili al cittadino durante la fase
+  sperimentale - Legenda: (¹) ricezione avvisi informativi o di scadenza, (²) operazione di pagamento. \label{tabella-servizi-fase-sperimentale}
+
+-----------------------------------------------------------------------------
+Ente erogatore                        Tipologia di servizio
+--------------------------            ----------------------------------
+_ACI_                                 Bollo auto. (¹,²)
+
+                                      Certificati di proprietà digitale. (¹)
+
+_Agenzia delle Entrate Riscossione_   Definizione agevolata. (¹,²)
+
+_Comune di Milano_                    Scadenza carta d'identità. (¹)
+
+                                      Tributi sui rifiuti (TARI). (¹,²)
+
+_Comune di Valsamoggia_               Tributi sui rifiuti (TARI). (¹,²)
+
+                                      Contravvenzioni stradali. (¹,²)
+
+_Comune di Cesena_                    Scadenza carta d'identità. (¹)
+
+                                      Iscrizioni e contributi scolastici. (¹,²)
+
+                                      Protezione civile. (¹)
+
+                                      Rinnovo ZTL. (¹,²)
+
+_Comune di Palermo_                   Contravvenzioni stradali. (¹,²)
+
+                                      Rinnovo ZTL. (¹,²)
+
+                                      Tributi sui Rifiuti (TARI). (¹,²)
+
+                                      Cassetto tributi. (¹,²)
+
+                                      Appuntamenti uffici tributi. (¹)
+
+_Regione Veneto_                      Scadenze e istanze. (¹)
+
+                                      Bollo auto ordinario. (¹,²)
+
+_Comune di Padova_                    Scadenze e istanze. (¹)
+
+                                      Bollo auto ordinario. (¹,²)
+
+_Comune di San Donà di Piave_         Scadenze e istanze. (¹)
+
+                                      Bollo auto ordinario. (¹,²)
+
+_Comune di Legnago_                   Scadenze e istanze. (¹)
+
+                                      Bollo auto ordinario. (¹,²)
+
+_Comune di Thiene_                    Scadenze e istanze. (¹)
+
+                                      Bollo auto ordinario. (¹,²)
+
+_Comune di Bassano del Grappa_        Scadenze e istanze. (¹)
+
+                                      Bollo auto ordinario. (¹,²)
+-----------------------------------------------------------------------------
 
 ## Meccanismi di autenticazione
 
@@ -1450,14 +1553,6 @@ Gli account dei gestori della piattaforma (_contributor_, secondo la terminologi
 sono anch'essi impostati nell'AD AgID e richiedono autenticazione tramite 2FA.
 I _contributor_ possono accedere al portale di amministrazione e gestire in autonomia
 le risorse PaaS fornite da Azure.
-
-### Trasporto dati
-
-**TODO**
-
-### Verifica dell'integrità dei dati
-
-**TODO**
 
 ## Diagrammi architetturali
 

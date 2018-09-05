@@ -297,11 +297,11 @@ azure-arm-appinsights@^1.2.1-preview:
     ms-rest "^2.3.2"
     ms-rest-azure "^2.5.5"
 
-azure-arm-cosmosdb@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/azure-arm-cosmosdb/-/azure-arm-cosmosdb-1.1.2.tgz#deae44b4bfcebe835102c4212f841941ab765cc4"
+azure-arm-cosmosdb@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/azure-arm-cosmosdb/-/azure-arm-cosmosdb-2.0.0.tgz#405aef7d41442f509d2d6e8a5b279e9b36e73586"
   dependencies:
-    ms-rest "^2.3.2"
+    ms-rest "^2.3.3"
     ms-rest-azure "^2.5.5"
 
 azure-arm-eventhub@^1.3.0:
@@ -2565,6 +2565,19 @@ ms-rest@^2.3.2:
     is-stream "^1.1.0"
     moment "^2.21.0"
     request "^2.83.0"
+    through "^2.3.8"
+    tunnel "0.0.5"
+    uuid "^3.2.1"
+
+ms-rest@^2.3.3:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/ms-rest/-/ms-rest-2.3.6.tgz#9984fe9328cd07e3172b520db5dff0acb68f1f7a"
+  dependencies:
+    duplexer "^0.1.1"
+    is-buffer "^1.1.6"
+    is-stream "^1.1.0"
+    moment "^2.21.0"
+    request "^2.87.0"
     through "^2.3.8"
     tunnel "0.0.5"
     uuid "^3.2.1"

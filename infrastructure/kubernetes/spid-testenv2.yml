@@ -8,7 +8,7 @@ data:
     #
     # Identity provider configuration
     #
-    base_url: "http://localhost:8088"
+    base_url: "https://spid-testenv2.k8s.test.io.italia.it"
 
     # To sign SAML messages
     key_file: "/app/conf/idp.key"

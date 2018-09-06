@@ -155,6 +155,9 @@ spec:
     - hosts:
       - io.italia.it
       secretName: app-landing-cert-lep
+    - hosts:
+      - spid-testenv.k8s.test.io.italia.it
+      secretName: spid-testenv-cert-lep
   rules:
   - host: app-backend.k8s.test.cd.teamdigitale.it
     http:
@@ -170,6 +173,13 @@ spec:
         backend:
           serviceName: app-landing
           servicePort: 80
+  - host: spid-testenv.k8s.test.io.italia.it
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spid-testenv
+          servicePort: 8088
 
 ---
 #

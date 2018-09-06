@@ -1,0 +1,307 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spid-testenv-configmap
+  namespace: default
+data:
+  config.yml: |
+    #
+    # Identity provider configuration
+    #
+    base_url: "http://localhost:8088"
+
+    # To sign SAML messages
+    key_file: "/app/conf/idp.key"
+    cert_file: "/app/conf/idp.crt"
+
+    #
+    # Service provider configuration
+    #
+    metadata:
+      local:
+        - "/app/conf/sp_metadata.xml"
+    # remote:
+    #  - url: "http://spid-sp/metadata
+    #  cert: "./conf/spid-sp.cert"
+
+    #
+    # Web server configuration
+    #
+    debug: true
+
+    host: 0.0.0.0
+    port: 8088
+
+    # HTTPS is handled by Kubernetes ingress
+    https: false
+    # https_key_file: "/app/conf/https.key"
+    # https_cert_file: "/app/conf/https.crt"
+
+    # Identity provider endpoints
+    endpoints:
+      single_sign_on_service: "/sso"
+      single_logout_service: "/slo"
+
+  idp.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIC7TCCAdWgAwIBAgIJAMbxPOoBth1LMA0GCSqGSIb3DQEBCwUAMA0xCzAJBgNV
+    BAYTAklUMB4XDTE4MDkwNDE0MDAxM1oXDTE4MTAwNDE0MDAxM1owDTELMAkGA1UE
+    BhMCSVQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDJrW3y8Zd2jESP
+    XGMRY04cHC4Qfo3302HEY1C6x1aDfW7aR/tXzNplfdw8ZtZugSSmHZBxVrR8aA08
+    dUVbbtUw5qD0uAWKIeREqGfhM+J1STAMSI2/ZxA6t2fLmv8l1eRd1QGeRDm7yF9E
+    EKGY9iUZD3LJf2mWdVBAzzYlG23M769k+9JuGZxuviNWMjojgYRiQFgzypUJJQz+
+    Ihh3q7LMjjiQiiULVb9vnJg7UdU9Wf3xGRkxk6uiGP9SzWigSObUekYYQ4ZAI/sp
+    ILywgDxVMMtv/eVniUFKLABtljn5cE9zltECahPbm7wIuMJpDDu5GYHGdYO0j+K7
+    fhjvF2mzAgMBAAGjUDBOMB0GA1UdDgQWBBQEVmzA/L1/fd70ok+6xtDRF8A3HjAf
+    BgNVHSMEGDAWgBQEVmzA/L1/fd70ok+6xtDRF8A3HjAMBgNVHRMEBTADAQH/MA0G
+    CSqGSIb3DQEBCwUAA4IBAQCRMo4M4PqS0iLTTRWfikMF4hYMapcpmuna6p8aee7C
+    wTjS5y7y18RLvKTi9l8OI0dVkgokH8fq8/o13vMw4feGxro1hMeUilRtH52funrW
+    C+FgPrqk3o/8cZOnq+CqnFFDfILLiEb/PVJMddvTXgv2f9O6u17f8GmMLzde1yvY
+    Da1fG/Pi0fG2F0yw/CmtP8OTLSvxjPtJ+ZckGzZa9GotwHsoVJ+Od21OU2lOeCnO
+    jJOAbewHgqwkCB4O4AT5RM4ThAQtoU8QibjD1XDk/ZbEHdKcofnziDyl0V8gglP2
+    SxpzDaPX0hm4wgHk9BOtSikb72tfOw+pNfeSrZEr6ItQ
+    -----END CERTIFICATE-----
+
+  idp.key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDJrW3y8Zd2jESP
+    XGMRY04cHC4Qfo3302HEY1C6x1aDfW7aR/tXzNplfdw8ZtZugSSmHZBxVrR8aA08
+    dUVbbtUw5qD0uAWKIeREqGfhM+J1STAMSI2/ZxA6t2fLmv8l1eRd1QGeRDm7yF9E
+    EKGY9iUZD3LJf2mWdVBAzzYlG23M769k+9JuGZxuviNWMjojgYRiQFgzypUJJQz+
+    Ihh3q7LMjjiQiiULVb9vnJg7UdU9Wf3xGRkxk6uiGP9SzWigSObUekYYQ4ZAI/sp
+    ILywgDxVMMtv/eVniUFKLABtljn5cE9zltECahPbm7wIuMJpDDu5GYHGdYO0j+K7
+    fhjvF2mzAgMBAAECggEAYh6zqIgr5axWytzrAhGrdfer3bCEx7cbEN4077p999k1
+    7pMo0M3Ez64NUYHC/95rAzrNBKdnhkNldS2lAdgJdxIt6wIBB/R3R4QbjjCdE+z4
+    qHFALYgqGDcVE7UkP7cxtQkmEWcmI5tX5hilVnMjF28xrKEFsQMAeZeWwzT2FccF
+    pMbxVpq44d0vI+Yzjoh7IyWPJ8CqAJdNTByB1qwPRKEqNB0mhaJJEdv6HkgEHuz/
+    +RE6wHpjEpt8LvG+Ey/phTLISgi8JKNiuHOc/pdK6LTqR/jacqEaZPQW/LU4myWy
+    X/ud0S/1WrJw97i1Qw5ZsVBhAncAFeZuLuDBL8+VqQKBgQDyNr4oOx1D18ZwIpGN
+    GISd9HkwWVsOWm84WrU8xG06p+iaSuwYnqObGtIk5sZ/cBXLOQM7fsZ+S8yrQCyg
+    p1G1U9ZW40ioPszbPQdT0JDyu02dJ/CIgkeGVcgntGuofobN2tLs0Bait9+7PXk/
+    ECQV9kzAVet+PWdjrNymMsg5/QKBgQDVKAmzgA3gjbvec9LYN1jVSDzKwZZ53cn9
+    8YodobW23fcpHuY/NXV6cIOapT2/xm7Q60imY9g4ar5AYfAKtXuyJd8q2MS0ANio
+    ypu003i8yoUEu6iY7nIEAC423P1GZjxDcq0nwMBnu4ePsr0VoHqo+J3dUSmM3WbI
+    kyvlsCvpbwKBgQCVrIJhdfYloEb9sD7lQ8tfmFzzJaSBAB1OY68vN+qPnoa8IaQ3
+    qoBLLo3BQ+JRib/N7xMyRqr+DHUTNfrd48c4F/CRjK2vWe9ZYyMOBgosFNZnUPDw
+    SiFMv+GJt5H3cwh2WMySjhwOvTVCDUDJWX4THDpdeDqnreYf0Agho6vbOQKBgFdd
+    QqSkjouD7AVf+YIPJUS9h9UehTtLsRd5IT/F4MGjtkLPXFV55r2ZUgdXRLjObusI
+    FE3GTH/LGFExEv6ApcM9jHt2PyD729FKwYjax/ixFNX8yDxuNqL3I/nul4x8KKUI
+    YnoRoYqirQwzmRY9ISkSRTnJozsOH6uDzpEkpMrXAoGBAOior7jdV2qqIwmlVJhb
+    3B7d4dwlZfUX+qP9klFAqF9jLKZni0U1BIMEn0jnzz+ze6Kkshv5YEcyv9hYYRHh
+    u8uOqmqy8uAxl2QhuKhn+ppXv67jksCe+RZWqXYqE9QdtyaDbUHc0i+P6vjDiVmA
+    nKOaarPwZeIdH7rq00FVvYQF
+    -----END PRIVATE KEY-----
+
+  users.json: |
+    {
+      "carla.rossi": {
+          "sp": "https://spid.agid.gov.it/cd",
+          "attrs": {
+              "fiscalNumber": "ISPXNB32R82V766D",
+              "name": "Carla",
+              "gender": "F",
+              "familyName": "Rossi",
+              "dateOfBirth": "2000-12-12",
+              "email": "cittadinanzadigitale@teamdigitale.governo.it",
+              "spidCode": "7b09078d-989b-6e6d-87b9-aab53efd714f",
+              "mobilePhone": "333333333"
+          },
+          "pwd": "test"
+      },
+      "mario.rossi": {
+          "sp": null,
+          "attrs": {
+              "fiscalNumber": "GDNNWA12H81R874F",
+              "name": "Mario",
+              "gender": "M",
+              "familyName": "Bianchi",
+              "dateOfBirth": "1991-12-12",
+              "email": "info@agid.gov.it",
+              "spidCode": "d4b9f692-a0f2-1100-7bb6-8650c02d75d5",
+              "mobilePhone": "333333334"
+          },
+          "pwd": "test"
+      }
+    }
+
+  sp_metadata.xml: |
+    <?xml version="1.0"?>
+    <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+      xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://spid.agid.gov.it/cd" ID="https___spid_agid_gov_it_cd">
+      <SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" AuthnRequestsSigned="true" WantAssertionsSigned="true">
+        <KeyDescriptor>
+          <ds:KeyInfo>
+            <ds:X509Data>
+              <ds:X509Certificate>MIIF3jCCA8YCCQCLemwz8XhcFjANBgkqhkiG9w0BAQsFADCBsDELMAkGA1UEBhMC
+                  SVQxDTALBgNVBAgMBFJvbWUxDTALBgNVBAcMBFJvbWUxLjAsBgNVBAoMJVByZXNp
+                  ZGVuemEgZGVsIENvbnNpZ2xpbyBkZWkgTWluaXN0cmkxDTALBgNVBAsMBEFnSUQx
+                  FzAVBgNVBAMMDiouaW8uaXRhbGlhLml0MSswKQYJKoZIhvcNAQkBFhxpbmZvQHRl
+                  YW1kaWdpdGFsZS5nb3Zlcm5vLml0MB4XDTE4MDcwNjA5NDI1OVoXDTE5MDcwNjA5
+                  NDI1OVowgbAxCzAJBgNVBAYTAklUMQ0wCwYDVQQIDARSb21lMQ0wCwYDVQQHDARS
+                  b21lMS4wLAYDVQQKDCVQcmVzaWRlbnphIGRlbCBDb25zaWdsaW8gZGVpIE1pbmlz
+                  dHJpMQ0wCwYDVQQLDARBZ0lEMRcwFQYDVQQDDA4qLmlvLml0YWxpYS5pdDErMCkG
+                  CSqGSIb3DQEJARYcaW5mb0B0ZWFtZGlnaXRhbGUuZ292ZXJuby5pdDCCAiIwDQYJ
+                  KoZIhvcNAQEBBQADggIPADCCAgoCggIBALKykON1jznDc5XmVzOWm5aDBrIpUWpL
+                  vdG7WRuNs7xG98SU8jM/kxFWbWoXkJMrdwhMqEb7OPdYrqSFDbcGgm6wo3NA+jHd
+                  bKtLXFguzhiSQufmWe1yNFe4WBh3rS0SLLmRa7mhqiYzDStCUENhzy0HVGQmv+bz
+                  zOkNZVr9VsnuidcDSYIfKOZyMznGpGwOczztPEUGTbR/hjVFfAhegscjEGZPXBm0
+                  TaeNFBYTIQ0Kc3jh9+E7cyco3K/q/Oi6aRUWI4tsiIb67L65/HPkS3kvgaLr8JM0
+                  D66MyaMmNYmCjGe2uco87ZSx9O/s08sytgLqXz1MbpMK1jh0OGUzA8egRe3SldIE
+                  IhpFS7ddBoDwQxvc/PEBD/yChLM5U8CGQBGOr9TiA18+XqFIaW19SS6tN9gpRb9Z
+                  xowpv+mlT/SPfuIp+vKBLJSoJUHHyNqgbZwyUkP+k8J5043Hg7JacvkIju5UzeaL
+                  /jOdiDjuwm2R+ASQ9wERxAjyyFcc8vjGZ0u7sU+nc9OyIHU5+9+Od1hOxWi2AQRU
+                  mFjCTjy4JrUVRyezzF4/3UkfVoihmdT3ikEz/5AeityJX4t3AxENIrQc4Ub6iKch
+                  Z7QRytTH+qHO9lHwluGD0pjSl4dxWchMPcKluhj1wxDmYZdHjMwYP2sPRSax3+f3
+                  386g/v2wK105AgMBAAEwDQYJKoZIhvcNAQELBQADggIBAFhra93E50jmPvOvrTbQ
+                  pSRt5iwxxK33lv9h7OvALjjVBtIQ0HHr4GafpCyNfIFkBMzVKLlxgV9LsUy53IFz
+                  E/Ltl9zWxrbZapnVNvNvdP+oLm843nKqK9D/SipBSyOBXNsbl7JhL5KLEp79heJo
+                  TvvmnznwN8l5f+/V+LPCKEsMxkw5ed3LT4gfInFDB0UKnKiRxF5uMVKeTBvpRXI6
+                  NEz3rYQdB1QFsHlQYQkbLPGBn86Ceqn1AzxLW3doTm8rJkroSFcgaLlyycdftHgu
+                  jhA1nNKrlI8QmtbTt6TE8ufgx+RM705ihv227Z+hHk4pOhKRz3FV+L0OpnbT7gsR
+                  IvSb6TewMgVjy3WTcgXRQW3Fdch+eI00T8v0nlshU12XaQ6bYDTrWwmB7PSYPJZs
+                  DcjRbGSOXPXnyjejC0dtxjAVa7W7A3l1LiovblpA+1dWg+idXQ8qQI8Fp0QZlTfh
+                  wn9DoG7VKQV9viiXKfwZOvp43KfMgCp2WTfFaBtcPCi4YhN3mUJKLW1IfTcxNubu
+                  bHNwTcIHUr2vbodeVaIj1Uag4jCa4GIf+uZu10RZXut/fEaBzaKPtCC/fRXWq7n+
+                  Nx/cac6XKedSk1sRFMZ0T2s04GMj4xGFcOVe6iIHZbzPDwFWOab2D4oB8Ue1WWx7
+                  WHflWHxazaTrh65854jCl4kK
+              </ds:X509Certificate>
+            </ds:X509Data>
+          </ds:KeyInfo>
+          <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+          <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+          <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc"/>
+        </KeyDescriptor>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+        <AssertionConsumerService index="0" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://app-backend.k8s.test.cd.teamdigitale.it/assertionConsumerService"/>
+        <AttributeConsumingService index="0">
+          <ServiceName xml:lang="it">Required attributes</ServiceName>
+          <RequestedAttribute Name="fiscalNumber" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified" FriendlyName="Codice fiscale"/>
+          <RequestedAttribute Name="name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified" FriendlyName="Nome"/>
+          <RequestedAttribute Name="familyName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified" FriendlyName="Cognome"/>
+          <RequestedAttribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified" FriendlyName="Email"/>
+          <RequestedAttribute Name="mobilePhone" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified" FriendlyName="Numero di telefono"/>
+        </AttributeConsumingService>
+      </SPSSODescriptor>
+      <Organization>
+        <OrganizationName>Digital citizenship proxy</OrganizationName>
+        <OrganizationDisplayName>Digital citizenship proxy</OrganizationDisplayName>
+        <OrganizationURL>https://github.com/teamdigitale/italia-backend</OrganizationURL>
+      </Organization>
+      <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+          <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+          <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+          <Reference URI="#https___spid_agid_gov_it_cd">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+            <DigestValue>uzaeK7MAWAAtMB2Um/NnN7TRuReHT9MuvAbDPBiIifE=</DigestValue>
+          </Reference>
+        </SignedInfo>
+        <SignatureValue>nCq/730KgXmdxO6vH9ua2veiojF5HcVqZilA96rkkmEtdYEf7pJvRUsHGTa3w7nUl4ayNRWtVtNk/pft3B6O4uEDmWFtgChGbH1vh+UrhHCmLPW047//bkfCgZLU/CkIQE6y8aglN94SKQGQkSI3E9MCjn0Q/7BOdF1zktF/SMRx29AfsQdx5qx9T2YnBByjiqOGz9FmxJtRL9jaXhOZ+yY+4dVOOnKlDsEnv2+rG8RrZanGkq8JJlqI81KoLYj/SGHrn+D3EXqEpe18uHjQTWoV48RSWhJ6FOHDTdJQhGszy0JZzWpUHhwBwbHBeQlFvQkVgNFxV38qAadP+7jxBMJMAUSELKeaFwCK+JQpyGG4IibLfrzisMno9hbdJ5QYrPsTXkC1U77eUNYWw/qF2hrkXqC2NoVLz/GN4C89RtXSPbE4hNNSBF11zSdAQKU5WBhWigK406rtheHazFXtI9RnAq0Zdop48pPP3voSaY9QX8wzZAWlBsnETIYjADlTco6mIjmG8oBmjH63YkX8prmXALheAU0v31CYe/v8FBvHIqm9HT25Tp6KhJC6NuxdprKcZifnfJ7SvpNkd1oC/ZJEETmq3D2MEQAGDPT46hhxiWaEm2BowPC8IRm7mQVpv+q4DdTO5N10c0XmWCxzK22R1hdqXWySVRU/JTaR8QU=</SignatureValue>
+        <KeyInfo>
+          <X509Data>
+            <X509Certificate>MIIF3jCCA8YCCQCLemwz8XhcFjANBgkqhkiG9w0BAQsFADCBsDELMAkGA1UEBhMC
+              SVQxDTALBgNVBAgMBFJvbWUxDTALBgNVBAcMBFJvbWUxLjAsBgNVBAoMJVByZXNp
+              ZGVuemEgZGVsIENvbnNpZ2xpbyBkZWkgTWluaXN0cmkxDTALBgNVBAsMBEFnSUQx
+              FzAVBgNVBAMMDiouaW8uaXRhbGlhLml0MSswKQYJKoZIhvcNAQkBFhxpbmZvQHRl
+              YW1kaWdpdGFsZS5nb3Zlcm5vLml0MB4XDTE4MDcwNjA5NDI1OVoXDTE5MDcwNjA5
+              NDI1OVowgbAxCzAJBgNVBAYTAklUMQ0wCwYDVQQIDARSb21lMQ0wCwYDVQQHDARS
+              b21lMS4wLAYDVQQKDCVQcmVzaWRlbnphIGRlbCBDb25zaWdsaW8gZGVpIE1pbmlz
+              dHJpMQ0wCwYDVQQLDARBZ0lEMRcwFQYDVQQDDA4qLmlvLml0YWxpYS5pdDErMCkG
+              CSqGSIb3DQEJARYcaW5mb0B0ZWFtZGlnaXRhbGUuZ292ZXJuby5pdDCCAiIwDQYJ
+              KoZIhvcNAQEBBQADggIPADCCAgoCggIBALKykON1jznDc5XmVzOWm5aDBrIpUWpL
+              vdG7WRuNs7xG98SU8jM/kxFWbWoXkJMrdwhMqEb7OPdYrqSFDbcGgm6wo3NA+jHd
+              bKtLXFguzhiSQufmWe1yNFe4WBh3rS0SLLmRa7mhqiYzDStCUENhzy0HVGQmv+bz
+              zOkNZVr9VsnuidcDSYIfKOZyMznGpGwOczztPEUGTbR/hjVFfAhegscjEGZPXBm0
+              TaeNFBYTIQ0Kc3jh9+E7cyco3K/q/Oi6aRUWI4tsiIb67L65/HPkS3kvgaLr8JM0
+              D66MyaMmNYmCjGe2uco87ZSx9O/s08sytgLqXz1MbpMK1jh0OGUzA8egRe3SldIE
+              IhpFS7ddBoDwQxvc/PEBD/yChLM5U8CGQBGOr9TiA18+XqFIaW19SS6tN9gpRb9Z
+              xowpv+mlT/SPfuIp+vKBLJSoJUHHyNqgbZwyUkP+k8J5043Hg7JacvkIju5UzeaL
+              /jOdiDjuwm2R+ASQ9wERxAjyyFcc8vjGZ0u7sU+nc9OyIHU5+9+Od1hOxWi2AQRU
+              mFjCTjy4JrUVRyezzF4/3UkfVoihmdT3ikEz/5AeityJX4t3AxENIrQc4Ub6iKch
+              Z7QRytTH+qHO9lHwluGD0pjSl4dxWchMPcKluhj1wxDmYZdHjMwYP2sPRSax3+f3
+              386g/v2wK105AgMBAAEwDQYJKoZIhvcNAQELBQADggIBAFhra93E50jmPvOvrTbQ
+              pSRt5iwxxK33lv9h7OvALjjVBtIQ0HHr4GafpCyNfIFkBMzVKLlxgV9LsUy53IFz
+              E/Ltl9zWxrbZapnVNvNvdP+oLm843nKqK9D/SipBSyOBXNsbl7JhL5KLEp79heJo
+              TvvmnznwN8l5f+/V+LPCKEsMxkw5ed3LT4gfInFDB0UKnKiRxF5uMVKeTBvpRXI6
+              NEz3rYQdB1QFsHlQYQkbLPGBn86Ceqn1AzxLW3doTm8rJkroSFcgaLlyycdftHgu
+              jhA1nNKrlI8QmtbTt6TE8ufgx+RM705ihv227Z+hHk4pOhKRz3FV+L0OpnbT7gsR
+              IvSb6TewMgVjy3WTcgXRQW3Fdch+eI00T8v0nlshU12XaQ6bYDTrWwmB7PSYPJZs
+              DcjRbGSOXPXnyjejC0dtxjAVa7W7A3l1LiovblpA+1dWg+idXQ8qQI8Fp0QZlTfh
+              wn9DoG7VKQV9viiXKfwZOvp43KfMgCp2WTfFaBtcPCi4YhN3mUJKLW1IfTcxNubu
+              bHNwTcIHUr2vbodeVaIj1Uag4jCa4GIf+uZu10RZXut/fEaBzaKPtCC/fRXWq7n+
+              Nx/cac6XKedSk1sRFMZ0T2s04GMj4xGFcOVe6iIHZbzPDwFWOab2D4oB8Ue1WWx7
+              WHflWHxazaTrh65854jCl4kK
+            </X509Certificate>
+          </X509Data>
+        </KeyInfo>
+      </Signature>
+    </EntityDescriptor>
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spid-testenv2
+  namespace: default
+  labels:
+    app: spid-testenv2
+    config-version: "1"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      name: spid-testenv2
+      namespace: default
+      labels:
+        app: spid-testenv2
+    spec:
+      containers:
+      - image: "italia/spid-testenv2"
+        command: [ "python" ]
+        args: [ "spid-testenv.py", "-c", "/app/conf/config.yml" ]
+        name: spid-testenv2
+        ports:
+        - name: http-port
+          containerPort: 8088
+        volumeMounts:
+          - name: conf
+            mountPath: "/app/conf"
+            readOnly: true
+        livenessProbe:
+          httpGet:
+            path: "/"
+            port: 8088
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 5
+      volumes:
+      - name: conf
+        configMap:
+          name: spid-testenv-configmap
+
+---
+#
+# A service exposing the test IDP to the cluster.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: spid-testenv2
+  namespace: default
+spec:
+  selector:
+    app: spid-testenv2
+  ports:
+    - protocol: TCP
+      port: 8088

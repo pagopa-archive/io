@@ -97,7 +97,7 @@ data:
       "carla.rossi": {
           "sp": "https://spid.agid.gov.it/cd",
           "attrs": {
-              "fiscalNumber": "ISPXNB32R82V766D",
+              "fiscalNumber": "ISPXNB32R82Y766D",
               "name": "Carla",
               "gender": "F",
               "familyName": "Rossi",
@@ -111,7 +111,7 @@ data:
       "mario.rossi": {
           "sp": null,
           "attrs": {
-              "fiscalNumber": "GDNNWA12H81R874F",
+              "fiscalNumber": "GDNNWA12H81Y874F",
               "name": "Mario",
               "gender": "M",
               "familyName": "Bianchi",

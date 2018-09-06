@@ -13,7 +13,7 @@ metadata:
   labels:
     app: pagopa-proxy
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -28,7 +28,7 @@ spec:
         app: pagopa-proxy
     spec:
       containers:
-      - image: "teamdigitale/italia-pagopa-proxy:v0.5.5"
+      - image: "teamdigitale/italia-pagopa-proxy:v0.5.12"
         name: pagopa-proxy
         ports:
         - name: http-port
@@ -41,14 +41,31 @@ spec:
         - name: "PAGOPAPROXY_PORT"
           value: "80"
         - name: "PAGOPA_HOST"
-          value: "https://pagopasoapservermock.eu-de.mybluemix.net"
+          value: "http://10.250.1.182"
         - name: "PAGOPA_PORT"
-          value: "443"
+          value: "80"
+        - name: "PAGOPA_HOST_HEADER"
+          value: "nodopa.te.sia.eu"
         - name: "PAGOPA_PASSWORD"
           valueFrom:
             secretKeyRef:
               name: pagopa-proxy
               key: pagopa_password
+        - name: "PAGOPA_ID_PSP"
+          valueFrom:
+            secretKeyRef:
+              name: pagopa-proxy
+              key: id_psp
+        - name: "PAGOPA_ID_INT_PSP"
+          valueFrom:
+            secretKeyRef:
+              name: pagopa-proxy
+              key: id_intermediario_psp
+        - name: "PAGOPA_ID_CANALE"
+          valueFrom:
+            secretKeyRef:
+              name: pagopa-proxy
+              key: id_canale
         - name: "REDIS_DB_URL"
           value: "agid-redis-dev.redis.cache.windows.net"
         - name: "REDIS_DB_PORT"

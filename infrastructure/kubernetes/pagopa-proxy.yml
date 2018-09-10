@@ -66,6 +66,8 @@ spec:
             secretKeyRef:
               name: pagopa-proxy
               key: id_canale
+        - name: "PAGOPA_TIMEOUT_MSEC"
+          value: "500000"
         - name: "REDIS_DB_URL"
           value: "agid-redis-dev.redis.cache.windows.net"
         - name: "REDIS_DB_PORT"

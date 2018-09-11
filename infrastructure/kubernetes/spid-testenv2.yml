@@ -266,7 +266,7 @@ spec:
         app: spid-testenv2
     spec:
       containers:
-      - image: "italia/spid-testenv2"
+      - image: "italia/spid-testenv2:fix-c14n-issue-169"
         command: [ "python" ]
         args: [ "spid-testenv.py", "-c", "/app/conf/config.yml" ]
         name: spid-testenv2

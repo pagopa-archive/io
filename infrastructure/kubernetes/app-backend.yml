@@ -28,7 +28,7 @@ spec:
         app: app-backend
     spec:
       containers:
-      - image: "teamdigitale/italia-backend:v0.0.54"
+      - image: "teamdigitale/italia-backend:v0.0.55"
         name: app-backend
         ports:
         - name: http-port
@@ -82,6 +82,8 @@ spec:
           value: "https://spid.agid.gov.it/cd"
         - name: "SAML_ATTRIBUTE_CONSUMING_SERVICE_INDEX"
           value: "0"
+        - name: "SPID_TESTENV_URL"
+          value: "https://spid-testenv2.k8s.test.io.italia.it"
         - name: "TOKEN_DURATION_IN_SECONDS"
           # 30 days
           value: "2592000"

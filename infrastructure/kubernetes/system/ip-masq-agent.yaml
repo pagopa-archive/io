@@ -1,0 +1,60 @@
+#
+# By default all traffic originating in a pod, for the 10.0.0.0/8 CIDR will not
+# be masqueraded. This configuration is needed because we want the traffic for
+# the PagoPA VNET (10.250.1.182) to be masqueraded so that we can have rules in
+# the security group that limit the source IPs to the agents VMs.
+#
+# Note: the documentation warns about running this agent when --non-masquerade-cidr
+#       is set, unfortunately it looks like there is no way to disable that
+#       configuration in AKS.
+#       ref: https://github.com/kubernetes-incubator/ip-masq-agent#configuring-the-agent
+#
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: ip-masq-agent
+  namespace: kube-system
+spec:
+  template:
+    metadata:
+      labels:
+        k8s-app: ip-masq-agent
+    spec:
+      hostNetwork: true
+      containers:
+      - name: ip-masq-agent
+        image: gcr.io/google-containers/ip-masq-agent-amd64:v2.0.0
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: config
+            mountPath: /etc/config
+      volumes:
+        - name: config
+          configMap:
+            # Note this ConfigMap must be created in the same namespace as the daemon pods - this spec uses kube-system
+            name: ip-masq-agent
+            optional: true
+            items:
+              # The daemon looks for its config in a YAML file at /etc/config/ip-masq-agent
+              - key: config
+                path: ip-masq-agent
+---
+#
+# The ip-masq-agent must be configured to masquerade only the CIDR of K8S agents
+# (10.240.0.0/16) and the CIDR of K8S Pods (10.244.0.0/16)
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ip-masq-agent
+  namespace: kube-system
+data:
+  config: |
+    nonMasqueradeCIDRs:
+      - 10.240.0.0/16
+      - 10.244.0.0/16
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+    masqLinkLocal: false
+    resyncInterval: 60s

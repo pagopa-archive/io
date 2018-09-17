@@ -325,12 +325,12 @@ azure-arm-storage@^3.2.0:
     ms-rest "^2.2.2"
     ms-rest-azure "^2.3.3"
 
-azure-arm-website@^2.0.0-preview:
-  version "2.0.0-preview"
-  resolved "https://registry.yarnpkg.com/azure-arm-website/-/azure-arm-website-2.0.0-preview.tgz#b7de39edd3bf2826e19673a5797c820f7e1ff341"
+azure-arm-website@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/azure-arm-website/-/azure-arm-website-5.0.1.tgz#9d218bb1956b7e3f649bb6af39767fef596da563"
   dependencies:
-    ms-rest "^2.2.2"
-    ms-rest-azure "^2.3.3"
+    ms-rest "^2.3.3"
+    ms-rest-azure "^2.5.5"
 
 azure-storage@^2.5.0:
   version "2.6.0"
@@ -2565,6 +2565,19 @@ ms-rest@^2.3.2:
     is-stream "^1.1.0"
     moment "^2.21.0"
     request "^2.83.0"
+    through "^2.3.8"
+    tunnel "0.0.5"
+    uuid "^3.2.1"
+
+ms-rest@^2.3.3:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/ms-rest/-/ms-rest-2.3.6.tgz#9984fe9328cd07e3172b520db5dff0acb68f1f7a"
+  dependencies:
+    duplexer "^0.1.1"
+    is-buffer "^1.1.6"
+    is-stream "^1.1.0"
+    moment "^2.21.0"
+    request "^2.87.0"
     through "^2.3.8"
     tunnel "0.0.5"
     uuid "^3.2.1"

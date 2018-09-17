@@ -28,7 +28,7 @@
     "infrastructure:deploy": "cross-env NPMDEPLOY=1 npm-run-all -s resources:**"
   },
   "devDependencies": {
-    "@types/documentdb": "^1.10.4",
+    "@types/documentdb": "^1.10.5",
     "@types/dotenv": "^4.0.3",
     "@types/node": "^6.0.0",
     "@types/readline-sync": "^1.4.3",

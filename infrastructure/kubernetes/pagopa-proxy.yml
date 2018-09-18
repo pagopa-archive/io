@@ -28,7 +28,7 @@ spec:
         app: pagopa-proxy
     spec:
       containers:
-      - image: "teamdigitale/italia-pagopa-proxy:v0.5.13"
+      - image: "teamdigitale/italia-pagopa-proxy:v0.5.16"
         name: pagopa-proxy
         ports:
         - name: http-port
@@ -66,6 +66,11 @@ spec:
             secretKeyRef:
               name: pagopa-proxy
               key: id_canale
+        - name: "PAGOPA_ID_CANALE_PAGAMENTO"
+          valueFrom:
+            secretKeyRef:
+              name: pagopa-proxy
+              key: id_canale_pagamento
         - name: "PAGOPA_TIMEOUT_MSEC"
           value: "500000"
         - name: "REDIS_DB_URL"

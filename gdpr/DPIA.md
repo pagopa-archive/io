@@ -1061,7 +1061,7 @@ Le credenziali che permettono all'ente di inviare messaggi ai cittadini devono e
 Per l'imitare l'impatto sulla privacy in caso di compromissione delle
 credenziali dell'Ente, vengono implementati:
 
-* Meccanismo di cifratura _end-to-end_ dei messaggi per prevenire la lettura del messaggi precedentemente inviati ad un cittadino.
+* Meccanismo di cifratura _end-to-end_ dei messaggi per prevenire la lettura del messaggi precedentemente inviati ad un cittadino (descritto in § \vref{cifratura-end-to-end}).
 * Restrizione sugli indirizzi IP che possono effettuare chiamate alle API di CD con le credenziali dell'Ente, per prevenire che un terzo attore, anche in possesso delle credenziali, possa inviare messaggi per conto dell'Ente.
 
 **Efficacia delle misure**
@@ -1553,6 +1553,68 @@ Gli account dei gestori della piattaforma (_contributor_, secondo la terminologi
 sono anch'essi impostati nell'AD AgID e richiedono autenticazione tramite 2FA.
 I _contributor_ possono accedere al portale di amministrazione e gestire in autonomia
 le risorse PaaS fornite da Azure.
+
+## Confidenzialità ed integrità
+
+### Meccanismo di cifratura dei messaggi end-to-end {#cifratura-end-to-end}
+
+In questa sezione vengono dettagliati i meccanismi che permettono di gestire attraverso la piattaforma IO, messaggi, anche con contenuti sensibili, con garanzia di integrità e confidenzialità degli stessi.
+
+#### Confidenzialità dei messaggi
+
+La confidenzialità del messaggio è garantita da un meccanismo di criptazione end-to-end a chiave pubblica tra il servizio e l’applicazione IO. Questo schema di criptazione rende il contenuto del messaggio ed i metadati ad esso associati, visibili esclusivamente al cittadino a cui è destinato.
+
+##### Generazione delle chiavi
+
+Quando un utente accede all’app IO sul suo smartphone per la prima volta, dopo aver completato con successo l’autenticazione SPID, l’app genera una coppia di chiavi:
+
+* Una chiave pubblica, condivisa con la piattaforma IO, utilizzata dai servizi per criptare i messaggi destinati all’utente.
+* Una chiave privata, mantenuta nello storage sicuro dello smartphone, utilizzata per decriptare i messaggi destinati all’utente.
+
+La chiave pubblica, viene quindi immediatamente comunicata alla piattaforma IO, dove viene archiviata, associandola al risultato della funzione di hash SHA-256 del Codice Fiscale dell’utente (`H-CF`).
+
+##### Cifratura, invio e archiviazione messaggi
+
+Quando un servizio vuole inviare un messaggio ad un cittadino, dovrà innanzitutto verificare che:
+
+* il destinatario è registrato sulla piattaforma IO;
+* il destinatario non ha effettuato un opt-out dal servizio che vuole inviare il messaggio.
+
+Questa verifica può essere effettuata consultando l’API di IO `getProfile` che comunica il via libera (o meno) per l’invio del messaggio da parte del servizio mittente al cittadino destinatario.
+
+Inoltre, nel caso l’esito della verifica sia positivo, l’API restituisce la chiave pubblica che dovrà essere utilizzata per criptare il contenuto del messaggio prima di essere inviato tramite l’API di invio messaggi `submitMessageForUser`.
+
+L’API `submitMessageForUser`, ricevuto il messaggio da parte del servizio, lo archivierà nel database messaggi, associandolo all’`H-CF` del destinatario.
+
+Associare il messaggio all’`H-CF` rende impossibile conoscere a priori a quale cittadino sia indirizzato il messaggio - solo dopo che il cittadino destinatario si autentica tramite SPID, è possibile conoscere il suo codice fiscale e quindi ottenere l’`H-CF` a cui è associato il messaggio.
+
+##### Lettura e decriptazione del messaggio
+
+Alla ricezione di un nuovo messaggio, il destinatario riceve una notifica push sul suo smartphone. Nel caso di messaggi criptati, la notifica push conterrà un messaggio generico che comunica l’arrivo di un nuovo messaggio, senza comunicazione né del contenuto, né del mittente.
+
+Successivamente, l’app IO risvegliata dalla notifica push, farà richiesta alla piattaforma IO del contenuto dei nuovi messaggi tramite l’API `getMessagesForUser`.
+
+Una volta ricevuto il contenuto criptato di ogni messaggio, questo sarà infine decriptato nell’app tramite la chiave privata conservata nello storage sicuro dello smartphone.[^storage-sicuro-smartphone]
+
+[^storage-sicuro-smartphone]: [iOS KeyChain](https://developer.apple.com/documentation/security/keychain_services) o [Android KeyStore](https://developer.android.com/training/articles/keystore).
+
+##### Invalidazione dello storico dei messaggi
+
+Nel caso in cui il cittadino acceda all’applicazione IO su un nuovo smartphone, gli verrà chiesto se intende invalidare lo storico dei messaggi criptati ricevuti fino a quel momento, generando una nuova coppia di chiavi pubblica e privata.
+
+Questa operazione comporterà la perdita di tutto lo storico dei messaggi criptati con la chiave pubblica precedente.
+
+#### Autenticità ed integrità dei messaggi
+
+L’autenticità (garanzia dell’identità del mittente) e l’integrità (garanzia che il messaggio non sia stato modificato) sono fornite tramite la firma del contenuto del messaggio da parte del servizio mittente:
+
+1. Quando un servizio si accredita sulla piattaforma IO, dovrà generare una coppia di chiavi pubblica e privata, comunicando la chiave pubblica in sede di accreditamento.
+1. La chiave pubblica comunicata dal servizio viene archiviata nella piattaforma IO ed associata al servizio.
+1. Quando il servizio invia un messaggio, dovrà inserire tra gli attributi, la firma digitale del contenuto del messaggio generata utilizzando la propria chiave privata.
+1. Quando l’app IO riceve il messaggio, farà richiesta alla piattaforma IO della chiave pubblica associata al servizio.
+1. Una volta ottenuta la chiave pubblica associata al servizio mittente, l’app potrà verificare che la firma digitale[^firma-digitale-doppia-chiave] corrisponda al contenuto del messaggio, confermando l’autenticità e l’integrità.
+
+[^firma-digitale-doppia-chiave]: Vedere <https://it.wikipedia.org/wiki/Firma_digitale#Schema_di_firme_a_doppia_chiave>
 
 ## Diagrammi architetturali
 

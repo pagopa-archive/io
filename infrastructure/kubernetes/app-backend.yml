@@ -41,7 +41,7 @@ spec:
         - name: "API_BASE_PATH"
           value: "/api/v1"
         - name: "API_URL"
-          value: "https://agid-apim-test.azure-api.net/api/v1"
+          value: "https://api.cd.italia.it/api/v1"
         - name: "API_KEY"
           valueFrom:
             secretKeyRef:

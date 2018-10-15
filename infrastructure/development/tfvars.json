@@ -1,0 +1,15 @@
+{
+  "environment": "development",
+  "environment_short": "dev",
+  "location": "West Europe",
+  "cosmosdb_failover_location": "North Europe",
+  "app_service_portal_post_login_url":
+    "https://dev.developer.cd.italia.it/developer",
+  "app_service_portal_post_logout_url": "https://dev.developer.cd.italia.it/",
+  "azurerm_apim_sku": "Premium",
+  "azurerm_kubernetes_agent_count": 5,
+  "azurerm_kubernetes_agent_vm_size": "Standard_D3",
+  "azurerm_notification_hub_sku": "Standard",
+  "webhook_channel_url":
+    "https://app-backend.k8s.dev.cd.teamdigitale.it/api/v1/notify?token="
+}

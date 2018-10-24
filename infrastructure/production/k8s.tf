@@ -8,7 +8,7 @@ locals {
 }
 
 module "kubernetes" {
-  source = "./modules/azurerm/kubernetes"
+  source = "../shared/modules/azurerm/kubernetes"
 
   environment                     = "${var.environment}"
   resource_group_location         = "${azurerm_resource_group.azurerm_resource_group.location}"

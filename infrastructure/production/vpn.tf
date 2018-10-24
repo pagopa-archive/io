@@ -6,7 +6,7 @@
 #
 
 module "pagopa_vpn" {
-  source = "./modules/pagopa-vpn"
+  source = "../shared/modules/pagopa-vpn"
 
   # This resource must exist only in the "test" environment
   enable = "${var.environment == "test" ? "true" : "false"}"

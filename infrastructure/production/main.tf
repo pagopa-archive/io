@@ -20,6 +20,7 @@ terraform {
     resource_group_name  = "terraform-resource-group"
     storage_account_name = "terraformstorageaccount"
     container_name       = "terraform-storage-container"
+    key                  = "prod.terraform.tfstate"
   }
 }
 

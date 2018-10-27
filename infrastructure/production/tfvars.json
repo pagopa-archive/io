@@ -10,6 +10,7 @@
   "azurerm_kubernetes_agent_count": 5,
   "azurerm_kubernetes_agent_vm_size": "Standard_D3",
   "azurerm_notification_hub_sku": "Standard",
+  "azurerm_resource_name_prefix": "io-italia",
   "webhook_channel_url":
     "https://app-backend.k8s.prod.cd.teamdigitale.it/api/v1/notify?token="
 }

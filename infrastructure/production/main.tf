@@ -15,17 +15,11 @@ provider "null" {
 
 # Set up an Azure backend to store Terraform state.
 # You *must* create the storage account and the container before running this script
+
 terraform {
-  backend "azurerm" {
-    resource_group_name  = "terraform-resource-group"
-    storage_account_name = "terraformstorageaccount"
-    container_name       = "terraform-storage-container"
-    key                  = "prod.terraform.tfstate"
-  }
+  backend "azurerm" {}
 }
 
-
-#
 # Compute name of resources
 #
 # Instead of explicitly defining the name of each resource, we use a convention

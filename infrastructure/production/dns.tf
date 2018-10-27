@@ -1,5 +1,22 @@
 # DNS Zone
 #
+# DNS configuration for the default email provider
+
+variable "azurerm_dns_main_zone" {
+  type        = "string"
+  description = "The domain used by Digital Citizenship subsystems"
+}
+
+variable "azurerm_dns_main_zone_spf1" {
+  type        = "string"
+  description = "Default email provider spf1 DNS record"
+}
+
+variable "azurerm_dns_main_zone_dkim" {
+  type        = "map"
+  description = "Default email provider dkim DNS records"
+}
+
 resource "azurerm_dns_zone" "azurerm_dns_main_zone" {
   name                = "${var.azurerm_dns_main_zone}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"

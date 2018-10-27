@@ -1,4 +1,45 @@
 ## FUNCTIONS
+variable "azurerm_functionapp_git_repo" {
+  default     = "https://github.com/teamdigitale/digital-citizenship-functions"
+  description = "The GitHub repository that must be associated to the function app"
+}
+
+variable "azurerm_functionapp_git_branch" {
+  default     = "funcpack-release-latest"
+  description = "The branch of the GitHub repository that must be associated to the function app"
+}
+
+variable "webhook_channel_url" {
+  type        = "string"
+  description = "URL to contact when sending notifications to the webhook (without the secret token)"
+}
+
+# TF_VAR_WEBHOOK_CHANNEL_URL_TOKEN
+variable "WEBHOOK_CHANNEL_URL_TOKEN" {
+  type        = "string"
+  description = "Secret token that is appended to the webhook_channel_url"
+}
+
+# This should be passed by ENV var TF_VAR_MAILUP_USERNAME
+variable "MAILUP_USERNAME" {
+  type        = "string"
+  description = "Username for the MailUp SMTP+ service"
+}
+
+# This should be passed by ENV var TF_VAR_MAILUP_SECRET
+variable "MAILUP_SECRET" {
+  type        = "string"
+  description = "Password for the MailUp SMTP+ service"
+}
+
+variable "default_sender_email" {
+  type        = "string"
+  description = "Default sender email address"
+}
+
+variable "website_git_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_website_git.ts"
+}
 
 resource "azurerm_function_app" "azurerm_function_app" {
   name                      = "${local.azurerm_functionapp_name}"

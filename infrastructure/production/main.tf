@@ -25,6 +25,26 @@ terraform {
 # Instead of explicitly defining the name of each resource, we use a convention
 # to compose the name of the resource as: PREFIX-RESOURCE_TYPE-ENVIRONMENT_SHORT
 #
+variable environment {
+  type        = "string"
+  description = "Environment: production or test"
+}
+
+variable environment_short {
+  type        = "string"
+  description = "Short version of environment name: prod or test (used in resource names)"
+}
+
+variable "azurerm_resource_name_prefix" {
+  type        = "string"
+  description = "Prefix for naming resources (e.g. 'myorg')"
+}
+
+variable location {
+  type        = "string"
+  description = "Location of the Azure resource group and services (ie. West Europe)"
+}
+
 
 locals {
   # Define resource names based on the following convention:

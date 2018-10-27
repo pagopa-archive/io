@@ -1,5 +1,29 @@
 ## STORAGE
 
+variable "azurerm_cosmosdb_collections" {
+  type        = "map"
+  description = "Name and partition keys of collections that must exist in the CosmosDB database"
+}
+
+variable "cosmosdb_failover_location" {
+  type        = "string"
+  description = "Location for CosmosDB failover (ie. North Europe), Must differ from 'location'"
+}
+
+variable "message_blob_container" {
+  default     = "message-content"
+  description = "Name of the message container blob"
+}
+
+variable "cosmosdb_collection_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_cosmosdb_collection.ts"
+}
+
+variable "cosmosdb_iprange_provisioner" {
+  default = "infrastructure/local-provisioners/azurerm_cosmosdb_iprange.ts"
+}
+
+
 resource "azurerm_storage_account" "azurerm_storage_account" {
   name                = "${local.azurerm_storage_account_name}"
   resource_group_name = "${azurerm_resource_group.azurerm_resource_group.name}"

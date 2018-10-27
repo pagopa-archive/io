@@ -5,6 +5,17 @@
 # backend pool.
 #
 
+variable "pagopa_vpn_site_gateway_ip" {
+  default     = ""
+  description = "The IP address of the pagoPA VPN gateway"
+}
+
+variable "pagopa_vpn_shared_key" {
+  default     = ""
+  description = "The shared key to be used by the pagoPA VPN"
+}
+
+
 module "pagopa_vpn" {
   source = "../shared/modules/pagopa-vpn"
 

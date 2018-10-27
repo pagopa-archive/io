@@ -1,5 +1,41 @@
 ### DEVELOPER PORTAL TASKS
 
+variable "azurerm_adb2c_policy" {
+  type        = "string"
+  description = "Name of ADB2C policy used in the API management portal authentication flow"
+}
+
+variable "app_service_portal_git_repo" {
+  type        = "string"
+  description = "URL of the GitHub repository providing the source of the App Service Portal"
+}
+
+variable "app_service_portal_git_branch" {
+  default     = "master"
+  description = "Branch of the GitHub repository providing the source of the App Service Portal"
+}
+
+variable "app_service_portal_post_login_url" {
+  type        = "string"
+  description = "Redirect to this page after developer portal login"
+}
+
+variable "app_service_portal_post_logout_url" {
+  type        = "string"
+  description = "Redirect to this page after developer portal logout"
+}
+
+variable "azurerm_shared_address_space_cidr" {
+  default     = "100.64.0.0/10"
+  description = "Azure internal network CIDR"
+}
+
+# see https://docs.microsoft.com/en-us/azure/cosmos-db/firewall-support
+variable "azurerm_azure_portal_ips" {
+  default     = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
+  description = "The IPs of the Azure admin portal"
+}
+
 resource "azurerm_app_service_plan" "azurerm_app_service_plan_portal" {
   name                = "${local.azurerm_app_service_plan_portal_name}"
   location            = "${azurerm_resource_group.azurerm_resource_group.location}"

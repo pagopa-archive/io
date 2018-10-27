@@ -1,5 +1,31 @@
 # Azure Container Service (Kubernetes)
 #
+
+variable "azurerm_kubernetes_admin_username" {
+  type        = "string"
+  description = "The username of the admin account on the Kubernetes nodes"
+}
+
+variable "azurerm_kubernetes_admin_ssh_publickey_file" {
+  type        = "string"
+  description = "The name of the file under 'files' of the ssh public key for the admin account on the Kubernetes nodes"
+}
+
+variable "azurerm_kubernetes_agent_count" {
+  type        = "string"
+  description = "How many agent nodes in the Kubernetes cluster"
+}
+
+# See VM sizes https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes
+variable "azurerm_kubernetes_agent_vm_size" {
+  type        = "string"
+  description = "Virtual machine size for agent nodes in Kubernetes cluster"
+}
+
+variable "ARM_CLIENT_SECRET" {
+  type        = "string"
+  description = "The client secret of the service principal"
+}
 locals {
   # The ssh public key for the admin account on the k8s nodes is read from the
   # file stored in the "files" directory and named after the value of the

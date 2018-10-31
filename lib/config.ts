@@ -38,7 +38,6 @@ export const CONF_DIR: ReadonlyArray<any> = [
   __dirname,
   "..",
   "infrastructure",
-  "env"
 ];
 
 const Api = t.interface({
@@ -121,9 +120,9 @@ Validation<ResourcesConfiguration> => {
   const config = traverse(either)(
     [
       // Get Common Terraform configuration from JSON
-      path.join(...CONF_DIR, "common", TF_VARS_FILE_NAME),
+      path.join(...CONF_DIR, "common/variables", TF_VARS_FILE_NAME),
       // Get environment specific Terraform configuration from JSON
-      path.join(...CONF_DIR, environment, TF_VARS_FILE_NAME),
+      path.join(...CONF_DIR, "env", environment, TF_VARS_FILE_NAME),
       ...files
     ],
     getMapFromFile

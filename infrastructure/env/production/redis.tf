@@ -44,9 +44,9 @@ resource "azurerm_redis_cache" "azurerm_redis_cache" {
     rdb_storage_connection_string = "${azurerm_storage_account.azurerm_redis_backup.primary_connection_string}"
   }
 
-  #  subnet_id = "${data.azurerm_subnet.azurerm_redis_cache.id}"
-  # must be inside azurerm_virtual_network.azurerm_redis_cache address space
-  #  private_static_ip_address = "10.230.0.10"
+  subnet_id = "${azurerm_subnet.azurerm_redis_cache.id}"
+  #must be inside azurerm_virtual_network.azurerm_redis_cache address space
+  private_static_ip_address = "172.16.0.10"
 
   # At the moment we need Premium tier even
   # in the test environment to support clustering

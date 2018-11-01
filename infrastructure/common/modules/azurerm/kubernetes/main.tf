@@ -39,7 +39,7 @@ locals {
   # This ID gets used by AKS to name resources, there's no current way of
   # reading this value.
   # TODO: find a way to look this up
-  aks_id = "27508996"
+  aks_id = "35782937"
 
   # The agents get created in a dedicated resource group that gets automatically
   # provisioned by Azure, there's currently no way to get the name of this

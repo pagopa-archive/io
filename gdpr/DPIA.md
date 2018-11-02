@@ -15,6 +15,12 @@ lof: true
 TODO: punto di vista dell'ente (esempio: superficie di attacco quando
 l'ente esegue un invio massivo di messaggi)
 TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha un profilo)
+
+AgID:
+TODO: creare tabella con dati personali (spid, pagopa, email, num telefono), da linkare nelle informazioni chiave
+TODO: tabella con tutti i fornitori che gestiscono i dati (anche identity provider, linkare ad agid) -> Soggetti gestori del servizio autorizzati
+TODO: nelle analisi del rischio, mettere nell'efficacia delle misure l'aggiornamento del rischio abbassato
+TODO: aggiungere rischio di esercitare di diritti con area per scaricare i dati
 -->
 
 # Introduzione
@@ -26,43 +32,36 @@ La DPIA è un'analisi delle attività di trattamento dei dati e copre i dettagli
 dell'attività di elaborazione degli stessi e una valutazione dei rischi
 associati al trattamento, comprese eventuali misure che devono essere adottate
 per mitigare tali rischi. Contiene anche la decisione sull'avvio di una
-consultazione preliminare con il _Data Protection Officer_ competente.
+consultazione preliminare con il Garante della Privacy.
 
-La presente DPIA viene prodotta ai sensi dell'articolo 35 del GDPR - laddove il
-trattamento può comportare un rischio elevato per i diritti e le libertà
-delle persone fisiche, il responsabile del trattamento effettua una
-valutazione dell'impatto dell'elaborazione prevista.
+La presente DPIA viene prodotta ai sensi dell'articolo 35 del GDPR - laddove il trattamento può comportare un rischio elevato per i diritti e le libertà
+delle persone fisiche, AgID per la natura stessa del progetto effettua la presente valutazione dell'impatto.
 
-Le valutazioni hanno valore per gli individui, le organizzazioni e la società.
-La presente DPIA valuta i rischi per la privacy personale e identifica le
-misure, le salvaguardie e i meccanismi esistenti per mitigare tali rischi.
+La presente DPIA valuta i rischi per la protezione dei dati personali e identifica le misure, le salvaguardie e i meccanismi esistenti per mitigare tali rischi.
 
 ## Informazioni chiave
 
-* **Titolarità e responsabilità dei dati**: Gli Enti Erogatori aderenti al
-  servizio rimangono titolari dei dati personali, mentre l’Agenzia per
+* **Titolarità e responsabilità del trattamento dati**: Gli Enti Erogatori aderenti al servizio sono titolari dei dati personali, mentre l’Agenzia per
   l’Italia Digitale (AgID) viene nominata responsabile degli stessi dagli
   Enti.
 * **Descrizione del progetto**: Questo documento di analisi d'impatto riguarda il
   progetto di Cittadinanza Digitale descritto nel capitolo seguente.
-* **Soggetti oggetto del trattamento dei dati**: Pubbliche Amministrazioni Italiane
-  e Cittadini Italiani dotati di identità digitale (SPID).
+* **Interessati**: cittadini aderenti al servizio.
 * **Tipologie di dati personali**: Le tipologie di dati trattati in questo progetto
   includono informazioni personali quali nome, cognome, codice fiscale degli
   utenti del servizio e contenuto dei messaggi inviati dalle
   Pubbliche Amministrazioni ai cittadini - si faccia riferimento al §
-  \vref{descrizione-flussi-informativi} per l'elenco completo dei dati personali
-  trattati.
+  \vref{descrizione-flussi-informativi} per l'elenco completo dei dati personali trattati.
 * **Categorie speciali di dati trattati**: Nessuna.
 * **Soggetti che hanno accesso ai dati trattati**: I seguenti soggetti avranno
   accesso ai dati trattati dal sistema:
-  * Soggetti gestori del servizio autorizzati.
-  * Cittadini aderenti al servizio, per quanto riguarda i propri dati SPID e i
-    dati ricevuti dai servizi erogati dagli Enti.
-  * Enti Erogatori al servizio, per quanto riguarda i dati inviati ai cittadini
-    e le preferenze condivise dai singoli cittadini con i servizi erogati
-    dall'Ente - si faccia riferimento al § \vref{descrizione-flussi-informativi}
-    per l'elenco completo dei soggetti coinvolti nel trattamento dei dati.
+  * Soggetti gestori del servizio autorizzati. <!-- TODO: fornitori -->
+
+\pagebreak
+
+# Base giuridica dei trattamenti
+
+La base giuridica dei trattamenti è individuata nel consenso espresso dal cittadino che accede al servizio.
 
 \pagebreak
 
@@ -98,7 +97,7 @@ CD, nella sua funzione di punto di accesso, permette all’utente di accedere
 facilmente e in modalità aggregata alle proprie informazioni e ai servizi
 digitali che lo riguardano, indipendentemente da quali siano gli Enti Erogatori
 di suo specifico interesse. CD non si sostituisce in alcun modo agli Enti
-Erogatori che rimangono pertanto titolari delle informazioni in loro possesso,
+Erogatori che rimangono pertanto titolari dei dati in loro possesso,
 dei relativi trattamenti di dati personali e dell’erogazione dei relativi
 servizi, che restano nella loro disponibilità esclusiva. Per questo CD si
 configura semplicemente come un canale supplementare che permette agli
@@ -178,10 +177,10 @@ dagli Enti Erogatori che aderiscono a CD.
 Di seguito, si riportano a titolo di esempio alcune preferenze che potranno
 essere definite dell’utente:
 
-* Lingua preferita (interrogabile dagli Enti);
-* email personale dell’utente (non interrogabile dagli Enti);
-* telefono personale dell’utente (non interrogabile dagli Enti);
-* elenco dei servizi che l’utente può disattivare (non interrogabile dagli Enti);
+* lingua preferita;
+* email personale dell’utente;
+* telefono personale dell’utente;
+* elenco dei servizi che l’utente ha disattivato (non visible dagli Enti);
 
 A ciascun Ente Erogatore sarà chiesto di fornire un insieme base di
 informazioni che comporranno una scheda ente e un equivalente insieme di
@@ -223,7 +222,7 @@ L'utente potrà inoltre visualizzare uno storico degli accessi ed interrompere l
 Infine, nella sezione profilo l’utente potrà:
 
 * verificare i termini e condizioni d’uso del servizio in vigore;
-* consultare le informative sul trattamento dei dati personali degli Enti Erogatori e una breve informativa relativa a CD;
+* consultare le informative sul trattamento dei dati personali degli Enti Erogatori e un'informativa relativa a CD;
 * chiedere la sospensione dell’account o la completa cancellazione dello stesso.
 
 [^profilo-web-mobile]: Il pannello di controllo del profilo utente sarà disponibile anche tramite browser web per consentirne l'utilizzo anche nel caso in cui l'app mobile non sia più accessibile.
@@ -232,21 +231,12 @@ Infine, nella sezione profilo l’utente potrà:
 
 # Motivazioni alla base della valutazione d'impatto
 
-## Gestione di dati personali
-
-Tramite la funzionalità _Messaggi_, la piattaforma informatica di
-CD tratterà messaggi di cortesia equiparabili a messaggi
-di posta elettronica. Inoltre, per quanto riguarda la funzionalità di _Profilo_,
-la piattaforma informatica di CD tratterà metadati relativi ai servizi ed
-Enti Erogatori da cui un cittadino ha ricevuto messaggi di cortesia e avvisi di pagamento.
-
 ## Trattamento di dati su larga scala
 
 L'obiettivo di CD è quello di fornire un servizio a tutta la popolazione
-italiana dotata di account SPID. Si concretizza quindi lo scenario del
-trattamento di dati su larga scala.[^largascala]
+italiana dotata di account SPID. Si concretizza lo scenario dell'articolo 35 comma 1.[^largascala]
 
-[^largascala]: Cfr. _Linee guida sui responsabili della protezione dei dati (RPD)_ del WP29 - 16/EN WP 243.
+[^largascala]: Cfr. _Linee guida in materia di valutazione d'impatto sulla protezione dei dati e determinazione della possibilità che il trattamento "possa presentare un rischio elevato" ai fini del regolamento (UE) 2016/679_ del WP 248 rev.01
 
 \pagebreak
 
@@ -330,7 +320,7 @@ Il flusso di creazione del profilo (Figura \vref{figura-profilo-creazione}) è i
 
 Come descritto nella Tabella \vref{tabella-preferenze}, alcune preferenze vengono
 definite _condivise_, essendo condivise con gli Enti che ne fanno richiesta.
-Queste preferenze non contengono informazioni personali o sensibili ma sono
+Le preferenze _condivise_ non contengono informazioni personali o sensibili ma sono
 assimilabili a semplici indicazioni che il cittadino vuole condividere con gli
 enti per essere usate come base per la personalizzazione dei servizi digitali.
 
@@ -408,6 +398,8 @@ ricevere la comunicazione (come descritto precedentemente nella Tabella
 \vref{table-verifica-optout}).
 
 [^messaggio-ignorato]: Nel caso in cui il servizio non effettuasse questo controllo ed invierebbe comunque il messaggio alle API di CD, il messaggio verrebbe ignorato.
+
+<!-- TODO: se la PA invia comunque un messaggio, spiegare come puo' vedere il risultato dell'invio (fallito) -->
 
 ### Invio di messaggi a cittadini con un profilo CD {#invio-messaggio-profilo}
 
@@ -570,6 +562,8 @@ Le informazioni sui metodi di pagamento vengono gestite attraverso la componente
 _Wallet_ di PagoPA che si occupa della gestione sicura delle informazioni
 sensibili (es. dati della carta di credito).
 
+La componente _Wallet_ di PagoPA è esterna a CD ed è gestita da altro fornitore.
+
 #### Inserimento dati della carta di credito
 
 L'inserimento dei dati della carta dicredito nell'app avviene attraverso una
@@ -719,7 +713,8 @@ Nel processo di analisi, andiamo a valutare il rischio per le persone fisiche,
 Enti Erogatori di servizi).
 
 Altri rischi che si applicano all'organizzazione, ma che non incidono sulla
-privacy, sono fuori portata. Ciò che è nel campo di applicazione di questa
+privacy, non rientrano nel perimetro del presente documento.
+Ciò che è nel campo di applicazione di questa
 analisi sono i rischi che potrebbero comportare danni fisici, materiali o
 immateriali all'interessato, comprese eventuali discriminazioni, danni alla
 reputazione, perdita di riservatezza dei dati protetti dal segreto professionale
@@ -797,8 +792,8 @@ Di seguito elenchiamo i possibili scenari, raggruppati per tipologia:
     non essere in grado di ottenere copie dei propri dati personali.
 * Incorretta identificazione dei soggetti coinvolti nella trasmissione di dati personali:
   * Qualcuno effettua un pagamenti per una posizioni debitorie di cui non è
-    responsabile: ...
-  * Qualcuno invia una comunicazione per conto di un servizio: ...
+    responsabile.
+  * Qualcuno invia una comunicazione per conto di un servizio.
 
 Le seguenti sezioni trattano i rischi relativi a questi scenari.
 
@@ -833,7 +828,7 @@ Rischio                                 Probabilità   Gravità   Misure
 \ref{r-intercettazione-be-pagopa}       Probabile     Critica   Si
 \ref{r-accesso-fisico}                  Improbabile   Critica   Si
 \ref{r-vulnerabilita}                   Improbabile   Critica   Si
-\ref{r-account-compromise}              Possibile     Critica   No
+\ref{r-account-compromise}              Possibile     Critica   Si
 
 ### Intercettazione della trasmissione tra le componenti esterne ed interne {#r-intercettazione-api-gw-cd}
 
@@ -857,11 +852,11 @@ vengono criptate con il protocollo di trasporto di dati TLS 1.0 o superiore.[^tr
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
+Il rischio è stato mitigato.
 
 **Stato di approvazione e implementazione**
 
-Il protocollo TLS è implementato:
+Il protocollo TLS è implementato su tutte le componente che dialogano all'esterno dell'applicazione:
 
 * nelle trasmissioni verso l'API Gateway
 * nelle trasmissioni verso il backend dell'app
@@ -884,7 +879,7 @@ punto-punto criptato con le migliori pratiche di sicurezza[^vpn-pagopa] (Figura 
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
+Il rischio è stato mitigato.
 
 **Stato di approvazione e implementazione**
 
@@ -901,25 +896,22 @@ estrarre i dati dai server, provocando un _data breach_.
 **Misure atte a mitigare o prevenire il rischio**
 
 Il software applicativo di backend di Cittadinanza Digitale viene eseguito su
-infrastruttura cloud Microsoft Azure.
-
-Tutti i datacenter Microsoft Azure implementano meccanismi di controllo della
+un infrastruttura cloud con almeno le seguenti caratteristiche: tutti i datacenter implementano meccanismi di controllo della
 sicurezza allo stato dell'arte: sorveglianza 24x7x365, protezioni ambientali e
 perimetrali e policy di accesso estese a tutto il personale.
 
-Per maggiori dettagli si faccia riferimento al documento
-_Microsoft Azure Security Overview_. [^azure-security-overview]
-
-[^azure-security-overview]: <http://go.microsoft.com/?linkid=9740388>
-
 **Efficacia delle misure**
 
-Il rischio è stato ridotto.
+Il rischio è stato mitigato.
 
 **Stato di approvazione e implementazione**
 
-Il software applicativo ed i dati sono attualmente ospitati nell'infrastruttura
-cloud Microsoft Azure.
+Il software applicativo ed i dati sono attualmente ospitati nell'infrastruttura cloud Microsoft Azure.
+
+Per le misure specifiche, implementate dall'attuale fornitore Microsoft Azure, si faccia riferimento al documento
+_Microsoft Azure Security Overview_. [^azure-security-overview]
+
+[^azure-security-overview]: <http://go.microsoft.com/?linkid=9740388>
 
 ### Sfruttamento di vulnerabilità o malware per estrarre dati personali (_data breach_) {#r-vulnerabilita}
 
@@ -930,6 +922,8 @@ da un attore malevolo per ottenere un accesso non autorizzato ai sistemi ed
 estrarre dati personali di molti utenti (_data breach_).
 
 **Misure atte a mitigare o prevenire il rischio**
+
+<!-- TODO: aggiungere linee guida dello sviluppo sicuro -->
 
 Vengono adottati dei meccanismi di verifica automatizzata di potenziali vulnerabilità all'interno delle componenti software di CD e all'interno del codice delle librerie di terze parti utilizzate dalle componenti.
 
@@ -1012,11 +1006,13 @@ Per quanto riguarda invece eventuali problematiche software, vengono implementat
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
+Il rischio è stato mitigato.
 
 **Stato di approvazione e implementazione**
 
 Misure in fase di implementazione.
+
+<!-- TODO: aggiungere anche problematiche di connettivita' -->
 
 ### Problemi software o di rete hanno l'effetto di interrompere o annullare le operazioni {#r-interruption}
 
@@ -1131,7 +1127,7 @@ Rischio                                 Probabilità   Gravità   Misure
 
 **Natura del rischio**
 
-Se il cittadino non ha accesso completo a tutte le informazioni relative ad esso e gestite dal sistema di CD, egli non può esercitare i propri diritti di privacy secondo le norme di legge.
+Se il cittadino non ha accesso completo a tutte le informazioni relative ad esso e gestite dal sistema di CD, egli non può esercitare i propri diritti in tema di protezione dei dati personali secondo le norme di legge.
 
 **Misure atte a mitigare o prevenire il rischio**
 
@@ -1139,7 +1135,7 @@ Grazie ad un pannello di controllo personale, il cittadino può verificare tutte
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
+Il rischio è stato mitigato.
 
 **Stato di approvazione e implementazione**
 
@@ -1155,15 +1151,13 @@ Alcune informazioni personali potrebbero dover essere elaborate da questi serviz
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Utilizzo esclusivo di servizi terzi che siano _GDPR compliant_.
+Analisi sugli attuali fornitori per verificare che siano _GDPR compliant_.
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
-
 **Stato di approvazione e implementazione**
 
-Implementazione completa.
+Misure in fase di implementazione.
 
 ### I dati personali sono archiviati oltre il tempo strettamente necessario {#r-data-retention}
 
@@ -1177,7 +1171,7 @@ Viene definita una policy di _data retention_ che garantisca la conservazione de
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
+Misura in fase di implementazione. <!-- TODO: fare appendice -->
 
 **Stato di approvazione e implementazione**
 

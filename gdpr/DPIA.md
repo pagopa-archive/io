@@ -17,7 +17,6 @@ l'ente esegue un invio massivo di messaggi)
 TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha un profilo)
 
 AgID:
-TODO: creare tabella con dati personali (spid, pagopa, email, num telefono), da linkare nelle informazioni chiave
 TODO: tabella con tutti i fornitori che gestiscono i dati (anche identity provider, linkare ad agid) -> Soggetti gestori del servizio autorizzati
 TODO: nelle analisi del rischio, mettere nell'efficacia delle misure l'aggiornamento del rischio abbassato
 TODO: aggiungere rischio di esercitare di diritti con area per scaricare i dati
@@ -47,11 +46,10 @@ La presente DPIA valuta i rischi per la protezione dei dati personali e identifi
 * **Descrizione del progetto**: Questo documento di analisi d'impatto riguarda il
   progetto di Cittadinanza Digitale descritto nel capitolo seguente.
 * **Interessati**: cittadini aderenti al servizio.
-* **Tipologie di dati personali**: Le tipologie di dati trattati in questo progetto
-  includono informazioni personali quali nome, cognome, codice fiscale degli
-  utenti del servizio e contenuto dei messaggi inviati dalle
-  Pubbliche Amministrazioni ai cittadini - si faccia riferimento al §
-  \vref{descrizione-flussi-informativi} per l'elenco completo dei dati personali trattati.
+* **Tipologie di dati personali**: Le tipologie di dati trattati in questo
+  progetto includono informazioni personali quali nome, cognome, codice
+  fiscale degli utenti del servizio - si faccia riferimento al §
+  \vref{{tabella-dati-personali}} per l'elenco completo dei dati personali trattati.
 * **Categorie speciali di dati trattati**: Nessuna.
 * **Soggetti che hanno accesso ai dati trattati**: I seguenti soggetti avranno
   accesso ai dati trattati dal sistema:
@@ -237,6 +235,27 @@ L'obiettivo di CD è quello di fornire un servizio a tutta la popolazione
 italiana dotata di account SPID. Si concretizza lo scenario dell'articolo 35 comma 1.[^largascala]
 
 [^largascala]: Cfr. _Linee guida in materia di valutazione d'impatto sulla protezione dei dati e determinazione della possibilità che il trattamento "possa presentare un rischio elevato" ai fini del regolamento (UE) 2016/679_ del WP 248 rev.01
+
+\pagebreak
+
+# Dati personali trattati
+
+Table: Dati personali trattati.\label{tabella-dati-personali}
+
+Dato                                          Provenienza
+-------------                                 --------------------
+Nome                                          SPID
+Cognome                                       SPID
+Codice Fiscale                                SPID
+E-Mail                                        SPID
+Numero di telefono                            SPID
+Storico transazioni[^dettaglio-transazione]   PagoPA
+Metodi di pagamento[^dettaglio-metodi-pagam]  PagoPA
+
+[^dettaglio-transazione]: Ogni transazione contiene l'ente che ha emesso il pagamento, l'ammontare del pagamento e la causale del pagamento (come fornita dall'ente emittente)
+
+[^dettaglio-metodi-pagam]: Nel caso delle carte di pagamento, viene trattato
+  (al momento dell'inserimento da parte del cittadino) il numero di carta, la scadenza, l'intestatario e il codice di sicurezza - successivamente, una volta che i dati della carta sono stati inviati a PagoPA, l'unico dato trattato diventa l'identificativo univoco associato da PagoPA alla carta.
 
 \pagebreak
 

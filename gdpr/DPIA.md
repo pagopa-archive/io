@@ -17,7 +17,6 @@ l'ente esegue un invio massivo di messaggi)
 TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha un profilo)
 
 AgID:
-TODO: tabella con tutti i fornitori che gestiscono i dati (anche identity provider, linkare ad agid) -> Soggetti gestori del servizio autorizzati
 TODO: nelle analisi del rischio, mettere nell'efficacia delle misure l'aggiornamento del rischio abbassato
 TODO: aggiungere rischio di esercitare di diritti con area per scaricare i dati
 -->
@@ -48,12 +47,13 @@ La presente DPIA valuta i rischi per la protezione dei dati personali e identifi
 * **Interessati**: cittadini aderenti al servizio.
 * **Tipologie di dati personali**: Le tipologie di dati trattati in questo
   progetto includono informazioni personali quali nome, cognome, codice
-  fiscale degli utenti del servizio - si faccia riferimento al §
-  \vref{{tabella-dati-personali}} per l'elenco completo dei dati personali trattati.
+  fiscale degli utenti del servizio - si faccia riferimento alla Tabella
+  \vref{tabella-dati-personali} per l'elenco completo dei dati personali trattati.
 * **Categorie speciali di dati trattati**: Nessuna.
 * **Soggetti che hanno accesso ai dati trattati**: I seguenti soggetti avranno
   accesso ai dati trattati dal sistema:
-  * Soggetti gestori del servizio autorizzati. <!-- TODO: fornitori -->
+  * Soggetti gestori del servizio autorizzati (si veda Tabella
+  \vref{elenco-fornitori})
 
 \pagebreak
 
@@ -418,8 +418,6 @@ ricevere la comunicazione (come descritto precedentemente nella Tabella
 
 [^messaggio-ignorato]: Nel caso in cui il servizio non effettuasse questo controllo ed invierebbe comunque il messaggio alle API di CD, il messaggio verrebbe ignorato.
 
-<!-- TODO: se la PA invia comunque un messaggio, spiegare come puo' vedere il risultato dell'invio (fallito) -->
-
 ### Invio di messaggi a cittadini con un profilo CD {#invio-messaggio-profilo}
 
 Quando il cittadino accede per la prima volta, attraverso SPID, all'app di CD,
@@ -445,6 +443,12 @@ A tutti gli scenari viene applicato un filtro alla ricezione del messaggio che
 verifica che il servizio mittente sia stato abilitato dal cittadino (preferenza
 _Servizi abilitati_). Nel caso in cui il servizio non sia stato abilitato dal
 cittadino, il messaggio viene ignorato.
+
+### Verifica di invio da parte dell'ente
+
+In qualsiasi momento dopo l'invio di un messaggio da parte di un servizio,
+questo può consultare lo stato di invio tramite la funzione `GetMessage`
+fornita dall'API Messaggi.
 
 #### Scenario in cui il cittadino ha abilitato la casella dei messaggi
 
@@ -1199,6 +1203,23 @@ Misure in fase di implementazione.
 \pagebreak
 
 # Allegato tecnico
+
+## Soggetti gestori dei servizi autorizzati al trattamento dei dati
+
+Table: Elenco dei soggetti gestori dei servizi autorizzati al trattamento dei dati\label{elenco-fornitori}
+
+Gestore                               Servizio fornito              Tipologia di dato
+----------                            ------------------            -------------------
+Identity Provider SPID[^elenco-idp]   Identità SPID                 Attributi SPID
+Microsoft Corporation                 Servizio cloud                -
+MailUP SpA                            Invio email[^mailup]          Messaggi, Indirizzi email
+Instabug Inc.                         Tracciamento bug[^instabug]   Indirizzi email
+
+[^elenco-idp]: Per un elenco completo degli Identity Provider SPID accreditati si faccia riferimento a <https://www.agid.gov.it/it/piattaforme/spid/identity-provider-accreditati>
+
+[^mailup]: Il servizio consente alla piattaforma IO di inviare email ai cittadini, contententi i messaggi ricevuti dagli enti.
+
+[^instabug]: Il servizio consente agli utenti dell'app IO di segnalare problematiche e bug riscontrate durante l'utilizzo dell'app e di essere contattati per avere supporto.
 
 ## Elenco di Enti e Servizi disponibili al cittadino {#servizi-fase-sperimentale}
 

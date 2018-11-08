@@ -11,16 +11,6 @@ lot: true
 lof: true
 ---
 
-<!--
-TODO: punto di vista dell'ente (esempio: superficie di attacco quando
-l'ente esegue un invio massivo di messaggi)
-TODO: flusso ente invio messaggi (se non ha email deve controllare se il cf ha un profilo)
-
-AgID:
-TODO: nelle analisi del rischio, mettere nell'efficacia delle misure l'aggiornamento del rischio abbassato
-TODO: aggiungere rischio di esercitare di diritti con area per scaricare i dati
--->
-
 # Introduzione
 
 Questo documento è una valutazione dell'impatto sulla protezione dei dati (DPIA)
@@ -875,7 +865,7 @@ vengono criptate con il protocollo di trasporto di dati TLS 1.0 o superiore.[^tr
 
 **Efficacia delle misure**
 
-Il rischio è stato mitigato.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
@@ -902,7 +892,7 @@ punto-punto criptato con le migliori pratiche di sicurezza[^vpn-pagopa] (Figura 
 
 **Efficacia delle misure**
 
-Il rischio è stato mitigato.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
@@ -919,13 +909,14 @@ estrarre i dati dai server, provocando un _data breach_.
 **Misure atte a mitigare o prevenire il rischio**
 
 Il software applicativo di backend di Cittadinanza Digitale viene eseguito su
-un infrastruttura cloud con almeno le seguenti caratteristiche: tutti i datacenter implementano meccanismi di controllo della
+un infrastruttura cloud con almeno le seguenti caratteristiche: tutti i datacenter
+implementano meccanismi di controllo della
 sicurezza allo stato dell'arte: sorveglianza 24x7x365, protezioni ambientali e
 perimetrali e policy di accesso estese a tutto il personale.
 
 **Efficacia delle misure**
 
-Il rischio è stato mitigato.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
@@ -967,7 +958,7 @@ Infine vengono pianificati ed effettuati dei penetration test periodici per far 
 
 **Efficacia delle misure**
 
-Il rischio è stato ridotto.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
@@ -994,11 +985,17 @@ risorse cloud, vengono intraprese le seguenti misure:
 
 **Efficacia delle misure**
 
-Il rischio è ridotto.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Le misure sono in fase di implementazione.
+Le misure sono in fase di implementazione:
+
+Misura                          Stato
+-------                         -------------
+Training                        In fase di implementazione
+Limitazione accesso             In fase di implementazione
+Autenticazione multifattore     Implementata
 
 \pagebreak
 
@@ -1006,7 +1003,8 @@ Le misure sono in fase di implementazione.
 
 Rischio                                 Probabilità   Gravità   Misure
 --------                                ------------  --------  -------
-\ref{r-data-loss}                       Improbabile   Grave     Parziali
+\ref{r-data-loss}                       Improbabile   Grave     Si
+\ref{r-network-unavail}                 Probabile     Moderata  No
 \ref{r-interruption}                    Probabile     Moderata  Parziali
 
 ### Perdita parziale o totale dei dati archiviati {#r-data-loss}
@@ -1029,13 +1027,40 @@ Per quanto riguarda invece eventuali problematiche software, vengono implementat
 
 **Efficacia delle misure**
 
-Il rischio è stato mitigato.
+Il rischio è stato ulteriormente mitigato, rimanendo comunque a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misura                          Stato
+-------                         -------------
+Replica geografica              Implementata
+Backup periodico                In fase di implementazione
 
-<!-- TODO: aggiungere anche problematiche di connettivita' -->
+### Problemi di connettività hanno l'effetto di impedire l'accesso al servizio {#r-network-unavail}
+
+**Natura del rischio**
+
+Delle problematiche che possono sorgere durante un operazione effettuata dal
+cittadino o dall'Ente (es. guasto hardware, interruzioni di rete, mancanza di copertura dati) possono
+rendere impossibile l'accesso al servizio e il completamento di qualsiasi operazione.
+
+**Misure atte a mitigare o prevenire il rischio**
+
+Il servizio viene dispiegato su più data center distribuiti geograficamente, fornendo
+più punti di accesso di rete e _route_ possibili.
+
+Nel codice applicativo vengono implementati meccanismi di _retry_ su interfaccia idempotente, garantendo che ogni operazione venga eseguita correttamente, entro un tempo definito, anche in presenza di problemi di rete o hardware.
+
+**Efficacia delle misure**
+
+Il rischio è stato mitigato a probabilità: _possibile_.
+
+**Stato di approvazione e implementazione**
+
+Misura                          Stato
+-------                         -------------
+Replica geografica              In fase di implementazione
+Meccanismi di retry             Implementati
 
 ### Problemi software o di rete hanno l'effetto di interrompere o annullare le operazioni {#r-interruption}
 
@@ -1053,11 +1078,13 @@ Nel codice applicativo vengono implementati meccanismi di _retry_ su interfaccia
 
 **Efficacia delle misure**
 
-Il rischio è stato eliminato.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Implementazione completata.
+Misura                          Stato
+-------                         -------------
+Meccanismi di retry             Implementati
 
 \pagebreak
 
@@ -1085,11 +1112,14 @@ credenziali dell'Ente, vengono implementati:
 
 **Efficacia delle misure**
 
-Il rischio è stato ridotto.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misura                          Stato
+-------                         -------------
+Cifratura end-to-end            In fase di implementazione
+Restrizione IP                  Implementata
 
 ### Un attore malevolo impersona le API di CD, intercettando i dati personali dei cittadini {#r-api-id}
 
@@ -1101,15 +1131,19 @@ Tramite la compromisssione dell'infrastruttura di rete dell'Ente, è potenzialme
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Tramite verifica dei certificati del server API di CD da parte dell'Ente, l'Ente è sicuro di comunicare con le API di CD, escludendo possibile attacchi di _man in the middle_.
+Tramite verifica dei certificati del server API di CD da parte dell'Ente (_certificate pinning_[^cert-pinning]), l'Ente è sicuro di comunicare con le API di CD, escludendo possibile attacchi di _man in the middle_.
+
+[^cert-pinning]: <https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning>
 
 **Efficacia delle misure**
 
-Rischio è stato eliminato.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misura                          Stato
+-------                         -------------
+_Certificate pinning_           In fase di implementazione
 
 ### Un attore malevolo impersona un cittadino accedendo ai suoi dati personali e compie operazioni a suo nome {#r-cit-id}
 
@@ -1130,11 +1164,14 @@ Per minimizzare il rischio di compromissione delle credenziali SPID, all'interno
 
 **Efficacia delle misure**
 
-Il rischio è stato ridotto.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misura                          Stato
+-------                         -------------
+Codice PIN di accesso           Implementata
+Autenticazione biometrica       In fase di implementazione
 
 \pagebreak
 
@@ -1158,11 +1195,13 @@ Grazie ad un pannello di controllo personale, il cittadino può verificare tutte
 
 **Efficacia delle misure**
 
-Il rischio è stato mitigato.
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misura                          Stato
+-------                         -------------
+Pannello di controllo dati      In fase di implementazione
 
 ### I dati personali sono elaborati da entità non GDPR-compliant {#r-processor-gdpr}
 
@@ -1174,13 +1213,15 @@ Alcune informazioni personali potrebbero dover essere elaborate da questi serviz
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Analisi sugli attuali fornitori per verificare che siano _GDPR compliant_.
+Sono stati utilizzati fornitori di servizi _GDPR compliant_ (si veda Tabella \vref{elenco-fornitori}).
 
 **Efficacia delle misure**
 
+Il rischio è stato mitigato a probabilità: _improbabile_.
+
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misura implementata.
 
 ### I dati personali sono archiviati oltre il tempo strettamente necessario {#r-data-retention}
 
@@ -1190,36 +1231,73 @@ I dati personali del cittadino forniscono una cronostoria delle sue attività e 
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Viene definita una policy di _data retention_ che garantisca la conservazione dei dati per la durata minima necessaria all'erogazione del servizio.
+È stata definita una policy di _data retention_ che garantisca la conservazione dei dati per la durata minima necessaria all'erogazione del servizio (vedere Tabella \vref{table-data-retention}).
 
 **Efficacia delle misure**
 
-Misura in fase di implementazione. <!-- TODO: fare appendice -->
+Il rischio è stato mitigato a probabilità: _improbabile_.
 
 **Stato di approvazione e implementazione**
 
-Misure in fase di implementazione.
+Misure implementate.
 
 \pagebreak
 
 # Allegato tecnico
 
+## Politiche di conservazione dei dati
+
+Table: Tabella riassuntiva delle politiche di conservzione dei dati \label{table-data-retention}
+
+Tipo di dato                    Periodo di conservazione            Motivazione
+--------------                  --------------------------          -------------
+Nome e cognome                  Fino a disinstallazione app         App[^retention-profilo]
+Codice Fiscale                  Fino a disiscrizione dal servizio   Identificativo utente[^retention-cf]
+E-Mail                          Fino a disiscrizione dal servizio   API[^retention-email]
+Storico transazioni PagoPA      Fino a disinstallazione app         App[^retention-pagopa]
+Storico messaggi ricevuti       Fino a disiscrizione dal servizio   App[^retention-inbox]
+
+[^retention-profilo]: Per funzionalità Profilo all'interno dell'app
+
+[^retention-cf]: Il Codice Fiscale viene usato come identificativo dei dati dell'utente in tutta la piattaforma (App, API e database)
+
+[^retention-email]: Per l'invio dei messaggi via email da parte dell'API Messaggi
+
+[^retention-pagopa]: Per funzionalità Portafoglio all'interno dell'app
+
+[^retention-inbox]: Per la visualizzazione dello storico dei messaggi ricevuto all'interno dell'App
+
+<!-- TODO: aggiornare quando implementiamo politiche di backup -->
+
+\pagebreak
+
 ## Soggetti gestori dei servizi autorizzati al trattamento dei dati
 
 Table: Elenco dei soggetti gestori dei servizi autorizzati al trattamento dei dati\label{elenco-fornitori}
 
-Gestore                               Servizio fornito              Tipologia di dato
-----------                            ------------------            -------------------
-Identity Provider SPID[^elenco-idp]   Identità SPID                 Attributi SPID
-Microsoft Corporation                 Servizio cloud                -
-MailUP SpA                            Invio email[^mailup]          Messaggi, Indirizzi email
-Instabug Inc.                         Tracciamento bug[^instabug]   Indirizzi email
+Gestore                               Servizio fornito              Tipologia di dato             GDPR
+----------                            ------------------            -------------------           ------
+Identity Provider SPID[^elenco-idp]   Identità SPID                 Attributi SPID                Si
+Microsoft Corporation                 Servizio cloud                -                             Si[^gdpr-azure]
+MailUP SpA                            Invio email[^mailup]          Messaggi, Indirizzi email     Si[^gdpr-mailup]
+Instabug Inc.                         Tracciamento bug[^instabug]   Indirizzi email               Si[^gdpr-instabug]
+Mixpanel Inc.                         Analytics                     Utilizzo dell'app             Si[^gdpr-mixpanel]
 
 [^elenco-idp]: Per un elenco completo degli Identity Provider SPID accreditati si faccia riferimento a <https://www.agid.gov.it/it/piattaforme/spid/identity-provider-accreditati>
 
 [^mailup]: Il servizio consente alla piattaforma IO di inviare email ai cittadini, contententi i messaggi ricevuti dagli enti.
 
 [^instabug]: Il servizio consente agli utenti dell'app IO di segnalare problematiche e bug riscontrate durante l'utilizzo dell'app e di essere contattati per avere supporto.
+
+[^gdpr-azure]: <https://www.microsoft.com/it-it/TrustCenter/Privacy/gdpr/FAQ>
+
+[^gdpr-mailup]: <https://academy.mailup.it/gdpr-impegno-di-mailup/>
+
+[^gdpr-instabug]: <https://docs.instabug.com/docs/gdpr>
+
+[^gdpr-mixpanel]: <https://help.mixpanel.com/hc/en-us/articles/360000345423-GDPR-Compliance>
+
+\pagebreak
 
 ## Elenco di Enti e Servizi disponibili al cittadino {#servizi-fase-sperimentale}
 
@@ -1293,6 +1371,8 @@ _Comune di Bassano del Grappa_        Scadenze e istanze. (¹)
 
                                       Bollo auto ordinario. (¹,²)
 -----------------------------------------------------------------------------
+
+\pagebreak
 
 ## Meccanismi di autenticazione
 
@@ -1490,6 +1570,8 @@ SOAP. L'autenticazione tra le due componenti è garantita da:
 
 ![Autenticazione del backend dell'app verso il nodo PagoPA.\label{figura-infrastruttura-pagopa}](diagrams/infrastruttura-pagopa.svg)
 
+\pagebreak
+
 ## Sicurezza
 
 ### Meccanismi di controllo dell'accesso
@@ -1588,6 +1670,8 @@ sono anch'essi impostati nell'AD AgID e richiedono autenticazione tramite 2FA.
 I _contributor_ possono accedere al portale di amministrazione e gestire in autonomia
 le risorse PaaS fornite da Azure.
 
+\pagebreak
+
 ## Confidenzialità ed integrità
 
 ### Meccanismo di cifratura dei messaggi end-to-end {#cifratura-end-to-end}
@@ -1649,6 +1733,8 @@ L’autenticità (garanzia dell’identità del mittente) e l’integrità (gara
 1. Una volta ottenuta la chiave pubblica associata al servizio mittente, l’app potrà verificare che la firma digitale[^firma-digitale-doppia-chiave] corrisponda al contenuto del messaggio, confermando l’autenticità e l’integrità.
 
 [^firma-digitale-doppia-chiave]: Vedere <https://it.wikipedia.org/wiki/Firma_digitale#Schema_di_firme_a_doppia_chiave>
+
+\pagebreak
 
 ## Diagrammi architetturali
 

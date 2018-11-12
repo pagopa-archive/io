@@ -57,7 +57,7 @@ spec:
         - name: "AZURE_NH_HUB_NAME"
           value: "agid-notificationhub-test"
         - name: "NODE_ENV"
-          value: "production"
+          value: "development"
         - name: "PAGOPA_BASE_PATH"
           value: "/pagopa/api/v1"
         - name: "PAGOPA_API_URL"

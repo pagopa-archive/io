@@ -61,7 +61,7 @@ dei repository elencati in questa sezione. Potrai trovare:
 ## Repository GitHub
 
 Repository principale con la descrizione dell'infrastruttura:  
-https://github.com/teamdigitale/digital-citizenship
+https://github.com/teamdigitale/io
 
 Sorgenti delle API di notifica / preferenze (Azure Functions):  
 https://github.com/teamdigitale/io-functions
@@ -199,7 +199,7 @@ Limitatamente alle decisioni che riguardano l'architettura,
 queste vengono successivamente documentate (in inglese) in
 [Architecture Decision Record](https://github.com/joelparkerhenderson/architecture_decision_record#architecture-decision-record-adr) (ADR):
 
-[ADR](https://github.com/teamdigitale/digital-citizenship/tree/master/architecture/decisions).
+[ADR](https://github.com/teamdigitale/io/tree/master/architecture/decisions).
 
 # Comunicazione
 

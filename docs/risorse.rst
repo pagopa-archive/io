@@ -9,7 +9,7 @@ Backend - API Cittadinanza Digitale
 -  `Documentazione per le Amministrazioni e gli utenti delle
    API <https://teamdigitale.github.io/digital-citizenship>`__
 -  `Documentazione e script riguardanti
-   l'infrastruttura <https://github.com/teamdigitale/digital-citizenship>`__
+   l'infrastruttura <https://github.com/teamdigitale/io>`__
 -  `Implementazione delle API e la documentazione
    tecnica <https://github.com/teamdigitale/io-functions>`__
 -  `Procedure di automazione per il portale degli

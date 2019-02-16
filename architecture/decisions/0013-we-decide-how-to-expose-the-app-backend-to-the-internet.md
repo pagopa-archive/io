@@ -31,7 +31,7 @@ Requests coming from the app to the backend get routed through a few components:
   1. The `italia-backend` app.
 
 For details about the Service and the Ingress configuration, see
-[ingress.yml](https://github.com/teamdigitale/digital-citizenship/blob/master/infrastructure/kubernetes/ingress.yml).
+[ingress.yml](https://github.com/teamdigitale/io/blob/master/infrastructure/kubernetes/ingress.yml).
 
 ## Consequences
 

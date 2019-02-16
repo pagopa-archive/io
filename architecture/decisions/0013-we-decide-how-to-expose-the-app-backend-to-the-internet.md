@@ -9,8 +9,8 @@ Accepted
 ## Context
 
 The frontend side of the Digital Citizenship project consists of a mobile
-application named [italia-app](https://github.com/teamdigitale/italia-app).
-The `italia-app` application relies on a backend application ([italia-backend](https://github.com/teamdigitale/italia-backend))
+application named [italia-app](https://github.com/teamdigitale/io-app).
+The `italia-app` application relies on a backend application ([italia-backend](https://github.com/teamdigitale/io-backend))
 for intermediating the interaction with external services (e.g. the Digital
 Citizenship APIs) and for coordinating the SPID authentication process.
 

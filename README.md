@@ -19,15 +19,15 @@ introduction on the topic, check out the following pages (Italian):
 ### The Digital Citizenship APIs
 
 * [backlog](https://www.pivotaltracker.com/n/projects/2088623)
-* [API source](https://github.com/teamdigitale/digital-citizenship-functions)
+* [API source](https://github.com/teamdigitale/io-functions)
 * [docs](https://teamdigitale.github.io/digital-citizenship/)
 
 ### The Digital Citizenship mobile app
 
 * backlog: [app](https://www.pivotaltracker.com/n/projects/2048617) and
   [app backend](https://www.pivotaltracker.com/n/projects/2116794)
-* code: [app](https://github.com/teamdigitale/italia-app) and
-  [app backend](https://github.com/teamdigitale/italia-backend)
+* code: [app](https://github.com/teamdigitale/io-app) and
+  [app backend](https://github.com/teamdigitale/io-backend)
 
 ## Contributing
 
@@ -327,7 +327,7 @@ interface.
 #### Activate "Managed Service Identity" for the onboarding Web App Service
 
 To ease the onboarding of new developers (API users) we use a dedicated
-[Application](https://github.com/teamdigitale/digital-citizenship-onboarding)
+[Application](https://github.com/teamdigitale/io-onboarding)
 that starts some automated tasks once the user sign-in into the developer
 portal.
 

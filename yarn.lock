@@ -1355,6 +1355,12 @@ debug@^2.2.0, debug@^2.6.8:
   dependencies:
     ms "2.0.0"
 
+debug@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  dependencies:
+    ms "^2.1.1"
+
 decamelize@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
@@ -1396,12 +1402,13 @@ diff@^3.2.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.1.tgz#aa8567a6eed03c531fc89d3f711cd0e5259dec75"
 
-documentdb@^1.14.4:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.14.4.tgz#c96650ef07738fc72d0b841cf572cda64ac4a4c8"
+documentdb@^1.15.1:
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/documentdb/-/documentdb-1.15.1.tgz#899602fb7e8f1cdadcb5710667298350207ca578"
   dependencies:
     big-integer "^1.6.25"
     binary-search-bounds "2.0.3"
+    debug "^4.1.0"
     int64-buffer "^0.1.9"
     priorityqueuejs "1.0.0"
     semaphore "1.0.5"

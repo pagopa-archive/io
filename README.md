@@ -11,7 +11,7 @@ introduction on the topic, check out the following pages (Italian):
   [Digital Citizenship project page](https://teamdigitale.governo.it/it/projects/cittadinanza-digitale.htm)
   in the Digital Transformation Team site for high level introduction.
 * The
-  [Digital Citizenship documentation site](https://teamdigitale.github.io/digital-citizenship/)
+  [Digital Citizenship documentation site](https://teamdigitale.github.io/io/)
   for more indepth explanation of the project components and goals.
 
 ## Child projects
@@ -20,7 +20,7 @@ introduction on the topic, check out the following pages (Italian):
 
 * [backlog](https://www.pivotaltracker.com/n/projects/2088623)
 * [API source](https://github.com/teamdigitale/io-functions)
-* [docs](https://teamdigitale.github.io/digital-citizenship/)
+* [docs](https://teamdigitale.github.io/io/)
 
 ### The Digital Citizenship mobile app
 
@@ -189,7 +189,7 @@ Multifactor authentication:
 Page UI customization:
 
 * Set up for every page the following custom page URI:\
-  https://teamdigitale.github.io/digital-citizenship-onboarding/unified.html
+  https://teamdigitale.github.io/io-onboarding/unified.html
 * Save the policy
 * Customize the "Multifactor authentication page"
 * Open "Local account sign-up page"

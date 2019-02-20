@@ -5,9 +5,9 @@ Backend - API Cittadinanza Digitale
 -----------------------------------
 
 -  `Specifiche
-   OpenAPI <https://teamdigitale.github.io/digital-citizenship/api/public.html>`__
+   OpenAPI <https://teamdigitale.github.io/io/api/public.html>`__
 -  `Documentazione per le Amministrazioni e gli utenti delle
-   API <https://teamdigitale.github.io/digital-citizenship>`__
+   API <https://teamdigitale.github.io/io>`__
 -  `Documentazione e script riguardanti
    l'infrastruttura <https://github.com/teamdigitale/io>`__
 -  `Implementazione delle API e la documentazione

@@ -520,7 +520,7 @@ proprie preferenze, avvengono i seguenti passaggi
 
 [^preferenze-notifiche-casella]: L'invio delle notifiche push sull'app richiede che sia abilitata la casella dei messaggi, per permettere all'app di recuperare il contenuto del messaggio (che non viene inviato tramite la notifica push).
 
-[^notifica-hash-cf]: Utilizziamo la hash del codice fiscale in modo che il dato in chiaro del codice fiscale del cittadino non venga salvato nel database del servizio di invio notifiche push (in questo modo il codice fiscale viene pseudoanonimizzato).
+[^notifica-hash-cf]: Utilizziamo la hash del codice fiscale in modo che il dato in chiaro del codice fiscale del cittadino non venga salvato nel database del servizio di invio notifiche push (in questo modo il codice fiscale viene pseudonimizzato).
 
 [^notifica-ios-android]: La notifica viene inoltrata ai servizi di notifica di Google o di Apple a seconda della tipologia di device su cui è stata installata l'app.
 
@@ -1673,6 +1673,30 @@ le risorse PaaS fornite da Azure.
 \pagebreak
 
 ## Confidenzialità ed integrità
+
+### Meccanismo di pseudonimizzazione del codice fiscale
+
+Nel modello dati descritto in questo documento viene usato il Codice Fiscale (CF) del cittadino come chiave identificativa univoca.
+Il CF è “parlante”, ovvero porta con sé informazioni sensibili e non strettamente necessarie allo scopo di identificare il dato associato ad un singolo cittadino.
+
+Anche in relazione al principio di minimizzazione del rischio, nell'implementazione
+del modello dati reale viene utilizzata una forma pseudonimizzata del CF in
+sostituzione del CF in chiaro.
+
+La pseudonimizzazione del CF avviene attraverso una funzione di _hashing_
+applicata al CF ricevuto all'interno dell'asserzione SPID.
+Questo procedimento permette di ottenere un codice identificativo univoco[^hashing-univoco] non più parlante, ma opaco, dal quale non si può risalire all'identità del cittadino a cui è collegato.
+
+#### Limiti della pseudonimizzazione del CF
+
+All'interno dell'app IO, il CF viene visualizzato in chiaro nel profilo dell'utente.
+Poichè il CF in chiaro viene comunicato al backend dell'app dall'IdP SPID all'interno
+dell'asserzione SAML, esiste un certo lasso di tempo nel flusso di autenticazione, in cui
+il CF in chiaro deve transitare attraverso il backend. Durante questo lasso di tempo
+(solitamente inferiore a pochi secondi) il CF del cittadino appare in forma non
+pseudonimizzata nella memoria del backend.
+
+[^hashing-univoco]: quando si parla di funzioni di hashing, si deve parlare anche della probabilità di collisione - in teoria, essendo lo spazio dei CF limitato, potremmo calcolare  una funzione di hashing perfetta - in pratica abbiamo deciso di utilizzare una funzione di hashing standard come SHA256 che produce uno spazio di 256 bit garantendo una probabilità di collisione praticamente nulla.
 
 ### Meccanismo di cifratura dei messaggi end-to-end {#cifratura-end-to-end}
 

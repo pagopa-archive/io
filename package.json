@@ -64,7 +64,7 @@
     "shelljs": "^0.8.2",
     "tmp": "^0.0.33",
     "ts-node": "^7.0.0",
-    "tslint": "^5.10.0",
+    "tslint": "^5.13.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-immutable": "^4.6.0",
     "tslint-plugin-prettier": "^1.2.0",

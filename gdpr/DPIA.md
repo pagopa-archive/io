@@ -804,7 +804,7 @@ Di seguito elenchiamo i possibili scenari, raggruppati per tipologia:
     legge sulla protezione dei dati e potrebbe essere preoccupata per esempio di
     non essere in grado di ottenere copie dei propri dati personali.
 * Incorretta identificazione dei soggetti coinvolti nella trasmissione di dati personali:
-  * Qualcuno effettua un pagamenti per una posizioni debitorie di cui non è
+  * Qualcuno effettua un pagamento per una posizione debitoria di cui non è
     responsabile.
   * Qualcuno invia una comunicazione per conto di un servizio.
 
@@ -968,7 +968,7 @@ Le misure sono attualmente implementate.
 
 **Natura del rischio**
 
-Le credenziali di un account di administratore vengono compromesse (rivelate
+Le credenziali di un account di amministratore vengono compromesse (rivelate
 tramite forza bruta o ottenute con un attacco di phishing), garantendo
 l'accesso ai dati di tutti i cittadini presenti nell'infrastruttura applicativa.
 
@@ -1042,7 +1042,7 @@ Backup periodico                In fase di implementazione
 
 Delle problematiche che possono sorgere durante un operazione effettuata dal
 cittadino o dall'Ente (es. guasto hardware, interruzioni di rete, mancanza di copertura dati) possono
-rendere impossibile l'accesso al servizio e il completamento di qualsiasi operazione.
+rendere impossibile l'accesso al servizio ed il completamento di qualsiasi operazione.
 
 **Misure atte a mitigare o prevenire il rischio**
 
@@ -1104,7 +1104,7 @@ Le credenziali che permettono all'ente di inviare messaggi ai cittadini devono e
 
 **Misure atte a mitigare o prevenire il rischio**
 
-Per l'imitare l'impatto sulla privacy in caso di compromissione delle
+Per limitare l'impatto sulla privacy in caso di compromissione delle
 credenziali dell'Ente, vengono implementati:
 
 * Meccanismo di cifratura _end-to-end_ dei messaggi per prevenire la lettura del messaggi precedentemente inviati ad un cittadino (descritto in § \vref{cifratura-end-to-end}).

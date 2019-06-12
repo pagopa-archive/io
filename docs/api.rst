@@ -65,7 +65,7 @@ Provare le API tramite il portale sviluppatori
 
 Tramite il developer portal è possibile:
 
--  consultare le `spefiche delle API <https://developer.io.italia.it/openapi.html>`__ (OpenAPI / Swagger)
+-  consultare le `specifiche delle API <https://developer.io.italia.it/openapi.html>`__ (OpenAPI / Swagger)
 -  visualizzare l’API-key, necessaria per utilizzare le API
 -  provare a inviare messaggi tramite l’\ `interfaccia
    grafica <https://developer.io.italia.it>`__

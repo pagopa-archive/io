@@ -9,7 +9,7 @@ modo da provare l’invio dei primi messaggi tramite il sistema di
 notifiche.
 
 `Registrati sul portale
-sviluppatori <https://developer.cd.italia.it/>`__
+sviluppatori <https://developer.io.italia.it/>`__
 
 Se non hai un account è necessario seguire il link “**Sign up now**”; ti
 verranno chieste le seguenti informazioni (tutte da fornire
@@ -65,17 +65,17 @@ Provare le API tramite il portale sviluppatori
 
 Tramite il developer portal è possibile:
 
--  consultare le spefiche delle API (OpenAPI / Swagger)
+-  consultare le `specifiche delle API <https://developer.io.italia.it/openapi.html>`__ (OpenAPI / Swagger)
 -  visualizzare l’API-key, necessaria per utilizzare le API
 -  provare a inviare messaggi tramite l’\ `interfaccia
-   grafica <https://developer.cd.italia.it/docs/services/digital-citizenship-api>`__
+   grafica <https://developer.io.italia.it>`__
 
 L’account di test è limitato all’utilizzo dell’API di invio dei messaggi
 (“submitMessage”). Per inviare un messaggio tramite API è necessario
 fornire in input il codice fiscale ottenuto durante la registrazione.
 
 Nella `pagina con i dati relativi al tuo
-account <https://developer.cd.italia.it/developer>`__ puoi
+account <https://developer.io.italia.it>`__ puoi
 trovare l’Api-Key (“Primary key”) che è necessario utilizzare per
 autenticarsi alle API.
 

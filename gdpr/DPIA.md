@@ -1533,7 +1533,7 @@ Backend dell'app        `ApiFullProfileRead`
                         `ApiMessageList`
 --------------------------------------------------
 
-[^portale-dev-cd]: <https://developer.cd.italia.it/>
+[^portale-dev-cd]: <https://developer.io.italia.it/>
 [^apim-page]: <https://docs.microsoft.com/it-it/azure/api-management/api-management-key-concepts>
 
 ![Autenticazione da parte del servizio verso le API di CD.\label{figura-infrastruttura-apim}](diagrams/infrastruttura-apim.svg)

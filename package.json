@@ -1,11 +1,13 @@
 {
   "name": "digital-citizenship",
-  "version": "2.0.0",
-  "description": "Digital Citizenship project",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
+  "version": "0.1.0",
+  "description": "Digital Citizenship platform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teamdigitale/digital-citizenship.git"
   },
+  "author": "Team per la Trasformazione Digitale",
+  "license": "MIT",
   "scripts": {
     "docs:build": "sphinx-build docs site",
     "docs:nojekyll": "cp .nojekyll site",
@@ -13,17 +15,8 @@
     "docs:deploy": "gh-pages -t -d site",
     "docs:publish": "npm-run-all docs:build docs:nojekyll docs:api docs:deploy"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/teamdigitale/digital-citizenship.git"
-  },
-  "author": "",
-  "license": "",
-  "bugs": {
-    "url": "https://github.com/teamdigitale/digital-citizenship/issues"
-  },
-  "homepage": "https://github.com/teamdigitale/digital-citizenship#readme",
-  "dependencies": {
-    "gh-pages": "^2.0.1"
+  "devDependencies": {
+    "gh-pages": "^1.2.0",
+    "npm-run-all": "^4.1.3"
   }
 }

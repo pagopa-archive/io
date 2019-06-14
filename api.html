@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Utilizzo delle API &mdash; Cittadinanza digitale  documentazione</title>
+               
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />   
+    <link rel="index" title="Indice" href="genindex.html" />
+    <link rel="search" title="Cerca" href="search.html" />
+    <link rel="top" title="Cittadinanza digitale  documentazione" href="index.html" />
+    <link rel="next" title="Roadmap di evoluzione" href="roadmap.html" />
+    <link rel="prev" title="Modello di funzionamento" href="architettura.html" />  
+    <script src="_static/js/modernizr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600" rel="stylesheet">
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+     
+    <div class="wy-grid-for-nav">
+
+        
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+            <div class="wy-side-scroll">
+                <div class="wy-side-nav-search">
+                    
+
+                    <div class="branding clearfix">
+                        <div class="branding--logo">
+                            <a href="https://docs.developers.italia.it">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+                              <g fill="none" fill-rule="evenodd">
+                                <path d="M0 0h160v160H0z"/>
+                                <path fill="#fff" d="M58.28 131.956V49.918h21.5v82.184h-21.5v-.146zm84.435-63.353h-19.65v33.72c0 3.358.143 5.547.285 7.007.143 1.314.712 2.482 1.71 3.504.996 1.02 2.562 1.46 4.698 1.46l12.245-.293.997 17.52c-7.12 1.606-12.673 2.48-16.375 2.48-9.682 0-16.232-2.19-19.65-6.713-3.56-4.38-5.267-12.554-5.267-24.524V27h21.5v22.772h19.65v18.83h-.143zM25.957 74.88c-3.702 0-6.834-1.314-9.255-3.94C14.282 68.31 13 65.1 13 61.303c0-3.795 1.28-7.007 3.56-9.634 2.42-2.63 5.553-3.798 9.255-3.798 3.702 0 6.835 1.314 9.255 3.942 2.42 2.627 3.56 5.84 3.56 9.78 0 3.942-1.14 7.007-3.56 9.635-2.278 2.335-5.268 3.65-9.113 3.65z"/>
+                              </g>
+                            </svg>
+                          </a>
+                        </div>
+                        <div class="branding--content">
+                            <h2 class="branding--title">
+                                <span class="branding--title--root">/ <a href="https://developers.italia.it">developers</a></span>
+                                <span class="branding--title--branch">/ <a href="https://docs.developers.italia.it">docs</a></span>
+                            </h2>
+                        </div>
+                        <h3 class="branding--tagline">La community italiana degli sviluppatori di servizi pubblici</h3>
+                    </div>
+
+            
+            
+            <h1 class="project-title"><a href="index.html" class="icon icon-home"> Cittadinanza digitale </a></h1>
+            
+
+
+                     
+                      
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div> 
+                </div>
+
+                <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduzione.html">Cittadinanza digitale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benefici.html">Benefici del sistema di avvisi e preferenze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architettura.html">Modello di funzionamento</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Utilizzo delle API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#registrarsi-allambiente-di-test-delle-api">Registrarsi all’ambiente di test delle API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#differenze-tra-la-sottoscrizione-di-test-e-produzione">Differenze tra la sottoscrizione di test e produzione</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#provare-le-api-tramite-il-portale-sviluppatori">Provare le API tramite il portale sviluppatori</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generare-un-client-dalle-specifiche-openapi">Generare un client dalle specifiche OpenAPI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap di evoluzione</a></li>
+<li class="toctree-l1"><a class="reference internal" href="risorse.html">Risorse</a></li>
+</ul>
+  
+                </div>
+            </div>
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+            
+            <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+                
+                <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+                <a href="index.html">Cittadinanza digitale</a> 
+            </nav>
+
+
+            
+            <div class="wy-nav-content">
+                <div class="rst-content">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Utilizzo delle API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+                    <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                        <div itemprop="articleBody">
+                            
+  <div class="section" id="utilizzo-delle-api">
+<h1>Utilizzo delle API<a class="headerlink" href="#utilizzo-delle-api" title="Link a questa intestazione">¶</a></h1>
+<div class="section" id="registrarsi-allambiente-di-test-delle-api">
+<h2>Registrarsi all’ambiente di test delle API<a class="headerlink" href="#registrarsi-allambiente-di-test-delle-api" title="Link a questa intestazione">¶</a></h2>
+<p>Puoi richiedere accesso da subito all’ambiente di test per le API, in
+modo da provare l’invio dei primi messaggi tramite il sistema di
+notifiche.</p>
+<p><a class="reference external" href="https://developer.io.italia.it/">Registrati sul portale
+sviluppatori</a></p>
+<p>Se non hai un account è necessario seguire il link “<strong>Sign up now</strong>”; ti
+verranno chieste le seguenti informazioni (tutte da fornire
+obbligatoriamente):</p>
+<ul class="simple">
+<li>un indirizzo email valido</li>
+<li>nome utente</li>
+<li>password</li>
+<li>il tuo nome</li>
+<li>il tuo cognome</li>
+<li>nome dell’amministrazione (“Organization”) di appartenenza</li>
+<li>nome del servizio in cui vuoi integrare le notifiche (es. “Avvisi di
+scadenza”, “Portale del cittadino”, …),</li>
+<li>dipartimento (area) dell’amministrazione a cui afferisce il servizio
+di notifica</li>
+</ul>
+<p>Il nome dell’amministrazione, quello del servizio e dell’area verranno
+inseriti nel contenuto dei messaggi inviati in modo che i destinatari
+possano individuarne la provenienza.</p>
+<iframe src="https://player.vimeo.com/video/242787276" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><p>Una volta avuto accesso al portale sviluppatori segui il link
+<strong>“Subscribe to the Digital Citizenship API”</strong> e attendi che la
+sottoscrizione venga attivata.</p>
+<p>Al momento dell’attivazione riceverai un’email: da quel momento è
+possibile iniziare a utilizzare l’API in modalità di test.</p>
+<p>L’email contiene un codice fiscale “fittizio” tramite il quale puoi
+utilizzare l’<strong>API per l’invio di messaggi</strong>; ti verrano recapitati
+all’indirizzo che hai fornito durante la registrazione.</p>
+<div class="section" id="differenze-tra-la-sottoscrizione-di-test-e-produzione">
+<h3>Differenze tra la sottoscrizione di test e produzione<a class="headerlink" href="#differenze-tra-la-sottoscrizione-di-test-e-produzione" title="Link a questa intestazione">¶</a></h3>
+<p>Fin quando sarà attiva la modalità di test:</p>
+<ul class="simple">
+<li>non potrai inviare messaggi a indirizzi email diversi da quello che
+hai fornito in fase di registrazione</li>
+<li>non potrai inviare messaggi usando un codice fiscale diverso da
+quello che hai ricevuto durante la registrazione</li>
+<li>non potrai leggere / scrivere le preferenze associate a un codice
+fiscale (Profile API)</li>
+<li>il numero di richieste API che è possible inoltrare è limitato a 1000
+per settimana</li>
+</ul>
+</div>
+</div>
+<div class="section" id="provare-le-api-tramite-il-portale-sviluppatori">
+<h2>Provare le API tramite il portale sviluppatori<a class="headerlink" href="#provare-le-api-tramite-il-portale-sviluppatori" title="Link a questa intestazione">¶</a></h2>
+<p>Tramite il developer portal è possibile:</p>
+<ul class="simple">
+<li>consultare le <a class="reference external" href="https://developer.io.italia.it/openapi.html">specifiche delle API</a> (OpenAPI / Swagger)</li>
+<li>visualizzare l’API-key, necessaria per utilizzare le API</li>
+<li>provare a inviare messaggi tramite l’<a class="reference external" href="https://developer.io.italia.it">interfaccia
+grafica</a></li>
+</ul>
+<p>L’account di test è limitato all’utilizzo dell’API di invio dei messaggi
+(“submitMessage”). Per inviare un messaggio tramite API è necessario
+fornire in input il codice fiscale ottenuto durante la registrazione.</p>
+<p>Nella <a class="reference external" href="https://developer.io.italia.it">pagina con i dati relativi al tuo
+account</a> puoi
+trovare l’Api-Key (“Primary key”) che è necessario utilizzare per
+autenticarsi alle API.</p>
+<div class="figure" id="id1">
+<img alt="sign-up" src="_images/3-apikey.PNG" />
+<p class="caption"><span class="caption-text">sign-up</span></p>
+</div>
+</div>
+<div class="section" id="generare-un-client-dalle-specifiche-openapi">
+<h2>Generare un client dalle specifiche OpenAPI<a class="headerlink" href="#generare-un-client-dalle-specifiche-openapi" title="Link a questa intestazione">¶</a></h2>
+<p>Esistono diversi tool open source per generare i client delle API nei
+diversi linguaggi di programmazione. Ad esempio tramite
+<a class="reference external" href="https://github.com/Azure/autorest">Autorest</a>, sviluppato da
+Microsoft, è possibile generare client in C#, Go, Java, Node.js,
+TypeScript, Python, Ruby and PHP.</p>
+<p><a class="reference external" href="https://teamdigitale.github.io/digital-citizenship/api/public.html">Specifiche OpenAPI per l’iniziativa di Cittadinanza
+Digitale</a></p>
+</div>
+</div>
+
+
+                        </div>
+                        <div class="articleComments">
+                            
+                        </div>
+                    </div>
+                    <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="roadmap.html" class="btn float-right" title="Roadmap di evoluzione" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="architettura.html" class="btn" title="Modello di funzionamento" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright CC-BY 4.0 - Agenzia per l&#39;Italia Digitale.
+      Ultimo aggiornamento 14/06/2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using the official <a href="https://github.com/italia/sphinx_italia_theme">Italia theme</a> based on the <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+    
+ 
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT: './',
+            VERSION: '',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE: true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>   
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+      
+    <script type="text/javascript">
+        jQuery(function() {
+            SphinxRtdTheme.StickyNav.enable();
+        });
+    </script>
+     
+
+</body>
+
+</html>

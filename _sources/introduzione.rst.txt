@@ -56,7 +56,7 @@ Le amministrazioni avranno piena visibilità delle comunicazioni che
 hanno inviato ad un cittadino (e del loro stato di invio e lettura).
 
 Esempi di casi d'uso
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 -  invio di promemoria (es. appuntamento medico)
 -  invio di scadenze (es. scadenza della carta d'identità)

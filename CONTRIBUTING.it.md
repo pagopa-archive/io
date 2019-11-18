@@ -208,7 +208,7 @@ queste vengono successivamente documentate (in inglese) in
 Per le comunicazioni sincrone utilizziamo Slack:  
 [slack.developers.italia.it](https://slack.developers.italia.it/)
 
-Sul canale `#io-devel` trovi i membri del team di sviluppo e
+Sul canale `#io-dev` trovi i membri del team di sviluppo e
 i maintainer dei sotto-progetti, oltre a coloro che si occupano
 di aspetti non direttamente legati allo sviluppo
 (_product management_, esperienza utente (_UX_), coordinamento).

@@ -1,33 +1,25 @@
-# Digital Citizenship
+# IO
 
-This is the main repository of the Digital Citizenship project, managed by
-[AgID](http://agid.gov.it) and the
-[Digital Transformation Team](https://teamdigitale.governo.it/en/49-content.htm).
+This is the main repository of the IO project, managed by
+[PagoPA S.p.a.](https://www.pagopa.gov.it).
 
 This repository stores technical documentation and code, for a more friendly
-introduction on the topic, check out the following pages (Italian):
-
-* The
-  [Digital Citizenship project page](https://teamdigitale.governo.it/it/projects/cittadinanza-digitale.htm)
-  in the Digital Transformation Team site for high level introduction.
-* The
-  [Digital Citizenship documentation site](https://teamdigitale.github.io/digital-citizenship/)
-  for more indepth explanation of the project components and goals.
+introduction on the topic, check out the [IO project page](https://io.italia.it).
 
 ## Child projects
 
-### The Digital Citizenship APIs
-
-* [backlog](https://www.pivotaltracker.com/n/projects/2088623)
-* [API source](https://github.com/teamdigitale/digital-citizenship-functions)
-* [docs](https://teamdigitale.github.io/digital-citizenship/)
-
-### The Digital Citizenship mobile app
+### IO mobile app
 
 * backlog: [app](https://www.pivotaltracker.com/n/projects/2048617) and
-  [app backend](https://www.pivotaltracker.com/n/projects/2116794)
-* code: [app](https://github.com/teamdigitale/italia-app) and
-  [app backend](https://github.com/teamdigitale/italia-backend)
+  [backend](https://www.pivotaltracker.com/n/projects/2116794)
+* code: [app](https://github.com/pagopa/io-app) and
+  [app backend](https://github.com/pagopa/io-backend)
+
+### IO APIs
+
+* [backlog](https://www.pivotaltracker.com/n/projects/2088623)
+* [API source](https://github.com/pagopa/io-functions-services)
+* [docs](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/pagopa/io-functions-services/master/openapi/index.yaml)
 
 ## Contributing
 
@@ -64,40 +56,3 @@ Here's the decisions we taken so far:
 | 11  | [We chose a different CosmosDB API](architecture/decisions/0011-we-chose-a-different-cosmosdb-api.md)                                             | [PR#28](https://github.com/teamdigitale/digital-citizenship/pull/28) |
 | 12  | [We chose a retry strategy in case of processing errors](architecture/decisions/0012-we-chose-a-retry-strategy.md)                                | [PR#48](https://github.com/teamdigitale/digital-citizenship/pull/48) |
 | 13  | [We decide how to expose the app backend to the internet](architecture/decisions/0013-we-decide-how-to-expose-the-app-backend-to-the-internet.md) | [PR#52](https://github.com/teamdigitale/digital-citizenship/pull/52) |
-
-## Other
-
-### Building the documentation site
-
-The source of the Digital Citizenship documentation site is under the `docs`
-directory of this repository.
-
-#### Prerequisites
-
-* [Python language runtime](https://www.python.org/downloads/)
-* [Python pip](https://pip.pypa.io/en/stable/installing/)
-* [Sphinx](http://www.sphinx-doc.org/en/stable/install.html)
-
-Then install the following packages:
-
-```
-pip install recommonmark
-pip install sphinx-rtd-theme
-```
-
-#### Build the documentation
-
-To build the sphinx documentation from this repository:
-
-```
-yarn docs:build
-```
-
-#### Publish the documentation
-
-To deploy the documentation site (via GitHub pages):
-
-```
-yarn docs:publish
-```
-

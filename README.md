@@ -36,7 +36,7 @@ Di seguito le repositories dove trovare le implementazioni in codice delle funzi
 app IO per dispositivi mobili iOS e Android
 
 *[io-services-metadata](https://github.com/pagopa/io-services-metadata)* <br/>
-contenuti statici consumati dall'app.
+Contenuti statici consumati dall'app.
 Questa repository permette di gestire i contenuti che l'app consuma (immagini, configurazioni, banners, anagrafica comuni etc)
 come se fossero codice: versionati e con processo di code review. Una volta che una PR è mergiata sul ramo principale, una pipeline dedicata
 sposta i contenuti sulla CDN di app IO

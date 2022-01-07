@@ -32,7 +32,14 @@ Di seguito le repositories dove trovare le implementazioni in codice delle funzi
 
 ### Repositories principali
 #### App
-*[io-app](https://github.com/pagopa/io-app)* <br/>app IO per dispositivi mobili iOS e Android
+*[io-app](https://github.com/pagopa/io-app)* <br/>
+app IO per dispositivi mobili iOS e Android
+
+*[io-services-metadata](https://github.com/pagopa/io-services-metadata)* <br/>
+contenuti consumati dall'app.
+Questa repo permette di gestire i contenuti che l'app consuma (immagini, configurazioni, banners, anagrafica comuni etc)
+come se fossero codice: versionati e con processo di code review. Una volta che una PR è mergiata su master, una pipeline dedicata
+sposta i contenuti sulla CDN di app IO
 
 #### Infra
 *[io-infra](https://github.com/pagopa/io-infra)* <br/>Le definizioni Terraform delle risorse cloud utilizzate da IO.
@@ -57,11 +64,13 @@ TBD
 
 *[react-native-cie](https://github.com/pagopa/io-cie-sdk)* <br/>
 E' la libreria inclusa in app IO per effettuare l'autenticazione tramite CIE (Carta di Identità Elettronica). 
-In particolare questa repo contiene l'implementazione Android che è un adattamento dell'[SDK sviluppato da IPZS](https://github.com/italia/cieid-android-sdk)
-Per quanto riguarda iOS la repo contiene solo il framework compilato e non i sorgenti che invece [sono disponibili qui](https://github.com/pagopa/io-cie-ios-sdk)
+In particolare questa repo contiene l'implementazione Android che è un adattamento dell'[SDK sviluppato da IPZS](https://github.com/italia/cieid-android-sdk).
+Per quanto riguarda iOS la repo contiene solo il framework compilato e non i sorgenti che invece [sono disponibili qui](https://github.com/pagopa/io-cie-ios-sdk).
 Maggiori dettagli su come l'app usa questa liberia sono disponibili [in questo documento](/assets/docs/io-app-cie.pdf)
 
-*[react-native-zendesk](https://github.com/pagopa/react-native-zendesk)*
+*[io-react-native-zendesk](https://github.com/pagopa/io-react-native-zendesk)*<br/>
+E' la libreria inclusa in app IO che permette agli utenti di richiedere assistenza. In particolare è una personalizzazione della libreria [react-native-zendesk-v2](https://github.com/Saranshmalik/react-native-zendesk)
+modificata opportunamente per le esigenze di IO. Include l'uso degli SDK ufficiali si [Zendesk](https://www.zendesk.com/) e il layer di comunicazione tra il nativo e React Native
 
 *[io-functions-express](https://github.com/pagopa/io-functions-express)*
 

@@ -5,13 +5,13 @@
 - [Descrizione del progetto](#descrizione-del-progetto)
 - [Overview architetturale](#overview-architetturale)
 - [Repositories](#repositories)
-  * [Core repositories](#core-repositories)
+  * [Repositories principali](#core-repositories)
     + [App](#app)
     + [Infra](#infra)
     + [Backend](#backend)
     + [Web](#web)
-    + [Utilities](#utilities)
-    + [Developer tool](#developer-tool)
+    + [Utilità](#utilities)
+    + [Strumenti per lo sviluppo](#developer-tool)
   * [Iniziative](#iniziative)
     + [Carta Giovani Nazionale](#carta-giovani-nazionale)
     + [Sicilia Vola](#sicilia-vola)
@@ -44,7 +44,7 @@ Di seguito le repositories dove trovare le implementazioni in codice delle funzi
 TBD
 
 #### Web
-*[io.italia.it](https://github.com/pagopa/io-infra)* Sito istituzionale del progetto, provacy policy, termini e condizioni.
+*[io.italia.it](https://github.com/pagopa/io-infra)* Sito istituzionale del progetto, privacy policy, termini e condizioni.
 
 #### Utilities
 *[ts-commons](https://github.com/pagopa/ts-commons)*

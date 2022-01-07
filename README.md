@@ -23,7 +23,12 @@
 ----
 
 ## Descrizione del progetto
-TBD
+Il progetto IO:
+- è il nuovo canale per facilitare la comunicazione fra i cittadini e lo Stato
+- promuove una nuova generazione di Servizi Pubblici, concepiti e progettati insieme ai cittadini a partire dai loro bisogni
+- è un vettore attraverso il quale le istituzioni governative veicolano iniziative sociali/economiche/sanitarie
+- è una piattaforma tecnologica innovativa
+
 ## Overview architetturale
 TBD
 

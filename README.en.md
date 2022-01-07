@@ -12,12 +12,12 @@
     + [Web](#web)
     + [Utilities](#utilities)
     + [Developer tool](#developer-tool)
-  * [Iniziative](#iniziative)
+  * [Initiatives](#iniziatives)
     + [Cgn](#cgn)
     + [Sicilia Vola](#sicilia-vola)
     + [Green Pass](#green-pass)
 - [Contributing](#contributing)
-- [Licenze](#licenze)
+- [License](#license)
 
 
 ----
@@ -66,7 +66,7 @@ TBD
 #### Developer tool
 TBD
 
-### Iniziative
+### Initiatives
 
 #### Cgn
 TBD
@@ -78,5 +78,5 @@ TBD
 ## Contributing
 TBD
 
-## Licenze
+## License
 TBD

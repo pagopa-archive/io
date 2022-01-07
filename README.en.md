@@ -35,6 +35,12 @@ Here are the repositories on which you can find the actual implementations of `I
 #### App
 *[io-app](https://github.com/pagopa/io-app)* <br/>IO app for iOS and Android devices
 
+*[io-services-metadata](https://github.com/pagopa/io-services-metadata)* <br/>
+static assets used by the app.
+This repository allows you to manage the contents that the app consumes (images, configurations, banners, municipalities data etc)
+as if they are code: versioned and with a code review process. Once a PR is merged on the main branch, a dedicated pipeline
+moves contents into IO CDN
+
 #### Infra
 *[io-infra](https://github.com/pagopa/io-infra)* <br/>Terraform definitions for cloud resources used by `IO`.
 

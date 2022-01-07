@@ -76,7 +76,10 @@ It includes the use of the official [Zendesk](https://www.zendesk.com/) SDKs and
 *[io-functions-commons](https://github.com/pagopa/io-functions-commons)*
 
 #### Developer tool
-TBD
+*[io-app-dev-server](https://github.com/pagopa/io-dev-api-server)* <br/>
+Server for IO app development: using this tool, it can be run locally, there is no need to interface with production services during development. 
+It creates all the services and endpoints that the production app uses: IO backend API, CDN assets, pagoPA API, initiative API (cashback, bonus vacanze, green pass etc). 
+The server is configurable at the response and content level as well as supporting, for almost all services, a random generation layer of the response content.
 
 ### Initiatives
 

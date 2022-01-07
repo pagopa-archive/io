@@ -13,7 +13,7 @@
     + [Utilities](#utilities)
     + [Developer tool](#developer-tool)
   * [Iniziative](#iniziative)
-    + [Cgn](#cgn)
+    + [Carta Giovani Nazionale](#carta-giovani-nazionale)
     + [Sicilia Vola](#sicilia-vola)
     + [Green Pass](#green-pass)
 - [Come contribuire](#come-contribuire)
@@ -68,7 +68,7 @@ TBD
 
 ### Iniziative
 
-#### Cgn
+#### Carta Giovani Nazionale
 TBD
 #### Sicilia Vola
 TBD

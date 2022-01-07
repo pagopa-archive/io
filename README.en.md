@@ -39,7 +39,7 @@ Here are the repositories on which you can find the actual implementations of `I
 
 *[io-infrastructure-live-new](https://github.com/pagopa/io-infrastructure-live-new)* <br/>
 
-*[gitops](https://github.com/pagopa/gitops)* <br/>CI/CD defintions used by `IO`'s code-review and deploy workflows.
+*[gitops](https://github.com/pagopa/gitops)* <br/>CI/CD definitions used by `IO`'s code-review and deploy workflows.
 #### Backend
 TBD
 

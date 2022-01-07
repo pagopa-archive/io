@@ -30,14 +30,14 @@ TBD
 ## Repositories
 Di seguito le repositories dove trovare le implementazioni in codice delle funzionalità di `IO`.
 
-
 ### Repositories principali
 #### App
-*[io-app](https://github.com/pagopa/io-app)* <br/>L'applicazione mobile per iOS e Android
+*[io-app](https://github.com/pagopa/io-app)* <br/>app IO per dispositivi mobili iOS e Android
+
 #### Infra
 *[io-infra](https://github.com/pagopa/io-infra)* <br/>Le definizioni Terraform delle risorse cloud utilizzate da IO.
 
-*[io-infrastructure-live-new](https://github.com/pagopa/io-infrastructure-live-new)* <br/>
+*[io-infrastructure-live-new](https://github.com/pagopa/io-infrastructure-live-new)* <br/> TBD
 
 *[gitops](https://github.com/pagopa/gitops)* <br/>Definizione delle CI/CD utilizzate dai repository IO per code-review e deploy
 #### Backend
@@ -55,7 +55,11 @@ TBD
 
 *[io-spid-commons](https://github.com/pagopa/io-spid-commons)*
 
-*[react-native-cie](https://github.com/pagopa/react-native-cie)*
+*[react-native-cie](https://github.com/pagopa/io-cie-sdk)* <br/>
+E' la libreria inclusa in app IO per effettuare l'autenticazione tramite CIE (Carta di Identità Elettronica). 
+In particolare questa repo contiene l'implementazione Android che è un adattamento dell'[SDK sviluppato da IPZS](https://github.com/italia/cieid-android-sdk)
+Per quanto riguarda iOS la repo contiene solo il framework compilato e non i sorgenti che invece [sono disponibili qui](https://github.com/pagopa/io-cie-ios-sdk)
+Maggiori dettagli su come l'app usa questa liberia sono disponibili [in questo documento](/assets/docs/io-app-cie.pdf)
 
 *[react-native-zendesk](https://github.com/pagopa/react-native-zendesk)*
 

@@ -33,11 +33,12 @@ Here are the repositories on which you can find the actual implementations of `I
 
 ### Core repositories
 #### App
-*[io-app](https://github.com/pagopa/io-app)* <br/>Mobile application for iOS e Android
+*[io-app](https://github.com/pagopa/io-app)* <br/>IO app for iOS and Android devices
+
 #### Infra
 *[io-infra](https://github.com/pagopa/io-infra)* <br/>Terraform definitions for cloud resources used by `IO`.
 
-*[io-infrastructure-live-new](https://github.com/pagopa/io-infrastructure-live-new)* <br/>
+*[io-infrastructure-live-new](https://github.com/pagopa/io-infrastructure-live-new)* <br/> TBD
 
 *[gitops](https://github.com/pagopa/gitops)* <br/>CI/CD definitions used by `IO`'s code-review and deploy workflows.
 #### Backend
@@ -55,7 +56,7 @@ TBD
 
 *[io-spid-commons](https://github.com/pagopa/io-spid-commons)*
 
-*[react-native-cie](https://github.com/pagopa/react-native-cie)*
+*[react-native-cie](https://github.com/pagopa/io-cie-sdk)*
 
 *[react-native-zendesk](https://github.com/pagopa/react-native-zendesk)*
 

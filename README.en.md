@@ -69,7 +69,7 @@ As for iOS, the repository contains only the compiled framework and not the sour
 *[io-react-native-zendesk](https://github.com/pagopa/io-react-native-zendesk)* <br/>
 Library included in the IO app that allows users to request assistance. 
 In particular it is a customization of the [react-native-zendesk-v2](https://github.com/Saranshmalik/react-native-zendesk) library modified appropriately for the needs of IO. 
-It includes the use of the official [Zendesk](https://www.zendesk.com/) SDKs and the communication layer between the native and React Native
+It includes the official [Zendesk](https://www.zendesk.com/) SDKs and the communication layer between the native and React Native
 
 *[io-functions-express](https://github.com/pagopa/io-functions-express)*
 

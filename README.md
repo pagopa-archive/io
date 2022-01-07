@@ -32,7 +32,7 @@ Il progetto IO:
 
 Leggi di più 
 - [IO l'app dei servizi pubblici - PagoPA](https://medium.com/io-lapp-dei-servizi-pubblici)
-- [IO l'app dei servizi pubblici - Team per la trasformazione digitale](https://medium.com/io-lapp-dei-servizi-pubblici)
+- [IO l'app dei servizi pubblici - Team per la trasformazione digitale](https://medium.com/team-per-la-trasformazione-digitale/progetto-io-app-servizi-pubblici/home)
 
 ## Overview architetturale
 TBD

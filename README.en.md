@@ -63,11 +63,11 @@ TBD
 *[io-spid-commons](https://github.com/pagopa/io-spid-commons)*
 
 *[react-native-cie](https://github.com/pagopa/io-cie-sdk)* <br/>
-The library included in the IO app to authenticate via CIE (Electronic Identity Card). It contains the Android implementation which is an adaptation of the [SDK developed by IPZS](https://github.com/italia/cieid-android-sdk). 
+Library included in the IO app to authenticate via CIE (Electronic Identity Card). It contains the Android implementation which is an adaptation of the [SDK developed by IPZS](https://github.com/italia/cieid-android-sdk). 
 As for iOS, the repository contains only the compiled framework and not the sources [that are available here](https://github.com/pagopa/io-cie-ios-sdk). More details on how the app uses this library can be found in [this document](https://github.com/pagopa/io/blob/add-io-app-repo/assets/docs/io-app-cie.pdf)
 
 *[io-react-native-zendesk](https://github.com/pagopa/io-react-native-zendesk)* <br/>
-It is the library included in the IO app that allows users to request assistance. 
+Library included in the IO app that allows users to request assistance. 
 In particular it is a customization of the [react-native-zendesk-v2](https://github.com/Saranshmalik/react-native-zendesk) library modified appropriately for the needs of IO. 
 It includes the use of the official [Zendesk](https://www.zendesk.com/) SDKs and the communication layer between the native and React Native
 

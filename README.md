@@ -37,8 +37,8 @@ app IO per dispositivi mobili iOS e Android
 
 *[io-services-metadata](https://github.com/pagopa/io-services-metadata)* <br/>
 contenuti consumati dall'app.
-Questa repo permette di gestire i contenuti che l'app consuma (immagini, configurazioni, banners, anagrafica comuni etc)
-come se fossero codice: versionati e con processo di code review. Una volta che una PR è mergiata su master, una pipeline dedicata
+Questa repository permette di gestire i contenuti che l'app consuma (immagini, configurazioni, banners, anagrafica comuni etc)
+come se fossero codice: versionati e con processo di code review. Una volta che una PR è mergiata sul ramo principale, una pipeline dedicata
 sposta i contenuti sulla CDN di app IO
 
 #### Infra
@@ -70,7 +70,7 @@ Maggiori dettagli su come l'app usa questa liberia sono disponibili [in questo d
 
 *[io-react-native-zendesk](https://github.com/pagopa/io-react-native-zendesk)*<br/>
 E' la libreria inclusa in app IO che permette agli utenti di richiedere assistenza. In particolare è una personalizzazione della libreria [react-native-zendesk-v2](https://github.com/Saranshmalik/react-native-zendesk)
-modificata opportunamente per le esigenze di IO. Include l'uso degli SDK ufficiali si [Zendesk](https://www.zendesk.com/) e il layer di comunicazione tra il nativo e React Native
+modificata opportunamente per le esigenze di IO. Include l'uso degli SDK ufficiali di [Zendesk](https://www.zendesk.com/) e il layer di comunicazione tra il nativo e React Native
 
 *[io-functions-express](https://github.com/pagopa/io-functions-express)*
 

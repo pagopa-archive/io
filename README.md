@@ -80,8 +80,8 @@ modificata opportunamente per le esigenze di IO. Include l'uso degli SDK ufficia
 
 #### Strumenti per lo sviluppo
 *[io-app-dev-server](https://github.com/pagopa/io-dev-api-server)* <br/>
-Server per lo sviluppo di app IO: usando questo strumento non è necessario interfacciarsi ai servizi di produzione durante lo sviluppo.
-Realizza tutti i servizi e gli endpoints che l'app di produzione utilizza: API del backend di IO, assets della CDN, API di pagoPA, API delle iniziative (cashback, bonus vacanze, green pass etc)
+Server per lo sviluppo di app IO: usando questo strumento, che può essere in locale, non è necessario interfacciarsi ai servizi di produzione durante lo sviluppo.
+Realizza tutti i servizi e gli endpoints che l'app di produzione utilizza: API del backend di IO, assets della CDN, API di pagoPA, API delle iniziative (cashback, bonus vacanze, green pass etc).
 Il server è configurabile a livello di risposte e contenuti oltre a supportare, per quasi tutti i servizi, un layer di generazione casuale dei contenuti delle risposte.
 
 

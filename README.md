@@ -1,7 +1,7 @@
 # IO
 [Read in english 🇬🇧](README.en.md)
 
-*Indice dei contenuti* <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>generated with markdown-toc</a></i></small>
+*Indice dei contenuti* <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>generato con markdown-toc</a></i></small>
 - [Descrizione del progetto](#descrizione-del-progetto)
 - [Overview architetturale](#overview-architetturale)
 - [Repositories](#repositories)

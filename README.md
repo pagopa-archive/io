@@ -31,7 +31,7 @@ TBD
 Di seguito le repositories dove trovare le implementazioni in codice delle funzionalità di `IO`.
 
 
-### Core repositories
+### Repositories principali
 #### App
 *[io-app](https://github.com/pagopa/io-app)* <br/>L'applicazione mobile per iOS e Android
 #### Infra
@@ -46,7 +46,7 @@ TBD
 #### Web
 *[io.italia.it](https://github.com/pagopa/io-infra)* Sito istituzionale del progetto, privacy policy, termini e condizioni.
 
-#### Utilities
+#### Utilità
 *[ts-commons](https://github.com/pagopa/ts-commons)*
 
 *[pagopa-commons](https://github.com/pagopa/pagopa-commons)*
@@ -63,7 +63,9 @@ TBD
 
 *[io-functions-commons](https://github.com/pagopa/io-functions-commons)*
 
-#### Developer tool
+*[codegen-openapi-ts](https://github.com/pagopa/codegen-openapi-ts)*
+
+#### Strumenti per lo sviluppo
 TBD
 
 ### Iniziative

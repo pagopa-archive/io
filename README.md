@@ -64,8 +64,8 @@ TBD
 
 *[react-native-cie](https://github.com/pagopa/io-cie-sdk)* <br/>
 E' la libreria inclusa in app IO per effettuare l'autenticazione tramite CIE (Carta di Identità Elettronica). 
-In particolare questa repo contiene l'implementazione Android che è un adattamento dell'[SDK sviluppato da IPZS](https://github.com/italia/cieid-android-sdk).
-Per quanto riguarda iOS la repo contiene solo il framework compilato e non i sorgenti che invece [sono disponibili qui](https://github.com/pagopa/io-cie-ios-sdk).
+In particolare contiene l'implementazione Android che è un adattamento dell'[SDK sviluppato da IPZS](https://github.com/italia/cieid-android-sdk).
+Per quanto riguarda iOS la repository contiene solo il framework compilato e non i sorgenti che invece [sono disponibili qui](https://github.com/pagopa/io-cie-ios-sdk).
 Maggiori dettagli su come l'app usa questa liberia sono disponibili [in questo documento](/assets/docs/io-app-cie.pdf)
 
 *[io-react-native-zendesk](https://github.com/pagopa/io-react-native-zendesk)*<br/>

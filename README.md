@@ -27,7 +27,7 @@ Il progetto IO:
 - è l'app dei servizi pubblici;
 - è il canale per facilitare la comunicazione fra i cittadini e lo Stato;
 - promuove una nuova generazione di Servizi Pubblici, concepiti e progettati insieme ai cittadini a partire dai loro bisogni;
-- è un vettore attraverso il quale le istituzioni governative veicolano iniziative sociali/economiche/sanitarie;
+- è un vettore attraverso il quale le istituzioni governative veicolano iniziative sociali, economiche e sanitarie;
 - è una piattaforma tecnologica innovativa.
 
 Leggi di più 

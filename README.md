@@ -29,7 +29,7 @@ TBD
 
 Il _touch point_ per i Cittadini è l'**App IO**, applicazione mobile per iOS e Android, attraverso la quale essi possono accedere ai servizi offerti sulla piattaforma `IO` dagli Enti della Pubblica Amministrazione. L'identificazione dei Cittadini è delegata a _Identity Provider_ terzi quali i [provider SPID](https://www.spid.gov.it/) e l'apposito servizio [CIE](https://www.ipzs.it/ext/carta_identita_elettronica_prodotti.html) (Carta d'identità elettronica) fornito da [Istituto Poligrafico e Zecca dello Stato](https://www.ipzs.it).
 
-Gli Enti e le Organizzazioni possono integrare i loro sistemi informativi utilizzando i portali messi a disposizione da `IO` sia le API esposte.<br/>Se sei un Ente o _Organizzazione e vuoi maggiori informazioni su come integrare i tuoi servizi su `IO`, per favore consulta il [nostro sito web](https://io.italia.it/)._
+Gli Enti e le Organizzazioni possono integrare i loro sistemi informativi utilizzando sia i portali messi a disposizione da `IO` che le API esposte.<br/>_Se sei un Ente o Organizzazione e vuoi maggiori informazioni su come integrare i tuoi servizi su `IO`, per favore consulta il [nostro sito web](https://io.italia.it/)._
 
 ![architecture overview](assets/architecture-overview.png)
 

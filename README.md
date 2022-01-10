@@ -34,7 +34,7 @@ Gli Enti e le Organizzazioni possono integrare i loro sistemi informativi utiliz
 ![architecture overview](assets/architecture-overview.png)
 
 La piattaforma `IO` è progettata ispirandosi ai seguenti principi:
-* _architettura a microservizi_: il sistema di compone di molteplici applicazioni di rete che collaborano alla realizzazione dei flussi di dominio;
+* _architettura a microservizi_: il sistema si compone di molteplici applicazioni di rete che collaborano alla realizzazione dei flussi di dominio;
 * _everything as code_: cerchiamo di descrivere tutto tramite il codice, incluso l'infrastruttura, le logiche di code-review e le scelte di code design;
 * _open by design_: il codice sorgente è pubblico e aperto così come le discussioni tecniche che si sviluppano sulle pull-request di ogni repository.
 

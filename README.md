@@ -1,5 +1,6 @@
-# IO
 [Read in english 🇬🇧](README.en.md)
+# IO
+> 💡 Questo è il punto d'inizio dedicato a chiunque voglia approfondire come funziona `IO`, la sua tecnologia, le logiche di dominio e le scelte implementative. Qui troverai la descrizione ad alto livello dell'architettura, dei componenti e dei flussi principali; senza pretendere di essere esaustivi in questo repository, speriamo ti aiuti ad orientarti nell'ecosistema di applicazioni e librerie che compongono la piattaforma `IO`.<br/>Per informazioni sul progetto, sull'utilizzo e sul trattamento dei dati, per favore consulta il [sito web](https://io.italia.it) del progetto.
 
 *Indice dei contenuti* <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>generato con markdown-toc</a></i></small>
 - [Descrizione del progetto](#descrizione-del-progetto)

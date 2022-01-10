@@ -25,7 +25,7 @@
 ## Description
 `IO` is a platform composed by an ecosystem of network applications.
 
-The designated _touch point_ for Citizens is **App IO**, a mobile application for iOS and Android smartphones, through which they have access to all services offered onto `IO` platform by Public Organizations. Citizens are idetifyied by third-party _Identity Provider_ such as [SPID providers](https://www.spid.gov.it/) and [CIE] service (https://www.ipzs.it/ext/carta_identita_elettronica_prodotti.html) (Carta d'identità elettronica) powered by [Istituto Poligrafico e Zecca dello Stato](https://www.ipzs.it).
+The designated _touch point_ for Citizens is **App IO**, a mobile application for iOS and Android smartphones, through which they have access to all services offered onto `IO` platform by Public Organizations. Citizens are idetified by third-party _Identity Provider_ such as [SPID providers](https://www.spid.gov.it/) and [CIE] (https://www.ipzs.it/ext/carta_identita_elettronica_prodotti.html) service (Carta d'identità elettronica) powered by [Istituto Poligrafico e Zecca dello Stato](https://www.ipzs.it).
 
 Organizations can integrate their IT systems by using both web portals and exposed API.<br/>If you are an Organization and you are willing to know how to integrate with `IO`, please refer to [our website](https://io.italia.it/)._
 

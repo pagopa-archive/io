@@ -1,5 +1,6 @@
-# IO
 [Leggi in italiano 🇮🇹](README.md)
+# IO
+> 💡 This is the starting point for everyone interested in learning more about `IO`, how it works, its tech, its domain logics and its implementation choices. In here you can find a high-level description of architecture, components and main workflows; with no mean to be exhaustive in this repository, we hope it will help you to navigate through the ecosystem of applications and libraries that make up the platform `IO`.<br/>For any information about the project, how to use it and its data policies, please refer to the [project website](https://io.italia.it).
 
 *Indice dei contenuti* <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>generated with markdown-toc</a></i></small>
 - [Description](#description)

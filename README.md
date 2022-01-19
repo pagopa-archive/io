@@ -63,10 +63,23 @@ sposta i contenuti sulla CDN di app IO
 
 *[gitops](https://github.com/pagopa/gitops)* <br/>Definizione delle CI/CD utilizzate dai repository IO per code-review e deploy
 #### Backend
-TBD
+*[io-backend](https://github.com/pagopa/io-backend)* <br/>Application gateway che espone le API della piattaforma `IO` verso l'app. Si occupa gestire la sessione utente dei Cittadini e aggregare le chiamate verso i diversi microservizi che implementano le business logic. E' il punto unico di integrazione con gli _Identity Provider_.
+
+*[io-functions-app](https://github.com/pagopa/io-functions-app)* <br/>Function app che implementa le business logic delle interazioni del Cittadino con la piattaforma.
+
+*[io-functions-admin](https://github.com/pagopa/io-functions-admin)* <br/>Function app che implementa attività di amministrazione piuttosto che processi batch.
+
+*[io-functions-services](https://github.com/pagopa/io-functions-services)* <br/>Function app che implementa le business logic delle interazioni degli Enti e delle Organizzazioni con la piattaforma.
+
+*[io-functions-public-event-dispatcher](https://github.com/pagopa/io-functions-public-event-dispatcher)* <br/>Permette di registrare dei webhook che reagiscono agli eventi di dominio che vengono emessi nei vari flussi.
+
+*[io-functions-pushnotifications](https://github.com/pagopa/io-functions-pushnotifications)* <br/>Gestisce l'integrazione con i servizi di push notification.
+
+*[io-functions-assets](https://github.com/pagopa/io-functions-assets)* <br/>Proxy verso gli asset statici usati dall'app.
+
 
 #### Web
-*[io.italia.it](https://github.com/pagopa/io-infra)* Sito istituzionale del progetto, privacy policy, termini e condizioni.
+*[io.italia.it](https://github.com/pagopa/io.italia.it)* Sito istituzionale del progetto, privacy policy, termini e condizioni.
 
 #### Utilità
 *[ts-commons](https://github.com/pagopa/ts-commons)*

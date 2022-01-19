@@ -63,13 +63,13 @@ moves contents into IO CDN.
 *[gitops](https://github.com/pagopa/gitops)* <br/>CI/CD definitions used by `IO`'s code-review and deploy workflows.
 #### Backend
 *[io-backend](https://github.com/pagopa/io-backend)* <br/>
-Application gateway which exposes `IO`'s API to the app. Its main responsibilities are to manage Citizens' user session an to aggregate and proxy communication towards microservices that implement the actual business logic. It's also the only integration point with our _Identity Providers_.
+Application gateway which exposes `IO`'s API to the app. Its main responsibilities are to manage Citizens' user session and to aggregate and proxy communication towards microservices that implement the actual business logic. It's also the only integration point with our _Identity Providers_.
 
-*[io-functions-app](https://github.com/pagopa/io-functions-app)* <br/>Function app implementing le business logics about Citizens integractions with the app.
+*[io-functions-app](https://github.com/pagopa/io-functions-app)* <br/>Function app implementing the business logics about Citizens integrations with the app.
 
 *[io-functions-admin](https://github.com/pagopa/io-functions-admin)* <br/>Function app implementing administrative logics as well as long running processes.
 
-*[io-functions-services](https://github.com/pagopa/io-functions-services)* <br/>Function app implementing le business logics about Organizations integractions with `IO` platform.
+*[io-functions-services](https://github.com/pagopa/io-functions-services)* <br/>Function app implementing the business logics about Organizations integractions with `IO` platform.
 
 *[io-functions-public-event-dispatcher](https://github.com/pagopa/io-functions-public-event-dispatcher)* <br/>It allows to register webhooks on which get notified when a domain event occurs in the platform.
 

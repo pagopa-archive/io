@@ -63,7 +63,7 @@ sposta i contenuti sulla CDN di app IO
 
 *[gitops](https://github.com/pagopa/gitops)* <br/>Definizione delle CI/CD utilizzate dai repository IO per code-review e deploy
 #### Backend
-*[io-backend](https://github.com/pagopa/io-backend)* <br/>Application gateway che espone le API della piattaforma `IO` verso l'app. Si occupa gestire la sessione utente dei Cittadini e aggegare le chiamate verso i diversi microservizi che implementano le business logic. E' il punto unico di integrazione con gli _Identity Provider_.
+*[io-backend](https://github.com/pagopa/io-backend)* <br/>Application gateway che espone le API della piattaforma `IO` verso l'app. Si occupa gestire la sessione utente dei Cittadini e aggregare le chiamate verso i diversi microservizi che implementano le business logic. E' il punto unico di integrazione con gli _Identity Provider_.
 
 *[io-functions-app](https://github.com/pagopa/io-functions-app)* <br/>Function app che implementa le business logic delle interazioni del Cittadino con la piattaforma.
 

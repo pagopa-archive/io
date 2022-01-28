@@ -98,6 +98,9 @@ Library included in the IO app that allows users to request assistance.
 In particular it is a customization of the [react-native-zendesk-v2](https://github.com/Saranshmalik/react-native-zendesk) library modified appropriately for the needs of IO. 
 It includes the official [Zendesk](https://www.zendesk.com/) SDKs and the communication layer between the native and React Native
 
+*[push-notificator](https://github.com/pagopa/push-notificator)* <br/>
+Simple desktop app to send push notifications to iOS emulated devices
+
 *[io-functions-express](https://github.com/pagopa/io-functions-express)*
 
 *[io-functions-commons](https://github.com/pagopa/io-functions-commons)*

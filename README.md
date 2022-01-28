@@ -100,6 +100,9 @@ Maggiori dettagli su come l'app usa questa liberia sono disponibili [in questo d
 E' la libreria inclusa in app IO che permette agli utenti di richiedere assistenza. In particolare è una personalizzazione della libreria [react-native-zendesk-v2](https://github.com/Saranshmalik/react-native-zendesk)
 modificata opportunamente per le esigenze di IO. Include l'uso degli SDK ufficiali di [Zendesk](https://www.zendesk.com/) e il layer di comunicazione tra il nativo e React Native
 
+*[push-notificator](https://github.com/pagopa/push-notificator)* <br/>
+Semplice app desktop per l'invio di push notification verso emulatori iOS
+
 *[io-functions-express](https://github.com/pagopa/io-functions-express)*
 
 *[io-functions-commons](https://github.com/pagopa/io-functions-commons)*

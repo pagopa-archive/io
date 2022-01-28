@@ -24,11 +24,10 @@
 
 ## Descrizione del progetto
 Il progetto IO:
-- è l'app dei servizi pubblici;
-- è il canale per facilitare la comunicazione fra i cittadini e lo Stato;
-- promuove una nuova generazione di Servizi Pubblici, concepiti e progettati insieme ai cittadini a partire dai loro bisogni;
-- è un vettore attraverso il quale le istituzioni governative veicolano iniziative sociali, economiche e sanitarie;
-- è una piattaforma tecnologica innovativa.
+- permette agli enti pubblici di entrare in contatto con il cittadino attraverso un app mobile ribaltando il tradizionale paradigma di comunicazione
+  - la pubblica amministrazione contatta il cittadino quando ha qualcosa da comunicargli
+- è un vettore attraverso il quale le istituzioni governative veicolano iniziative sociali, economiche e sanitarie
+  - esempio: bonus vacanze, cashback, certificato covid europeo, etc.
 
 Leggi di più 
 - [IO l'app dei servizi pubblici - PagoPA](https://medium.com/io-lapp-dei-servizi-pubblici)

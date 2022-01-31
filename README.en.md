@@ -24,7 +24,12 @@
 ----
 
 ## Description
-TBD
+The IO project:
+- allows public bodies to get in touch with citizens through a mobile app, overturning the traditional communication paradigm
+  - the public administration contacts the citizens when he has something to communicate to they
+- it is a vector through which government institutions convey social, economic and health initiatives
+  - example: bonus vacanze, cashback, European covid certificate, etc.
+
 ## Architectural overview
 `IO` is a platform composed by an ecosystem of network applications.
 

@@ -24,7 +24,16 @@
 ----
 
 ## Descrizione del progetto
-TBD
+Il progetto IO:
+- permette agli enti pubblici di entrare in contatto con il cittadino attraverso un app mobile ribaltando il tradizionale paradigma di comunicazione
+  - la pubblica amministrazione contatta il cittadino quando ha qualcosa da comunicargli
+- è un vettore attraverso il quale le istituzioni governative veicolano iniziative sociali, economiche e sanitarie
+  - esempio: bonus vacanze, cashback, certificato covid europeo, etc.
+
+Leggi di più 
+- [IO l'app dei servizi pubblici - PagoPA](https://medium.com/io-lapp-dei-servizi-pubblici)
+- [IO l'app dei servizi pubblici - Team per la trasformazione digitale](https://medium.com/team-per-la-trasformazione-digitale/progetto-io-app-servizi-pubblici/home)
+
 ## Overview architetturale
 `IO` è una piattaforma composta da un ecosistema di applicazioni rete.
 
